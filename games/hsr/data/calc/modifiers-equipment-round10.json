@@ -1,0 +1,920 @@
+{
+  "schemaVersion": 1,
+  "description": "固定版で確認した光円錐7種類の計算対象効果。恒常propertiesは完成済み最終ステータスで扱い、スタック・発動状態は既存の補正条件入力を使用します。",
+  "modifiers": [
+    {
+      "id": "lightCone:21010:same-target-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "21010"
+      },
+      "name": "攻撃前の連続同一敵命中層",
+      "description": "1層ごとに与ダメージ+8/10/12/14/16%、最大5層。今回の攻撃内での層更新は再現しない。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "same-target-stacks",
+        "inputLabel": "攻撃前の連続同一敵命中層",
+        "conditionText": "1層ごとに与ダメージ+8/10/12/14/16%、最大5層。今回の攻撃内での層更新は再現しない。",
+        "minimum": 0,
+        "maximum": 5,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:21010:same-target-stacks",
+        "rule": "nonStacking",
+        "maximumStacks": 5
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21010.params[rank][0..1]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "same-target-stacks-in-final",
+        "inputLabel": "攻撃前の連続同一敵命中層を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:21037:base-atk-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "21037"
+      },
+      "name": "攻撃力・恒常atk",
+      "description": "装備キャラの攻撃力+#1[i]% 恒常攻撃力は完成済み最終値に含めます。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          14,
+          16,
+          18,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "効果の成立状態"
+      },
+      "stacking": {
+        "group": "lightCone:21037:base-atk-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常propertiesを完成済み最終ステータスへ含め、再加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21037.params[rank][0]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。恒常propertiesは最終値に含める。"
+      }
+    },
+    {
+      "id": "lightCone:21037:fortune-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "21037"
+      },
+      "name": "攻撃前の好運層",
+      "description": "1層ごとに会心ダメージ+8/9/10/11/12%、最大4層。今回攻撃内の会心後更新は再現しない。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "fortune-stacks",
+        "inputLabel": "攻撃前の好運層",
+        "conditionText": "1層ごとに会心ダメージ+8/9/10/11/12%、最大4層。今回攻撃内の会心後更新は再現しない。",
+        "minimum": 0,
+        "maximum": 4,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:21037:fortune-stacks",
+        "rule": "nonStacking",
+        "maximumStacks": 4
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21037.params[rank][1..2]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "fortune-stacks-in-final",
+        "inputLabel": "攻撃前の好運層を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:22005:base-atk-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "22005"
+      },
+      "name": "攻撃力・恒常atk",
+      "description": "装備キャラの攻撃力+#1[i]% 恒常攻撃力は完成済み最終値に含めます。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          16,
+          20,
+          24,
+          28.000000000000004,
+          32
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "効果の成立状態"
+      },
+      "stacking": {
+        "group": "lightCone:22005:base-atk-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常propertiesを完成済み最終ステータスへ含め、再加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:22005.params[rank][0]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。恒常propertiesは最終値に含める。"
+      }
+    },
+    {
+      "id": "lightCone:22005:skill-atk-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "22005"
+      },
+      "name": "戦闘スキル後の攻撃力層",
+      "description": "1層ごとに攻撃力+8/10/12/14/16%、最大3層。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "skill-atk-stacks",
+        "inputLabel": "戦闘スキル後の攻撃力層",
+        "conditionText": "1層ごとに攻撃力+8/10/12/14/16%、最大3層。",
+        "minimum": 0,
+        "maximum": 3,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:22005:skill-atk-stacks",
+        "rule": "nonStacking",
+        "maximumStacks": 3
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:22005.params[rank][1..2]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "skill-atk-stacks-in-final",
+        "inputLabel": "戦闘スキル後の攻撃力層を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23000:field-enemy-atk",
+      "source": {
+        "kind": "lightCone",
+        "id": "23000"
+      },
+      "name": "フィールド上の敵数による攻撃力",
+      "description": "フィールド上の敵1体ごと攻撃力+9/10.5/12/13.5/15%、最大5体。現在の敵数から自動判定。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "perReferenceStack",
+        "reference": "enemy.count",
+        "values": [
+          9,
+          10.5,
+          12,
+          13.5,
+          15
+        ],
+        "maximum": 5
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "enemy.count",
+        "operator": ">=",
+        "threshold": 1,
+        "conditionText": "フィールド上にいる敵数"
+      },
+      "stacking": {
+        "group": "lightCone:23000:field-enemy-atk",
+        "rule": "nonStacking",
+        "maximumStacks": 5
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23000.params[rank][0..1]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "field-enemy-atk-in-final",
+        "inputLabel": "フィールド上の敵数による攻撃力を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23000:after-weakness-break",
+      "source": {
+        "kind": "lightCone",
+        "id": "23000"
+      },
+      "name": "弱点撃破後の与ダメージ",
+      "description": "装備者が敵を弱点撃破した後の有効状態。与ダメージ+30/35/40/45/50%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          35,
+          40,
+          45,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "after-weakness-break",
+        "inputLabel": "弱点撃破後の与ダメージ",
+        "conditionText": "装備者が敵を弱点撃破した後の有効状態。与ダメージ+30/35/40/45/50%。",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23000:after-weakness-break",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23000.params[rank][0]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "after-weakness-break-in-final",
+        "inputLabel": "弱点撃破後の与ダメージを最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23014:base-crit-damage-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23014"
+      },
+      "name": "会心ダメージ・恒常critDamage",
+      "description": "装備キャラの会心ダメージ+#1[i]% 恒常会心ダメージは完成済み最終値に含めます。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20,
+          23,
+          26,
+          28.999999999999996,
+          32
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "効果の成立状態"
+      },
+      "stacking": {
+        "group": "lightCone:23014:base-crit-damage-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常propertiesを完成済み最終ステータスへ含め、再加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23014.params[rank][0]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。恒常propertiesは最終値に含める。"
+      }
+    },
+    {
+      "id": "lightCone:23014:eclipse-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "23014"
+      },
+      "name": "攻撃前の月蝕層",
+      "description": "1層ごと次の攻撃の与ダメージ+14/16.5/19/21.5/24%、最大3層。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          14,
+          16.5,
+          19,
+          21.5,
+          24
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "eclipse-stacks",
+        "inputLabel": "攻撃前の月蝕層",
+        "conditionText": "1層ごと次の攻撃の与ダメージ+14/16.5/19/21.5/24%、最大3層。",
+        "minimum": 0,
+        "maximum": 3,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:23014:eclipse-stacks",
+        "rule": "nonStacking",
+        "maximumStacks": 3
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23014.params[rank][1..3]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "eclipse-stacks-in-final",
+        "inputLabel": "攻撃前の月蝕層を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23014:eclipse-max-defense-ignore",
+      "source": {
+        "kind": "lightCone",
+        "id": "23014"
+      },
+      "name": "月蝕3層到達後の次攻撃",
+      "description": "月蝕が3層に達した後、次の攻撃は防御力を12/14/16/18/20%無視。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          14,
+          16,
+          18,
+          20
+        ],
+        "default": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "eclipse-stacks",
+        "inputLabel": "攻撃前の月蝕層",
+        "operator": ">=",
+        "threshold": 3,
+        "minimum": 0,
+        "maximum": 3,
+        "default": 0,
+        "strictInput": true,
+        "conditionText": "月蝕3層到達後の次の攻撃"
+      },
+      "stacking": {
+        "group": "lightCone:23014:eclipse-max-defense-ignore",
+        "rule": "nonStacking",
+        "maximumStacks": 3
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23014.params[rank][1..3]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "eclipse-max-defense-ignore-in-final",
+        "inputLabel": "月蝕3層到達後の次攻撃を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23022:base-effect-hit-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23022"
+      },
+      "name": "効果命中・恒常effectHitRate",
+      "description": "装備キャラの効果命中+#1[i]% 恒常効果命中は完成済み最終値に含めます。",
+      "category": "statPercent",
+      "stat": "effectHitRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          40,
+          45,
+          50,
+          55.00000000000001,
+          60
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "効果の成立状態"
+      },
+      "stacking": {
+        "group": "lightCone:23022:base-effect-hit-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常propertiesを完成済み最終ステータスへ含め、再加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23022.params[rank][0]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。恒常propertiesは最終値に含める。"
+      }
+    },
+    {
+      "id": "lightCone:23022:prophecy-dot-types",
+      "source": {
+        "kind": "lightCone",
+        "id": "23022"
+      },
+      "name": "装備者が付与した有効DoT種類",
+      "description": "有効な風化・燃焼・感電・裂創の異なる種類数（最大4）。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          5,
+          6,
+          7.000000000000001,
+          8,
+          9
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "prophecy-dot-types",
+        "inputLabel": "装備者が付与した有効DoT種類",
+        "conditionText": "有効な風化・燃焼・感電・裂創の異なる種類数（最大4）。",
+        "minimum": 0,
+        "maximum": 4,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:23022:prophecy-dot-types",
+        "rule": "nonStacking",
+        "maximumStacks": 4
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23022.params[rank][0..3]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "prophecy-dot-types-in-final",
+        "inputLabel": "装備者が付与した有効DoT種類を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23022:prophecy-dot-types-def-ignore",
+      "source": {
+        "kind": "lightCone",
+        "id": "23022"
+      },
+      "name": "装備者が付与した有効DoT種類",
+      "description": "有効な風化・燃焼・感電・裂創の異なる種類数（DoTのみ、最大4）。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          7.2,
+          7.9,
+          8.6,
+          9.3,
+          10
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "dot"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "prophecy-dot-types",
+        "inputLabel": "装備者が付与した有効DoT種類",
+        "conditionText": "有効な風化・燃焼・感電・裂創の異なる種類数（DoTのみ、最大4）。",
+        "minimum": 0,
+        "maximum": 4,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:23022:prophecy-dot-types-def-ignore",
+        "rule": "nonStacking",
+        "maximumStacks": 4
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23022.params[rank][0..3]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "prophecy-dot-types-def-ignore-in-final",
+        "inputLabel": "装備者が付与した有効DoT種類を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23039:hp-cost-attack-active",
+      "source": {
+        "kind": "lightCone",
+        "id": "23039"
+      },
+      "name": "HP消費を伴うスキル/必殺",
+      "description": "このスキルまたは必殺でHPを消費した状態。与ダメージ+30/35/40/45/50%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          35,
+          40,
+          45,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "skill",
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "hp-cost-attack-active",
+        "inputLabel": "HP消費を伴うスキル/必殺",
+        "conditionText": "このスキルまたは必殺でHPを消費した状態。与ダメージ+30/35/40/45/50%。",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23039:hp-cost-attack-active",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23039.params[rank][0..5]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "hp-cost-attack-active-in-final",
+        "inputLabel": "HP消費を伴うスキル/必殺を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23039:hp-cost-over-500",
+      "source": {
+        "kind": "lightCone",
+        "id": "23039"
+      },
+      "name": "今回の実消費HPが500を超えた状態",
+      "description": "実際に消費したHPが500を超えた場合の追加与ダメージ+30/35/40/45/50%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          35,
+          40,
+          45,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "skill",
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "hp-cost-over-500",
+        "inputLabel": "今回の実消費HPが500を超えた状態",
+        "conditionText": "実際に消費したHPが500を超えた場合の追加与ダメージ+30/35/40/45/50%。",
+        "default": false,
+        "requiredToggleKey": "hp-cost-attack-active"
+      },
+      "stacking": {
+        "group": "lightCone:23039:hp-cost-over-500",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23039.params[rank][0..5]",
+        "verifiedAt": "2026-10-31",
+        "notes": "固定版S1～S5。パラメータ曲線を確認し、現在条件を既存補正入力に接続。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "hp-cost-over-500-in-final",
+        "inputLabel": "今回の実消費HPが500を超えた状態を最終補正へ算入済み"
+      }
+    }
+  ]
+}

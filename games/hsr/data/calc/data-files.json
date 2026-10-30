@@ -21,7 +21,9 @@
     "attacks-acheron-round8.json",
     "attacks-characters-round9.json",
     "attacks-acheron-round9.json",
-    "attacks-herta-round9.json"
+    "attacks-herta-round9.json",
+    "attacks-characters-round10.json",
+    "attacks-lingsha-round10.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -95,6 +97,9 @@
     "modifiers-herta-round9.json",
     "modifiers-equipment-round9.json",
     "modifiers-equipment-extra-round9.json",
-    "modifiers-native-round9.json"
+    "modifiers-native-round9.json",
+    "modifiers-characters-round10.json",
+    "modifiers-equipment-round10.json",
+    "modifiers-hanya-round10.json"
   ]
 }

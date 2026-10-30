@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "lingsha-e6-fuyuan-four-extra-hits-2026-10-31",
+  "description": "霊砂E6・浮元1回の攻撃に付随する4段（各ATK50%）の追加成分。浮元本体とは別行で、敵1体に限定します。",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版E6の浮元追加4段をLv80・敵1体で独立計算。浮元本体とは別行。"
+  },
+  "overrides": [
+    {
+      "id": "1222061",
+      "characterId": "1222",
+      "sourceSkillId": "122206",
+      "name": "星魂6「春蘭の宿香」・浮元追加4ヒット（追加成分のみ）",
+      "element": "Fire",
+      "type": "followUp",
+      "target": "single",
+      "scalingStat": "atk",
+      "fixedTraceLevel": 1,
+      "hitCount": 4,
+      "hitCountLabel": "追加攻撃4段（各50%）",
+      "canCrit": true,
+      "requiredEidolon": 6,
+      "enemyCountExact": 1,
+      "multipliers": [
+        50
+      ],
+      "conditionText": "星魂6以上、敵1体。浮元が1回攻撃する想定状態として、既存の浮元在場時E6耐性低下をこの攻撃だけ自動適用します。4段の追加成分だけを表示します。",
+      "calculationNote": "Lv80・星魂6・敵1体の限定単発計算。浮元が行う1回の攻撃に追加される4段だけを独立表示し、通常の浮元攻撃本体（122204等）とは別行です。各段は霊砂の最終攻撃力50%分の炎属性ダメージ、各段の削靭値は5。複数敵でのランダム対象/残り靭性優先の対象移動、浮元の行動回数・発生時刻、通常の浮元攻撃との全体合算は再現しません。",
+      "resultSummary": "浮元1回に付随する星魂6追加4段のみ。浮元の通常攻撃本体とは別に表示します。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版星魂6の1ヒットATK50%・4ヒットを敵1体へ限定。固定係数4段を独立計算し、通常の浮元攻撃本体とは別結果にする。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:122206.params[0], character_ranks.json:122206.desc",
+        "verifiedAt": "2026-10-31",
+        "scope": "E6 only; one Fuyuan attack snapshot; one enemy so target selection is deterministic; four fixed 50%-ATK Fire hits; no timeline or multi-enemy retargeting.",
+        "verification": "tests/hsr/hsrLingshaRound10.test.cjs"
+      },
+      "comparisonModifierInputs": {
+        "lingsha-fuyuan-on-field": true
+      },
+      "enforceSnapshotContract": true,
+      "characterLevelExact": 80,
+      "maximumTraceLevel": 1,
+      "maximumEidolon": 6
+    }
+  ]
+}

@@ -3677,3 +3677,124 @@ test('round9 priority cone thresholds react to real supports and actual App rest
  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:120}))cdApp.node('hsrStat-'+k).value=String(v);near(cdApp.calculate()[0].nonCrit,1209.6);near(cdApp.calculate()[0].expected,2056.32);
  cdApp.state.modifierInputs['robin-talent-crit-in-final-stats']=true;cdApp.node('hsrStat-critDamage').value='140';near(cdApp.calculate()[0].expected,2056.32);cdApp.state.party[0].characterId='';cdApp.node('hsrStat-critDamage').value='120';near(cdApp.calculate()[0].nonCrit,1080);
 });
+
+
+test('round10 mocked UID fetch reconstructs real Misha inputs and reaches damage, local missing-data handling and restoration', async () => {
+    const { loadProductionFixture } = require('./helpers/hsrDirectVerification.cjs');
+    const { data } = await loadProductionFixture();
+    const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-7, `${actual} != ${expected}`);
+    const raw = {
+        _tetinetProvider: 'enka',
+        detailInfo: { uid: '800000001', nickname: 'Fixture', avatarDetailList: [{
+            avatarId: 1312, level: 80, rank: 0,
+            skillTreeList: [
+                { pointId: 1312001, level: 6 }, { pointId: 1312002, level: 10 },
+                { pointId: 1312003, level: 10 }, { pointId: 1312004, level: 10 }
+            ],
+            relicList: [{ _flat: { props: [
+                { type: 'AttackDelta', value: 2400.24 },
+                { type: 'CriticalChance', value: .45 },
+                { type: 'CriticalDamage', value: .5 },
+                { type: 'SpeedDelta', value: 4.125 }
+            ] } }]
+        }] }
+    };
+    for (const proxyAvailable of [true, false]) {
+        const calls = [], apiWindow = {};
+        vm.runInNewContext(read('games/js/hsrProfileApi.js'), {
+            window: apiWindow,
+            fetch: async url => {
+                calls.push(url);
+                return url.startsWith('/games/') && !proxyAvailable
+                    ? { status: 404, ok: false }
+                    : { status: 200, ok: true, json: async () => structuredClone(raw) };
+            }
+        });
+        vm.runInNewContext(read('games/js/hsrProfileMapper.js'), { window: apiWindow });
+        const response = await apiWindow.HsrProfileApi.fetchHsrProfile('800000001');
+        assert.equal(calls[0], '/games/api/hsr-profile?uid=800000001');
+        assert.equal(calls.length, proxyAvailable ? 1 : 2);
+        if (!proxyAvailable) assert.equal(calls[1], 'https://enka.network/api/hsr/uid/800000001');
+        const profile = apiWindow.HsrProfileMapper.mapProfileResponse(response, data);
+        const mapped = profile.characters[0];
+        near(mapped.stats.atk, 3000); near(mapped.stats.speed, 100.125);
+        near(mapped.stats.critRate, 50); near(mapped.stats.critDamage, 100);
+        const app = await tool(undefined, data);
+        app.window.HsrTool.applyProfileCharacter(mapped);
+        assert.equal(app.state.characterId, '1312');
+        assert.equal(app.state.traceLevels.normal, 6);
+        assert.equal(app.state.traceLevels.ultimate, 10);
+        near(app.calculate().find(r => r.attack.name.includes('退いて')).expected, 1620);
+        assert.equal(app.node('hsrStat-hpPercent').value, '', 'UID does not invent current battle HP');
+        app.node('hsrStat-atk').handlers.input();
+        const restored = await tool(app.storage, data);
+        near(restored.calculate().find(r => r.attack.name.includes('退いて')).expected, 1620);
+        near(restored.state.stats.speed, 100.125);
+        const incompleteRaw = structuredClone(response);
+        incompleteRaw.detailInfo.avatarDetailList[0].level = 70;
+        const incomplete = apiWindow.HsrProfileMapper.mapProfileResponse(incompleteRaw, data).characters[0];
+        app.window.HsrTool.applyProfileCharacter(incomplete);
+        assert.equal(app.node('hsrStat-atk').value, '', 'unavailable Lv70 base cannot retain the previous ATK');
+        assert.equal(app.calculate().length, 0);
+    }
+});
+
+
+test('round10 Sushang extra checks keep unknown local, infer broken-target guarantees and restore without double stats', async () => {
+ const {data:p}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+ const rows=p.attacks.filter(a=>a.characterId==='1206'&&!a.hidden),data={...p,attacks:rows},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+ app.state.characterId='1206';for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ app.state.modifierInputs['sushang-ultimate-buff-active']=true;app.state.modifierInputs['sushang-sword-stance-stacks']=10;
+ const find=(a,id)=>a.calculate().find(r=>r.attack.name===rows.find(x=>x.id===id).name);
+ assert.equal(find(app,'1206031'),undefined);assert.ok(find(app,'120602'));
+ const curves=[25,27.5,30,32.5,35,37.5,40.625,43.75,46.875,50],atk=[18,19.2,20.4,21.6,22.8,24,25.5,27,28.5,30];
+ for(let lv=1;lv<=10;lv++){
+  app.node('hsrSkillTrace').value=String(lv);app.node('hsrUltimateTrace').value=String(lv);
+  for(const n of [0,1,2]){app.state.modifierInputs['sushang-post-ultimate-sword-stance-hits']=n;const r=find(app,'1206031'),nc=(3000+564.48*atk[lv-1]/100)*curves[lv-1]/100*n*.36*1.25;near(r.nonCrit,nc);near(r.crit,nc*2);near(r.expected,nc*1.5);}
+ }
+ delete app.state.modifierInputs['sushang-post-ultimate-sword-stance-hits'];app.node('hsrToughnessState').value='broken';near(find(app,'1206031').nonCrit,(3000+564.48*.3)*.4*1.25);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.doesNotMatch(app.node('hsrConditionList').innerHTML,/data-structured-input="sushang-post-ultimate-sword-stance-hits"/);assert.match(app.node('hsrConditionList').innerHTML,/追加剣勢2回を自動採用/);
+ app.node('hsrToughnessState').value='active';assert.equal(find(app,'1206031'),undefined);
+ for(const v of [-1,3,1.5,NaN]){app.state.modifierInputs['sushang-post-ultimate-sword-stance-hits']=v;assert.equal(find(app,'1206031'),undefined);assert.ok(find(app,'120601'));}
+ app.state.modifierInputs['sushang-post-ultimate-sword-stance-hits']=1;app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved,'1206031').nonCrit,(3000+564.48*.3)*.5*.36*1.25);
+ saved.state.modifierInputs['trace:1206:120603:atk-in-final']=true;near(find(saved,'1206031').nonCrit,3000*.5*.36*1.25);
+ saved.state.modifierInputs['sushang-ultimate-buff-active']=false;assert.equal(find(saved,'1206031'),undefined);assert.ok(find(saved,'120601'));
+});
+
+test('round10 Lingsha E6 preview uses Fuyuan state, rank gating and final RES exclusion',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,`${a} != ${b}`);
+ app.window.HsrTool.applyProfileCharacter({id:'1222',level:80,eidolon:6,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ const find=a=>a.calculate().find(r=>r.attack.name.includes('追加4ヒット')),out=find(app);assert.ok(out,app.node('hsrResults').innerHTML);near(out.nonCrit,2700);near(out.crit,5400);near(out.expected,4050);assert.equal(out.attack.hitCount,4);
+ assert.equal(app.state.modifierInputs['lingsha-fuyuan-on-field'],undefined);app.state.modifierInputs['lingsha-fuyuan-on-field']=false;near(find(app).expected,4050);
+ const inclusion=data.structuredModifiers.find(m=>m.id==='eidolon:1222:6:fuyuan-all-res-down').finalStatsInclusion.inputKey;app.state.modifierInputs[inclusion]=true;near(find(app).nonCrit,2160);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).nonCrit,2160);saved.node('hsrEidolon').value='5';assert.equal(find(saved),undefined);app.node('hsrEnemyCount').value='2';assert.equal(find(app),undefined);
+});
+
+
+test('round10 Misha all E0 levels and every selected Ultimate count retain prefrozen assumptions, inclusion and storage',async()=>{
+ const {data:p}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),rows=p.attacks.filter(a=>a.characterId==='1312'),data={...p,attacks:rows},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+ app.state.characterId='1312';for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.state.modifierInputs['misha-frozen-crit-active']=true;
+ const find=(a,id)=>a.calculate().find(r=>r.attack.name===rows.find(x=>x.id===id).name),u=[36,38.4,40.8,43.2,45.6,48,51,54,57,60],skill=[100,110,120,130,140,150,162.5,175,187.5,200];
+ for(let lv=1;lv<=10;lv++){app.node('hsrNormalTrace').value=String(Math.min(lv,6));app.node('hsrSkillTrace').value=String(lv);app.node('hsrUltimateTrace').value=String(lv);near(find(app,'131202').expected,3000*skill[lv-1]/100*.36*1.65);for(let hits=3;hits<=10;hits++){app.state.modifierInputs['misha-ultimate-hits']=hits;const r=find(app,'131203'),nc=3000*u[lv-1]/100*hits*.36;near(r.nonCrit,nc);near(r.crit,nc*2.3);near(r.expected,nc*1.65);}}
+ app.node('hsrStat-critDamage').value='130';app.state.modifierInputs['traceNode:1312:1312103:frozen-critical-damage-in-final']=true;near(find(app,'131203').expected,10692);app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);near(find(restored,'131203').expected,10692);
+ for(const value of [2,11,3.5,NaN]){restored.state.modifierInputs['misha-ultimate-hits']=value;assert.equal(find(restored,'131203'),undefined);assert.ok(find(restored,'131201'));}
+});
+
+test('round10 Hanya prior Judgment state reaches a teammate and saved input without applying to an absent provider',async()=>{
+ const {data:p}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,p),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+ app.state.characterId='1003';for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.state.party[0]={characterId:'1215',eidolon:0,level:80,traceLevels:{talent:10}};
+ const normal=a=>a.calculate().find(r=>r.attack.name==='武装調律');near(normal(app).expected,1620);
+ app.state.modifierInputs['hanya-judgment-active']=true;near(normal(app).expected,2106);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,p);near(normal(saved).expected,2106);
+ const inclusion=p.structuredModifiers.find(m=>m.id==='trace:1215:121504:party-damage').finalStatsInclusion.inputKey;saved.state.modifierInputs[inclusion]=true;near(normal(saved).expected,1620);saved.state.modifierInputs[inclusion]=false;saved.state.party[0].characterId='';near(normal(saved).expected,1620);
+});
+
+
+test('round10 Sushang complete Skill snapshot combines only its own three damage components at all Skill and independent Ultimate levels',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),a=data.attacks.find(a=>a.id==='1206022'),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+ app.state.characterId='1206';for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.node('hsrToughnessState').value='broken';app.state.modifierInputs['sushang-sword-stance-stacks']=10;
+ const find=target=>target.calculate().find(r=>r.attack.name===a.name),skill=[105,115.5,126,136.5,147,157.5,170.63,183.75,196.88,210],sword=[50,55,60,65,70,75,81.25,87.5,93.75,100],atk=[18,19.2,20.4,21.6,22.8,24,25.5,27,28.5,30];
+ for(let lv=1;lv<=10;lv++)for(const ult of [1,5,10]){app.node('hsrSkillTrace').value=String(lv);app.node('hsrUltimateTrace').value=String(ult);const r=find(app),ref=3000+564.48*atk[ult-1]/100,nc=ref*(skill[lv-1]+sword[lv-1]*2*1.25)/100*.4;assert.ok(r,app.node('hsrResults').innerHTML.split('<article').filter(s=>s.includes(a.name)).map(s=>s.replace(/<[^>]*>/g,'')).join('').slice(0,2000));near(r.nonCrit,nc);near(r.crit,nc*2);near(r.expected,nc*1.5);near(r.components.skill.nonCrit,ref*skill[lv-1]/100*.4);near(r.components.primary.nonCrit,ref*sword[lv-1]/100*1.25*.4);near(r.components.extra.nonCrit,r.components.primary.nonCrit);}
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).expected,find(app).expected);
+ delete saved.state.modifierInputs['sushang-sword-stance-stacks'];assert.equal(find(saved),undefined,'no substitution of maximum stacks');assert.ok(saved.calculate().some(r=>r.attack.name==='雲騎剣経・月虹'));
+ app.node('hsrToughnessState').value='active';assert.equal(find(app),undefined,'unbroken random proc distribution is outside this full-action scope');
+});

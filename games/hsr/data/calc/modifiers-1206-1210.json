@@ -124,6 +124,10 @@
         "gameVersion": "snapshot-2026-07-28",
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1206:120603:atk-in-final",
+        "inputLabel": "必殺技・攻撃力上昇を最終入力へ算入済み"
       }
     },
     {
@@ -200,6 +204,10 @@
         "gameVersion": "snapshot-2026-07-28",
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1206:120604:speed-in-final",
+        "inputLabel": "天賦「游刃若水」・速度を最終入力へ算入済み"
       }
     },
     {
@@ -279,9 +287,9 @@
       },
       "activation": {
         "mode": "stack",
-        "conditionText": "剣勢を発動した回数",
+        "conditionText": "この剣勢のダメージ判定時点で有効な逐寇層数。複数追加判定の合算は事前10層限定",
         "inputKey": "sushang-sword-stance-stacks",
-        "inputLabel": "剣勢ダメージ上昇の層数",
+        "inputLabel": "剣勢判定時の逐寇層数",
         "minimum": 0,
         "maximum": 10,
         "default": 0
@@ -307,6 +315,10 @@
         "gameVersion": "snapshot-2026-07-28",
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "traceNode:1206:1206102:sword-stance-in-final",
+        "inputLabel": "追加能力「逐寇」・剣勢ダメージを最終入力へ算入済み"
       }
     },
     {

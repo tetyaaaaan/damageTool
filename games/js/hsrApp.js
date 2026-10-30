@@ -256,10 +256,16 @@
       && (!item.variant || item.variant === state.enhancementState));
   }
 
+  function attackHitCountInput(attack) {
+    // Broken enemies guarantee both extra Sword Stance checks; do not overwrite the saved unbroken snapshot.
+    if (attack.id === "1206031" && state.enemy.toughnessActive === false) return 2;
+    return state.modifierInputs[attack.hitCountInputKey] === undefined ? attack.hitCountDefault : state.modifierInputs[attack.hitCountInputKey];
+  }
+
   function attackStateIssues(attack, issue) {
     if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
-    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "140109" ? 4 : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "140109" ? 4 : attack.id === "1206022" ? 3 : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (["1224011","1224081"].includes(attack.id)) {
       if(!['Erudition','Destruction','Hunt','Remembrance','Elation'].includes(attack.shifuPath) || !Object.keys(ELEMENT_KEYS).includes(attack.shifuElement)) issue('攻撃型師匠の運命と属性を補正条件で指定してください。従来の支援型師匠の比較はそのまま計算できます。','hsrConditionDialogOpen');
       if(attack.shifuElement && attack.shifuElement!=='Imaginary') for(const [key,label] of [['element-damage:1224:'+attack.shifuElement,'なのかの師匠属性与ダメージ'],['enemy-resistance:'+attack.shifuElement,'敵の師匠属性耐性']]) if(!Number.isFinite(state.modifierInputs[key])) issue(label+'を入力してください。補正なしは0です。','hsrConditionDialogOpen');
@@ -270,8 +276,9 @@
       if (reason) issue(reason, "hsrConditionDialogOpen");
     }
     if (attack.requiresValidHitCount) {
-      const count = state.modifierInputs[attack.hitCountInputKey] === undefined ? attack.hitCountDefault : state.modifierInputs[attack.hitCountInputKey];
+      const count = attackHitCountInput(attack);
       if (!Number.isInteger(count) || count < attack.hitCountMinimum || count > attack.hitCountMaximum) issue(attack.name + "の攻撃段数に" + attack.hitCountMinimum + "～" + attack.hitCountMaximum + "の整数を補正条件で入力してください。", "hsrConditionDialogOpen");
+      if (attack.id === "1206031" && count > 1 && state.modifierInputs["sushang-sword-stance-stacks"] !== 10) issue("複数の追加剣勢は逐寇が事前10層で飽和した状態のみ計算対応です。単発は判定時点の有効層を指定できます。", "hsrConditionDialogOpen");
     }
     if (attack.requiresNonWeakTarget && state.enemy.weakness) issue(`${attack.name}は今回、${ELEMENT_KEYS[attack.element] || "対応する"}属性が弱点ではない敵のみ計算対応です。属性弱点を「弱点なし」にしてください。`, "hsrWeakness");
     if (attack.requiredWeakTarget && !state.enemy.weakness) issue(attack.name+"は攻撃前から対応属性が弱点の敵を想定します。属性弱点を確認してください。", "hsrWeakness");
@@ -635,7 +642,9 @@
 
   function structuredSourceConditions(inputs = state.modifierInputs, attack) {
     if (!window.HsrModifierRuntime) return [];
-    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, inputs);
+    const brokenSwordStance = state.characterId === "1206" && state.enemy.toughnessActive === false;
+    const effectiveInputs = brokenSwordStance ? {...inputs, "sushang-post-ultimate-sword-stance-hits": 2} : inputs;
+    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs);
     // Only infer the existing enemy condition from known positive reductions, without feeding threshold outputs back.
     const knownDefenseDown = state.enemy.defenseReduction > 0 || candidates.some(item => item.category === "defenseReduction" && item.value > 0
       && item.enabled && item.applicable !== false && !item.inputWarnings?.length
@@ -660,7 +669,8 @@
         inputLabel: item.activation?.inputLabel || "",
         inputMinimum: item.activation?.minimum,
         inputMaximum: item.activation?.maximum
-      })).map(validateProvider);
+      })).map(item => brokenSwordStance && item.id === "trace:1206:120603:post-ultimate-sword-stance-count"
+        ? {...item, automatic:true, comparisonControlled:true, conditionText:"敵が弱点撃破中のため、必殺後の追加剣勢2回を自動採用", activation:{...item.activation, mode:"always", active:true, automatic:true}} : item).map(validateProvider);
   }
 
   function sourceConditions(inputs = state.modifierInputs, attack) {
@@ -1171,6 +1181,12 @@
       const sequenceAttacks = parts.every(Boolean) ? parts.map(a=>({...resolvedAttack(a),damageFormula:"statMultiplier"})) : [];
       return {...selected,traceLevel:state.traceLevels.skill,multiplier:sequenceAttacks[0]?.multiplier,traceLevelLabel:`スキルLv${state.traceLevels.skill}＋天賦Lv${state.traceLevels.talent}`,attackType:selected.type,sequenceAttacks};
     }
+    if (selected.id === "1206022" && selected.damageFormula === "componentSequence") {
+      const assumptions = {...selected.comparisonModifierInputs};
+      const parts = selected.damageComponents.map(c => state.data.attacks.find(a => a.id === c.attackId && a.characterId === "1206"));
+      const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), damageFormula:"statMultiplier", hitCount:i === 2 ? 2 : 1, comparisonModifierInputs:assumptions, modifierInputKey:undefined, modifierConditions:undefined})) : [];
+      return {...selected, traceLevel:state.traceLevels.skill, multiplier:sequenceAttacks[0]?.multiplier, traceLevelLabel:`スキルLv${state.traceLevels.skill}＋必殺Lv${state.traceLevels.ultimate}`, attackType:"skill", sequenceAttacks};
+    }
     if (selected.id === "1207011" && selected.damageFormula === "componentSequence") {
       const parts = selected.damageComponents.map(c=>state.data.attacks.find(a=>a.id===c.attackId&&a.characterId==="1207"));
       const sequenceAttacks = parts.every(Boolean) ? parts.map(a=>({...resolvedAttack(a),damageFormula:"statMultiplier"})) : [];
@@ -1189,7 +1205,7 @@
     const traceKey = masterSkill && ["MemospriteSkill", "MemospriteTalent"].includes(masterSkill.type) ? traceKeyForSkill(masterSkill) : selected.traceKey;
     const level = selected.fixedTraceLevel ?? num(state.traceLevels[traceKey], traceKey === "normal" ? 6 : 10);
     const index = Math.max(0, Math.min(selected.multipliers.length - 1, level - 1));
-    const inputHitCount = selected.hitCountInputKey ? num(state.modifierInputs[selected.hitCountInputKey], selected.hitCountDefault || 0) : null;
+    const inputHitCount = selected.hitCountInputKey ? num(attackHitCountInput(selected), selected.hitCountDefault || 0) : null;
     const eidolonHitCount = selected.hitCountAtEidolon && state.eidolon >= num(selected.hitCountAtEidolon.rank) ? num(selected.hitCountAtEidolon.value, selected.hitCount) : selected.hitCount;
     const referencedHits = selected.hitCountReference === "enemy.debuffCount" ? Math.max(0, Math.min(num(selected.hitCountMaximum, 99), num(state.enemy.debuffCount)))
       : selected.hitCountInputKey ? Math.max(num(selected.hitCountMinimum, 0), Math.min(num(selected.hitCountMaximum, 99), inputHitCount))
@@ -1214,7 +1230,7 @@
     const enemyHpPercent = selected.enemyHpPercentMultipliers?.[Math.min(selected.enemyHpPercentMultipliers.length - 1, formulaIndex)];
     const atkCapPercent = selected.atkCapMultipliers?.[Math.min(selected.atkCapMultipliers.length - 1, formulaIndex)];
     const adjacentMultiplier = selected.adjacentMultiplierRatio !== undefined ? multiplier * num(selected.adjacentMultiplierRatio) / 100 : selected.adjacentMultipliers?.[index] || 0;
-    const traceLevelLabel = selected.fixedTraceLevel ? `追加能力Lv${level}` : components.length ? [...new Set(components.map((component) => `${ATTACK_LABELS[component.traceKey] || component.traceKey}Lv${component.level}`))].join("＋") : `Lv${level}`;
+    const traceLevelLabel = selected.fixedTraceLevel ? (selected.requiredEidolon ? `星魂${selected.requiredEidolon}・固定倍率` : `追加能力Lv${level}`) : components.length ? [...new Set(components.map((component) => `${ATTACK_LABELS[component.traceKey] || component.traceKey}Lv${component.level}`))].join("＋") : `Lv${level}`;
     const multiplierAdditionScale = Array.isArray(selected.multiplierAdditionScaleValues)
       ? num(selected.multiplierAdditionScaleValues[Math.min(selected.multiplierAdditionScaleValues.length - 1, index)], 1)
       : num(selected.multiplierAdditionScale, 1);

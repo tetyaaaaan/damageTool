@@ -93,3 +93,12 @@ UI・接続を変更したら1440/390/320pxで変更箇所と必要な境界を�
 [主要構成](../../../tests/hsr/hsrCharactersRound9.test.cjs)と既存景元/彦卿テストは全採用Lv・成分別独立値を確認する。アルジェンティは敵1体・栄達10層の180EP全体＋6バウンドで、HP50%を跨がない条件を明記する。[優先LC](../../../tests/hsr/hsrEquipmentRound9.test.cjs)、[追加LC](../../../tests/hsr/hsrEquipmentExtraRound9.test.cjs)、[霊砂星魂](../../../tests/hsr/hsrNativeRound9.test.cjs)は全S、閾値、BE→SPD→装備閾値、CD支援、循環の局所除外、攻撃/受益者/提供者、既算入を独立計算する。
 
 [App入力](../../../tests/hsr/hsrToolInputs.test.cjs)では二つの層数の非混同・1つの共有欄・未入力の局所停止・保存復元、主要構成の全Lv、彦卿の算入済み、LC閾値支援の解除を確認する。最終製品コードで全HSRテスト、Modifier静的検証、攻撃静的検証の既存問題との比較、生成完成管理`--check`を実施する。変更部分の1440/390/320pxと実UID通信の有無を区別し、結果・件数は残作業台帳にのみ記録する。
+
+
+## 第10回追加の受入検証
+
+[主要曲線](../../../tests/hsr/hsrCharactersRound10.test.cjs)は素裳/Mishaの全E0採用Lvを固定値で照合する。[素裳合計](../../../tests/hsr/hsrSushangSnapshotRound10.test.cjs)は全Skill×Ult Lv、スキル本体と剣勢だけのDMG差、各成分と合計、飽和層不足の拒否を検証する。[霊砂E6](../../../tests/hsr/hsrLingshaRound10.test.cjs)は固定係数/4段、E6条件、RES低下とE2 BEの非寄与、既算入除外を確認する。
+
+[LC全S](../../../tests/hsr/hsrEquipmentRound10.test.cjs)と[寒鴉](../../../tests/hsr/hsrHanyaRound10.test.cjs)は層数/閾値、受益者、攻撃種類、星魂・技能上限、既算入・解除を確認する。[App](../../../tests/hsr/hsrToolInputs.test.cjs)は追加回数の未入力と0/1/2、撃破状態からの自動判定、全主要Lv・合算、保存復元、E6行の前提が全体状態を上書きしないことを検証する。
+
+同AppテストでUID proxy/fallbackをモックし、実catalog/traceSkillMapによる再構成から計算まで通す。精度保持・欠損値非流用・現在HP非推定・保存を確認するが、実通信成功の証拠とはしない。最終全体実行・既存静的問題の比較・3幅画面の結果は台帳にのみ記録する。

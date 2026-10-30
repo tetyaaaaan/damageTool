@@ -224,3 +224,12 @@ LC23027は `statThreshold` / `self.breakEffect` / `statSource: effective` でBE1
 `self.interpretation`は登録の `activation.inputKey` へ明示した0～42整数だけを参照し、未指定/不正値はNaNとする。ヘルタA2は使用時点解読の `numericThreshold`、最後撃の倍率は最後撃解読の `perStackByLevel`。編成人数で成立する二つ目の倍率は同じ最後撃値を `value.inputKey` から読む。明示した `value.inputKey` とinputValidationで値不足なら、有効な該当候補のみ未確定とする。使用時点と最後撃の値を勝手に同一視せず、共有する最後撃入力はモーダルへ1欄だけ表示する。
 
 LC23056/23058/23059/23063は、同じLCの複数提供者時に未確認の合成をせず当該支援だけ局所除外する。本人専用の別成分は独立して計算可能。霊砂E2/E6は提供者星魂と既存の任意状態入力で登録し、装備/提供者解除・最終値算入済み除外は既存契約を使う。実在形式は[優先LC](../../../games/hsr/data/calc/modifiers-equipment-round9.json)、[追加LC](../../../games/hsr/data/calc/modifiers-equipment-extra-round9.json)、[星魂](../../../games/hsr/data/calc/modifiers-native-round9.json)。
+
+
+## 第10回追加：攻撃内の指定回数と既発動支援
+
+素裳の追加剣勢回数は数値Modifierとしてダメージへ加算せず、既存の`hitCountInputKey`/`requiresValidHitCount`で0～2整数を攻撃へ渡す。未入力のdefaultは持たない。Appの`attackHitCountInput()`は1206031の敵が既に撃破済みの場合だけ2回を自動採用し、未撃破時の保存値を変更しない。逐寇は単発ではダメージ判定時の有効層、複数成分では事前10層の飽和状態に限定する。素裳/Mishaの既存補正にも`finalStatsInclusion`を適用し、入力値に含むATK/SPD/剣勢DMG/CDを再加算しない。
+
+LC23014のDEF無視は共有`eclipse-stacks`の`numericThreshold>=3`から自動判定し、別トグルを要求しない。LC23022は同じ有効DoT種類数からATKとDoT限定DEF無視を評価し、敵の総デバフ数を代用しない。LC23039の実HP消費状態は現在HP割合と別で、追加500超状態は基礎状態を`requiredToggleKey`で要求する。既存形式を再利用し、新しい評価方式は追加しない。
+
+寒鴉の懲悪は受益者に攻撃前から有効な状態のtoggleで、天賦Lvと提供者E6を区別する。録事ATKとの加算区分も別。初回付与攻撃や経過ターンは自動評価しない。[定義と受入](06_CHARACTER_EQUIPMENT_SPEC.md)から個別ファイルへ辿る。

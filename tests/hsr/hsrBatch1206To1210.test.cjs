@@ -22,7 +22,9 @@ test("1206-1210 reviewed attack batch is generated from explicit parameter posit
   assert.equal(generated.overrides.length, 31);
   assert.equal(attacks.get("120602").multipliers[9], 210);
   assert.equal(attacks.get("1206031").multipliers[9], 50);
-  assert.equal(attacks.get("1206031").hitCount, 2);
+  assert.equal(attacks.get("1206031").hitCountDefault, undefined);
+  assert.equal(attacks.get("1206031").hitCountMinimum, 0);
+  assert.equal(attacks.get("1206031").hitCountMaximum, 2);
   assert.equal(attacks.get("120803").scalingStat, "hp");
   assert.equal(attacks.get("121002").adjacentMultipliers[9], 40);
   assert.equal(attacks.get("121007").hitCount, 4);

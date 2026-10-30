@@ -213,6 +213,10 @@
         "referenceUrl": "https://www.prydwen.gg/star-rail/characters/misha",
         "verifiedAt": "2026-10-24",
         "scope": "E0; Basic131201/Skill131202 only; pre-hit Frozen target, unlocked trace, not already included in final CRIT DMG; no freeze or turn simulation."
+      },
+      "finalStatsInclusion": {
+        "inputKey": "traceNode:1312:1312103:frozen-critical-damage-in-final",
+        "inputLabel": "トランスミッション・凍結対象への会心ダメージを最終入力へ算入済み"
       }
     },
     {

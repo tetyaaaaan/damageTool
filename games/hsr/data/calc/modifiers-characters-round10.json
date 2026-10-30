@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "description": "素裳の必殺後剣勢追加判定の成立回数入力。攻撃override側で実ダメージへ利用し、このModifier自体は数値を加算しない。",
+  "modifiers": [
+    {
+      "id": "trace:1206:120603:post-ultimate-sword-stance-count",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "skillId": "120603"
+      },
+      "name": "必殺後の追加剣勢成立回数",
+      "description": "必殺技後の次の戦闘スキルで成立した追加剣勢を0～2回指定します。",
+      "category": "extraDamage",
+      "unit": "flat",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": [
+          "Physical"
+        ],
+        "attackIds": [
+          "1206031"
+        ]
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "sushang-post-ultimate-sword-stance-hits",
+        "inputLabel": "必殺後の追加剣勢回数",
+        "minimum": 0,
+        "maximum": 2,
+        "step": 1,
+        "threshold": 0,
+        "operator": ">=",
+        "conditionText": "成立済みの追加剣勢回数（0～2）",
+        "strictInput": true
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "実際のヒット数と倍率は攻撃定義で計算し、Modifier値として加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:120603.params[0..14][2]",
+        "verifiedAt": "2026-10-31",
+        "notes": "成立済みproc数の入力。通常33%発動の期待値や次スキル進行を表さない。"
+      },
+      "calculation": {
+        "stage": "baseDamage",
+        "operation": "add"
+      }
+    }
+  ]
+}

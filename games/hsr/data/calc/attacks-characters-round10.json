@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "description": "素裳1206031の必殺後追加剣勢を成立済み回数0～2で計算し、1206022では事前撃破済み・必殺ATK上昇中・逐寇10層の攻撃前状態からスキル本体と剣勢3回を合算する。",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版120602/120603のLv配列から各追加剣勢の倍率を独立照合。指定済み成立回数だけを敵1体の単発ダメージとして計算する。"
+  },
+  "overrides": [
+    {
+      "id": "1206031",
+      "characterId": "1206",
+      "sourceSkillId": "120602",
+      "name": "剣勢・必殺技後の追加判定（指定0～2回）",
+      "element": "Physical",
+      "type": "additional",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "canCrit": true,
+      "hitCountInputKey": "sushang-post-ultimate-sword-stance-hits",
+      "hitCountMinimum": 0,
+      "hitCountMaximum": 2,
+      "requiresValidHitCount": true,
+      "hitCountLabel": "必殺後に成立した追加判定",
+      "modifierInputKey": "sushang-ultimate-buff-active",
+      "modifierInputMinimum": 1,
+      "modifierInputDefault": 0,
+      "conditionText": "必殺技後の次の戦闘スキルで成立した追加剣勢の回数を指定（0～2）。その発動数だけを計算します。",
+      "multipliers": [
+        25,
+        27.5,
+        30,
+        32.5,
+        35,
+        37.5,
+        40.625,
+        43.75,
+        46.875,
+        50,
+        52.5,
+        55,
+        57.5,
+        60,
+        62.5
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "realized-post-ultimate-sword-stance-procs-single-enemy",
+      "calculationNote": "星魂0、Lv80、敵1体。必殺技後の攻撃力上昇が現在有効な状態で、次の戦闘スキルから成立済みの追加剣勢を0～2回指定します。1ヒット倍率は固定版120603.params[][2]×120602.params[][1]です。攻撃力上昇は最終ATKへ含めていなければ既存の必殺後補正を適用します。剣勢の確率期待・同一行動の発動順・攻撃進行は再現しません。通常の剣勢1206021は別行で、総合値へ二重合算しません。 追加判定2回の合算は逐寇が攻撃前から10層で飽和した場合に限定します。単発1回は、そのダメージ判定時点で有効な逐寇層を指定します。層獲得が同じヒットへ反映する順序は推測しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の2つの倍率要素をレベル別に乗算し、成立済み剣勢回数0/1/2を個別指定する。会心・与ダメージ・防御・耐性を通常式で評価。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:120603.params[0..14][2] × 120602.params[0..14][1]",
+        "verifiedAt": "2026-10-31",
+        "scope": "E0・Lv80・敵1体・必殺後Buffが有効・次のSkillで成立済み追加proc数0..2。初回proc期待・行動進行は対象外。",
+        "verification": "tests/hsr/hsrCharactersRound10.test.cjs"
+      }
+    },
+    {
+      "id": "1206022",
+      "characterId": "1206",
+      "sourceSkillId": "120602",
+      "name": "雲騎剣経・山傾（必殺後・剣勢3回合計）",
+      "element": "Physical",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 4,
+      "hitCountLabel": "戦闘スキル本体1回＋剣勢1回＋必殺後追加剣勢2回",
+      "canCrit": true,
+      "multipliers": [
+        205,
+        225.5,
+        246,
+        266.5,
+        287,
+        307.5,
+        333.13,
+        358.75,
+        384.38,
+        410
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "calculationScope": "e0-level80-single-prebroken-postultimate-skill-with-three-swordstance-hits-and-maximum-prior-stacks",
+      "conditionText": "Lv80・星魂0・敵1体。敵は戦闘スキル開始前から弱点撃破中、必殺技後の攻撃力上昇が有効、必殺後の戦闘スキルで通常剣勢1回と追加判定2回がすべて成立、追加能力「逐寇」は攻撃前10層。",
+      "comparisonModifierInputs": {
+        "sushang-ultimate-buff-active": true,
+        "sushang-sword-stance-active": true,
+        "sushang-post-ultimate-sword-stance-hits": 2,
+        "sushang-sword-stance-stacks": 10
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "sushang-sword-stance-stacks",
+          "label": "攻撃前の逐寇・剣勢有効層数",
+          "minimum": 10,
+          "maximum": 10,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "skill",
+          "name": "戦闘スキル本体",
+          "attackId": "120602",
+          "multipliers": [
+            105,
+            115.5,
+            126,
+            136.5,
+            147,
+            157.5,
+            170.63,
+            183.75,
+            196.88,
+            210
+          ],
+          "type": "skill",
+          "scalingStat": "atk",
+          "element": "Physical",
+          "target": "single",
+          "count": 1
+        },
+        {
+          "key": "primary",
+          "name": "剣勢（通常判定1回）",
+          "attackId": "1206021",
+          "multipliers": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75,
+            81.25,
+            87.5,
+            93.75,
+            100
+          ],
+          "type": "additional",
+          "scalingStat": "atk",
+          "element": "Physical",
+          "target": "single",
+          "count": 1
+        },
+        {
+          "key": "extra",
+          "name": "必殺後の追加判定2回",
+          "attackId": "1206031",
+          "multipliers": [
+            25,
+            27.5,
+            30,
+            32.5,
+            35,
+            37.5,
+            40.625,
+            43.75,
+            46.875,
+            50
+          ],
+          "type": "additional",
+          "scalingStat": "atk",
+          "element": "Physical",
+          "target": "single",
+          "count": 2
+        }
+      ],
+      "calculationNote": "固定版120602.params[0..9][0,1]でスキル本体と通常剣勢を確認し、120603.params[0..9][2]×120602.params[0..9][1]で追加判定1回の倍率を算出します。弱点撃破済みのため剣勢は本来1回、必殺後の追加判定は2回成立した固定状態を指定します。逐寇は攻撃前10層で飽和し、剣勢（1回）と必殺後追加剣勢（2回）のみへ+25%を適用します。スキル本体には逐寇を適用しません。必殺技ATK上昇は同じ最終ATKに対して既存Modifier経路で計算します。攻撃中の層更新・確率・行動進行は再現しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のLv1～10係数を構成成分ごとに独立計算。必殺後ATK補正のLv1～10と逐寇10層の剣勢限定+25%を通常式へ反映し、攻撃前から撃破済みの敵1体に対するスキル本体＋剣勢1回＋必殺後追加2回を検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:120602.params[0..9][0,1];120603.params[0..9][2,3]; character_skill_trees.json:1206102.params[0]",
+        "verifiedAt": "2026-10-31",
+        "scope": "E0・Lv80・敵1体・開始時点で撃破済み・必殺後ATK上昇有効・攻撃前逐寇10層・必殺後スキルの剣勢1回と追加判定2回成立。確率や行動順、層更新は対象外。",
+        "verification": "tests/hsr/hsrSushangSnapshotRound10.test.cjs"
+      }
+    }
+  ]
+}

@@ -124,3 +124,10 @@ Appの `readHpRatio()` は既存の本人/敵HP割合入力を読み、空値・
 `hsrApp.js`の `comparisonReferenceControls()` は既存補正モーダルへ黄泉の開始集真赤欄を追加する。入力を使い各啼沢斬りの消去数と実際の子攻撃を構成し、canonicalな `sequenceTemplates` も保持する。`hsrCalcEngine.js`の `calculateAcheronSnapshot()` はテンプレート・入力範囲・順序・係数を検査して10～13成分を計算する。ヘルタは同じ既存4成分と `calculateHertaSnapshot()` を使用し、最後撃の必須値と独立したA2値を検査する。入力不足は該当攻撃/補正へ局所化する。
 
 `hsrModifierRuntime.js`の `buildCandidates()` 内で独立CD支援とLC23027の有限の依存順を評価し、通常の候補を既存計算経路へ渡す。状態を時系列に自動更新するエンジンは追加しない。Appの共有数値入力管理は同一キーを1欄へ集約し、既存 `modifierInputs` の保存復元を使う。新しい保存形式やUID通信方式は導入しない。
+
+
+## 第10回追加：限定成分と既存UID経路
+
+`data-files.json`が読むround10 overrideで1206031を置換し、1206022と1222061を追加する。`hsrApp.js`の`resolvedAttack()`が素裳の3成分を既存行から構成し、`hsrCalcEngine.js`の`calculateSushangSnapshot()`が対象/層/成分整合を検査して`combineDamageComponents()`へ渡す。任意成分エンジンへの一般化は行わない。霊砂の固定E6係数は通常式と既存`comparisonModifierInputs`を利用し、当該行に限る浮元在場状態からRES低下を適用する。
+
+UIDの構成は変更しない。`hsrProfileApi.fetchHsrProfile()`のproxy成功または404時直結fallback→`hsrProfileMapper.mapProfileResponse()`→`HsrTool.applyProfileCharacter()`→入力/計算/既存保存形式という経路をモックで確認する。実UID通信とfixture検証を区別し、Lv80以外の基礎値欠損を推定で補完しない。

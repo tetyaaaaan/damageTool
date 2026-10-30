@@ -54,7 +54,7 @@
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
         "sourceFile": "character_ranks.json:122202.desc",
         "verifiedAt": "2026-10-30",
-        "notes": "固定版星魂説明を直接照合。E6追加4ヒットは今回の耐性低下とは別の未対応成分。"
+        "notes": "固定版星魂説明を直接照合。E6追加4ヒットは第10回の1222061で別行計算。浮元本体との自動合算・複数敵への配分は対象外。"
       }
     },
     {
@@ -110,7 +110,7 @@
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
         "sourceFile": "character_ranks.json:122206.desc",
         "verifiedAt": "2026-10-30",
-        "notes": "固定版星魂説明を直接照合。E6追加4ヒットは今回の耐性低下とは別の未対応成分。"
+        "notes": "固定版星魂説明を直接照合。E6追加4ヒットは第10回の1222061で別行計算。浮元本体との自動合算・複数敵への配分は対象外。"
       }
     }
   ]

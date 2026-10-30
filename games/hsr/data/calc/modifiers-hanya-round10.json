@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "hanya-round10-dbe8cdf-2026-10-31",
+  "description": "寒鴉の天賦「懲悪」による発動済み味方与ダメージ状態を通常の単発ダメージへ接続する。初回付与順・継続ターン更新は再現しない。",
+  "modifiers": [
+    {
+      "id": "trace:1215:121504:party-damage",
+      "source": { "kind": "trace", "id": "1215", "skillId": "121504" },
+      "name": "懲悪・発動済み味方の与ダメージ",
+      "description": "寒鴉が編成中で、味方が「承負」状態の敵へ通常攻撃・戦闘スキル・必殺技を発動した後に得る与ダメージ上昇です。効果がすでに有効な状態を選択します。初回付与につながった攻撃への適用、敵への「承負」付与順、継続ターンの更新は自動再現しません。星魂5以上は天賦Lv11～12に対応し、星魂6はさらに与ダメージ+10%です。最終与ダメージ入力に「懲悪」を含めた場合は反映済み欄で除外してください。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "levelInputLabel": "寒鴉の天賦Lv",
+        "values": [15, 16.5, 18, 19.5, 21, 22.5, 24.37, 26.25, 28.12, 30, 31.5, 33]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": ["normal", "enhancedNormal", "skill", "enhancedSkill", "ultimate", "talent", "followUp", "additional", "dot"],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "hanya-judgment-active",
+        "inputLabel": "寒鴉の天賦「懲悪」が有効",
+        "default": false,
+        "durationTurns": 2,
+        "conditionText": "「承負」中の敵へ味方が通常攻撃・戦闘スキル・必殺技を発動した後、攻撃者に付与された与ダメージ上昇が計算対象の攻撃前から有効"
+      },
+      "inputValidation": {
+        "maximumEidolon": 6,
+        "levelMaximum": 10,
+        "levelMaximumAtEidolon": { "rank": 5, "maximum": 12 }
+      },
+      "finalStatsInclusion": {
+        "inputKey": "hanya-judgment-damage-in-final-stats",
+        "inputLabel": "寒鴉「懲悪」の与ダメージ上昇を最終入力へ反映済み"
+      },
+      "stacking": { "group": "trace:1215:121504:party-damage", "rule": "nonStacking" },
+      "calculation": { "stage": "damageBonus", "operation": "add" },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの121504.params[0..11][0]にある天賦Lv1～12の15～33%と、121505による天賦Lv上限+2を確認。効果中の攻撃者本人へ通常ダメージ/通常DoTの単発補正として接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121504.params[0..11][0]; character_ranks.json:121505",
+        "verifiedAt": "2026-10-31",
+        "notes": "121504は与ダメージ+15/16.5/18/19.5/21/22.5/24.37/26.25/28.12/30/31.5/33%、2ターン。121505で天賦Lv+2（最大12）。発動済み状態のみ指定し、初回付与タイミングを推測しない。",
+        "scope": "寒鴉が編成中または計算対象本人。効果を受けた味方本人の通常式ダメージ・通常DoT。ブレイク/超撃破/愉悦/確定ダメージ/精霊専用式は対象外。",
+        "verification": "tests/hsr/hsrHanyaRound10.test.cjs"
+      }
+    },
+    {
+      "id": "eidolon:1215:6:judgment-damage",
+      "source": { "kind": "eidolon", "id": "1215", "eidolonRank": 6, "rankId": "121506" },
+      "name": "六正・懲悪の追加与ダメージ",
+      "description": "寒鴉星魂6。天賦「懲悪」の与ダメージ上昇へ追加で10%を加算します。懲悪がすでに有効な状態だけを指定します。最終与ダメージ入力に懲悪全体を含めた場合は反映済み欄で除外してください。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": { "kind": "fixed", "fixed": 10 },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": ["normal", "enhancedNormal", "skill", "enhancedSkill", "ultimate", "talent", "followUp", "additional", "dot"],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "hanya-judgment-active",
+        "inputLabel": "寒鴉の天賦「懲悪」が有効",
+        "default": false,
+        "durationTurns": 2,
+        "conditionText": "星魂6寒鴉の「懲悪」がすでに有効"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "hanya-judgment-damage-in-final-stats",
+        "inputLabel": "寒鴉「懲悪」の与ダメージ上昇を最終入力へ反映済み"
+      },
+      "stacking": { "group": "eidolon:1215:6:judgment-damage", "rule": "nonStacking" },
+      "calculation": { "stage": "damageBonus", "operation": "add" },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの星魂121506「天賦のダメージアップ効果がさらに10%アップ」を、発動済み懲悪への追加10%として接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:121506",
+        "verifiedAt": "2026-10-31",
+        "notes": "星魂6の追加10%は基礎天賦値へ加算。通常の懲悪バフと同じ受益者・有効状態・2ターンのスナップショットで評価。",
+        "scope": "寒鴉星魂6以上が編成中または計算対象本人。懲悪を受けた味方本人の通常式ダメージ・通常DoT。",
+        "verification": "tests/hsr/hsrHanyaRound10.test.cjs"
+      }
+    }
+  ]
+}

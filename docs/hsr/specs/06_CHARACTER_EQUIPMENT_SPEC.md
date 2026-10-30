@@ -127,3 +127,10 @@
 [優先LC](../../../games/hsr/data/calc/modifiers-equipment-round9.json)は23027のBE条件SPDと23028のCD条件FUA、[追加LC](../../../games/hsr/data/calc/modifiers-equipment-extra-round9.json)は固定S1～S5の不足成分を扱う。恒常propertiesは最終値管理行で再加算を禁止し、計算成分へ数えない。一般の精霊継承や未確認の同LC複数提供者合成は認定外。
 
 [霊砂星魂](../../../games/hsr/data/calc/modifiers-native-round9.json)はE2の必殺後BE支援とE6の浮元在場RES低下のみ。E6追加攻撃等の未接続成分を全文完成扱いにしない。オーナメント303/308/320と計算行なし遺物は第8回の責務区分を維持する。個別数値・新規意味群/成分・残範囲は[残作業台帳](../../HSR_COMPLETION_WORKLOAD.md)へ集約する。
+
+
+## 第10回追加の定義参照
+
+[素裳攻撃](../../../games/hsr/data/calc/attacks-characters-round10.json)は追加成立回数の拡張と飽和状態のスキル合計、[回数入力](../../../games/hsr/data/calc/modifiers-characters-round10.json)は表示専用の入力契約。[霊砂E6](../../../games/hsr/data/calc/attacks-lingsha-round10.json)は固定追加4段のみで、既存浮元本体の高星魂全Lv対応と分ける。既存round9 E6 RES低下は当該攻撃前提に使用し、二重加算を避ける。ミーシャは既存攻撃とCD補正の定義を維持し、全Lvと段数/保存の受入を追加した。
+
+[光円錐](../../../games/hsr/data/calc/modifiers-equipment-round10.json)は固定S1～S5の対象成分、[寒鴉](../../../games/hsr/data/calc/modifiers-hanya-round10.json)は懲悪の既発動DMGとE6追加分が正本。恒常properties、同撃の層更新、初回付与順、継承未確認部分を計算済み成分と混同しない。装備/効果件数と残範囲は[台帳](../../HSR_COMPLETION_WORKLOAD.md)、認定基準は生成完成表と攻撃範囲へ集約する。
