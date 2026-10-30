@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "hanya-round11-dbe8cdf-2026-10-31",
+  "description": "寒鴉の必殺技「十王の勅令、遍く遵行せよ」の成立済み支援スナップショット。初回付与順と継続時間の自動追跡はしない。",
+  "modifiers": [
+    {
+      "id": "trace:1215:121503:ultimate-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1215",
+        "skillId": "121503"
+      },
+      "name": "十王の勅令・指定味方の攻撃力",
+      "description": "指定した味方の攻撃力+36～72%。受益者の基礎攻撃力に比例する。効果がすでに有効なスナップショットを指定する。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "levelInputLabel": "寒鴉の必殺技Lv",
+        "values": [
+          36,
+          38.4,
+          40.8,
+          43.2,
+          45.6,
+          48,
+          51,
+          54,
+          57,
+          60,
+          62.4,
+          64.8,
+          67.2,
+          69.6,
+          72
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "寒鴉の必殺技効果が計算対象の攻撃前から有効",
+        "inputKey": "hanya-ultimate-active",
+        "inputLabel": "寒鴉の必殺技効果が有効",
+        "default": false,
+        "durationTurns": 2
+      },
+      "inputValidation": {
+        "maximumEidolon": 6,
+        "levelMaximum": 10,
+        "levelMaximumAtEidolon": {
+          "rank": 5,
+          "maximum": 12
+        }
+      },
+      "finalStatsInclusion": {
+        "inputKey": "hanya-ultimate-atk-in-final-stats",
+        "inputLabel": "寒鴉の必殺技ATK上昇を最終ATKへ反映済み"
+      },
+      "stacking": {
+        "group": "trace:1215:121503:ultimate-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHA character_skills.json:121503.params[0..14][0] を確認。Lv1～15のATK加算率と2ターン継続。星魂5で必殺技Lv上限+2。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "verifiedAt": "2026-10-31",
+        "sourceFile": "character_skills.json:121503.params[0..14][0]",
+        "notes": "ATK values 36,38.4,40.8,43.2,45.6,48,51,54,57,60,62.4,64.8,67.2,69.6,72%; target base ATK ratio; 2 turns.",
+        "scope": "指定した味方キャラクターのステータスを単発計算へ適用。寒鴉本人への適用は対象者として選択された場合に限る。指定時点の既存ATK/SPD効果との重複は最終値反映欄で除外し、継続時間・行動順は再現しない。",
+        "verification": "tests/hsr/hsrHanyaRound11.test.cjs"
+      },
+      "stat": "atk"
+    },
+    {
+      "id": "trace:1215:121503:ultimate-speed",
+      "source": {
+        "kind": "trace",
+        "id": "1215",
+        "skillId": "121503"
+      },
+      "name": "十王の勅令・寒鴉速度参照の指定味方速度",
+      "description": "指定した味方の速度を必殺技発動時の寒鴉の速度×15～22.5%分上げる。寒鴉のパーティ速度を参照します。",
+      "category": "statFlat",
+      "unit": "flat",
+      "value": {
+        "kind": "providerStatPercentByLevel",
+        "inputKey": "hanya-ultimate-provider-speed",
+        "inputLabel": "必殺技発動時の寒鴉の速度",
+        "providerStat": "speed",
+        "values": [
+          15,
+          15.5,
+          16,
+          16.5,
+          17,
+          17.5,
+          18.12,
+          18.75,
+          19.38,
+          20,
+          20.5,
+          21,
+          21.5,
+          22,
+          22.5
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "寒鴉の必殺技効果が計算対象の攻撃前から有効",
+        "inputKey": "hanya-ultimate-active",
+        "inputLabel": "寒鴉の必殺技効果が有効",
+        "default": false,
+        "durationTurns": 2
+      },
+      "inputValidation": {
+        "maximumEidolon": 6,
+        "levelMaximum": 10,
+        "levelMaximumAtEidolon": {
+          "rank": 5,
+          "maximum": 12
+        },
+        "minimum": 0,
+        "maximum": 500
+      },
+      "finalStatsInclusion": {
+        "inputKey": "hanya-ultimate-speed-in-final-stats",
+        "inputLabel": "寒鴉の必殺技SPD上昇を最終速度へ反映済み"
+      },
+      "stacking": {
+        "group": "trace:1215:121503:ultimate-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHA character_skills.json:121503.params[0..14][2] を確認。Lv1～15の速度参照率。選択した寒鴉のパーティ速度を既存providerStat参照から使用。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "verifiedAt": "2026-10-31",
+        "sourceFile": "character_skills.json:121503.params[0..14][2]",
+        "notes": "SPD scaling 15%,15.5%,16%,16.5%,17%,17.5%,18.12%,18.75%,19.38%,20%,20.5%,21%,21.5%,22%,22.5%; calculated from the selected Hanya party combat SPD; no flat speed term.",
+        "scope": "指定した味方キャラクターのステータスを単発計算へ適用。寒鴉本人への適用は対象者として選択された場合に限る。指定時点の既存ATK/SPD効果との重複は最終値反映欄で除外し、継続時間・行動順は再現しない。",
+        "verification": "tests/hsr/hsrHanyaRound11.test.cjs"
+      },
+      "stat": "speed"
+    }
+  ]
+}

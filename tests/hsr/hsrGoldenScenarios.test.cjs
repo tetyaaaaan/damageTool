@@ -1536,7 +1536,8 @@ test("scoped direct Skill and Ultimate match release coefficients and independen
             [10,3000,50,100,50,80,20,0,false],[10,3000,50,100,0,90,40,20,false],
             [10,3000,50,100,0,80,20,0,true]
         ]){
-            const input=request({...a,multiplier:mvs[level-1],traceLevel:level});
+            const coefficientAttack = cid === "1215" ? { ...a, id: "hanya-independent-coefficient-fixture", enforceSnapshotContract: false, comparisonModifierInputs: undefined, modifierInputKey: null } : a;
+            const input=request({...coefficientAttack,multiplier:mvs[level-1],traceLevel:level});
             Object.assign(input.character.stats,{atk,critRate:cr,critDamage:cd,damageBonus:bonus});
             Object.assign(input.enemy,{level:enemyLv,resistance:res,defenseReduction:down,count:1});
             input.modifiers=[{id:"explicit-support",category:"damageBonus",value:25,enabled:active}];
@@ -1849,11 +1850,12 @@ test("Yunli True Sunder uses character plus cone base ATK and can persist to Ski
 
 
 test("Lingsha complete Fuyuan action independently sums equal AoE and extra-target hits", () => {
-    const a=attacks.find(a=>a.id==="122204"), mvs=[37.5,41.25,45,48.75,52.5,56.25,60.938,65.625,70.313,75];
-    assert.deepEqual(a.multipliers,mvs);assert.equal(a.hitCount,2);assert.equal(a.type,"followUp");assert.equal(a.enemyCountExact,1);assert.equal(a.maximumEidolon,0);
+    const a=attacks.find(a=>a.id==="122204"), mvs=[37.5,41.25,45,48.75,52.5,56.25,60.94,65.62,70.31,75];
+    assert.deepEqual(a.multipliers.slice(0,10),mvs);assert.equal(a.hitCount,2);assert.equal(a.type,"followUp");assert.equal(a.enemyCountExact,1);assert.equal(a.maximumEidolon,6);
     for(let l=1;l<=10;l++) for(const[atk,cr,cd,bonus,enemyLv,res,down]of [[3000,50,100,0,80,20,0],[4000,25,150,50,90,40,20]]) {
         const input=request({...a,multiplier:mvs[l-1],traceLevel:l});
         Object.assign(input.character.stats,{atk,critRate:cr,critDamage:cd,damageBonus:bonus,breakEffect:200});
+        input.character.eidolon = 0;
         Object.assign(input.enemy,{count:1,level:enemyLv,resistance:res,defenseReduction:down});
         const perHit=atk*mvs[l-1]/100*(1+bonus/100)*(100/(100+(enemyLv+20)*(1-down/100)))*(1-res/100)*.9;
         const r=engine.calculate(input),nc=perHit+perHit;

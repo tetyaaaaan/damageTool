@@ -233,3 +233,13 @@ LC23056/23058/23059/23063は、同じLCの複数提供者時に未確認の合�
 LC23014のDEF無視は共有`eclipse-stacks`の`numericThreshold>=3`から自動判定し、別トグルを要求しない。LC23022は同じ有効DoT種類数からATKとDoT限定DEF無視を評価し、敵の総デバフ数を代用しない。LC23039の実HP消費状態は現在HP割合と別で、追加500超状態は基礎状態を`requiredToggleKey`で要求する。既存形式を再利用し、新しい評価方式は追加しない。
 
 寒鴉の懲悪は受益者に攻撃前から有効な状態のtoggleで、天賦Lvと提供者E6を区別する。録事ATKとの加算区分も別。初回付与攻撃や経過ターンは自動評価しない。[定義と受入](06_CHARACTER_EQUIPMENT_SPEC.md)から個別ファイルへ辿る。
+
+## 第11回追加：提供者SPDと撃破状態
+
+`enemy.toughnessBroken`は既存の`enemy.toughnessActive`が明示booleanの場合だけ逆値の0/1を返す。未知ならNaNとし、該当候補だけ未確定。霊砂E1はこの参照の`statThreshold >= 1`で敵DEF-20%を自動評価する。Schema/静的検証/Appの表示名も同期し、任意トグルを追加しない。
+
+寒鴉必殺は既存`providerStatPercentByLevel`の提供者speedを`statFlat`として受益者へ加算する。共有`hanya-ultimate-active`と個別`finalStatsInclusion`を使い、発動時SPDは編成入力へユーザーが指定する。既存のモーダル欄は編成/ステータスの同じ値と同期するため、別の履歴値ではない。未入力ならAppがSPD成分だけを未確定にし、ATK成分は継続する。
+
+`buildCandidates()`の有限な有効値一段評価へ、別提供者の`providerStatPercentByLevel`・`statFlat speed`だけを追加し、グラモス等の閾値に反映する。自己参照SPDや全Modifier再帰評価へ拡張しない。既算入の速度を戻して足し直さない。
+
+LC23045の最大EP300条件は既存`current-max-energy`の数値閾値と必殺後`requiredToggleKey`を共に要求する。未指定EPを仮定しない。23054/21050/22007/24006の同LC複数提供者合成が未確認なら当該支援だけを局所除外する。事前敵デバフと攻撃ごとの想定状態も既存形式を使用し、状態保存は`modifierInputs`を維持する。[定義と受入](06_CHARACTER_EQUIPMENT_SPEC.md)を参照。

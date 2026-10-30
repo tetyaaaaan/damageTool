@@ -102,3 +102,11 @@ UI・接続を変更したら1440/390/320pxで変更箇所と必要な境界を�
 [LC全S](../../../tests/hsr/hsrEquipmentRound10.test.cjs)と[寒鴉](../../../tests/hsr/hsrHanyaRound10.test.cjs)は層数/閾値、受益者、攻撃種類、星魂・技能上限、既算入・解除を確認する。[App](../../../tests/hsr/hsrToolInputs.test.cjs)は追加回数の未入力と0/1/2、撃破状態からの自動判定、全主要Lv・合算、保存復元、E6行の前提が全体状態を上書きしないことを検証する。
 
 同AppテストでUID proxy/fallbackをモックし、実catalog/traceSkillMapによる再構成から計算まで通す。精度保持・欠損値非流用・現在HP非推定・保存を確認するが、実通信成功の証拠とはしない。最終全体実行・既存静的問題の比較・3幅画面の結果は台帳にのみ記録する。
+
+## 第11回追加の受入検証
+
+[寒鴉](../../../tests/hsr/hsrHanyaRound11.test.cjs)は全採用必殺Lv・提供者SPD/受益者基礎ATK・ON/OFF・提供者離脱・既算入を確認。[霊砂](../../../tests/hsr/hsrLingshaRound11.test.cjs)はE0～E6の全採用天賦Lv、非対称ステータス、事前撃破状態、E1 DEF/E6 RES、各子成分と合計を独立式で検証する。旧配信の近似係数ではなく固定raw paramsを期待値にする。
+
+[昇格行](../../../tests/hsr/hsrPromotionsRound11.test.cjs)は全Lv×複数の非対称ステータスで通常/スキル/必殺/追撃の直接係数を独立計算し、事前固有デバフの不足/算入済みを区別する。[LC全S](../../../tests/hsr/hsrEquipmentRound11.test.cjs)はATK/CR/CD/DMGと愉悦専用式、最大EP境界/未入力、共有条件、提供者解除/複数提供者局所除外、保存を確認する。
+
+[App](../../../tests/hsr/hsrToolInputs.test.cjs)は寒鴉主要攻撃/必殺→実受益者→速度閾値、霊砂全星魂/合計、昇格行の事前状態、実際の装備運命、既算入・解除・保存を検証する。既存UIDモック取得/再構成/入力反映の回帰も全体で実行し、実通信と混同しない。汎用100%倍率のModifier単体テストでは公式の限定攻撃を改変せず、明示的な合成攻撃を使う。最終全体・静的問題差分・3幅画面・文書検証の結果は台帳へ記録する。

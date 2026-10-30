@@ -1230,7 +1230,7 @@ test("scoped Hanya and Gallagher attacks show availability assumptions and prese
     const generated=JSON.parse(read("games/hsr/data/attacks.generated.json")).attacks;
     const byId=new Map(generated.map(a=>[a.id,a]));files.attackOverrides.forEach(a=>byId.set(a.id,{...byId.get(a.id),...a}));
     const data={...catalog,attacks:[...byId.values()],structuredModifiers:files.modifiers};
-    for(const [id,cid,key,nc]of [["121502","1215","hanya-unburdened-skill",2592],["130103","1301","",1620]]){
+    for(const [id,cid,key,nc]of [["121502","1215","hanya-unburdened-skill",(3000+564.48*.1)*2.4*1.3*.36],["130103","1301","",1620]]){
         const app=await tool(undefined,data);app.state.characterId=cid;
         for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
         app.node("hsrEidolon").handlers.change({target:{value:"0"}});
@@ -1244,7 +1244,7 @@ test("scoped Hanya and Gallagher attacks show availability assumptions and prese
         }
         const r=find();assert.ok(Math.abs(r.nonCrit-nc)<1e-9,JSON.stringify({id,nc,actual:r.nonCrit,applied:r.applied}));
         assert.match(app.node("hsrResults").innerHTML,/星魂0・軌跡Lv1～10・敵1体/);
-        assert.ok(app.node("hsrResults").innerHTML.includes("3,000 × "+byId.get(id).multipliers[9]+"%"));
+        if(id==="121502"){assert.ok(Math.abs(r.breakdown.referenceValue-(3000+564.48*.1))<1e-9);assert.ok(r.applied.some(m=>m.id==="trace:1215:121504:party-damage"));assert.ok(r.applied.some(m=>m.id==="traceNode:1215:1215101:sp-recovery-atk"));}else assert.ok(app.node("hsrResults").innerHTML.includes("3,000 × "+byId.get(id).multipliers[9]+"%"));
         app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
         assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name===name).nonCrit-nc)<1e-9);
         app.node("hsrStat-atk").value="";assert.equal(find(),undefined);app.node("hsrStat-atk").value="-1";assert.equal(find(),undefined);app.node("hsrStat-atk").value="3000";
@@ -2422,7 +2422,7 @@ test("grouped Basic promotions preserve stat ownership, E0 limits, party toggles
         let result = find(app, name); near(result.nonCrit, 1080); near(result.crit, 2160); near(result.expected, 1620);
         assert.match(app.node("hsrResults").innerHTML, /全段合算/);
         assert.match(app.node("hsrResults").innerHTML, /星魂0・通常攻撃Lv1～6/);
-        if (id === "1215") assert.match(app.node("hsrResults").innerHTML, /承負なし/);
+        if (id === "1215") assert.match(app.node("hsrResults").innerHTML, /承負のない対象への通常攻撃/);
         if (id === "1304") assert.equal(result.breakdown.critRatePercent, 50, "Leverage is already owned by final input, not added twice");
         app.node("hsrEidolon").value = "1";
         assert.equal(find(app, name), undefined, id + " must not silently calculate E0 damage for E1");
@@ -2812,7 +2812,7 @@ test("Lingsha E0 compares every ordinary action and separate Fuyuan while preser
  saved.node("hsrUltimateTrace").value="";r=rows(saved);assert.equal(find(r,"122203"),undefined);assert.ok(find(r,"122201"));assert.ok(find(r,"122202"));assert.ok(find(r,"122204"));saved.node("hsrUltimateTrace").value="10";
  saved.node("hsrTalentTrace").value="";r=rows(saved);assert.equal(find(r,"122204"),undefined);assert.ok(find(r,"122203"));saved.node("hsrTalentTrace").value="10";
  saved.node("hsrEnemyCount").value="2";r=rows(saved);assert.equal(find(r,"122204"),undefined);assert.equal(find(r,"122203"),undefined);saved.node("hsrEnemyCount").value="1";
- saved.node("hsrEidolon").value="1";r=rows(saved);for(const id of ["122201","122202","122203","122204"])assert.equal(find(r,id),undefined);
+ saved.node("hsrEidolon").value="1";r=rows(saved);for(const id of ["122201","122202","122203"])assert.equal(find(r,id),undefined);near(find(r,"122204").nonCrit,1620);
 });
 
 
@@ -3797,4 +3797,55 @@ test('round10 Sushang complete Skill snapshot combines only its own three damage
  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).expected,find(app).expected);
  delete saved.state.modifierInputs['sushang-sword-stance-stacks'];assert.equal(find(saved),undefined,'no substitution of maximum stacks');assert.ok(saved.calculate().some(r=>r.attack.name==='雲騎剣経・月虹'));
  app.node('hsrToughnessState').value='active';assert.equal(find(app),undefined,'unbroken random proc distribution is outside this full-action scope');
+});
+
+
+test('round11 Hanya stable main attacks use all levels, prior native buffs and final-input exclusion',async()=>{
+ const {data:p}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),data={...p,attacks:p.attacks.filter(a=>a.characterId==='1215')},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+ app.state.characterId='1215';for(const[k,v]of Object.entries({atk:3000,speed:150,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ const rows=data.attacks,find=(a,id)=>a.calculate().find(r=>r.attack.name===rows.find(a=>a.id===id).name),skill=[120,132,144,156,168,180,195,210,225,240],talent=[15,16.5,18,19.5,21,22.5,24.37,26.25,28.12,30];
+ for(let lv=1;lv<=10;lv++)for(const t of [1,5,10]){app.node('hsrSkillTrace').value=String(lv);app.node('hsrTalentTrace').value=String(t);const r=find(app,'121502'),nc=(3000+564.48*.1)*skill[lv-1]/100*(1+talent[t-1]/100)*.36;assert.ok(r,app.node('hsrResults').innerHTML);near(r.nonCrit,nc);near(r.crit,nc*2);near(r.expected,nc*1.5);}
+ for(let lv=1;lv<=6;lv++){app.node('hsrNormalTrace').value=String(lv);near(find(app,'121501').nonCrit,3000*(.4+.1*lv)*.36);}
+ assert.equal(app.state.modifierInputs['hanya-judgment-active'],undefined,'preview leaves global recipient state unchanged');
+ app.state.modifierInputs['hanya-recorded-atk-in-final']=true;near(find(app,'121502').nonCrit,3000*2.4*1.3*.36);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved,'121502').expected,3000*2.4*1.3*.36*1.5);
+ saved.node('hsrTalentTrace').value='';assert.equal(find(saved,'121502'),undefined);assert.ok(find(saved,'121501'));
+});
+
+test('round11 Hanya Ultimate ATK and provider SPD reach a real recipient and Glamoth without feedback or duplicate input',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);app.state.characterId='1003';app.state.ornamentId='311';app.state.party[0]={characterId:'1215',level:80,eidolon:0,speed:120,traceLevels:{ultimate:10,talent:10}};
+ for(const[k,v]of Object.entries({atk:3000,speed:136,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);const find=a=>a.calculate().find(r=>r.attack.name==='武装調律');near(find(app).nonCrit,1209.6);
+ app.state.modifierInputs['hanya-ultimate-active']=true;near(find(app).nonCrit,(3000+756.756*.6)*1.18*.36);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).expected,find(app).expected);
+ saved.state.party[0].speed=NaN;near(find(saved).nonCrit,(3000+756.756*.6)*1.12*.36,'missing provider SPD removes only that support');saved.state.party[0].speed=120;
+ saved.node('hsrStat-speed').value='160';saved.state.modifierInputs['hanya-ultimate-speed-in-final-stats']=true;near(find(saved).nonCrit,(3000+756.756*.6)*1.18*.36);
+ saved.state.modifierInputs['hanya-ultimate-atk-in-final-stats']=true;near(find(saved).nonCrit,3000*1.18*.36);saved.state.party[0].characterId='';near(find(saved).nonCrit,3000*1.18*.36);
+});
+
+test('round11 Lingsha E0-E6 native ranges and E6 full event reach App, exclusion and storage',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`),curve=[37.5,41.25,45,48.75,52.5,56.25,60.94,65.62,70.31,75,78.75,82.5];app.state.characterId='1222';
+ for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);const mainName=data.attacks.find(a=>a.id==='122204').name,totalName=data.attacks.find(a=>a.id==='1222062').name,find=(a,n)=>a.calculate().find(r=>r.attack.name===n);
+ for(let e=0;e<=6;e++){app.node('hsrEidolon').value=String(e);for(let lv=1;lv<=(e>=3?12:10);lv++){app.node('hsrTalentTrace').value=String(lv);app.node('hsrToughnessState').value='active';near(find(app,mainName).nonCrit,3000*curve[lv-1]/100*2*.5*(e===6?1:.8)*.9);app.node('hsrToughnessState').value='broken';const def=e>=1?100/180:.5;near(find(app,mainName).nonCrit,3000*curve[lv-1]/100*2*def*(e===6?1:.8));}}
+ app.node('hsrEidolon').value='6';app.node('hsrTalentTrace').value='12';app.node('hsrToughnessState').value='broken';const r=find(app,totalName);near(r.nonCrit,3000*(1.65+2)*(100/180));near(r.crit,r.nonCrit*2);near(r.expected,r.nonCrit*1.5);assert.equal(Object.keys(r.components).length,2);
+ const e1=data.structuredModifiers.find(m=>m.id==='eidolon:1222:1:broken-enemy-defense-reduction'),e6=data.structuredModifiers.find(m=>m.id==='eidolon:1222:6:fuyuan-all-res-down');app.node('hsrEnemyDefenseReduction').value='20';app.state.modifierInputs[e1.finalStatsInclusion.inputKey]=true;near(find(app,totalName).nonCrit,r.nonCrit);app.node('hsrEnemyResistance').value='0';app.state.modifierInputs[e6.finalStatsInclusion.inputKey]=true;near(find(app,totalName).nonCrit,r.nonCrit);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved,totalName).expected,r.expected);saved.node('hsrEidolon').value='5';assert.equal(find(saved,totalName),undefined);assert.ok(find(saved,mainName));
+});
+
+test('round11 reference promotions use proper attack kinds, native prior states and stored inclusion flags',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),rows=require('../../games/hsr/data/calc/attacks-promotions-round11.json').overrides,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+ for(const row of rows){const app=await tool(undefined,{...data,attacks:[data.attacks.find(a=>a.id===row.id)]});app.state.characterId=row.characterId;for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);let last;
+  for(let lv=1;lv<=(row.traceKey==='normal'?6:10);lv++){app.node(({normal:'hsrNormalTrace',skill:'hsrSkillTrace',ultimate:'hsrUltimateTrace',talent:'hsrTalentTrace'})[row.traceKey]).value=String(lv);const out=app.calculate();assert.equal(out.length,1,app.node('hsrResults').innerHTML);last=out[0];let factor=.36;if(row.id==='132103')factor=(100/(200-[8,9,10,11,12,13,14.25,15.5,16.75,18][lv-1]))*.8*.9;if(row.id==='141002')factor*=1+[10,11,12,13,14,15,16.25,17.5,18.75,20][lv-1]/100;near(last.nonCrit,3000*row.multipliers[lv-1]/100*factor);near(last.expected,last.nonCrit*1.5);}
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,{...data,attacks:[row]});near(saved.calculate()[0].expected,last.expected);
+ }
+});
+
+
+test('round11 cone conditions use valid wearers, one shared field, real App damage and restoration',async()=>{
+ const {data:p}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),rows=require('../../games/hsr/data/calc/modifiers-equipment-round11.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`),owners={Elation:'1513',Warrior:'1312',Rogue:'1206',Memory:'1407',Mage:'1003'};
+ const samples=[['23054','great-fortune-active',true],['23045','crown-ultimate-active',true],['23046','inferno-skill-stacks',3],['21052','cone-memosprite-present',true],['21050','cone-memosprite-ally-skill-active',true],['22007','pink-future-ultimate-active',true],['24006','blessing-selected-ally-active',true],['21040','galaxy-two-weak-targets-active',true]];
+ for(const[id,key,value]of samples){const cone=p.lightCones.find(c=>c.id===id),owner=p.characters.find(c=>c.id===owners[cone.path]),data={...p,structuredModifiers:rows,attacks:[{id:'r11-cone-'+id,characterId:owner.id,name:'条件の独立検証',type:'normal',element:owner.element,scalingStat:'atk',multipliers:[100],fixedTraceLevel:1,canCrit:true,support:{status:'calculable',verified:true}}]},app=await tool(undefined,data);app.state.characterId=owner.id;app.state.coneId=id;
+  for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  near(app.calculate()[0].expected,1620);app.node('hsrConditionDialog').handlers.change({target:{dataset:typeof value==='boolean'?{structuredToggle:key}:{structuredInput:key},checked:value,value:String(value)}});if(id==='23045')app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:'current-max-energy',structuredStrict:'true'},value:'300'}});
+  const base=owner.base.atk+cone.base.atk,expected=id==='23054'?1922.4:id==='23045'?(3000+base*.8)*.36*1.5:id==='23046'?(3000+base*.3)*.36*1.5:id==='21052'?1620*1.24:id==='21050'?1620*1.08:id==='21040'?1728:1620;near(app.calculate()[0].expected,expected);
+  app.state.conditionTab='光円錐';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(new RegExp('data-structured-'+(typeof value==='boolean'?'toggle':'input')+'="'+key+'"','g'))||[]).length,1);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);saved.state.coneId='';near(saved.calculate()[0].expected,1620);
+ }
 });

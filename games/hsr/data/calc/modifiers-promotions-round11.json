@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "attack-promotions-round11-2026-10-31",
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json",
+  "modifiers": [
+    {
+      "id": "trace:1321:132103:previous-ultimate-defense-down",
+      "source": { "kind": "trace", "id": "1321", "skillId": "132103" },
+      "name": "必殺技「耽溺…墓場に舞い込む灰燼」・事前成立した防御力ダウン",
+      "description": "敵の防御力ダウンがこのダメージより前に成立済みのスナップショット。初回の必殺技自身が与えるダメージへの適用順は確定していません。",
+      "category": "defenseReduction",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [8, 9, 10, 11, 12, 13, 14.25, 15.5, 16.75, 18],
+        "levelInputLabel": "ダリアの必殺技Lv"
+      },
+      "target": { "owner": "enemyAll", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "dalia-previous-ultimate-defense-down",
+        "inputLabel": "対象の敵にダリア必殺技の防御力ダウンが事前成立",
+        "default": false,
+        "durationTurns": 4,
+        "conditionText": "計算対象のダメージより前に、ダリア必殺技と同じLvの防御力ダウンが対象へ成立済み"
+      },
+      "stacking": {
+        "group": "trace:1321:132103:ultimate-defense-down",
+        "rule": "nonStacking"
+      },
+      "calculation": { "stage": "defense", "operation": "add", "cap": 100 },
+      "inputPolicy": "conditional",
+      "inputValidation": { "maximumEidolon": 0 },
+      "finalStatsInclusion": {
+        "inputKey": "dalia-ultimate-defense-down-in-final-enemy-input",
+        "inputLabel": "ダリア必殺技の防御力ダウンを敵防御入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版ID132103.params[2]の防御力低下をLv1～10で反映。発生・継続ターン数の初回順序は扱わず、対象敵に同Lv効果が計算前から成立している場合だけ使用する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:132103.params[1..2]",
+        "verifiedAt": "2026-10-31",
+        "scope": "ダリア必殺技と同Lvの防御力低下が対象敵に事前成立済み。必殺技初回の同撃適用順は未確定。",
+        "verification": "tests/hsr/hsrPromotionsRound11.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1410:141002:previous-skill-taken-damage",
+      "source": { "kind": "trace", "id": "1410", "skillId": "141002" },
+      "name": "戦闘スキル「倍音、暗流の先の斉唱」・事前成立した被ダメージ増加",
+      "description": "敵の被ダメージ増加がこのダメージより前に成立済みのスナップショット。初回の戦闘スキル自身への適用順は確定していません。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [10, 11, 12, 13, 14, 15, 16.25, 17.5, 18.75, 20],
+        "levelInputLabel": "セイレンスの戦闘スキルLv"
+      },
+      "target": { "owner": "enemyAll", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "serin-previous-skill-damage-taken",
+        "inputLabel": "対象の敵にセイレンス戦闘スキルの被ダメージ増加が事前成立",
+        "default": false,
+        "durationTurns": 3,
+        "conditionText": "計算対象のダメージより前に、セイレンス戦闘スキルと同じLvの被ダメージ増加が対象へ成立済み"
+      },
+      "stacking": {
+        "group": "trace:1410:141002:skill-damage-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": { "stage": "vulnerability", "operation": "add" },
+      "inputPolicy": "conditional",
+      "inputValidation": { "maximumEidolon": 0 },
+      "finalStatsInclusion": {
+        "inputKey": "serin-skill-damage-taken-in-final-enemy-input",
+        "inputLabel": "セイレンス戦闘スキルの被ダメージ増加を敵被ダメージ入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版ID141002.params[2]の敵被ダメージ増加をLv1～10で反映。効果の初回付与と同じスキル攻撃への適用順は扱わず、対象敵に同Lv効果が計算前から成立している場合だけ使用する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:141002.params[2..3]",
+        "verifiedAt": "2026-10-31",
+        "scope": "セイレンス戦闘スキルと同Lvの被ダメージ増加が対象敵に事前成立済み。初回スキルの同撃適用順は未確定。",
+        "verification": "tests/hsr/hsrPromotionsRound11.test.cjs"
+      }
+    }
+  ]
+}

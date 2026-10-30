@@ -8,7 +8,7 @@ const curves = {
   "122201": [50, 60, 70, 80, 90, 100],
   "122202": [40, 44, 48, 52, 56, 60, 65, 70, 75, 80],
   "122203": [90, 96, 102, 108, 114, 120, 127.5, 135, 142.5, 150],
-  "122204": [37.5, 41.25, 45, 48.75, 52.5, 56.25, 60.938, 65.625, 70.313, 75]
+  "122204": [37.5, 41.25, 45, 48.75, 52.5, 56.25, 60.94, 65.62, 70.31, 75]
 };
 const profiles = [
   { atk: 3175.25, hp: 9412.5, def: 1288.75, critRate: 37.5, critDamage: 113.25, damageBonus: 27.5, enemyLevel: 83, resistance: 30, defenseReduction: 12.5, defenseIgnore: 7.5 },
@@ -23,7 +23,7 @@ test("Lingsha E0 source records pin ordinary actions and Fuyuan precision separa
     assert.equal(attack.support?.status, "calculable", id);
     assert.equal(attack.support?.verified, true, id);
     assert.equal(attack.provenance?.sourceCommit, fixedSourceSha, id);
-    assert.equal(attack.maximumEidolon, 0, id);
+    assert.equal(attack.maximumEidolon, id === "122204" ? 6 : 0, id);
     assert.equal(attack.scalingStat, "atk", id);
     assert.equal(attack.enemyCountExact, 1, id);
     assert.deepEqual(Array.from(attack.multipliers).slice(0, curve.length), curve, id + " adopted fixed/release precision");
@@ -33,6 +33,7 @@ test("Lingsha E0 source records pin ordinary actions and Fuyuan precision separa
   assert.equal(fuyuan.hitCount, 2);
   assert.equal(fuyuan.target, "single", "the fixture is explicitly limited to one enemy for equal hit comparison");
   assert.match(fuyuan.provenance?.precisionNote || "", /60\.94|60\.938/);
+  assert.equal(fuyuan.maximumTraceLevel, 12, "rank 3 unlocks the genuine Talent Lv11-12 coefficients");
 });
 
 test("Lingsha E0 levels independently calculate with isolated stats and real Robin Skill state", async () => {

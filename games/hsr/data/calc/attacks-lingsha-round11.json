@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "lingsha-fuyuan-event-e0-e6-round11-2026-10-31",
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json and character_ranks.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "Fixed source parameters and ranks are checked; E0-E5 main hit and E6 single-enemy six-hit Fuyuan event use the owner's final ATK, with independent verification over every adopted Talent level."
+  },
+  "overrides": [
+    {
+      "id": "122204",
+      "characterId": "1222",
+      "sourceSkillId": "122204",
+      "name": "紅霧より出づる煙獣（浮元・敵1体）",
+      "element": "Fire",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 2,
+      "hitCountLabel": "本体2ヒット（全体1＋単体追加1、敵1体）",
+      "canCrit": true,
+      "multipliers": [
+        37.5,
+        41.25,
+        45,
+        48.75,
+        52.5,
+        56.25,
+        60.94,
+        65.62,
+        70.31,
+        75,
+        78.75,
+        82.5,
+        86.25,
+        90,
+        93.75
+      ],
+      "requiredEidolon": 0,
+      "maximumEidolon": 6,
+      "maximumTraceLevel": 12,
+      "enemyCountExact": 1,
+      "modifierInputKey": "lingsha-fuyuan-instance",
+      "modifierInputDefault": 0,
+      "modifierInputMinimum": 1,
+      "conditionText": "浮元の追撃1回・敵1体。星魂3以上は実際の天賦Lv11～12を選択できます。星魂6ではこの行は本体2ヒットのみ、E6追加4段との合計は別行1222062を参照してください。",
+      "calculationNote": "固定版ID122204の天賦倍率#2/#8を用いた敵1体の単発想定。浮元本体は全体攻撃1ヒット＋追加単体攻撃1ヒットで、敵が1体なら同じ敵に2ヒット。参照値は霊砂本人の最終ATKで、精霊一般のステータス継承は扱いません。E1の撃破済み敵DEF-20%は敵の靭性状態入力から自動適用。E2必殺後BE+40%は直撃へ加えず、E4回復は非ダメージ。E3は天賦Lv+2、E5は通常/スキルLv上昇でこの倍率に影響なし。星魂6時は本体2ヒットを表示し、同一の浮元攻撃イベント全体の本体＋追加4段は1222062で計算します。行動回数、複数敵の対象移動、攻撃途中の敵/補正変化、回復を含むターン全体は対象外。 E6では浮元が攻撃する成立状態から在場中の全属性耐性-20%も適用します。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Pinned source params[0..14][1,7]. E0-E2 allow actual Talent Lv1-10; E3-E6 allow actual Lv1-12. E1 broken-target DEF and E6 Fuyuan-present RES are data-driven."
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122204.params[0..14][1,7]; character_ranks.json:122203.level_up_skills",
+        "verifiedAt": "2026-10-31",
+        "scope": "Fuyuan main attack's 2 hits against one enemy; owner Lingsha final ATK only; rank 3 adds two Talent levels; E6 4-hit addition is separately represented by attack 1222062.",
+        "verification": "tests/hsr/hsrLingshaRound11.test.cjs",
+        "precisionNote": "固定版paramsのLv7～9は60.94/65.62/70.31%。旧配信の60.938/65.625/70.313%を使いません。"
+      },
+      "enforceSnapshotContract": true,
+      "characterLevelExact": 80,
+      "comparisonModifierInputs": {
+        "lingsha-fuyuan-on-field": true
+      }
+    },
+    {
+      "id": "1222062",
+      "characterId": "1222",
+      "sourceSkillId": "122206",
+      "name": "浮元・星魂6追加攻撃（本体＋追加4段・敵1体）",
+      "element": "Fire",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 6,
+      "hitCountLabel": "同一イベント6ヒット（浮元本体2＋E6追加4）",
+      "canCrit": true,
+      "multipliers": [
+        275.0,
+        282.5,
+        290,
+        297.5,
+        305.0,
+        312.5,
+        321.88,
+        331.24,
+        340.62,
+        350,
+        357.5,
+        365.0,
+        372.5,
+        380,
+        387.5
+      ],
+      "requiredEidolon": 6,
+      "maximumEidolon": 6,
+      "maximumTraceLevel": 12,
+      "enemyCountExact": 1,
+      "characterLevelExact": 80,
+      "enforceSnapshotContract": true,
+      "comparisonModifierInputs": {
+        "lingsha-fuyuan-on-field": true
+      },
+      "damageComponents": [
+        {
+          "key": "fuyuan-main-two-hit",
+          "name": "浮元本体（全体1＋単体追加1）",
+          "attackId": "122204",
+          "sourceSkillId": "122204",
+          "multipliers": [
+            37.5,
+            41.25,
+            45,
+            48.75,
+            52.5,
+            56.25,
+            60.94,
+            65.62,
+            70.31,
+            75,
+            78.75,
+            82.5,
+            86.25,
+            90,
+            93.75
+          ],
+          "hitCount": 2,
+          "element": "Fire",
+          "type": "followUp",
+          "scalingStat": "atk",
+          "target": "single",
+          "requiredEidolon": 0
+        },
+        {
+          "key": "e6-four-extra-hit",
+          "name": "星魂6追加4段（各50%）",
+          "attackId": "1222061",
+          "sourceSkillId": "122206",
+          "multipliers": [
+            50
+          ],
+          "hitCount": 4,
+          "element": "Fire",
+          "type": "followUp",
+          "scalingStat": "atk",
+          "target": "single",
+          "requiredEidolon": 6,
+          "fixedTraceLevel": 1
+        }
+      ],
+      "conditionText": "星魂6・Lv80・敵1体・浮元の追撃1回。表示結果は本体2ヒット＋星魂6追加4段の6ヒット合計。攻撃途中の状態は一定として扱います。",
+      "calculationNote": "固定版rank122206は、浮元が攻撃する際に追加4ヒットを行い、各ヒットが霊砂本人の攻撃力50%を参照する記述です。敵1体では本体の全体1ヒットと単体追加1ヒット、およびE6の選択対象が同一になるため、同じ浮元攻撃イベントの6ヒット合計として算出します。複数敵の対象移動・残り靭性による再選択・行動時刻・途中撃破や敵/補正更新は再現しません。参照値は霊砂本人の最終ATKであり、精霊への一般ステータス継承を仮定しません。E1のDEF低下は攻撃前から撃破済みの場合だけ敵の靭性状態入力により自動適用。E6の全属性耐性-20%は浮元在場の成立状態をこの攻撃に自動設定します。E2のBE上昇・E4回復は通常の直撃係数へ加算しません。",
+      "resultSummary": "本体2ヒット＋E6追加4ヒットの単一浮元攻撃イベント合計。122204本体のみの値と足し合わせない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Fixed rank 122206 explicitly adds four 50%-ATK hits when Fuyuan attacks. One enemy gives deterministic common target, so the main 2 hits plus 4 additions form a single six-hit event. E6 RES reduction and E1 broken-target DEF reduction are independently applied."
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:122206.desc; character_skills.json:122204.params[0..14][1,7]",
+        "verifiedAt": "2026-10-31",
+        "scope": "E6 Fuyuan one attack, one enemy, six same-event direct Fire hits; no timeline, target retargeting, or summon-stat inheritance.",
+        "verification": "tests/hsr/hsrLingshaRound11.test.cjs"
+      }
+    }
+  ]
+}

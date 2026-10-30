@@ -56,7 +56,8 @@ test("Hanya Burden talent DMG bonus uses fixed-source levels and an explicit alr
       assert.equal(Boolean(extra), eidolon === 6);
       if (extra) assert.equal(extra.value, 10);
       const total = values[level - 1] + (eidolon === 6 ? 10 : 0);
-      const attack = attackOf(data, "121501");
+      const productionAttack = attackOf(data, "121501");
+      const attack = { ...productionAttack, id: "hanya-r10-synthetic-direct", enforceSnapshotContract: false, comparisonModifierInputs: undefined, modifierInputKey: null };
       const request = makeRequest({ ...attack, attackType: attack.type, multipliers: Array(10).fill(100), multiplier: 100 }, 10,
         { atk: 2500, baseAtk: 1000, critRate: 50, critDamage: 100, damageBonus: 5, resistance: 20, toughnessActive: true },
         active.filter((item) => item.enabled && item.calculable));
@@ -80,7 +81,8 @@ test("Hanya's already-active Judgment supports its recipient (including herself)
     assert.equal(runtime.applicableToAttack(damage, { type, element: "Physical" }), true, "Judgment applies to the beneficiary's " + type);
   }
   assert.equal(runtime.applicableToAttack(damage, { type: "break", element: "Physical" }), false, "Break damage is outside ordinary damage bonus scope");
-  const attack = attackOf(data, "121501");
+  const productionAttack = attackOf(data, "121501");
+  const attack = { ...productionAttack, id: "hanya-r10-synthetic-direct", enforceSnapshotContract: false, comparisonModifierInputs: undefined, modifierInputKey: null };
   const request = makeRequest({ ...attack, attackType: attack.type, multipliers: Array(10).fill(100), multiplier: 100 }, 10,
     { atk: 2500, baseAtk: 1000, critRate: 50, critDamage: 100, damageBonus: 5, resistance: 20, toughnessActive: true },
     ally.filter((item) => item.enabled && item.calculable));

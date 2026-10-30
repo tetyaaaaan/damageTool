@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "modifiers": [
+    {
+      "id": "eidolon:1222:1:broken-enemy-defense-reduction",
+      "source": {
+        "kind": "eidolon",
+        "id": "1222",
+        "eidolonRank": 1,
+        "rankId": "122201"
+      },
+      "name": "星魂1・撃破状態の敵の防御力低下",
+      "description": "霊砂星魂1。対象の靭性状態が撃破済みの場合、敵の防御力を20%低下させます。敵状態選択から自動判定します。",
+      "category": "defenseReduction",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "enemy.toughnessBroken",
+        "operator": ">=",
+        "threshold": 1,
+        "conditionText": "敵の靭性状態が攻撃前から撃破済み"
+      },
+      "stacking": {
+        "group": "lingsha-e1-broken-enemy-defense-reduction",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lingsha-e1-defense-reduction-in-final",
+        "inputLabel": "霊砂星魂1の敵DEF低下を敵DEF入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版rank122201の撃破状態の敵DEF-20%を靭性状態入力から自動判定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:122201.desc",
+        "verifiedAt": "2026-10-31",
+        "notes": "星魂1は撃破効率+50%と撃破状態の敵DEF-20%を持ちます。このModifierはDEF低下成分のみ。撃破効率は単発直撃のダメージ式に加算しません。"
+      }
+    }
+  ]
+}

@@ -134,3 +134,11 @@
 [素裳攻撃](../../../games/hsr/data/calc/attacks-characters-round10.json)は追加成立回数の拡張と飽和状態のスキル合計、[回数入力](../../../games/hsr/data/calc/modifiers-characters-round10.json)は表示専用の入力契約。[霊砂E6](../../../games/hsr/data/calc/attacks-lingsha-round10.json)は固定追加4段のみで、既存浮元本体の高星魂全Lv対応と分ける。既存round9 E6 RES低下は当該攻撃前提に使用し、二重加算を避ける。ミーシャは既存攻撃とCD補正の定義を維持し、全Lvと段数/保存の受入を追加した。
 
 [光円錐](../../../games/hsr/data/calc/modifiers-equipment-round10.json)は固定S1～S5の対象成分、[寒鴉](../../../games/hsr/data/calc/modifiers-hanya-round10.json)は懲悪の既発動DMGとE6追加分が正本。恒常properties、同撃の層更新、初回付与順、継承未確認部分を計算済み成分と混同しない。装備/効果件数と残範囲は[台帳](../../HSR_COMPLETION_WORKLOAD.md)、認定基準は生成完成表と攻撃範囲へ集約する。
+
+## 第11回追加の定義参照
+
+寒鴉は[主要攻撃](../../../games/hsr/data/calc/attacks-hanya-round11.json)と[必殺支援](../../../games/hsr/data/calc/modifiers-hanya-round11.json)が現行。懲悪/E6は既存round10、録事は既存`modifiers-native-round3.json`を維持し既算入指定を追加する。発動時提供者SPDは編成へ明示したスナップショットで、過去の自動追跡ではない。限定E0認定の条件/範囲外は完成表と攻撃範囲を正本とする。
+
+霊砂は[攻撃](../../../games/hsr/data/calc/attacks-lingsha-round11.json)で本体の星魂/Lv範囲と同一浮元イベント合計を扱い、[E1補正](../../../games/hsr/data/calc/modifiers-lingsha-round11.json)を追加する。既存E2/E6支援と追加4段のみの行は維持する。一般精霊継承/複数敵対象移動を完成扱いにしない。
+
+[参考値昇格攻撃](../../../games/hsr/data/calc/attacks-promotions-round11.json)と[事前デバフ](../../../games/hsr/data/calc/modifiers-promotions-round11.json)は直接成分と明示状態の限定受入。ダリア結界中の超撃破等の未接続成分を含む全文完成ではない。[LC](../../../games/hsr/data/calc/modifiers-equipment-round11.json)は確認したS1～S5成分だけを計算し、恒常propertiesは最終入力へ含む管理行とする。精霊向け同量DMG、戦闘前最大SP条件、未確認の複数提供者合成は局所保留。種類数/残件/効果群の集計は[台帳](../../HSR_COMPLETION_WORKLOAD.md)にのみ記録する。

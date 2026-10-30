@@ -34,6 +34,7 @@
         ? Number.isFinite(value) && value >= 0 && value <= 99999 ? value : NaN
         : Number.isFinite(value) && Number.isInteger(value) && value >= 1 && value <= 99999 ? value : NaN;
     }
+    if (reference === "enemy.toughnessBroken") return typeof context.enemy?.toughnessActive === "boolean" ? Number(!context.enemy.toughnessActive) : NaN;
     if (reference === "self.interpretation") return NaN; // This state requires an explicit activation input key.
     if (reference === "self.critDamageAbove120Steps") return Number.isFinite(context.stats?.critDamage) ? Math.floor(Math.max(0, context.stats.critDamage - 120) / 20) : NaN;
     if (reference === "self.speedAbove100Steps") return Number.isFinite(context.stats?.speed) ? Math.floor(Math.max(0, context.stats.speed - 100) / 10) : NaN;
@@ -242,7 +243,7 @@
     return 0;
   }
 
-  const unresolvedReference = ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed", "self.preCombatCritDamage", "self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount", "party.samePathAllyCount", "party.nihilityAllyCount", "party.eruditionCount", "self.interpretation"].includes(ref) || ref?.startsWith("provider.");
+  const unresolvedReference = ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed", "self.preCombatCritDamage", "self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount", "party.samePathAllyCount", "party.nihilityAllyCount", "party.eruditionCount", "self.interpretation", "enemy.toughnessBroken"].includes(ref) || ref?.startsWith("provider.");
 
   function activationState(record, context = {}, inputs = {}) {
     const activation = record.activation || {};
@@ -311,7 +312,7 @@
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じオーナメントの複数提供者による支援は条件未確定です。" });
       }
-      if (record.source?.kind === "lightCone" && ["21015", "23016", "23017", "23056", "23058", "23059", "23063", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
+      if (record.source?.kind === "lightCone" && ["21015", "23054", "21050", "22007", "24006", "23016", "23017", "23056", "23058", "23059", "23063", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
         const count = Number(String(context.lightConeId || "") === String(record.source.id))
           + (context.partyEquipment || []).filter(item => String(item.lightConeId || "") === String(record.source.id)).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じ光円錐の複数提供者による支援は条件未確定です。" });
@@ -428,7 +429,7 @@
       const types = target.attackTypes || [];
       return item.enabled && item.applicable && item.calculable && record?.activation?.statSource !== "effective"
         && (["always", "toggle", "stack"].includes(record?.activation?.mode) || record?.activation?.reference === "party.eruditionCount" || (record?.activation?.reference === "provider.breakEffect" && record.target?.excludeSelf === true && item.providerId !== String(context.characterId)))
-        && (["fixed","byLevel","byRefinement","perStack","perStackByLevel","perStackByRefinement"].includes(record?.value?.kind) || (item.category === "critDamage" && record?.value?.kind === "providerStatPercentByLevel" && item.providerId && item.providerId !== String(context.characterId)))
+        && (["fixed","byLevel","byRefinement","perStack","perStackByLevel","perStackByRefinement"].includes(record?.value?.kind) || ((item.category === "critDamage" || item.category === "statFlat" && item.stat === "speed") && record?.value?.kind === "providerStatPercentByLevel" && item.providerId && item.providerId !== String(context.characterId)))
         && (!target.attackIds?.length && !target.elements?.length && !item.primaryTargetOnly && !item.adjacentTargetOnly)
         && (types.includes("all") || ["normal", "skill", "ultimate", "followUp"].every(type => types.includes(type)))
         && (!context.attack || applicableToAttack(item, context.attack))

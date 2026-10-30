@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "寒鴉主要2攻撃を固定版と既発動条件で照合。"
+  },
+  "overrides": [
+    {
+      "id": "121501",
+      "characterId": "1215",
+      "sourceSkillId": "121501",
+      "name": "冥兆天筆",
+      "element": "Physical",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "multipliers": [
+        50.0,
+        60.0,
+        70.0,
+        80.0,
+        90.0,
+        100
+      ],
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の直接係数を全E0採用Lvで独立計算。初回付与順を推定せず既発動状態へ限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121501.params[0..5][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrToolInputs.test.cjs"
+      },
+      "calculationNote": "星魂0・通常攻撃Lv1～6・敵1体。対象に承負がない通常攻撃1回の直接ダメージ。攻撃前から有効な支援は補正条件で別に指定する。初回の懲悪/録事付与やSP回復を発生させず、状態推移を合算しない。",
+      "modifierInputKey": null,
+      "modifierConditions": [],
+      "resultSummary": "承負のない対象への通常攻撃。既に有効な支援は別指定。"
+    },
+    {
+      "id": "121502",
+      "characterId": "1215",
+      "sourceSkillId": "121502",
+      "name": "生滅捕縛",
+      "element": "Physical",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "multipliers": [
+        120.0,
+        132.0,
+        144.0,
+        156.0,
+        168.0,
+        180.0,
+        195.0,
+        210.0,
+        225.0,
+        240.0
+      ],
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の直接係数を全E0採用Lvで独立計算。初回付与順を推定せず既発動状態へ限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121502.params[0..9][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrToolInputs.test.cjs"
+      },
+      "comparisonModifierInputs": {
+        "hanya-judgment-active": true,
+        "hanya-recorded-sp-recovery-atk-active": true
+      },
+      "calculationNote": "星魂0・軌跡Lv1～10・敵1体。敵に承負が事前成立し、寒鴉自身に同じ天賦Lvの懲悪と録事ATK10%が攻撃前から有効な単発状態。新規SP回復・ターン更新は追跡せず、初回の承負付与攻撃は未対応。最終ATK/与ダメージに含む分は各算入済み指定で除外。",
+      "modifierInputKey": null,
+      "modifierConditions": [],
+      "resultSummary": "承負・懲悪・録事が攻撃前から成立したスキル。初回付与の順序は計算しません。"
+    }
+  ]
+}

@@ -227,10 +227,11 @@
                 && attack.element === "Thunder" && attack.sourceSkillId === "122302"
                 && components[0]?.key === "skill" && components[0]?.attackId === "122302"
                 && components[1]?.key === "additional" && components[1]?.attackId === "122304";
+            const validLingshaDefinition = attack.id === "1222062" && attack.characterId === "1222" && attack.sourceSkillId === "122206" && attack.type === "followUp" && attack.element === "Fire" && attack.target === "single" && components?.length === 2;
             const validSushangDefinition = attack.id === "1206022" && attack.characterId === "1206" && attack.sourceSkillId === "120602" && attack.type === "skill" && attack.element === "Physical" && attack.target === "single" && components?.length === 3;
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
+            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -311,10 +312,21 @@ function calculateFanning(input) {
         const unsupportedReason = unsupportedAttackReason(attack);
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
         if (attack.id === "1206031" && attack.requiresValidHitCount && attack.hitCount > 1 && input.modifierInputs?.["sushang-sword-stance-stacks"] !== 10) return {supported:false,reason:"複数の追加剣勢は逐寇が事前10層で飽和した状態のみ計算対応です。"};
+        if (attack.id === "122204" && (character.eidolon < 3 && attack.traceLevel > 10 || attack.traceLevel > 12)) return {supported:false,reason:"浮元は星魂0～2で天賦Lv1～10、星魂3以上でLv1～12に対応します。"};
+        if (attack.enforceSnapshotContract && attack.id === "122204" && character.eidolon === 6 && !(input.modifiers || []).some(m => m.id === "eidolon:1222:6:fuyuan-all-res-down" && (m.includedInFinalStats || m.enabled !== false && m.applicable !== false && !(m.inputWarnings || []).length))) return {supported:false,reason:"浮元が攻撃する星魂6の本体には、在場中の耐性低下の適用または算入済み指定が必要です。"};
+        if (attack.enforceSnapshotContract && attack.id === "121502") {
+            for(const id of ["trace:1215:121504:party-damage","traceNode:1215:1215101:sp-recovery-atk"]){
+                if(!(input.modifiers||[]).some(m=>m.id===id && (m.includedInFinalStats || m.enabled!==false && m.applicable!==false && !(m.inputWarnings||[]).length))) return {supported:false,reason:"このスキルは承負・懲悪・録事が事前成立した状態のみ計算対応です。"};
+            }
+        }
+        if (attack.enforceSnapshotContract && ["132103","141002"].includes(attack.id)) {
+            const required = attack.id === "132103" ? "trace:1321:132103:previous-ultimate-defense-down" : "trace:1410:141002:previous-skill-taken-damage";
+            if (!(input.modifiers || []).some(m => m.id === required && (m.includedInFinalStats || m.enabled !== false && m.applicable !== false && !(m.inputWarnings || []).length))) return {supported:false,reason:"初回の付与順は未確認です。同じLvの固有デバフが攻撃前から成立した状態を指定してください。"};
+        }
         if (attack.enforceSnapshotContract) {
             const fail=reason=>({supported:false,reason});
-            const eidolonMatches = attack.requiredEidolon ? Number.isInteger(character.eidolon) && character.eidolon >= attack.requiredEidolon && character.eidolon <= 6 : character.eidolon === 0;
-            if(character.level!==attack.characterLevelExact || !eidolonMatches || enemy.count!==1 || !Number.isInteger(attack.traceLevel) || attack.traceLevel<1 || attack.traceLevel>attack.maximumTraceLevel) return fail("この独立検証済み範囲はLv80・" + (attack.requiredEidolon ? "星魂" + attack.requiredEidolon + "以上" : "星魂0") + "・敵1体・登録済み軌跡Lvのみ対応です。");
+            const eidolonMatches = attack.requiredEidolon !== undefined ? Number.isInteger(character.eidolon) && character.eidolon >= attack.requiredEidolon && character.eidolon <= 6 : character.eidolon === 0;
+            if(character.level!==attack.characterLevelExact || !eidolonMatches || enemy.count!==1 || !Number.isInteger(attack.traceLevel) || attack.traceLevel<1 || attack.traceLevel>attack.maximumTraceLevel) return fail("この独立検証済み範囲はLv80・" + (attack.requiredEidolon !== undefined ? "星魂" + attack.requiredEidolon + "以上" : "星魂0") + "・敵1体・登録済み軌跡Lvのみ対応です。");
             if(attack.requiredToughnessActive && enemy.toughnessActive!==true) return fail("この比較は未撃破で途中撃破しない敵を想定します。");
             if(attack.requiresBrokenTarget && enemy.toughnessActive!==false) return fail("この比較は攻撃前から撃破状態の敵を想定します。靭性状態を撃破済みにしてください。");
             if(attack.requiredWeaknessCount && enemy.weaknessCount!==attack.requiredWeaknessCount) return fail("攻撃前から7弱点・本質暴露が成立した比較のみ対応です。");
@@ -436,6 +448,7 @@ function calculateFanning(input) {
         if (input.attack?.id === "130803") return calculateAcheronSnapshot(input);
         if (input.attack?.id === "140109") return calculateHertaSnapshot(input);
         if (input.attack?.id === "1206022") return calculateSushangSnapshot(input);
+        if (input.attack?.id === "1222062") return calculateLingshaSnapshot(input);
         if (["1405011","1405021"].includes(input.attack?.id)) return calculateAnaxaSequence(input);
         if (input.attack?.id === "1111083") return calculateRealizedLuka(input);
         if (input.attack?.id === "1223031") return calculateMozeUltimate(input);
@@ -491,6 +504,20 @@ function calculateFanning(input) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
         return combineDamageComponents(attack, components, yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+    }
+
+    function calculateLingshaSnapshot(input) {
+        const a=input.attack||{}, c=input.character||{}, e=input.enemy||{}, parts=input.sequenceComponents||[];
+        const fail=reason=>({supported:false,reason});
+        if(c.level!==80 || c.eidolon!==6 || e.count!==1 || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>12 || parts.length!==2 || a.damageComponents?.length!==2) return fail("浮元の本体＋追加4段はLv80・星魂6・敵1体・天賦Lv1～12のみ対応です。");
+        const specs=[['fuyuan-main-two-hit','122204','122204',2,a.traceLevel],['e6-four-extra-hit','1222061','122206',4,1]];
+        for(let i=0;i<2;i++){
+            const [key,id,source,hits,level]=specs[i],d=a.damageComponents[i],p=parts[i],child=p?.input?.attack||{};
+            if(d.key!==key || d.attackId!==id || p.key!==key || child.id!==id || child.sourceSkillId!==source || child.characterId!=="1222" || child.type!=="followUp" || child.element!=="Fire" || child.scalingStat!=="atk" || child.target!=="single" || child.traceLevel!==level || child.hitCount!==hits || child.multiplier!==d.multipliers?.[level-1] || child.canCrit===false || child.damageFormula!=="statMultiplier") return fail("浮元本体と星魂6追加段の定義・順序・係数が一致しません。");
+            if(JSON.stringify(p.input.character)!==JSON.stringify(c) || JSON.stringify(p.input.enemy)!==JSON.stringify(e)) return fail("浮元の全成分には同じ最終ATKと敵条件が必要です。");
+            if(!(p.input.modifiers||[]).some(m=>m.id==="eidolon:1222:6:fuyuan-all-res-down" && (m.includedInFinalStats || m.enabled!==false && m.applicable!==false && !(m.inputWarnings||[]).length))) return fail("浮元在場の星魂6耐性低下を、算入済み指定を含めて確認してください。");
+        }
+        return combineDamageComponents(a,parts,"同じ浮元攻撃の本体2ヒット＋星魂6追加4ヒットの合計");
     }
 
     function calculateSushangSnapshot(input) {

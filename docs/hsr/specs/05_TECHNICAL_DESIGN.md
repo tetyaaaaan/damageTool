@@ -131,3 +131,11 @@ Appの `readHpRatio()` は既存の本人/敵HP割合入力を読み、空値・
 `data-files.json`が読むround10 overrideで1206031を置換し、1206022と1222061を追加する。`hsrApp.js`の`resolvedAttack()`が素裳の3成分を既存行から構成し、`hsrCalcEngine.js`の`calculateSushangSnapshot()`が対象/層/成分整合を検査して`combineDamageComponents()`へ渡す。任意成分エンジンへの一般化は行わない。霊砂の固定E6係数は通常式と既存`comparisonModifierInputs`を利用し、当該行に限る浮元在場状態からRES低下を適用する。
 
 UIDの構成は変更しない。`hsrProfileApi.fetchHsrProfile()`のproxy成功または404時直結fallback→`hsrProfileMapper.mapProfileResponse()`→`HsrTool.applyProfileCharacter()`→入力/計算/既存保存形式という経路をモックで確認する。実UID通信とfixture検証を区別し、Lv80以外の基礎値欠損を推定で補完しない。
+
+## 第11回追加：限定状態のoverrideと霊砂の合計
+
+`data-files.json`の後方でround11の寒鴉/霊砂/参考値昇格attack overrideと4つのModifierファイルを登録する。overrideは既存行とマージされるため、寒鴉の旧専用条件は`modifierInputKey: null`/`modifierConditions: []`で明示解除する。同一IDの新規複製やマスター再生成はしない。
+
+`hsrApp.js`の`resolvedAttack()`は1222062を既存122204/1222061から2子攻撃に構成し、天賦Lvと固定追加倍率を区別する。`hsrCalcEngine.js`の`calculateLingshaSnapshot()`がID/属性/攻撃種類/参照値/順序/各倍率/同一入力とE6 RES補正を検査して既存成分合算へ渡す。任意攻撃を自由に合算する汎用機構へ広げない。
+
+`hsrModifierRuntime.js`は提供者SPDを既存有効値一段評価へ渡す。Appは寒鴉SPD不足を当該成分へ局所化する。霊砂E1用の撃破boolean参照は既存敵入力を使用し、入力欄/保存形式/UID取得経路を増やさない。[受入検証](07_TEST_SPEC.md)からApp/UIDモックへ辿る。

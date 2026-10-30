@@ -848,3 +848,15 @@ Lv80/E0/敵Lv80/敵1体・耐性20%・防御補正なし・ATK3000・CR50/CD100�
 霊砂1222061はE6追加4段のみを新規登録。固定各ATK50%・炎FUA・敵1体、浮元在場RES低下はこの行だけ自動想定し既算入指定を尊重する。浮元本体は別行で、高星魂時の本体全Lv拡張/合計、複数敵の対象移動は残る。
 
 証拠は[素裳/ミーシャ全Lv](../tests/hsr/hsrCharactersRound10.test.cjs)、[素裳成分合計](../tests/hsr/hsrSushangSnapshotRound10.test.cjs)、[霊砂E6](../tests/hsr/hsrLingshaRound10.test.cjs)、[App入力/UIDモック](../tests/hsr/hsrToolInputs.test.cjs)。寒鴉は懲悪/E6の既発動支援を追加したが、承負初回付与順などが残りE0未認定。件数と全体実行結果は[残作業台帳](HSR_COMPLETION_WORKLOAD.md)、認定の正本は生成完成表。
+
+## Modifier横断第11回：既発動支援と参考値の正式対応
+
+[寒鴉主要行](../games/hsr/data/calc/attacks-hanya-round11.json)はLv80/E0/敵1体の通常Lv1～6とスキルLv1～10。通常は承負なし、スキルは対象の承負と本人の懲悪/録事が攻撃前から成立した状態。全体の保存条件を上書きせず、このスキル結果だけに想定状態を与える。懲悪/録事の既算入指定を尊重し、欠損/無効ならこのスキルだけ停止する。初回付与順を推定せず、古い承負なしスキルの説明/専用トグルは継承しない。
+
+寒鴉の[必殺支援](../games/hsr/data/calc/modifiers-hanya-round11.json)は指定受益者の基礎ATK割合と、発動時の寒鴉SPD割合による加算。編成のSPDを発動時の値として指定し、履歴の自動追跡はしない。既存の天賦/録事と異なる加算区分を使い、ATK/SPD個別の最終値算入済みを除外する。通常・事前成立スキル・既発動主要支援の限定受入でE0確認へ進める。自己対象選択の可否/自己SPD循環評価/初回付与/SP回復/時間経過は認定外。
+
+[霊砂](../games/hsr/data/calc/attacks-lingsha-round11.json)122204はLv80/敵1体・E0～E2の天賦Lv1～10、E3～E6の実際のLv1～12で本体2ヒットを計算。固定paramsのLv7～9を60.94/65.62/70.31%へ訂正。E1 DEF-20%は敵が事前撃破済みの場合のみ自動、E6 RES-20%は浮元の攻撃前提から適用する。1222062はE6の同じ浮元攻撃1回に属する本体2＋追加4を合算し、本人最終ATKを参照。1222061は追加4のみを維持する。各行を合計へ重複加算しない。複数敵での対象選択、途中撃破/補正変化、一般精霊継承は含めない。
+
+[参考値から昇格した既存行](../games/hsr/data/calc/attacks-promotions-round11.json)はファイノン140808通常/140802スキル、ダリア132102スキル/132103必殺、セイレンス141002スキル、サフェル140604追撃。Lv80/E0/敵1体、通常Lv1～6・他Lv1～10。直接ATK成分へ限定し、ダリアスキルの結界/削靭由来の超撃破を総合値として表示しない。ダリア必殺/セイレンススキルは同じLvの固有デバフが事前成立した状態を当該行だけに想定し、初回付与順は未認定。サフェルは発動条件が成立した追撃1回で、確率/発動回数・記録値の再現ではない。個別行の昇格を4キャラクターのE0全体完成とみなさない。
+
+証拠は[寒鴉全Lv](../tests/hsr/hsrHanyaRound11.test.cjs)、[霊砂全E/Lv・合計](../tests/hsr/hsrLingshaRound11.test.cjs)、[昇格行全Lv](../tests/hsr/hsrPromotionsRound11.test.cjs)、[App入力/UIDモック回帰](../tests/hsr/hsrToolInputs.test.cjs)。進捗数値/残範囲は[台帳](HSR_COMPLETION_WORKLOAD.md)、E0確認の正本は[生成完成表](HSR_CHARACTER_COMPLETION.md)。

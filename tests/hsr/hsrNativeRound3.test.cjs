@@ -98,7 +98,8 @@ test("Hanya E2 adds her own SPD after Skill and re-evaluates Glamoth thresholds"
   assert.equal(included.find((item) => item.id === hanya.id).includedInFinalStats, true);
   assertClose(included.find((item) => item.id === glamoth.id).thresholdReferenceValue, 135, "final SPD already includes Hanya E2");
 
-  const attack = attackOf(data, "121501");
+  const productionAttack = attackOf(data, "121501");
+  const attack = { ...productionAttack, id: "native-r3-synthetic-direct", enforceSnapshotContract: false, comparisonModifierInputs: undefined, modifierInputKey: null };
   const candidates = runtime.buildCandidates([hanya, glamoth], context, { [hanyaKey]: true });
   const request = makeRequest({ ...attack, attackType: attack.type, multipliers: Array(10).fill(100), multiplier: 100 }, 10,
     { atk: 3000, baseAtk: 1000, critRate: 50, critDamage: 100, resistance: 20, toughnessActive: true }, candidates);
@@ -108,7 +109,7 @@ test("Hanya E2 adds her own SPD after Skill and re-evaluates Glamoth thresholds"
 
 test("Bailu E4 and Hanya E2 condition inputs survive save and restore", () => {
   const defaults = { enemy: {}, conditions: [], modifierInputs: {}, party: [], traceLevels: {}, source: "manual", relicMode: "4pc", enhancementState: "previous", attackerPosition: 1 };
-  const inputs = { [bailuKey]: 2, [bailuIncludedKey]: true, [hanyaKey]: true, [hanyaIncludedKey]: false, "hanya-recorded-sp-recovery-atk-active": true, "hanya-recorded-sp-recovery-atk-in-final-stats": false };
+  const inputs = { [bailuKey]: 2, [bailuIncludedKey]: true, [hanyaKey]: true, [hanyaIncludedKey]: false, "hanya-recorded-sp-recovery-atk-active": true, "hanya-recorded-atk-in-final": false };
   const state = stateApi.create({ ...defaults, modifierInputs: inputs });
   const storage = { value: "", setItem(_key, value) { this.value = value; }, getItem() { return this.value; } };
   assert.equal(stateApi.save(storage, state), true);
@@ -136,7 +137,8 @@ test("Hanya A2 Recorded grants ATK to the ally who triggered Burden SP recovery"
   for (const type of ["normal", "skill", "ultimate", "followUp", "dot"]) {
     assert.equal(runtime.applicableToAttack(active, { type, element: "Physical" }), true, "Recorded applies to " + type);
   }
-  const attack = attackOf(data, "121501");
+  const productionAttack = attackOf(data, "121501");
+  const attack = { ...productionAttack, id: "native-r3-synthetic-direct", enforceSnapshotContract: false, comparisonModifierInputs: undefined, modifierInputKey: null };
   const request = makeRequest({ ...attack, multipliers: Array(10).fill(100), multiplier: 100 }, 10,
     { atk: 2500, baseAtk: 1000, critRate: 50, critDamage: 100, resistance: 20, toughnessActive: true }, [active]);
   const result = assertMatchesIndependent(engine, request, "Hanya A2 recorded SP-recovery ATK");
@@ -149,7 +151,7 @@ test("Hanya A2 Recorded grants ATK to the ally who triggered Burden SP recovery"
   assert.equal(self.value, 10, "Hanya can benefit if she herself triggered the SP recovery");
   const included = runtime.buildCandidates([recorded], context, {
     "hanya-recorded-sp-recovery-atk-active": true,
-    "hanya-recorded-sp-recovery-atk-in-final-stats": true
+    "hanya-recorded-atk-in-final": true
   })[0];
   assert.equal(included.enabled, false);
   assert.equal(included.includedInFinalStats, true, "already reflected ATK is not added twice");

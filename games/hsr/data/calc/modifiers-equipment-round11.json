@@ -1,0 +1,1064 @@
+{
+  "schemaVersion": 1,
+  "description": "固定版光円錐8種類の不足成分。常時propertiesは最終値管理とし追加分だけ既存評価へ接続。",
+  "modifiers": [
+    {
+      "id": "lightCone:23054:great-fortune-cr",
+      "source": {
+        "kind": "lightCone",
+        "id": "23054"
+      },
+      "name": "彼女が視ると決めた時・超大吉が有効",
+      "description": "超大吉が有効。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          10.0,
+          11.0,
+          12.0,
+          13.0,
+          14.0
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "great-fortune-active",
+        "inputLabel": "超大吉が有効",
+        "conditionText": "超大吉が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23054:great-fortune-cr",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:23054:great-fortune-cr-in-final",
+        "inputLabel": "超大吉が有効を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23054.params[0..4][1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23054:great-fortune-cd",
+      "source": {
+        "kind": "lightCone",
+        "id": "23054"
+      },
+      "name": "彼女が視ると決めた時・超大吉が有効",
+      "description": "超大吉が有効。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30.0,
+          37.5,
+          45.0,
+          52.5,
+          60.0
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "great-fortune-active",
+        "inputLabel": "超大吉が有効",
+        "conditionText": "超大吉が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23054:great-fortune-cd",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:23054:great-fortune-cd-in-final",
+        "inputLabel": "超大吉が有効を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23054.params[0..4][2]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23045:ultimate-atk",
+      "source": {
+        "kind": "lightCone",
+        "id": "23045"
+      },
+      "name": "報われぬ戴冠・必殺技によるATK上昇が有効",
+      "description": "必殺技によるATK上昇が有効。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          40.0,
+          50.0,
+          60.0,
+          70.0,
+          80.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "crown-ultimate-active",
+        "inputLabel": "必殺技によるATK上昇が有効",
+        "conditionText": "必殺技によるATK上昇が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23045:ultimate-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:23045:ultimate-atk-in-final",
+        "inputLabel": "必殺技によるATK上昇が有効を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23045.params[0..4][5]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      },
+      "stat": "atk"
+    },
+    {
+      "id": "lightCone:23045:high-energy-atk",
+      "source": {
+        "kind": "lightCone",
+        "id": "23045"
+      },
+      "name": "報われぬ戴冠・最大EP300以上の追加ATK",
+      "description": "最大EP300以上の追加ATK。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          40.0,
+          50.0,
+          60.0,
+          70.0,
+          80.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "current-max-energy",
+        "inputLabel": "現在の最大EP",
+        "reference": "self.maxEnergy",
+        "threshold": 300,
+        "operator": ">=",
+        "minimum": 1,
+        "maximum": 99999,
+        "step": 1,
+        "strictInput": true,
+        "requiredToggleKey": "crown-ultimate-active",
+        "conditionText": "必殺技ATK上昇が有効かつ現在の最大EP300以上"
+      },
+      "stacking": {
+        "group": "lightCone:23045:high-energy-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:23045:high-energy-atk-in-final",
+        "inputLabel": "最大EP300以上の追加ATKを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23045.params[0..4][1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      },
+      "stat": "atk"
+    },
+    {
+      "id": "lightCone:23046:skill-atk-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "23046"
+      },
+      "name": "理想を焼く奈落で・戦闘スキル後の有効ATK層",
+      "description": "戦闘スキル後の有効ATK層。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          10.0,
+          12.5,
+          15.0,
+          17.5,
+          20.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "inferno-skill-stacks",
+        "inputLabel": "戦闘スキル後の有効ATK層",
+        "conditionText": "戦闘スキル後の有効ATK層",
+        "minimum": 0,
+        "maximum": 4,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:23046:skill-atk-stacks",
+        "rule": "nonStacking",
+        "maximumStacks": 4
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:23046:skill-atk-stacks-in-final",
+        "inputLabel": "戦闘スキル後の有効ATK層を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23046.params[0..4][3]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      },
+      "stat": "atk"
+    },
+    {
+      "id": "lightCone:21052:memosprite-present-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21052"
+      },
+      "name": "流すなら涙より汗・装備者の記憶の精霊が場に存在する（本人DMGのみ）",
+      "description": "装備者の記憶の精霊が場に存在する（本人DMGのみ）。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24.0,
+          27.0,
+          30.0,
+          33.0,
+          36.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cone-memosprite-present",
+        "inputLabel": "装備者の記憶の精霊が場に存在する（本人DMGのみ）",
+        "conditionText": "装備者の記憶の精霊が場に存在する（本人DMGのみ）",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:21052:memosprite-present-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:21052:memosprite-present-damage-in-final",
+        "inputLabel": "装備者の記憶の精霊が場に存在する（本人DMGのみ）を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21052.params[0..4][1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:21050:memosprite-ally-skill-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21050"
+      },
+      "name": "瞬刻の勝機・精霊の味方対象スキルによる与DMG上昇が有効",
+      "description": "精霊の味方対象スキルによる与DMG上昇が有効。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          8.0,
+          10.0,
+          12.0,
+          14.0,
+          16.0
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cone-memosprite-ally-skill-active",
+        "inputLabel": "精霊の味方対象スキルによる与DMG上昇が有効",
+        "conditionText": "精霊の味方対象スキルによる与DMG上昇が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:21050:memosprite-ally-skill-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:21050:memosprite-ally-skill-damage-in-final",
+        "inputLabel": "精霊の味方対象スキルによる与DMG上昇が有効を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21050.params[0..4][1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:22007:ultimate-party-elation",
+      "source": {
+        "kind": "lightCone",
+        "id": "22007"
+      },
+      "name": "みんなで一緒に未来へ・必殺後の愉悦度上昇が有効",
+      "description": "必殺後の愉悦度上昇が有効。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "elation",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          8.0,
+          9.0,
+          10.0,
+          11.0,
+          12.0
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "pink-future-ultimate-active",
+        "inputLabel": "必殺後の愉悦度上昇が有効",
+        "conditionText": "必殺後の愉悦度上昇が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:22007:ultimate-party-elation",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:22007:ultimate-party-elation-in-final",
+        "inputLabel": "必殺後の愉悦度上昇が有効を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:22007.params[0..4][1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:24006:single-ally-elation",
+      "source": {
+        "kind": "lightCone",
+        "id": "24006"
+      },
+      "name": "愉悦溢れる祝福・装備者の単体スキルまたは必殺による愉悦度上昇が計算対象に有効",
+      "description": "装備者の単体スキルまたは必殺による愉悦度上昇が計算対象に有効。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "elation",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12.0,
+          15.0,
+          18.0,
+          21.0,
+          24.0
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "blessing-selected-ally-active",
+        "inputLabel": "装備者の単体スキルまたは必殺による愉悦度上昇が計算対象に有効",
+        "conditionText": "装備者の単体スキルまたは必殺による愉悦度上昇が計算対象に有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:24006:single-ally-elation",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:24006:single-ally-elation-in-final",
+        "inputLabel": "装備者の単体スキルまたは必殺による愉悦度上昇が計算対象に有効を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:24006.params[0..4][1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:21040:two-weak-targets-cd",
+      "source": {
+        "kind": "lightCone",
+        "id": "21040"
+      },
+      "name": "銀河が陥落した日・対応弱点の敵2体以上へ命中した後のCD上昇が有効",
+      "description": "対応弱点の敵2体以上へ命中した後のCD上昇が有効。固定版S1～S5の追加成分のみ。精霊への一般継承・攻撃内の自動状態更新は対象外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20.0,
+          25.0,
+          30.0,
+          35.0,
+          40.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "galaxy-two-weak-targets-active",
+        "inputLabel": "対応弱点の敵2体以上へ命中した後のCD上昇が有効",
+        "conditionText": "対応弱点の敵2体以上へ命中した後のCD上昇が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:21040:two-weak-targets-cd",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lightCone:21040:two-weak-targets-cd-in-final",
+        "inputLabel": "対応弱点の敵2体以上へ命中した後のCD上昇が有効を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数・成立済み状態を既存Modifier経路へ接続し、全Sランクを独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21040.params[0..4][1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23054:permanent-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23054"
+      },
+      "name": "彼女が視ると決めた時・恒常最終値",
+      "description": "恒常propertiesはUIDまたは手動の完成済み最終ステータスへ含め、再加算しません。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          18.0,
+          21.0,
+          24.0,
+          27.0,
+          30.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終値へ含める"
+      },
+      "stacking": {
+        "group": "lightCone:23054:permanent-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常効果は最終入力へ算入済みとして管理し、計算へ再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23054.params[0..4][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      },
+      "stat": "speed"
+    },
+    {
+      "id": "lightCone:23045:permanent-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23045"
+      },
+      "name": "報われぬ戴冠・恒常最終値",
+      "description": "恒常propertiesはUIDまたは手動の完成済み最終ステータスへ含め、再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          36.0,
+          45.0,
+          54.0,
+          63.0,
+          72.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終値へ含める"
+      },
+      "stacking": {
+        "group": "lightCone:23045:permanent-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常効果は最終入力へ算入済みとして管理し、計算へ再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23045.params[0..4][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23046:permanent-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23046"
+      },
+      "name": "理想を焼く奈落で・恒常最終値",
+      "description": "恒常propertiesはUIDまたは手動の完成済み最終ステータスへ含め、再加算しません。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          16.0,
+          20.0,
+          24.0,
+          28.0,
+          32.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終値へ含める"
+      },
+      "stacking": {
+        "group": "lightCone:23046:permanent-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常効果は最終入力へ算入済みとして管理し、計算へ再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23046.params[0..4][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:21052:permanent-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "21052"
+      },
+      "name": "流すなら涙より汗・恒常最終値",
+      "description": "恒常propertiesはUIDまたは手動の完成済み最終ステータスへ含め、再加算しません。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12.0,
+          14.0,
+          16.0,
+          18.0,
+          20.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終値へ含める"
+      },
+      "stacking": {
+        "group": "lightCone:21052:permanent-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常効果は最終入力へ算入済みとして管理し、計算へ再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21052.params[0..4][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:21050:permanent-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "21050"
+      },
+      "name": "瞬刻の勝機・恒常最終値",
+      "description": "恒常propertiesはUIDまたは手動の完成済み最終ステータスへ含め、再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12.0,
+          15.0,
+          18.0,
+          21.0,
+          24.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終値へ含める"
+      },
+      "stacking": {
+        "group": "lightCone:21050:permanent-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常効果は最終入力へ算入済みとして管理し、計算へ再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21050.params[0..4][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:22007:permanent-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "22007"
+      },
+      "name": "みんなで一緒に未来へ・恒常最終値",
+      "description": "恒常propertiesはUIDまたは手動の完成済み最終ステータスへ含め、再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12.0,
+          15.0,
+          18.0,
+          21.0,
+          24.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終値へ含める"
+      },
+      "stacking": {
+        "group": "lightCone:22007:permanent-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常効果は最終入力へ算入済みとして管理し、計算へ再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:22007.params[0..4][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:24006:permanent-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "24006"
+      },
+      "name": "愉悦溢れる祝福・恒常最終値",
+      "description": "恒常propertiesはUIDまたは手動の完成済み最終ステータスへ含め、再加算しません。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20.0,
+          25.0,
+          30.0,
+          35.0,
+          40.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終値へ含める"
+      },
+      "stacking": {
+        "group": "lightCone:24006:permanent-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常効果は最終入力へ算入済みとして管理し、計算へ再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:24006.params[0..4][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      },
+      "stat": "atk"
+    },
+    {
+      "id": "lightCone:21040:permanent-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "21040"
+      },
+      "name": "銀河が陥落した日・恒常最終値",
+      "description": "恒常propertiesはUIDまたは手動の完成済み最終ステータスへ含め、再加算しません。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          16.0,
+          18.0,
+          20.0,
+          22.0,
+          24.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終値へ含める"
+      },
+      "stacking": {
+        "group": "lightCone:21040:permanent-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常効果は最終入力へ算入済みとして管理し、計算へ再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21040.params[0..4][0]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound11.test.cjs"
+      },
+      "stat": "atk"
+    }
+  ]
+}

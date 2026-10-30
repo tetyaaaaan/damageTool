@@ -609,6 +609,10 @@
       const equipped = find("lightCones", String(source.id));
       if (wearer?.path && equipped?.path && wearer.path !== equipped.path) return { ...item, applicable: false, inputWarnings: [...(item.inputWarnings || []), "光円錐の運命が装備者と一致しません。装備を確認してください。"] };
     }
+    if (item.id === "trace:1215:121503:ultimate-speed" && item.enabled && !item.displayOnly) {
+      const speed = item.providerId === state.characterId ? state.stats.speed : state.party.find(m => m.characterId === item.providerId)?.speed;
+      if (!Number.isFinite(speed) || speed <= 0) return {...item,enabled:false,applicable:false,activation:{...item.activation,unresolved:true,unresolvedReason:"寒鴉の必殺発動時として指定する速度を編成欄へ入力してください。"}};
+    }
     // This fixed trace has no skill-level input; only its provider ATK is required.
     if (item.id === "traceNode:1414:1414101:partner-atk" && item.enabled && !item.displayOnly) {
       const providerAtk = item.providerId === state.characterId ? state.stats.atk : state.party.find(member => member.characterId === item.providerId)?.atk;
@@ -779,7 +783,7 @@
       return `${item.conditionText || "入力条件"}（${precombat ? "戦闘前の速度" : "現在値"}：${value}）`;
     }
     const reference = {
-      "self.interpretation": ["指定した解読層数", "層"], "self.preCombatCritDamage": ["戦闘開始時の会心ダメージ", "%"], "party.eruditionCount": ["編成内の知恵キャラ数", "人"], "party.nihilityAllyCount": ["本人以外の虚無キャラ数", "人"], "party.samePathAllyCount": ["同運命の別キャラ数", "人"], "provider.speed": ["提供者の速度", ""], "provider.effectRes": ["提供者の効果抵抗", "%"], "provider.breakEffect": ["提供者の撃破特効", "%"], "provider.sameElement": ["提供者との属性一致（1=一致）", ""], "provider.firstSlotRecipient": ["1枠目への支援（1=成立）", ""],
+      "enemy.toughnessBroken": ["対象の弱点撃破状態（1=撃破済み）", ""], "self.interpretation": ["指定した解読層数", "層"], "self.preCombatCritDamage": ["戦闘開始時の会心ダメージ", "%"], "party.eruditionCount": ["編成内の知恵キャラ数", "人"], "party.nihilityAllyCount": ["本人以外の虚無キャラ数", "人"], "party.samePathAllyCount": ["同運命の別キャラ数", "人"], "provider.speed": ["提供者の速度", ""], "provider.effectRes": ["提供者の効果抵抗", "%"], "provider.breakEffect": ["提供者の撃破特効", "%"], "provider.sameElement": ["提供者との属性一致（1=一致）", ""], "provider.firstSlotRecipient": ["1枠目への支援（1=成立）", ""],
       "self.hp": ["HP", ""], "self.hpPercent": ["HP割合", "%"], "self.epPercent": ["EP割合", "%"], "self.speed": ["速度", ""],
       "self.atk": ["攻撃力", ""], "self.def": ["防御力", ""], "self.critRate": ["会心率", "%"], "self.critDamage": ["会心ダメージ", "%"], "self.effectHitRate": ["効果命中", "%"],
       "self.effectRes": ["効果抵抗", "%"], "self.breakEffect": ["撃破特効", "%"], "self.elation": ["愉悦度", "%"],
@@ -1180,6 +1184,11 @@
       const parts = selected.damageComponents.map(c=>state.data.attacks.find(a=>a.id===c.attackId&&a.characterId==="1223"));
       const sequenceAttacks = parts.every(Boolean) ? parts.map(a=>({...resolvedAttack(a),damageFormula:"statMultiplier"})) : [];
       return {...selected,traceLevel:state.traceLevels.skill,multiplier:sequenceAttacks[0]?.multiplier,traceLevelLabel:`スキルLv${state.traceLevels.skill}＋天賦Lv${state.traceLevels.talent}`,attackType:selected.type,sequenceAttacks};
+    }
+    if (selected.id === "1222062" && selected.damageFormula === "componentSequence") {
+      const parts = selected.damageComponents.map(d => state.data.attacks.find(a => a.id === d.attackId && a.characterId === "1222"));
+      const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), hitCount:i === 0 ? 2 : 4, damageFormula:"statMultiplier", comparisonModifierInputs:selected.comparisonModifierInputs})) : [];
+      return {...selected, traceLevel:state.traceLevels.talent, multiplier:selected.multipliers[state.traceLevels.talent-1], traceLevelLabel:`天賦Lv${state.traceLevels.talent}＋星魂6固定倍率`, attackType:"followUp", sequenceAttacks};
     }
     if (selected.id === "1206022" && selected.damageFormula === "componentSequence") {
       const assumptions = {...selected.comparisonModifierInputs};

@@ -166,8 +166,8 @@
       },
       "inputPolicy": "conditional",
       "finalStatsInclusion": {
-        "inputKey": "hanya-recorded-sp-recovery-atk-in-final-stats",
-        "inputLabel": "「録事」の攻撃力上昇を最終攻撃力へ反映済み"
+        "inputKey": "hanya-recorded-atk-in-final",
+        "inputLabel": "録事ATK10%を最終ATKへ算入済み"
       },
       "support": {
         "status": "calculable",
