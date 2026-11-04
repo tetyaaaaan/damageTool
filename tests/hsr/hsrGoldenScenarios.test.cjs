@@ -2119,3 +2119,151 @@ test("Dan Heng Lv6 support goldens match fixed hand calculations and pinned spec
         else run(scenario);
     }
 });
+
+
+test("Dan Heng Lv6 compares four independent support cases with Fribbels BASIC integer expectations", async () => {
+    const evidence = {
+        observedAt: "2026-11-05 Asia/Tokyo",
+        externalUrl: "https://fribbels.github.io/hsr-optimizer/",
+        externalEntry: "Opened the Optimizer using the page's Optimizer button; the #optimizer fragment was not directly read from the browser.",
+        externalAsset: "/assets/index-DCotttV_.js",
+        externalVersionText: { whatsNewDate: "2026-10-17", release: "4.7v3" },
+        externalDeployedCommit: null,
+        externalRoundingSource: "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/rendering/renderer.tsx#L50-L59",
+        externalRoundingNote: "The pinned renderer source floors BASIC expected damage. The live deployment commit was not verified, so only the integer-display interval is asserted against the observed page.",
+        fixedGameDataSha: "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        gameDataUrls: [
+            "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/characters.json",
+            "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+            "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+            "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cones.json",
+            "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json"
+        ],
+        confidenceClass: "external calculation comparison (integer expected-value display precision) + spec comparison / independent hand calculation",
+        externalScope: "Only the integer displayed in BASIC expected damage was observed. No external non-crit or crit values, screenshots, measured in-game damage, or full-precision external values are asserted.",
+        handCalculationTolerance: { absolute: 1e-8, relative: 1e-11 },
+        displayTolerance: "0 <= independent expected value - displayed integer < 1; this tests display precision only.",
+        rounding: "No intermediate rounding for independent NC/C/EV. External integer floor behavior is documented by the pinned renderer source, but deployment identity remains unknown.",
+        unknowns: [
+            "The live Fribbels deployment commit and its relationship to the pinned renderer source are unknown.",
+            "No non-crit or crit value was read from Fribbels; those values come only from the independent formula.",
+            "The Ruan Mei A6 slider was set manually to 0 or 36 on the external page; it was not inferred automatically there from Break Effect."
+        ]
+    };
+    assert.equal(evidence.fixedGameDataSha, fixedSourceSha);
+
+    const { data, engine: directEngine } = await loadProductionFixture();
+    const attack = attackOf(data, "100201");
+    assert.equal(attack.characterId, "1002");
+    assert.equal(attack.type, "normal");
+    assert.equal(attack.element, "Wind");
+    assert.equal(attack.multipliers[5], 100);
+
+    const common = {
+        actor: {
+            characterId: "1002", attackId: "100201", name: "Dan Heng",
+            characterLevel: 80, eidolon: 0, attackLevel: 6,
+            traceLevels: { normal: 6, skill: 10, ultimate: 10, talent: 10 },
+            nativeConditions: { talentResistancePenetration: false, enemySlowed: false, postAttackSpeed: false }
+        },
+        stats: { level: 80, atk: 1082.3904, hp: 1622.88, def: 744.1875, speed: 110, critRate: 5, critDamage: 50, windDamageBonus: 22.4, breakEffect: 0 },
+        baseStats: { atk: 917.28, hp: 1622.88, def: 661.5, speed: 110 },
+        equipment: {
+            lightCone: { id: "20007", name: "Darting Arrow", level: 80, superimposition: 1, conditionalPostDefeatAttack: false },
+            relics: [], ornament: null, selectedBuildRow: "t-0",
+            note: "The supplied upper-row final stats include the listed trace bonuses. No relics or conditional Light Cone passive are active."
+        },
+        enemy: { level: 80, count: 1, resistance: 20, weakness: false, toughnessActive: true, defenseReduction: 0, defenseIgnore: 0, resistancePenetration: 0, takenDamage: 0 },
+        bronya: { characterId: "1101", eidolon: 0, traceLevel: 10, stats: { critDamage: 100 } },
+        ruanMei: { characterId: "1303", eidolon: 0, traceLevel: 10, combatBreakEffectIncludesA2: true }
+    };
+    const cases = [
+        {
+            caseId: "hsr-r15-danheng-base",
+            states: [{ stateId: "base", party: [], modInputs: { "danheng-talent-active": false, "danheng-enemy-slowed": false, "danheng-afterimage-speed-active": false, "lc-20007-stat-active": false }, externalExpectedInteger: 488, independent: { nonCrit: 476.944505856, crit: 715.416758784, expected: 488.8681185024 } }]
+        },
+        {
+            caseId: "hsr-r15-danheng-bronya-skill",
+            states: [
+                { stateId: "skill-off-field-A6-on", party: ["1101"], providerStats: { "1101": { critDamage: 100 } }, modInputs: { "bronya-skill-active": false, "bronya-ultimate-active": false, "danheng-talent-active": false, "danheng-enemy-slowed": false, "danheng-afterimage-speed-active": false, "lc-20007-stat-active": false }, externalExpectedInteger: 528, independent: { nonCrit: 515.910560256, crit: 773.865840384, expected: 528.8083242624 } },
+                { stateId: "skill-on-field-A6-on", party: ["1101"], providerStats: { "1101": { critDamage: 100 } }, modInputs: { "bronya-skill-active": true, "bronya-ultimate-active": false, "danheng-talent-active": false, "danheng-enemy-slowed": false, "danheng-afterimage-speed-active": false, "lc-20007-stat-active": false }, externalExpectedInteger: 792, independent: { nonCrit: 773.086519296, crit: 1159.629778944, expected: 792.4136822784 } }
+            ]
+        },
+        {
+            caseId: "hsr-r15-danheng-bronya-ultimate",
+            states: [{ stateId: "skill-off-ultimate-on-CD100", party: ["1101"], providerStats: { "1101": { critDamage: 100 } }, modInputs: { "bronya-skill-active": false, "bronya-ultimate-active": true, "danheng-talent-active": false, "danheng-enemy-slowed": false, "danheng-afterimage-speed-active": false, "lc-20007-stat-active": false }, externalExpectedInteger: 788, independent: { nonCrit: 756.377346816, crit: 1406.86186507776, expected: 788.901572729088 } }]
+        },
+        {
+            caseId: "hsr-r15-danheng-ruan-mei",
+            states: [
+                { stateId: "skill-off-ultimate-off-A6-zero", party: ["1303"], providerStats: { "1303": { breakEffect: 180 } }, modInputs: { "ruanmei-skill-active": false, "ruanmei-break-effect": 180, "ruanmei-field-active": false, "danheng-talent-active": false, "danheng-enemy-slowed": false, "danheng-afterimage-speed-active": false, "lc-20007-stat-active": false }, externalExpectedInteger: 488, independent: { nonCrit: 476.944505856, crit: 715.416758784, expected: 488.8681185024 } },
+                { stateId: "skill-on-BE120-ultimate-off", party: ["1303"], providerStats: { "1303": { breakEffect: 120 } }, modInputs: { "ruanmei-skill-active": true, "ruanmei-break-effect": 120, "ruanmei-field-active": false, "danheng-talent-active": false, "danheng-enemy-slowed": false, "danheng-afterimage-speed-active": false, "lc-20007-stat-active": false }, externalExpectedInteger: 616, independent: { nonCrit: 601.635879936, crit: 902.453819904, expected: 616.6767769344 } },
+                { stateId: "skill-on-BE180-ultimate-off", party: ["1303"], providerStats: { "1303": { breakEffect: 180 } }, modInputs: { "ruanmei-skill-active": true, "ruanmei-break-effect": 180, "ruanmei-field-active": false, "danheng-talent-active": false, "danheng-enemy-slowed": false, "danheng-afterimage-speed-active": false, "lc-20007-stat-active": false }, externalExpectedInteger: 760, independent: { nonCrit: 741.913675776, crit: 1112.870513664, expected: 760.4615176704 } },
+                { stateId: "skill-on-BE180-ultimate-on", party: ["1303"], providerStats: { "1303": { breakEffect: 180 } }, modInputs: { "ruanmei-skill-active": true, "ruanmei-break-effect": 180, "ruanmei-field-active": true, "danheng-talent-active": false, "danheng-enemy-slowed": false, "danheng-afterimage-speed-active": false, "lc-20007-stat-active": false }, externalExpectedInteger: 998, independent: { nonCrit: 973.761699456, crit: 1460.642549184, expected: 998.1057419424 } }
+            ]
+        }
+    ];
+
+    assert.equal(cases.length, 4, "four independent scenario IDs are retained");
+    assert.equal(cases.reduce((count, item) => count + item.states.length, 0), 8, "the scenarios contain eight explicit UI states");
+    const declaredInputKeys = new Set(data.structuredModifiers.flatMap((modifier) => [modifier.activation?.inputKey, modifier.value?.inputKey]).filter(Boolean));
+    for (const scenario of cases) for (const state of scenario.states) {
+        const label = scenario.caseId + "/" + state.stateId;
+        for (const key of Object.keys(state.modInputs)) assert.ok(declaredInputKeys.has(key), `${label} input key ${key} exists in registered modifier definitions`);
+        const providerStats = { ...(state.providerStats || {}) };
+        const party = state.party;
+        const context = {
+            characterId: common.actor.characterId,
+            eidolon: common.actor.eidolon,
+            partyIds: party,
+            partyEidolons: Object.fromEntries(party.map((id) => [id, 0])),
+            partyStats: providerStats,
+            partyEquipment: [],
+            lightConeId: common.equipment.lightCone.id,
+            refinement: common.equipment.lightCone.superimposition,
+            activeAllyId: common.actor.characterId,
+            stats: { atk: common.stats.atk, hp: common.stats.hp, def: common.stats.def, speed: common.stats.speed, critRate: common.stats.critRate, critDamage: common.stats.critDamage, breakEffect: common.stats.breakEffect },
+            baseStats: common.baseStats,
+            traceLevelFor: () => 10
+        };
+        const candidates = runtime.buildCandidates(data.structuredModifiers, context, state.modInputs);
+        const input = makeRequest(attack, common.actor.attackLevel, {
+            characterLevel: common.actor.characterLevel,
+            eidolon: common.actor.eidolon,
+            atk: common.stats.atk,
+            baseAtk: common.baseStats.atk,
+            baseHp: common.baseStats.hp,
+            baseDef: common.baseStats.def,
+            hp: common.stats.hp,
+            def: common.stats.def,
+            critRate: common.stats.critRate,
+            critDamage: common.stats.critDamage,
+            damageBonus: common.stats.windDamageBonus,
+            breakEffect: common.stats.breakEffect,
+            enemyLevel: common.enemy.level,
+            enemyCount: common.enemy.count,
+            resistance: common.enemy.resistance,
+            weakness: common.enemy.weakness,
+            toughnessActive: common.enemy.toughnessActive,
+            defenseReduction: common.enemy.defenseReduction,
+            defenseIgnore: common.enemy.defenseIgnore,
+            resistancePenetration: common.enemy.resistancePenetration,
+            takenDamage: common.enemy.takenDamage
+        }, candidates);
+        input.character.stats.speed = common.stats.speed;
+        input.character.baseStats.speed = common.baseStats.speed;
+
+        const independent = require("./helpers/hsrDirectVerification.cjs").independentDirectDamage(input);
+        for (const key of ["nonCrit", "crit", "expected"]) {
+            const fixed = state.independent[key];
+            assert.ok(Math.abs(independent[key] - fixed) <= Math.max(1e-8, Math.abs(fixed) * 1e-11), `${label} independent ${key}: ${independent[key]} vs ${fixed}`);
+        }
+        const result = assertMatchesIndependent(directEngine, input, label);
+        for (const key of ["nonCrit", "crit", "expected"]) {
+            const fixed = state.independent[key];
+            assert.ok(Math.abs(result[key] - fixed) <= Math.max(1e-8, Math.abs(fixed) * 1e-11), `${label} engine ${key}: ${result[key]} vs ${fixed}`);
+        }
+        const displayGap = state.independent.expected - state.externalExpectedInteger;
+        assert.ok(displayGap >= 0 && displayGap < 1, `${label} external BASIC integer ${state.externalExpectedInteger}; independent EV ${state.independent.expected}; gap ${displayGap}`);
+    }
+});
