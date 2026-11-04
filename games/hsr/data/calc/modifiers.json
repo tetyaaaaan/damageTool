@@ -32,8 +32,9 @@
       "stacking": { "group": "bronya-skill-damage", "rule": "nonStacking" },
       "calculation": { "stage": "damageBonus", "operation": "add" },
       "inputPolicy": "conditional",
+      "finalStatsInclusion": {"inputKey": "trace:1101:110102:damage-bonus-in-final-stats", "inputLabel": "作戦再展開・与ダメージを最終入力へ算入済み"},
       "support": { "status": "calculable", "verified": true },
-      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "skill 110102 paramsByLevel" }
+      "provenance": {"sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487", "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-11-04", "notes": "skill 110102 paramsByLevel" }
     },
     {
       "id": "trace:1101:110103:atk-percent",
@@ -49,8 +50,9 @@
       "stacking": { "group": "bronya-ultimate-atk", "rule": "nonStacking" },
       "calculation": { "stage": "baseStats", "operation": "add" },
       "inputPolicy": "conditional",
+      "finalStatsInclusion": {"inputKey": "trace:1101:110103:atk-percent-in-final-stats", "inputLabel": "ベロブルグ行進曲・攻撃力を最終入力へ算入済み"},
       "support": { "status": "calculable", "verified": true },
-      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "skill 110103 parameter 1; percentage applies to the target's base ATK and needs base-stat provenance in runtime" }
+      "provenance": {"sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487", "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-11-04", "notes": "skill 110103 parameter 1; percentage applies to the target's base ATK and needs base-stat provenance in runtime" }
     },
     {
       "id": "trace:1106:110603:defense-reduction",
@@ -81,8 +83,9 @@
       "stacking": { "group": "ruanmei-field-res-pen", "rule": "nonStacking" },
       "calculation": { "stage": "resistance", "operation": "add" },
       "inputPolicy": "conditional",
+      "finalStatsInclusion": {"inputKey": "trace:1303:130303:resistance-penetration-in-final-stats", "inputLabel": "花に濡れても雫は払わず・全属性耐性貫通を最終入力へ算入済み"},
       "support": { "status": "calculable", "verified": true },
-      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29" }
+      "provenance": {"sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487", "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-11-04" }
     },
     {
       "id": "deprecated:trace:1108:110803:dot-vulnerability",

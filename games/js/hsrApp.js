@@ -751,6 +751,8 @@
 
   function conditionStatus(items) {
     if (items.some(item => item.calculable && item.activation?.unresolved && !item.includedInFinalStats)) return { label: "条件未確定", className: "is-input" };
+    const calculated = items.filter(item => !item.displayOnly);
+    if (calculated.length && calculated.every(item => item.includedInFinalStats)) return { label: "最終入力に反映済み", className: "is-reflected" };
     if (items.every(item => item.comparisonControlled)) return { label: items.some(item => conditionAudit?.applied.has(item.id)) ? "一部の想定結果に適用" : "結果ごとに自動判定", className: "is-auto" };
     if (items[0]?.tab === "パーティ" && items.some(item => !item.displayOnly) && !items.some(item => conditionAttackScope(item).length || conditionFeedsSpeedThreshold(item))) return { label: "現在の計算対象外", className: "is-inactive" };
     if (items.some((item) => item.enabled && (item.inputWarnings?.length || modifierIssueIds.has(item.id)))) return { label: "入力不足", className: "is-input" };
@@ -793,6 +795,7 @@
   }
 
   function currentConditionReflection(item) {
+    if (item.includedInFinalStats) return "最終入力に反映済み（追加なし）";
     if (item.calculable && item.activation?.unresolved && !item.includedInFinalStats) return item.activation.unresolvedReason || "条件未確定：参照する数値を入力するまで、この効果は追加しません。";
     if (item.comparisonControlled) return item.activation?.comparisonDerived ? "各結果の想定状態・編成で個別に判定します。適用・対象外は各結果の内訳で確認できます。" : "各結果の想定段数で個別に判定します。適用・対象外は各結果の内訳で確認できます。";
     if (item.resultAssumed) return "一部の結果は状態成立を想定します。ON/OFFはそれ以外の結果へ反映し、各結果の内訳で確認できます。";

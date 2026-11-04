@@ -1,5 +1,99 @@
 # HSR 最終完成までの残作業測定
 
+<a id="hsr-round14-audit"></a>
+## 第14回：補正品質監査とゴールデン試験（2026-11-04、開始15d4f40）
+
+開始HEAD `15d4f40ff2db8fab026fc3f6eaa12b6e33874379`、main。開始時からある原神 `constellation-effect-registry.json` の未commit差分と未追跡 `.codex/` / `.codex-temp/` は保護。対象はブローニャ1101・ルアン・メェイ1303の既存補正と品質検証。攻撃/Modifierの新規登録、E0認定拡大、エンジン/Schema再設計、マスター再生成は行わない。
+
+### 根拠・版・信頼性
+
+固定原記録は [StarRailRes dbe8cdf](https://github.com/Mar-7th/StarRailRes/tree/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp) の characters / character_skills / character_skill_trees / character_ranks。実係数と参照IDを照合した。外部説明は [KQM SRL Bronya](https://srl.keqingmains.com/characters/wind/bronya) と [KQM Ruan Mei](https://hsr.keqingmains.com/ruan-mei/) を2026-11-04に参照。後者はVersion 1.6更新の明記あり、前者はページ上で対象ゲーム版を確定できない。固定SHAも現行ゲームの版番号を保証しない。既存provenanceの `snapshot-2026-07-28` は収録時点であり、現在のゲーム版と読み替えない。
+
+両KQMページは同じ組織の資料で、独立した2件の外部数値測定ではない。2026-11-05の最終確認で [Fribbels固定実装90bc840のA6](https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1300/RuanMei.ts#L242-L249) のCPU/GPU両経路も照合し、120%超過分を10%単位で床処理することを確認した。BE125/129.99では追加0%、130で6%、179.99で30%、180で36%。連続換算との疑義を解消し、計算式は変更しない。これは公開コードの仕様照合で、計算機は実行しておらず、表示値との数値比較・ゲーム実測はいずれも**未実施**。今回のGoldenの分類は全て「仕様照合＋独立手計算」。本番結果を期待値にコピーしていない。
+
+### 効果別監査（今回の品質分類）
+
+A=記載範囲で実装/接続/独立検証、B=実装あり・記載した検証不足、C=根拠のある不具合/不足、D=未判定。仕様書の文書分類とは別。Aでも全Lv・全星魂・全時系列の実測認定を意味しない。登録の正本は `calc/modifiers.json`、`modifiers-bronya-ruanmei.json`、E1は `modifiers-character-expanded.json`。以下の短いIDは各レコードを指す。
+
+|効果・ID|成立/参照者・対象・算入済み|判定と検証範囲/残り|
+|---|---|---|
+|Bronya skill `trace:1101:110102:damage-bonus`|`bronya-skill-active`、指定受益者DMG、Lv10=66%|A：OFF/ON、通常N6の独立3値、離脱/保存/個別既算入。全LvのUI独立値は今回未追加|
+|Bronya U ATK `trace:1101:110103:atk-percent`|`bronya-ultimate-active`、受益者基礎ATK×Lv係数、Lv10=55%|C→A：CDとは別の算入済み指定を追加。基礎ATK不足を最終ATKで代用しない既存経路を維持|
+|Bronya U CD `trace:1101:110103:crit-damage`|同じUキー、**提供者CD**×Lv係数＋固定項、Lv10=16%×CD+20%|C→A：CD100/150/200/300と受益者の独立、ATKだけ/CDだけ/両方既算入を独立検証。自己受益時の再参照タイミングはD|
+|Bronya A2 `traceNode:1101:1101101:normal-crit-override`|本人の通常のみCR100%、常時、自動|A：既存GoldenでNC/C/EV=360/720/720、RuntimeでFUA対象外。100%上書きで再加算しない|
+|Bronya A6 `traceNode:1101:1101103:party-damage`|フィールド上で味方全体（本人含む）DMG10%、自動|C→A：算入済み指定、編成追加/解除、Golden全Bronyaケースで独立値確認|
+|Bronya A4/秘技/E2|`bronya-opening-defense` DEF20% / `bronya-technique-active` 基礎ATK15% / `bronya-e2-speed-active` 対象の基礎SPD30%|B：成立済み状態の登録・入力・個別既算入を確認。時間経過は追跡しない。既存速度等の試験はあるが、今回各効果の全Lv/星魂/実画面独立Goldenは追加していない|
+|Bronya E4 `1101041`|本人の追撃、風弱点への味方通常という発生条件|B：既存GoldenでE4ゲート/採用Lv係数とNC403.2。全条件の操作/全Lvの独立3値は今回未拡充。0値の説明Modifier自体をダメージへ加算しない|
+|Ruan skill DMG `trace:1303:130302:damage-bonus`|`ruanmei-skill-active`、全体、Lv10=32%|A：自動発動させずOFF/ON、BE120/180、離脱/復元、個別既算入。通常DMGをBreak/SBへ漏らさない|
+|Ruan A6 `traceNode:1303:1303103:skill-extra-damage`|同じskillキー、**提供者の戦闘中最終BE**を参照、120超の10ごと6%、最大36%|A：119.99/120/129.99/130/179.99/180/180.01（App）、190（Golden）。A2/E4を入力BEへ自動加算する仕組みではなく、参照欄の説明を明確化|
+|Ruan skill効率 `trace:1303:130302:break-efficiency`|同じskillキー、味方の削靭効率50%|A：SB独立式の削靭倍率1.5を確認。通常DMG/自然撃破倍率への誤加算なし。全ての特殊削靭攻撃の証明ではない|
+|Ruan U `trace:1303:130303:resistance-penetration`|`ruanmei-field-active`、味方全体、Lv10=25%RES貫通|A：通常/Break/SB独立値、ON/OFF/離脱/保存、最終敵補正への既算入除外。カテゴリ処理を確認|
+|Ruan A2 `traceNode:1303:1303101:party-break-effect`|他の味方BE20%、自動。本人は別self行で最終入力へ包含|A：Break/SBの受益者BE100→120を独立照合。本人に再加算しない契約を維持。提供者入力BEにはこの20%を含める|
+|Ruan talent SPD `trace:1303:130304:party-speed`|本人以外の基礎SPD×Lv係数、Lv10=10%、自動|C→A：本人へ漏れていたscopeを修正。SPD132/base104で本人は132のまま、味方は142.4、Glamoth条件への影響も検証|
+|Ruan E1 `eidolon:1303:1:defense-ignore`|結界中、E1以上、味方DEF無視20%|B：既存E0/E1解放Runtimeとカテゴリ処理、今回個別算入済み追加。E1固有の全UI/独立Goldenは未追加|
+|Ruan E2 `eidolon:1303:2:atk-percent`|E2以上、敵が撃破中なら基礎ATK40%、本人含む味方|C→B：既知の敵状態でも任意指定だった点を自動化。E1/2/6×撃破/非撃破/未知を確認。E2の攻撃3値/実画面専用Goldenは残る|
+|Ruan E4 `eidolon:1303:4:break-effect`|`ruanmei-e4-break-effect`、本人BE100%、成立済み3ターン状態|B：登録と既算入責務を確認。味方計算時の提供者最終BE欄へ自動合成しない。全星魂/時系列の独立Goldenは残る|
+|Ruan 残梅/天賦の追加撃破 `1303031` / `1303041`|本人BE・氷撃破式、U/T Lv10=50%/120%|B：既存Goldenで倍率と結果比2.4を確認。全Lv/他所有者の撃破発生を含む総イベントの独立Goldenは不足|
+|Ruan E6天賦+200%|表示専用 `eidolon:1303:6:talent-break-multiplier`、専用撃破モデル未接続|C（未修正）：メタデータの200は確認済み。既存追加撃破経路が高星魂を拒否するため、黙ってE0値を出す誤りとは区別。今回の品質試験を越える実装拡張はしない|
+|時系列/一般精霊/外部測定|自己UのCD参照更新、初回付与順、複数提供者/一般精霊継承、現行版の実測|D：実証なし。指定した参照時点の固定入力だけを今回のA範囲とする|
+|直接ダメージ対象外|BronyaのSP回復/行動順/継続延長、Ruan EP回復/結界延長等|対象外：数値へ0加算しない。E3/E5は選択した表示軌跡Lvへ包含し、再加算しない|
+
+### 確認した問題と最小修正
+
+1. **自己SPDの対象誤り**：Ruan天賦に `providerScope: party` がなく、本人SPD132→142.4によりGlamoth12%が誤発動。登録だけ修正し、自己/味方の赤テスト→緑を確認。
+2. **最終値との二重加算**：支援の共有発動キーしかなく、Bronya UのATKだけ算入済み等を表せなかった。既存形式で15成分に個別除外を追加。baseATK1000/ATK3550/CD152の例でNC1278/Crit3220.56/EV2249.28を維持する。修正前のATK二重加算はNC1476だった。
+3. **既知敵状態と任意チェックの重複**：Ruan E2を既存の `enemy.toughnessBroken` 自動条件へ接続。旧チェックで敵状態を上書きしない。
+4. **算入済みの表示不整合**：Uが「効果量0・未適用」、A6が「条件を設定」と出ていた。全成分既算入のカードと各反映欄を明示表示へ訂正。共通関数の数行だけを変更。
+5. **参照入力の説明不足**：Ruan A6の欄へ「戦闘中BE、呼吸の中/E4等を含む」と表示。入力値を推測して変えない。
+
+不具合でなかった点：partyAllは原則本人も受益するためBronya U/A4/A6/秘技を一律自己除外しない。提供者CDは実Appで受益者CDと別に管理され、空欄時も受益者値で代用されない。提供者欄の編集は再描画へ正しく同期する。Ruan E6のdisplayOnlyは通常DMGへ200%を足す許可ではなく、安全な未対応を維持する。
+
+### Golden試験の10ケースID（15状態）
+
+[既存Golden末尾](../tests/hsr/hsrGoldenScenarios.test.cjs)に**既存114実行テストを維持して1テスト追加**。以下は1ケースIDに複数状態を持つ場合があり、15個のNodeテストを追加したという意味ではない。
+
+共通：Dan Heng1002/攻撃100201、Lv80/E0/通常Lv6倍率100%、基礎ATK546.84/HP882/DEF396.9。手動の合成最終ATK3000/CR50/CD100/DMG0、装備効果なし。敵Lv80/RES20%/弱点なし/未撃破/DEF低下0。提供者E0/軌跡10、Bronya CD100（変更時150）、Ruan戦闘BE120（変更時130/180/190）。実ゲームで存在する装備構成を主張する入力ではない。許容差 `max(1e-8, abs(expected)×1e-11)`、途中丸めなし、画面だけ丸める。
+
+|caseId接尾辞（全て `hsr-r14-`）|条件|NC / Crit / EV（独立手計算）|
+|---|---|---|
+|no-buff|提供者なし|1080 / 2160 / 1620|
+|bronya-skill-off-on|B編成、A6自動。skill OFF→ON|1188 / 2376 / 1782 → 1900.8 / 3801.6 / 2851.2|
+|bronya-ultimate-atk-and-crit-damage|B U ON、CD100|1307.101752 / 3084.76013472 / 2195.93094336|
+|bronya-provider-crit-damage-change|CDだけ150|1307.101752 / 3189.32827488 / 2248.21501344|
+|ruan-mei-skill-off-on-at-120-be|R skill OFF→ON、BE120|1080 / 2160 / 1620 → 1425.6 / 2851.2 / 2138.4|
+|ruan-mei-a6-threshold-and-cap|BE120 / 130 / 180 / 190|NC1425.6 / 1490.4 / 1814.4 / 1814.4、Crit=NC×2、EV=NC×1.5（literal各値をテストへ記録）|
+|ruan-mei-ultimate-resistance-penetration|R U ON、skill OFF|1417.5 / 2835 / 2126.25|
+|combined-supports|B skill/U、R skill/U、BE180|3805.4485098 / 8980.858483128 / 6393.153496464|
+|provider-removal|全発動キーが残っていても提供者なし|1080 / 2160 / 1620|
+|final-stats-included-once|ATK3300.762/CD136/DMG10、B U/A6既算入|1307.101752 / 3084.76013472 / 2195.93094336|
+
+通常式 `ATK×倍率×DMG群×DEF係数×RES係数×靭性係数` とCR/CDを独立計算する。2人併用では `(3000+546.84×0.55)×2.44×0.5×1.05×0.9` がNC。通常DMGをBreak/SBへ漏らさない別試験は `3767.5533×2.2×0.5×1.05×0.75`（氷撃破）と `3767.5533×2.2×0.5×1.05×1.5`（基礎削靭10のSB）。A2 BE20、RES貫通25%、効率50%の区分を照合する。
+
+### テスト分類・実行と製品画面
+
+一覧は `rg --files tests/hsr -g '*.test.cjs'`。126ファイルは据置、実行テスト967→974（+7）。追加はGolden1、Runtime3、FinalStatAudit1、模擬DOM App2。Goldenファイル全体は114→115実行テスト。既存ケースの成功を外部数値照合済みへ格上げしない。
+
+|分類|既存範囲/方法|開始→最終実行件数|
+|---|---|---:|
+|計算・データ/構造|残る124ファイル。計算式・係数・攻撃/装備・契約・再構成等、Node/VM/純粋関数|741→746|
+|UI操作|`hsrToolInputs.test.cjs`、模擬DOMで実Appイベント・UID応答モック・計算/保存|201→203|
+|表示関連の静的補助|`hsrToolStructure.test.cjs`、HTML/CSS/ソースの検査|25→25|
+|表示|実ブラウザの手動確認。恒久的な実ブラウザE2Eスイートなし|自動テスト件数へ加算しない|
+
+開始の全967/967成功は98.00秒。関連5ファイルは162/162成功（0.744秒）、表示修正後のR14 App2/2は0.355秒。**表示修正を含む最終製品コードで全974/974成功、失敗0、82.50秒**。全体後は文書/管理資料だけを変更。模擬DOMや静的HTML試験を実ブラウザE2Eと呼ばない。既存GitHub Actionsは原神用で、HSR専用CI/Playwrightの導入は今回していない。最小案は[テスト仕様](hsr/specs/07_TEST_SPEC.md#第14回ゴールデン試験とテスト分類)に記録。
+
+実Appモックで共有キー/提供者欄の重複なし、CD変更と受益者CDの独立、BEの境界、ON/OFF、算入済みの個別除外、入力不足の局所停止、保存/提供者解除を確認。providerCD不足で会心計算対象は停止するが、検証用の無関係なDoT結果は継続する。通常/DoTのATK・DMGと、会心不可/Break/SB専用式は分ける。
+
+実ブラウザ1440/390/320pxで対象の共通補正モーダルと入力を確認。B skill/UのON/OFF・CD100→150、R skill/U・BE120→180、再読込後の復元、3成分既算入後も併用NC3805/Crit8981/EV6393、B解除後NC2381/Crit4763/EV3572、両者解除後1080/2160/1620を確認した。390/320pxの横スクロール幅は表示領域と一致。確認中のコンソールerrorなし。共通の算入済み表示だけを最後に数行修正し、再読込した320pxで訂正表示と同値を確認した。大量撮影や未変更画面の再監査はしていない。
+
+UID応答の取得/fallbackモック→実catalog再構成→入力反映→計算→保存復元は既存全体試験で回帰確認。**実UID通信・実ゲーム測定・外部計算機の出力比較は未実施**。第三者UIDを検索せず、認証情報を求めていない。
+
+Modifier静的検証955原登録/529計算フラグ/426表示、問題0。本番954/528/426との差1は既存廃止サンポ行。攻撃静的検証は開始時の38指摘と文字列配列の内容・順序まで完全一致（新規0/解消0）。完成表 `--check` 成功、変更文書4ファイルのローカルリンク/アンカー273件は問題0、差分の空白チェックも成功。完成表はフィンガープリントのみ再生成し、認定や対応数を増やさない。
+
+**進捗指標は全て据置**：E0主要構成52/98、攻撃495（計算434/参考35/不可26）、本番Modifier954（計算528）、光円錐119定義/118計算行/51未定義、遺物29/29/5、オーナメント28/25/0。新規効果群・補正成分・攻撃昇格はいずれも0。品質修正を新規効果として計上しない。
+
+次回優先：Ruan E6専用撃破の安全な接続、Bronya自己受益時CD参照時点の一次根拠、今回BとしたE1/E2/E4・DEF/秘技/SPDの固有Golden、許可された測定条件が得られた場合のゲーム/外部出力照合。大規模UI/計算機の作り直しや時系列の推測は不要。変更ファイルは補正データ3、App/HTML2、既存テスト4、仕様04/07・本台帳・生成完成表4の計13。ローカルcommitのみ、push/デプロイなし。
+
 ## 横断一括接続・第13回：所有者別成分と有効層数（2026-11-04、開始6d78fc2）
 
 固定SHA `dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487` の原skills/trees/light_cone_ranksと既存の正本/テストを使用。成分合算・解決済み値の限定倍率・既存SPD支援・閾値・補正モーダルを再利用し、マスター再生成・全Modifier再帰評価・自動戦闘/ローテーションは導入していない。

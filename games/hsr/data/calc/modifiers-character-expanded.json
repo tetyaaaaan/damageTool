@@ -31,7 +31,7 @@
       "activation": { "mode": "toggle", "conditionText": "必殺技の結界展開中", "inputKey": "ruanmei-field-active", "inputLabel": "結界展開中", "default": false },
       "stacking": { "group": "ruanmei-e1-defense-ignore", "rule": "nonStacking" },
       "calculation": { "stage": "defense", "operation": "add", "cap": 100 },
-      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "inputPolicy": "conditional", "finalStatsInclusion": {"inputKey":"eidolon:1303:1:defense-ignore-in-final-stats","inputLabel":"ルアン・メェイE1の防御無視を敵の最終防御条件へ算入済み"}, "support": { "status": "calculable", "verified": true },
       "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "character 1303 eidolon 130301" }
     },
     {

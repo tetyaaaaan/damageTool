@@ -652,3 +652,25 @@ test("Enhanced Sparkle Figment and Cipher add vulnerability with independent lev
     for(const count of [-1,4,1.5,NaN]) {const bad=candidate(base.id,full,{...inputs,"sparkle-enhanced-figment-stacks":count});assert.equal(bad.enabled,true);assert.ok(bad.inputWarnings.length);}
     for(const type of ["elation","break","superBreak","trueDamage","memospriteSkill"])assert.equal(runtime.applicableToAttack(base,{type}),false);
 });
+
+
+test('R14 Ruan Talent excludes herself before effective SPD thresholds but still supports other allies',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs');const {data}=await loadProductionFixture();const records=data.structuredModifiers.filter(x=>x.id==='trace:1303:130304:party-speed'||x.id==='ornament:311:2pc:speed-damage');
+ const ctx={characterId:'1303',stats:{speed:132},baseStats:{speed:104},ornamentId:'311',traceLevelFor:()=>10};
+ const own=runtime.buildCandidates(records,ctx,{});assert.equal(own.some(x=>x.id==='trace:1303:130304:party-speed'),false,'Talent explicitly excludes the provider herself');assert.equal(own.find(x=>x.id==='ornament:311:2pc:speed-damage').enabled,false,'132 is below135 without own SPD support');
+ const ally=runtime.buildCandidates(records,{...ctx,characterId:'1002',partyIds:['1303']},{});assert.equal(ally.find(x=>x.id==='trace:1303:130304:party-speed').value,10);assert.equal(ally.find(x=>x.id==='ornament:311:2pc:speed-damage').thresholdReferenceValue,142.4);
+});
+
+
+test('R14 Ruan E2 follows known enemy toughness automatically at the provider Eidolon boundary',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs');const {data}=await loadProductionFixture();const rows=data.structuredModifiers.filter(x=>x.id==='eidolon:1303:2:atk-percent');
+ for(const e of [1,2,6])for(const broken of [true,false,undefined]){const ctx={characterId:'1002',partyIds:['1303'],partyEidolons:{'1303':e},enemy:typeof broken==='boolean'?{toughnessActive:!broken}:{}};const r=runtime.buildCandidates(rows,ctx,{'enemy-weakness-broken':true});if(e<2)assert.equal(r.length,0);else{assert.equal(r[0].enabled,broken===true);assert.equal(r[0].activation.automatic,true);assert.equal(r[0].value,40);}}
+});
+
+test('R14 Bronya and Ruan ordinary DMG buffs never amplify Break or Super Break, while BE, RES PEN and efficiency do',async()=>{
+ const {loadProductionFixture,assertClose}=require('./helpers/hsrDirectVerification.cjs');const {data,engine}=await loadProductionFixture();
+ const rows=data.structuredModifiers.filter(x=>['1101','1303'].includes(x.source.id));const mods=runtime.buildCandidates(rows,{characterId:'1002',partyIds:['1101','1303'],partyEidolons:{'1101':0,'1303':0},partyStats:{'1101':{critDamage:200},'1303':{breakEffect:180}},traceLevelFor:()=>10},{'bronya-skill-active':true,'bronya-ultimate-active':true,'ruanmei-skill-active':true,'ruanmei-field-active':true});
+ const common={character:{level:80,eidolon:0,stats:{breakEffect:100}},enemy:{level:80,count:1,resistance:20,weakness:true,toughnessActive:false,maxToughness:30},element:'Ice',breakBaseDamage:{80:3767.5533},modifiers:mods};
+ const br=engine.calculateBreak({...common,multiplier:1}),sb=engine.calculateSuperBreak({...common,attack:{type:'superBreak',element:'Ice',toughnessDamage:10,superBreakMultiplier:100}});
+ assertClose(br.value,3767.5533*2.2*.5*1.05*.75,'Break independent BE/RES factors without ordinary DMG/crit');assertClose(sb.value,3767.5533*2.2*.5*1.05*1.5,'SB independently uses efficiency50');
+});

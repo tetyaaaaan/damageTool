@@ -22,3 +22,13 @@ test('Hook permanent ATK summary includes all five fixed-source nodes and remain
  for(const[id,value]of nodes){const node=c.traces.find(t=>t.id===id);assert.ok(node,id);const prop=node.levels[0].properties.find(p=>p.type==='AttackAddedRatio');assertClose(prop.value,value,id+' pinned node');}
  const record=data.structuredModifiers.find(m=>m.id==='traceStats:1109:attack');assert.equal(record.value.fixed,28);assert.equal(record.inputPolicy,'includedInFinalStats');assert.equal(record.support.status,'displayOnly');
 });
+
+
+test('R14 shared Bronya Ultimate toggle independently excludes already-included ATK or CD without losing the other component',async()=>{
+ const {data,engine}=await loadProductionFixture(),a=data.attacks.find(x=>x.id==='100201');const ids=['trace:1101:110103:atk-percent','trace:1101:110103:crit-damage'],rows=data.structuredModifiers.filter(x=>ids.includes(x.id));
+ const ctx={characterId:'1002',partyIds:['1101'],partyStats:{'1101':{critDamage:200}},traceLevelFor:()=>10,stats:{atk:3000,critDamage:100}},inputs={'bronya-ultimate-active':true};
+ for(const mode of ['atk','cd','both']){
+  const flags={...inputs,...(mode==='atk'||mode==='both'?{[ids[0]+'-in-final-stats']:true}:{}),...(mode==='cd'||mode==='both'?{[ids[1]+'-in-final-stats']:true}:{})};
+  const mods=runtime.buildCandidates(rows,ctx,flags),req=makeRequest(a,6,{atk:mode==='atk'||mode==='both'?3550:3000,baseAtk:1000,critDamage:mode==='cd'||mode==='both'?152:100},mods);const r=engine.calculate(req);assertClose(r.nonCrit,3550*.36,mode+' NC');assertClose(r.crit,3550*.36*2.52,mode+' Crit');assertClose(r.expected,3550*.36*1.76,mode+' EV');
+ }
+});

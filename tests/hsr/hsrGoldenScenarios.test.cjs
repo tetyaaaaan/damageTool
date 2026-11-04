@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 const { loadHsrDataFiles } = require("../../scripts/lib/hsrDataFiles.cjs");
+const { loadProductionFixture, attackOf, makeRequest, assertMatchesIndependent, fixedSourceSha } = require("./helpers/hsrDirectVerification.cjs");
 
 const root = path.resolve(__dirname, "..", "..");
 const readJson = (file) => JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
@@ -1998,5 +1999,123 @@ test("Boothill talent cap uses legacy maximum Toughness units without changing s
         const r=engine.calculate(input),extra=3767.5533*2*1.7*3*.5*.8*(.5+current/40)*1.3;
         assert.ok(Math.abs(r.components.break.value-extra)<1e-8);assert.ok(Math.abs(r.nonCrit-(3432+extra))<1e-8);
         assert.equal(engine.calculate({...input,enemy:{...input.enemy,maxToughness:481}}).supported,false);
+    }
+});
+
+
+test("Dan Heng Lv6 support goldens match fixed hand calculations and pinned specification records", async () => {
+    const evidence = {
+        sourceUrls: [
+            "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/characters.json",
+            "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+            "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json"
+        ],
+        sourceFiles: ["characters.json", "character_skills.json", "character_skill_trees.json"],
+        sourceSha: "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        checkedAt: "2026-11-04",
+        confidenceClass: "spec-comparison + independent hand calculation",
+        method: "Pinned primary-record skill curves were compared with the registered IDs; expected NC/C/EV values below were hand-calculated using the declared direct-damage formula. These are synthetic inputs, not measured game values or external-tool output.",
+        tolerance: { absolute: 1e-8, relative: 1e-11 },
+        rounding: "No intermediate or final rounding before assertions.",
+        unknowns: ["No in-game screenshot or measured result is claimed.", "Enemy phase changes, individual equipment effects, and action ordering are outside this fixed-state direct-damage fixture."]
+    };
+    assert.equal(evidence.sourceSha, fixedSourceSha);
+
+    const { data, engine: directEngine } = await loadProductionFixture();
+    const attack = attackOf(data, "100201");
+    assert.equal(attack.characterId, "1002");
+    assert.equal(attack.type, "normal");
+    assert.equal(attack.multipliers[5], 100);
+
+    const common = {
+        actor: { characterId: "1002", attackId: "100201", attackLevel: 6, eidolon: 0, traceLevels: { normal: 6, skill: 1, ultimate: 1, talent: 1 } },
+        attackerStats: { atk: 3000, critRate: 50, critDamage: 100, damageBonus: 0, breakEffect: 0 },
+        baseStats: { atk: 546.84, hp: 882, def: 396.9 },
+        equipment: { lightCone: null, relics: [], ornament: null, note: "Synthetic fixed final-stat input; no equipment effect is separately modeled. The 3000 ATK is not presented as an actual in-game build." },
+        partyProviderStats: { "1101": { eidolon: 0, traceLevel: 10, critDamage: 100 }, "1303": { eidolon: 0, traceLevel: 10, breakEffect: 120 } },
+        enemy: { level: 80, count: 1, resistance: 20, weakness: false, toughnessActive: true, defenseReduction: 0, defenseIgnore: 0, resistancePenetration: 0, takenDamage: 0 },
+        formula: "ATK × 1.00 × 0.5 DEF × (1 − effective RES) × 0.9 toughness × (1 + damage bonus); crit = non-crit × (1 + CD); expected = non-crit × (1 + CR × CD). Percent values are converted to fractions."
+    };
+    const cases = [
+        { caseId: "hsr-r14-no-buff", party: [], modInputs: {}, expected: { nonCrit: 1080, crit: 2160, expectedValue: 1620 } },
+        { caseId: "hsr-r14-bronya-skill-off-on", party: ["1101"], variants: [
+            { variantId: "off", modInputs: { "bronya-skill-active": false }, expected: { nonCrit: 1188, crit: 2376, expectedValue: 1782 } },
+            { variantId: "on", modInputs: { "bronya-skill-active": true }, expected: { nonCrit: 1900.8, crit: 3801.6, expectedValue: 2851.2 } }
+        ] },
+        { caseId: "hsr-r14-bronya-ultimate-atk-and-crit-damage", party: ["1101"], providerStats: { "1101": { critDamage: 100 } }, modInputs: { "bronya-ultimate-active": true }, expected: { nonCrit: 1307.101752, crit: 3084.76013472, expectedValue: 2195.93094336 } },
+        { caseId: "hsr-r14-bronya-provider-crit-damage-change", party: ["1101"], providerStats: { "1101": { critDamage: 150 } }, modInputs: { "bronya-ultimate-active": true }, expected: { nonCrit: 1307.101752, crit: 3189.32827488, expectedValue: 2248.21501344 } },
+        { caseId: "hsr-r14-ruan-mei-skill-off-on-at-120-be", party: ["1303"], variants: [
+            { variantId: "off", providerStats: { "1303": { breakEffect: 120 } }, modInputs: { "ruanmei-skill-active": false, "ruanmei-break-effect": 120 }, expected: { nonCrit: 1080, crit: 2160, expectedValue: 1620 } },
+            { variantId: "on", providerStats: { "1303": { breakEffect: 120 } }, modInputs: { "ruanmei-skill-active": true, "ruanmei-break-effect": 120 }, expected: { nonCrit: 1425.6, crit: 2851.2, expectedValue: 2138.4 } }
+        ] },
+        { caseId: "hsr-r14-ruan-mei-a6-threshold-and-cap", party: ["1303"], variants: [
+            { variantId: "threshold-120", providerStats: { "1303": { breakEffect: 120 } }, modInputs: { "ruanmei-skill-active": true, "ruanmei-break-effect": 120 }, expected: { nonCrit: 1425.6, crit: 2851.2, expectedValue: 2138.4 } },
+            { variantId: "threshold-130", providerStats: { "1303": { breakEffect: 130 } }, modInputs: { "ruanmei-skill-active": true, "ruanmei-break-effect": 130 }, expected: { nonCrit: 1490.4, crit: 2980.8, expectedValue: 2235.6 } },
+            { variantId: "cap-180", providerStats: { "1303": { breakEffect: 180 } }, modInputs: { "ruanmei-skill-active": true, "ruanmei-break-effect": 180 }, expected: { nonCrit: 1814.4, crit: 3628.8, expectedValue: 2721.6 } },
+            { variantId: "above-cap-190", providerStats: { "1303": { breakEffect: 190 } }, modInputs: { "ruanmei-skill-active": true, "ruanmei-break-effect": 190 }, expected: { nonCrit: 1814.4, crit: 3628.8, expectedValue: 2721.6 } }
+        ] },
+        { caseId: "hsr-r14-ruan-mei-ultimate-resistance-penetration", party: ["1303"], modInputs: { "ruanmei-field-active": true }, expected: { nonCrit: 1417.5, crit: 2835, expectedValue: 2126.25 } },
+        { caseId: "hsr-r14-combined-supports", party: ["1101", "1303"], providerStats: { "1101": { critDamage: 100 }, "1303": { breakEffect: 180 } }, modInputs: { "bronya-skill-active": true, "bronya-ultimate-active": true, "ruanmei-skill-active": true, "ruanmei-break-effect": 180, "ruanmei-field-active": true }, expected: { nonCrit: 3805.4485098, crit: 8980.858483128, expectedValue: 6393.153496464 } },
+        { caseId: "hsr-r14-provider-removal", party: [], providerStats: { "1101": { critDamage: 100 }, "1303": { breakEffect: 180 } }, modInputs: { "bronya-skill-active": true, "bronya-ultimate-active": true, "ruanmei-skill-active": true, "ruanmei-break-effect": 180, "ruanmei-field-active": true }, expected: { nonCrit: 1080, crit: 2160, expectedValue: 1620 } },
+        { caseId: "hsr-r14-final-stats-included-once", party: ["1101"], providerStats: { "1101": { critDamage: 100 } }, attackerStats: { atk: 3300.762, critDamage: 136, damageBonus: 10 }, modInputs: { "bronya-ultimate-active": true, "trace:1101:110103:atk-percent-in-final-stats": true, "trace:1101:110103:crit-damage-in-final-stats": true, "traceNode:1101:1101103:party-damage-in-final-stats": true }, expected: { nonCrit: 1307.101752, crit: 3084.76013472, expectedValue: 2195.93094336 } }
+    ];
+
+    assert.equal(cases.length, 10, "the pilot contains ten independently identified manifest cases");
+    const run = (scenario, variant = {}) => {
+        const label = scenario.caseId + (variant.variantId ? "/" + variant.variantId : "");
+        const party = scenario.party;
+        const providerStats = { ...common.partyProviderStats, ...(scenario.providerStats || {}), ...(variant.providerStats || {}) };
+        const attackerStats = { ...common.attackerStats, ...(scenario.attackerStats || {}), ...(variant.attackerStats || {}) };
+        const modInputs = { ...(scenario.modInputs || {}), ...(variant.modInputs || {}) };
+        const context = {
+            characterId: common.actor.characterId,
+            eidolon: common.actor.eidolon,
+            partyIds: party,
+            partyEidolons: Object.fromEntries(party.map((id) => [id, 0])),
+            partyStats: providerStats,
+            stats: attackerStats,
+            baseStats: common.baseStats,
+            traceLevelFor: () => 10
+        };
+        const candidates = runtime.buildCandidates(data.structuredModifiers, context, modInputs);
+        const input = makeRequest(attack, common.actor.attackLevel, {
+            characterLevel: common.attackerStats.level || 80,
+            eidolon: common.actor.eidolon,
+            atk: attackerStats.atk,
+            baseAtk: common.baseStats.atk,
+            hp: common.attackerStats.hp || 6000,
+            def: common.attackerStats.def || 3000,
+            critRate: attackerStats.critRate,
+            critDamage: attackerStats.critDamage,
+            damageBonus: attackerStats.damageBonus,
+            breakEffect: attackerStats.breakEffect
+        }, candidates);
+        input.enemy = { ...input.enemy, ...common.enemy };
+
+        const fixed = variant.expected || scenario.expected;
+        const expectedFromHandFormula = require("./helpers/hsrDirectVerification.cjs").independentDirectDamage(input);
+        for (const [key, expectedKey] of [["nonCrit", "nonCrit"], ["crit", "crit"], ["expected", "expectedValue"]]) {
+            const expected = fixed[expectedKey];
+            const actualByFormula = expectedFromHandFormula[key];
+            assert.ok(Math.abs(actualByFormula - expected) <= Math.max(evidence.tolerance.absolute, Math.abs(expected) * evidence.tolerance.relative), `${label} hand formula ${key}: ${actualByFormula} vs ${expected}`);
+        }
+        const result = assertMatchesIndependent(directEngine, input, label);
+        for (const [key, expectedKey] of [["nonCrit", "nonCrit"], ["crit", "crit"], ["expected", "expectedValue"]]) {
+            const expected = fixed[expectedKey];
+            assert.ok(Math.abs(result[key] - expected) <= Math.max(evidence.tolerance.absolute, Math.abs(expected) * evidence.tolerance.relative), `${label} fixed ${key}: ${result[key]} vs ${expected}`);
+        }
+        if (scenario.caseId === "hsr-r14-final-stats-included-once") {
+            for (const id of ["trace:1101:110103:atk-percent", "trace:1101:110103:crit-damage", "traceNode:1101:1101103:party-damage"]) {
+                const item = candidates.find((modifier) => modifier.id === id);
+                assert.ok(item?.includedInFinalStats, `${label} ${id} is represented in the supplied final stats`);
+                assert.equal(item.enabled, false, `${label} ${id} is not added again`);
+                assert.equal(result.applied.some((modifier) => modifier.id === id), false, `${label} ${id} is absent from applied modifiers`);
+            }
+        }
+    };
+
+    for (const scenario of cases) {
+        if (scenario.variants) scenario.variants.forEach((variant) => run(scenario, variant));
+        else run(scenario);
     }
 });
