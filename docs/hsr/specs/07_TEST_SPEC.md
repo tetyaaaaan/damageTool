@@ -118,3 +118,10 @@ UI・接続を変更したら1440/390/320pxで変更箇所と必要な境界を�
 [Serin/Cipher](../../../tests/hsr/hsrSerinCipherRound12.test.cjs)は直接/DoT全採用Lv、裂創のHP/ATK上限、Cipherの通常/既発動ATKスキル/追撃と4成分必殺、速度140/170境界、各既算入/対象外を独立照合する。[追加キャラ](../../../tests/hsr/hsrExtraRound12.test.cjs)は本人ATKの付加・単体バウンド合計・事前DEF無視と解除を確認。[LC](../../../tests/hsr/hsrEquipmentRound12.test.cjs)は全S1～S5・任意/自動・DoT限定被DMG・支援SPDを検証する。
 
 [App](../../../tests/hsr/hsrToolInputs.test.cjs)は新しい数値欄の単一表示/未入力/保存復元、局所保留、Cipher実native効果と記録値4成分、BE計算へ不要なATKを要求しないことを確認する。既存UIDモック再構成→入力反映→計算→保存の回帰と実通信を区別する。最終全HSR・静的問題の開始時との差分・3幅画面・文書検証の結果は台帳に記録する。
+
+
+## 第13回の追加受入
+
+`hsrDahliaRound13.test.cjs`は同一追撃の直接/SB各値と合計、全天賦Lv・2非対称条件・明示削靭・結界ON/OFFを独立式で確認する。`hsrSerinRound13.test.cjs`は本人4種の元DoT値×150%の再補正防止、全必殺Lv・結界0/1/8回、欠損/所有者違いの局所拒否を確認する。`hsrJadeGilgameshRound13.test.cjs`は質草0/1/49/50・既算入と別所有者スナップショット/離脱を確認する。`hsrPromotionsRound13.test.cjs`はキュレネの全採用HP曲線、`hsrEquipmentRound13.test.cjs`はLC全S1～S5・重複排他・BE境界・提供者解除を確認する。
+
+`hsrToolInputs.test.cjs`の第13回部分は実Appからの成分計算/同じ値の保存復元/不足条件の局所除外/質草と敵風耐性の入力重複防止を確認する。既存のbatch4 activeCharacter参照テストを、新しいselectedParty参照へ誤って適用しない。selectedPartyの別所有者契約は専用の独立試験で検証する。実UID通信と既存UIDモック回帰は別に報告する。

@@ -30,7 +30,11 @@
     "attacks-phainon-round12.json",
     "attacks-dahlia-round12.json",
     "attacks-serin-cipher-round12.json",
-    "attacks-extra-round12.json"
+    "attacks-extra-round12.json",
+    "attacks-promotions-round13.json",
+    "attacks-serin-round13.json",
+    "attacks-dahlia-round13.json",
+    "attacks-jade-gilgamesh-round13.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -116,6 +120,8 @@
     "modifiers-dahlia-round12.json",
     "modifiers-serin-cipher-round12.json",
     "modifiers-equipment-round12.json",
-    "modifiers-extra-round12.json"
+    "modifiers-extra-round12.json",
+    "modifiers-equipment-round13.json",
+    "modifiers-jade-gilgamesh-round13.json"
   ]
 }

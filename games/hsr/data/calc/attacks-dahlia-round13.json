@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "天賦追加攻撃1イベントの直接5段と固有超撃破成分を、敵1体・攻撃前撃破済みの条件で合算。変換による味方攻撃の超撃破、未撃破状態、イベント頻度は含みません。"
+  },
+  "overrides": [
+    {
+      "id": "1321043",
+      "characterId": "1321",
+      "sourceSkillId": "132104",
+      "name": "コンスタンスを恐れる者は？（直接5段＋天賦固有超撃破成分・E0）",
+      "element": "Fire",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 5,
+      "hitCountLabel": "直接炎属性5段＋天賦固有超撃破成分",
+      "canCrit": true,
+      "multipliers": [15, 16.5, 18, 19.5, 21, 22.5, 24.37, 26.25, 28.12, 30],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiresFireWeakness": true,
+      "numericModifierInputs": [
+        {
+          "inputKey": "dahlia-fua-base-toughness",
+          "label": "追加攻撃5段の基礎削靭値（効率補正前）",
+          "minimum": 0,
+          "maximum": 99999
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "天賦追加攻撃の直接5段",
+          "attackId": "132104",
+          "type": "followUp",
+          "scalingStat": "atk",
+          "element": "Fire",
+          "target": "single",
+          "hitCount": 5,
+          "multipliers": [15, 16.5, 18, 19.5, 21, 22.5, 24.37, 26.25, 28.12, 30]
+        },
+        {
+          "key": "superBreak",
+          "name": "天賦追加攻撃の固有超撃破",
+          "attackId": "1321042",
+          "type": "superBreak",
+          "scalingStat": "atk",
+          "element": "Fire",
+          "target": "single",
+          "hitCount": 1,
+          "multipliers": [100, 110, 120, 130, 140, 150, 162.5, 175, 187.5, 200]
+        }
+      ],
+      "calculationScope": "independently-checked-prebroken-fua-components-excluding-dancer-conversion",
+      "conditionText": "Lv80・星魂0・敵1体・天賦Lv1～10。炎弱点かつ攻撃前から弱点撃破済みの敵に、他の「共に舞う者」の攻撃後に成立した天賦追加攻撃1イベントを想定します。5段分の基礎削靭値は入力してください。",
+      "calculationNote": "固定版132104.params[0..9][0..2]に基づき、直接炎属性ダメージ5段と天賦に定義された超撃破成分を個別に計算して合算します。直接倍率は1段あたり15～30%、この超撃破成分の変換倍率は100～200%です。基礎削靭値は効率補正前の5段合計を入力してください。既存の+50%弱点撃破効率は結界が有効な状態を指定した場合だけ適用されます。炎弱点・敵1体・攻撃前撃破済みのみ対応します。「共に舞う者」の攻撃へ適用される30～60%変換と、この追加攻撃への同変換の適用可否・重複は固定版データだけでは計算順が確定しないため、この結果に含めません。したがって天賦追加攻撃全体の確定総ダメージを表すものではありません。未撃破敵への超撃破許可、攻撃途中の敵状態変化、発動頻度・上限追跡も含みません。成分別の結果も表示されるため、別行132104/1321042をこの合計へ重ねて加算しないでください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存直接成分132104と天賦固有超撃破成分1321042のみを、全10天賦Lvで独立計算した限定合算です。共に舞う者向けの変換適用可否が未確定のため天賦追加攻撃全体の完成扱いにはしません。敵1体・攻撃前から炎弱点かつ撃破済み・明示した基礎削靭値を必須にします。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:132104.params[0..9][0..2]",
+        "verifiedAt": "2026-11-04",
+        "verification": "tests/hsr/hsrDahliaRound13.test.cjs"
+      }
+    }
+  ]
+}

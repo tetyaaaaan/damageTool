@@ -145,3 +145,10 @@ UIDの構成は変更しない。`hsrProfileApi.fetchHsrProfile()`のproxy成功
 `data-files.json`がround12のPhainon/Dahlia/Serin-Cipher/extra攻撃と対応Modifier・equipmentを読む。`hsrApp.js`の`comparisonReferenceControls()`は該当キャラの`numericModifierInputs`を既存モーダルへ1キー1欄で表示し、`resolvedAttack()`が層別倍率またはCipherの4子攻撃を構成する。記録値は子ごとに`trueDamage`へ渡し、既存`modifierInputs`と状態保存を利用する。新しい保存/UID経路は作らない。
 
 エンジンはPhainonの層別倍率と局所保留、`calculateCipherSnapshot()`の4成分、`calculateDahliaSuperBreak()`の限定変換を検査する。任意の攻撃/所有者を合成できる一般エンジンにはしない。`attack-contract.schema.json`は実在するsuperBreak型と明示下限E0を同期した。UI変更を配信/キャッシュ更新で反映するため、ページのApp/Engine/Runtimeのスクリプト読み込み版も更新する。共通ヘッダー/フッターは変更しない。
+
+
+## 第13回の限定経路追加
+
+本番マニフェストへround13の攻撃override4ファイル/Modifier2ファイルを追加した。`resolvedAttack()`は登録されたSerin/Dahlia子攻撃を読み込み、既存の成分別Modifier評価を保って`sequenceComponents`へ変換する。解決済みDoT子は固定Lv1/150%、直撃と結界は必殺Lv、Dahliaは天賦Lvを使う。
+
+`selectedPartyReferences()`は既存の雷属性に加えて風属性DMGを保持する。`supplementalAttacks()`は完成済み参照者の`character`/`enemy`（所有者固有のDEF無視/RES貫通を含む）を落とさず、`completedReferenceSnapshot`で自己バフの再加算を防ぐ。敵の風耐性は既存入力キーを共有し、補正モーダル内に重複する欄を作らない。UID取得/再構成の経路や保存形式は変更していない。

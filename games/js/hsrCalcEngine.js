@@ -212,6 +212,7 @@
     }
 
     function unsupportedAttackReason(attack = {}) {
+        if (attack.damageFormula === "resolvedDamageMultiplier" && ["14101021","14101022","14101023","14101024"].includes(attack.id) && attack.characterId === "1410" && attack.dataOwnerId === "1410" && attack.type === "dot") return "";
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
         if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
         if(attack.id === "1321042" && attack.characterId === "1321" && attack.sourceSkillId === "132104" && attack.type === "superBreak" && attack.damageFormula === "dahliaSuperBreak" && attack.element === "Fire") return "";
@@ -235,12 +236,14 @@
                 && attack.element === "Thunder" && attack.sourceSkillId === "122302"
                 && components[0]?.key === "skill" && components[0]?.attackId === "122302"
                 && components[1]?.key === "additional" && components[1]?.attackId === "122304";
+            const validDahliaDefinition = attack.id === "1321043" && attack.characterId === "1321" && attack.sourceSkillId === "132104" && attack.type === "followUp" && attack.element === "Fire" && components?.length === 2;
+            const validSerinDefinition = attack.id === "1410032" && attack.characterId === "1410" && attack.sourceSkillId === "141003" && attack.type === "ultimate" && components?.length === 6;
             const validCipherDefinition = attack.id === "140603" && attack.characterId === "1406" && attack.sourceSkillId === "140603" && attack.type === "ultimate" && components?.length === 4;
             const validLingshaDefinition = attack.id === "1222062" && attack.characterId === "1222" && attack.sourceSkillId === "122206" && attack.type === "followUp" && attack.element === "Fire" && attack.target === "single" && components?.length === 2;
             const validSushangDefinition = attack.id === "1206022" && attack.characterId === "1206" && attack.sourceSkillId === "120602" && attack.type === "skill" && attack.element === "Physical" && attack.target === "single" && components?.length === 3;
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
+            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validSerinDefinition || validDahliaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -353,6 +356,7 @@ function calculateFanning(input) {
             for(const id of attack.requiredModifierIds||[]){const mods=(input.modifiers||[]).filter(m=>m.id===id&&m.enabled!==false&&m.applicable!==false&&m.calculable!==false&&Number.isFinite(m.value)&&!(m.inputWarnings||[]).length&&modifierAppliesToAttack(m,attack));if(mods.length!==1)return fail("必要な補正が不足しています："+id);}
         }
         if (attack.rejectNormalOnlyModifiers && attack.damageFormula !== "componentSequence") { const reason = normalOnlyModifierReason(input.modifiers || []); if (reason) return { supported: false, reason }; }
+        if (attack.damageFormula === "resolvedDamageMultiplier") return calculateSerinResolvedDoT(input);
         if (attack.damageFormula === "componentSequence") return calculateComponentSequence(input);
         if (supportedElationAttack(attack)) return calculateElation(input);
         if (supportedTrueAttack(attack)) return calculateTrueDamage(input);
@@ -464,6 +468,8 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(input.attack?.id === "1321043") return calculateDahliaSnapshot(input);
+        if(input.attack?.id === "1410032") return calculateSerinSnapshot(input);
         if(input.attack?.id === "140603") return calculateCipherSnapshot(input);
         if (input.attack?.id === "130803") return calculateAcheronSnapshot(input);
         if (input.attack?.id === "140109") return calculateHertaSnapshot(input);
@@ -526,12 +532,50 @@ function calculateFanning(input) {
         return combineDamageComponents(attack, components, yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
     }
 
+    function calculateDahliaSnapshot(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[];
+        const fail=reason=>({supported:false,reason});
+        if(c.level!==80 || c.eidolon!==0 || e.count!==1 || e.weakness!==true || e.toughnessActive!==false || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10 || parts.length!==2 || a.damageComponents?.length!==2)return fail("ダリアの同一追撃成分はLv80/E0/事前撃破済みの炎弱点敵1体/天賦Lv1～10に限定します。");
+        for(let i=0;i<2;i++){
+            const p=parts[i],child=p?.input?.attack||{};
+            if(child.id!==["132104","1321042"][i] || a.damageComponents[i].attackId!==child.id || child.characterId!=="1321" || child.sourceSkillId!=="132104" || child.traceLevel!==a.traceLevel || child.multiplier!==child.multipliers?.[a.traceLevel-1] || child.type!==(i===0?"followUp":"superBreak") || child.damageFormula!==(i===0?"statMultiplier":"dahliaSuperBreak") || JSON.stringify(p.input.character)!==JSON.stringify(c) || JSON.stringify(p.input.enemy)!==JSON.stringify(e) || p.input.modifierInputs?.["dahlia-fua-base-toughness"]!==input.modifierInputs?.["dahlia-fua-base-toughness"])return fail("同じ追撃の提供者・敵・天賦Lv・基礎削靭値を使用してください。");
+        }
+        return combineDamageComponents(a,parts,"天賦追撃5段＋追撃固有の超撃破（共に舞う者の変換は未合算）");
+    }
+
     function calculateDahliaSuperBreak(input) {
         const a=input.attack||{},c=input.character||{},e=input.enemy||{},v=input.modifierInputs?.["dahlia-fua-base-toughness"];
         if(!Number.isFinite(c.stats?.breakEffect) || c.stats.breakEffect<0 || c.level!==80 || c.eidolon!==0 || e.count!==1 || e.weakness!==true || e.toughnessActive!==false || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10 || !Number.isFinite(v) || v<0 || v>99999 || a.multiplier!==a.multipliers?.[a.traceLevel-1]) return {supported:false,reason:"ダリアの追撃超撃破はLv80/E0/炎弱点の敵1体が事前撃破済み・天賦Lv1～10・基礎削靭値の指定が必要です。"};
         const sb=calculateSuperBreak({...input,attack:{...a,superBreakMultiplier:a.multiplier,toughnessDamage:v}});
         if(!sb.supported)return sb;
         return {attack:{name:a.name,canCrit:false,hitCount:1,target:"single"},nonCrit:sb.value,crit:sb.value,expected:sb.value,applied:sb.applied,skipped:sb.skipped,breakdown:{damageFormula:"breakComponent",kind:"superBreak",...sb,finalBreakEffect:(sb.breakEffect-1)*100}};
+    }
+
+    // A resolved tick already contains the DoT owner's offensive and enemy multipliers.
+    // This narrow A4 path only scales that explicit snapshot, and never attributes it to another owner.
+    function calculateSerinResolvedDoT(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{};
+        const index=["14101021","14101022","14101023","14101024"].indexOf(a.id);
+        const sourceId=["1410041","1410042","1410043","1410044"][index];
+        const key="serin-detonation-original:"+sourceId, original=input.modifierInputs?.[key];
+        if(index<0 || c.level!==80 || c.eidolon!==0 || e.count!==1 || a.dataOwnerId!=="1410" || a.sourceDoTId!==sourceId || a.originalDamageInputKey!==key || a.multiplier!==150 || a.canCrit!==false || !Number.isFinite(original) || original<0 || original>1e12) return {supported:false,reason:"セイレンス本人の事前DoT1回分（補正済み非会心値）を明示してください。他所有者のDoT・未指定値は代用しません。"};
+        const value=original*1.5;
+        return {attack:{name:a.name,canCrit:false,hitCount:1,target:"single"},nonCrit:value,crit:value,expected:value,applied:[],skipped:(input.modifiers||[]).map(m=>({...m,applicable:false,reason:"元のDoT1回分へ算入済みのため、起爆へ補正を再適用しません。"})),breakdown:{damageFormula:"resolvedDamageMultiplier",referenceValue:original,multiplier:150,sourceDoTId:sourceId,dataOwnerId:"1410",condition:"本人所有の成立済みDoTのみ。元の非会心値へ倍率150%だけを適用"}};
+    }
+
+    function calculateSerinSnapshot(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],n=input.modifierInputs?.["serin-zone-proc-count"];
+        const ids=["141003","14101021","14101022","14101023","14101024","1410031"];
+        const fail=reason=>({supported:false,reason});
+        if(c.level!==80 || c.eidolon!==0 || e.count!==1 || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10 || !Number.isInteger(n) || n<0 || n>8 || parts.length!==6 || a.damageComponents?.length!==6)return fail("必殺の本人DoT比較はLv80/E0/敵1体/必殺Lv1～10・本人4種の既存DoT値と結界発動数0～8の明示が必要です。");
+        for(let i=0;i<6;i++){
+            const child=parts[i]?.input?.attack||{};
+            if(child.id!==ids[i] || a.damageComponents[i].attackId!==ids[i] || child.characterId!=="1410" || JSON.stringify(parts[i].input.character)!==JSON.stringify(c) || JSON.stringify(parts[i].input.enemy)!==JSON.stringify(e) || JSON.stringify(parts[i].input.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail("セイレンス必殺の参照者・敵・事前DoT・構成が一致しません。");
+            if([0,5].includes(i) && (child.traceLevel!==a.traceLevel || child.type!==(i===0?"ultimate":"dot") || child.multiplier!==child.multipliers?.[a.traceLevel-1]))return fail("必殺直撃・結界DoTのLv/倍率を確認してください。");
+        }
+        // The count is a supplied event snapshot. No new DoT assignment or proc recursion is simulated.
+        const expanded=parts.slice(0,5).concat(Array.from({length:n},(_,i)=>({...parts[5],key:"zone-"+(i+1),name:parts[5].name+" "+(i+1)+"回目"})));
+        return combineDamageComponents(a,expanded,"必殺直撃＋本人4種の事前DoT150%起爆＋指定回数の結界DoT（他所有者は対象外）");
     }
 
     function calculateCipherSnapshot(input) {

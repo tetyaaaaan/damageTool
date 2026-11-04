@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "jade-gilgamesh-round13-dbe8cdf-2026-11-04",
+  "description": "ギルガメッシュの連携追加攻撃を雷・風の別所有者成分として扱います。セイバーの風成分はセイバー本人の完成済み戦闘スナップショットを参照します。",
+  "modifiers": [
+    {
+      "id": "trace:1509:150905:saber-wind-followup",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "skillId": "150905"
+      },
+      "providerScope": "self",
+      "name": "「攻撃を許す」・セイバーの連携追加攻撃（風属性成分）",
+      "description": "パーティ内のセイバーから連携の風属性成分を自動抽出します。成立した連携1回の想定ダメージとして、セイバー自身の最終ATK・会心・風属性与ダメージ・防御無視・耐性貫通を入力します。ギルガメッシュ雷成分とは別結果。攻撃回数の履歴は再現しません。",
+      "category": "extraDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          300,
+          330,
+          360,
+          390,
+          420,
+          450,
+          487.5,
+          525,
+          562.5,
+          600
+        ],
+        "levelInputLabel": "ギルガメッシュの天賦Lv"
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": [
+          "Wind"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "パーティ内セイバーとの連携追加攻撃1回を想定。8回到達の履歴・リセットは自動追跡しません。"
+      },
+      "stacking": {
+        "group": "trace:1509:150905:saber-wind-followup",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "extraDamage",
+        "operation": "add"
+      },
+      "supplementalAttack": {
+        "name": "「攻撃を許す」・セイバーの連携追加攻撃（風属性成分）",
+        "element": "Wind",
+        "type": "followUp",
+        "scalingStat": "atk",
+        "target": "single",
+        "canCrit": true,
+        "statReference": "selectedParty",
+        "ownerInputKey": "gilgamesh-saber-owner",
+        "requiredStatReferenceId": "1014",
+        "triggerActor": "unspecified"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "minimum": 1,
+        "maximum": 99999,
+        "levelMaximum": 10,
+        "maximumEidolon": 0
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版ID150905.params[0..9][1,4]からE0天賦Lv1～10のセイバーATK倍率300～600%と攻撃8回の条件を確認。セイバーID1014の風属性・Lv80・星魂0の独立スナップショットに限定して検証します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150905.params[0..9][1,4]",
+        "verifiedAt": "2026-11-04",
+        "scope": "E0・ギルガメッシュLv80・天賦Lv1～10・攻撃回数8到達後の連携追加攻撃1回。風成分はパーティ内セイバーID1014のLv80・星魂0の最終戦闘値のみを参照。雷成分・攻撃回数の蓄積/リセット・その後の『興』/EP/必殺補正は別扱い。",
+        "verification": "tests/hsr/hsrJadeGilgameshRound13.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1314:131402:debt-collector-speed",
+      "source": {
+        "kind": "trace",
+        "id": "1314",
+        "skillId": "131402"
+      },
+      "providerScope": "party",
+      "name": "ほしいままに呑み込む買収・債権回収者の速度",
+      "description": "計算対象の味方がジェイドの債権回収者である状態だけ速度+30。本人が債権回収者でもSPDは上がらない。付与成功/持続3ターンの自動追跡はしない。",
+      "category": "statFlat",
+      "stat": "speed",
+      "unit": "flat",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          30,
+          30,
+          30,
+          30,
+          30,
+          30,
+          30,
+          30,
+          30
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "excludeSelf": true,
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "jade-debt-collector-active",
+        "inputLabel": "計算対象の味方がジェイドの債権回収者",
+        "default": false,
+        "conditionText": "計算対象の味方がジェイドのスキルを受けた債権回収者（本人を除く）"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "jade-debt-collector-speed-in-final",
+        "inputLabel": "債権回収者の速度+30を最終速度へ算入済み"
+      },
+      "stacking": {
+        "group": "jade-debt-collector-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定131402.params[0..9][0]=30、自己対象は速度効果を得ない。全E0スキルLvと支援後SPD閾値を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:131402.params[0..9][0], desc",
+        "verifiedAt": "2026-11-04",
+        "verification": "tests/hsr/hsrJadeGilgameshRound13.test.cjs; tests/hsr/hsrToolInputs.test.cjs"
+      }
+    }
+  ]
+}

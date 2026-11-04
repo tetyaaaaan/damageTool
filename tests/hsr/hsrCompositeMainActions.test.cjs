@@ -305,8 +305,8 @@ test("Jade one-target Talent FUA uses the final ATK and Pawned Assets Crit DMG s
     assert.equal(attack.target, "aoe");
     assert.equal(attack.enemyCountExact, 1);
     assert.equal(attack.maximumEidolon, 0);
-    assert.equal(attack.requiredToughnessActive, true);
-    assert.equal(attack.requiresNonWeakTarget, true);
+    assert.equal(attack.requiredToughnessActive, null);
+    assert.equal(attack.requiresNonWeakTarget, null);
     assert.equal(attack.provenance?.sourceCommit, fixedSourceSha);
     assertSourceCurve(attack.multipliers, jadeSource.followUp, "Jade Talent FUA source curve");
     assert.equal(enhanced.activation?.inputKey, "jade-enhanced-followup-active");
@@ -347,6 +347,7 @@ test("Jade one-target Talent FUA uses the final ATK and Pawned Assets Crit DMG s
                     }, modifiers);
                     request.character.stats = { ...request.character.stats, ...finalStats };
                     request.character.baseStats = { ...request.character.baseStats, ...scenario.baseStats };
+                    request.modifierInputs = {"jade-pawned-asset-stacks":50};
                     const addition = active ? jadeSource.enhancedFollowUpAddition[ultimateLevel - 1] : 0;
                     const oracle = oracleInput(request, "atk", jadeSource.followUp[talentLevel - 1] + addition, modifiers);
                     const result = assertMatchesOracle(engine, request, oracle, `Jade E0 Talent Lv${talentLevel}/Ultimate Lv${ultimateLevel}/${active ? "ON" : "OFF"}`);
@@ -412,6 +413,7 @@ test("Both promotions isolate ATK scaling from HP and DEF changes in asymmetric 
             traceLevelFor: () => 10
         }, { "jade-enhanced-followup-active": true }), jade));
         request.character.stats = { ...request.character.stats, ...stats };
+        request.modifierInputs = {"jade-pawned-asset-stacks":50};
         return engine.calculate(request);
     };
     const jadeBaseStats = { ...baseline.stats, critDamage: baseline.stats.critDamage + jadeSource.pawnCritDamagePerStack[7] * 50 };

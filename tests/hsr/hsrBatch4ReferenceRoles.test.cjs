@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {loadProductionFixture,runtime,makeRequest,independentDirectDamage,assertClose}=require('./helpers/hsrDirectVerification.cjs');
 test('batch4 supplemental reference separates effect source, trigger, stat owner and trace owner without borrowing provider stats',async()=>{
- const {data,engine}=await loadProductionFixture();const records=data.structuredModifiers.filter(m=>m.supplementalAttack);
+ const {data,engine}=await loadProductionFixture();const records=data.structuredModifiers.filter(m=>m.supplementalAttack?.statReference === "activeCharacter");
  for(const m of records) for(const owner of [{id:'1003',element:'Fire'},{id:'1202',element:'Thunder'}]){
   const stats={atk:3123.25,hp:9876,def:4321,critRate:37.5,critDamage:143.75,damageBonus:61.25};
   const ctx={characterId:owner.id,characterElement:owner.element,partyIds:['1202'],partyStats:{'1202':{atk:99999,critRate:1,critDamage:3,damageBonus:777}},stats};

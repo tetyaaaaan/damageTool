@@ -121,7 +121,9 @@
         "statReference": { "type": "string" },
         "triggerActor": { "type": "string" },
         "damageBonusInputKey": { "type": "string" },
-        "damageBonusInputLabel": { "type": "string" }
+        "damageBonusInputLabel": { "type": "string" },
+        "ownerInputKey": { "type": "string", "minLength": 1 },
+        "requiredStatReferenceId": { "type": "string", "pattern": "^[0-9]+$" }
       },
       "additionalProperties": false
     },

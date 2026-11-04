@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "overrides": [
+    {
+      "id": "141501",
+      "characterId": "1415",
+      "sourceSkillId": "141501",
+      "name": "さあ、希望の始まりよ！",
+      "element": "Ice",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "multipliers": [
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+      ],
+      "hitCount": 1,
+      "hitCountLabel": "直接成分1回",
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "calculationScope": "independently-checked-fixed-hp-direct",
+      "calculationNote": "固定版141501.params[0]の最終HP参照。追憶付与・精霊行動・領域確定ダメージは別結果です。",
+      "conditionText": "Lv80/E0/敵1体/通常Lv1～6。指定した形態の単発直接ダメージ。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のHP係数を全採用Lv・非対称ステータスで独立照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:141501.params",
+        "verifiedAt": "2026-11-04",
+        "verification": "tests/hsr/hsrPromotionsRound13.test.cjs"
+      }
+    },
+    {
+      "id": "141508",
+      "characterId": "1415",
+      "sourceSkillId": "141508",
+      "name": "愛と明日へ向かって♪",
+      "element": "Ice",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "multipliers": [
+        15,
+        18,
+        21,
+        24,
+        27,
+        30
+      ],
+      "hitCount": 2,
+      "hitCountLabel": "敵1体への単体＋全体の2成分（状態一定）",
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "calculationScope": "independently-checked-fixed-hp-direct",
+      "calculationNote": "固定版141508.params[0]とparams[2]は全採用Lvで同値。敵1体に単体・全体の等倍率2ヒットを各1回適用。攻撃中のHP/補正を一定として扱い、追憶付与・精霊行動・領域確定ダメージを自動合算しません。",
+      "conditionText": "Lv80/E0/敵1体/通常Lv1～6。指定した形態の単発直接ダメージ。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のHP係数を全採用Lv・非対称ステータスで独立照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:141508.params",
+        "verifiedAt": "2026-11-04",
+        "verification": "tests/hsr/hsrPromotionsRound13.test.cjs"
+      }
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版の全採用Lv・HP参照による通常/強化通常の限定直接計算を独立照合。"
+  }
+}

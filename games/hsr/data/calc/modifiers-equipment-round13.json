@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "description": "固定版3光円錐の事前成立済み支援。甲卸/窮寇は同一groupで高い側だけを適用。",
+  "modifiers": [
+    {
+      "id": "lightCone:23011:party-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "23011"
+      },
+      "name": "閉ざした瞳・装備者のHP減少後の味方DMGが有効",
+      "description": "攻撃前から成立した状態のみを指定。初回付与順・持続更新・同じ光円錐の複数提供者合成は対象外。恒常propertiesは最終入力に含め、再加算しない。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          9,
+          10.5,
+          12,
+          13.5,
+          15
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23011-hp-loss-buff-active",
+        "inputLabel": "装備者のHP減少後の味方DMGが有効",
+        "conditionText": "装備者のHP減少後の味方DMGが有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23011:party-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23011-party-damage-in-final",
+        "inputLabel": "この成分を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5、事前成立状態・単一提供者を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23011.params/desc",
+        "verifiedAt": "2026-11-04",
+        "verification": "tests/hsr/hsrEquipmentRound13.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23029:armorless",
+      "source": {
+        "kind": "lightCone",
+        "id": "23029"
+      },
+      "name": "幾度目かの春・対象敵が甲卸状態",
+      "description": "攻撃前から成立した状態のみを指定。初回付与順・持続更新・同じ光円錐の複数提供者合成は対象外。恒常propertiesは最終入力に含め、再加算しない。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          10,
+          12,
+          14,
+          16,
+          18
+        ]
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23029-armorless-active",
+        "inputLabel": "対象敵が甲卸状態",
+        "conditionText": "対象敵が甲卸状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "lc-23029-debuff-stage",
+        "rule": "max"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23029-armorless-in-final",
+        "inputLabel": "この成分を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5、事前成立状態・単一提供者を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23029.params/desc",
+        "verifiedAt": "2026-11-04",
+        "verification": "tests/hsr/hsrEquipmentRound13.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23029:cornered",
+      "source": {
+        "kind": "lightCone",
+        "id": "23029"
+      },
+      "name": "幾度目かの春・対象敵が窮寇状態（甲卸を置換）",
+      "description": "攻撃前から成立した状態のみを指定。初回付与順・持続更新・同じ光円錐の複数提供者合成は対象外。恒常propertiesは最終入力に含め、再加算しない。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          28,
+          32,
+          36,
+          40
+        ]
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23029-cornered-active",
+        "inputLabel": "対象敵が窮寇状態（甲卸を置換）",
+        "conditionText": "対象敵が窮寇状態（甲卸を置換）",
+        "default": false
+      },
+      "stacking": {
+        "group": "lc-23029-debuff-stage",
+        "rule": "max"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23029-cornered-in-final",
+        "inputLabel": "この成分を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5、事前成立状態・単一提供者を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23029.params/desc",
+        "verifiedAt": "2026-11-04",
+        "verification": "tests/hsr/hsrEquipmentRound13.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23032:woefree",
+      "source": {
+        "kind": "lightCone",
+        "id": "23032"
+      },
+      "name": "昔日の香りは今も猶・対象敵が忘憂状態",
+      "description": "攻撃前から成立した状態のみを指定。初回付与順・持続更新・同じ光円錐の複数提供者合成は対象外。恒常propertiesは最終入力に含め、再加算しない。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          10,
+          12,
+          14,
+          16,
+          18
+        ]
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23032-woefree-active",
+        "inputLabel": "対象敵が忘憂状態",
+        "conditionText": "対象敵が忘憂状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23032:woefree",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23032-woefree-in-final",
+        "inputLabel": "この成分を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5、事前成立状態・単一提供者を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23032.params/desc",
+        "verifiedAt": "2026-11-04",
+        "verification": "tests/hsr/hsrEquipmentRound13.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23032:woefree-break-threshold",
+      "source": {
+        "kind": "lightCone",
+        "id": "23032"
+      },
+      "name": "昔日の香りは今も猶・対象敵が忘憂状態",
+      "description": "攻撃前から成立した状態のみを指定。初回付与順・持続更新・同じ光円錐の複数提供者合成は対象外。恒常propertiesは最終入力に含め、再加算しない。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggleThreshold",
+        "inputKey": "lc-23032-woefree-active",
+        "inputLabel": "対象敵が忘憂状態",
+        "conditionText": "対象敵が忘憂状態",
+        "default": false,
+        "reference": "provider.breakEffect",
+        "operator": ">=",
+        "threshold": 150,
+        "statSource": "effective"
+      },
+      "stacking": {
+        "group": "lightCone:23032:woefree-break-threshold",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23032-woefree-break-threshold-in-final",
+        "inputLabel": "この成分を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5、事前成立状態・単一提供者を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23032.params/desc",
+        "verifiedAt": "2026-11-04",
+        "verification": "tests/hsr/hsrEquipmentRound13.test.cjs"
+      }
+    }
+  ]
+}

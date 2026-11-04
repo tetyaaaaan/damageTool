@@ -14,7 +14,7 @@ const fieldSets = {
   value: new Set(["kind", "fixed", "values", "perStack", "reference", "multiplierInputKey", "sharedInput", "multiplierInputLabel", "multiplierWhenTrue", "inputKey", "inputLabel", "inputUnit", "providerStat", "targetStat", "default", "minimum", "inputMaximum", "inputStep", "inputMultipliers", "levelInputKey", "levelInputLabel", "levelDefault", "scaleValues", "addValues", "targetPercentValues", "capPercentValues", "threshold", "step", "perStep", "maximum", "maximumAtEidolon", "thresholds"]),
   inputValidation: new Set(["maximumEidolon", "levelMaximum", "levelMaximumAtEidolon", "minimum", "maximum", "integer", "whenToggle"]),
   target: new Set(["owner", "attackTypes", "excludeSelf", "attackIds", "elements"]),
-  supplementalAttack: new Set(["name", "element", "type", "scalingStat", "target", "canCrit", "statReference", "triggerActor", "damageBonusInputKey", "damageBonusInputLabel"]),
+  supplementalAttack: new Set(["name", "element", "type", "scalingStat", "target", "canCrit", "statReference", "triggerActor", "damageBonusInputKey", "damageBonusInputLabel", "ownerInputKey", "requiredStatReferenceId"]),
   activation: new Set(["requiredToggleKey", "mode", "conditionText", "inputKey", "inputLabel", "threshold", "thresholdReference", "minimum", "maximum", "maximumAtEidolon", "default", "reference", "operator", "durationTurns", "comparisonDerived", "strictInput", "step", "statSource"]),
   stacking: new Set(["group", "rule", "maximumStacks"]),
   calculation: new Set(["stage", "operation", "cap", "floor"]),
@@ -100,6 +100,7 @@ function validateModifiers(records) {
       checkEnum(modifier.supplementalAttack.type, new Set(["additional", "followUp", "dot"]), `${at}.supplementalAttack.type`, issues);
       checkEnum(modifier.supplementalAttack.scalingStat, new Set(["hp", "atk", "def"]), `${at}.supplementalAttack.scalingStat`, issues);
       checkEnum(modifier.supplementalAttack.target, new Set(["single", "blast", "all", "bounce"]), `${at}.supplementalAttack.target`, issues);
+      if (modifier.supplementalAttack.requiredStatReferenceId && (modifier.supplementalAttack.statReference !== "selectedParty" || !modifier.supplementalAttack.ownerInputKey || !/^\d+$/.test(modifier.supplementalAttack.requiredStatReferenceId))) issues.push(`${at}: requiredStatReferenceId needs selectedParty and ownerInputKey`);
       if (modifier.category !== "extraDamage") issues.push(`${at}: supplementalAttack requires extraDamage category`);
       if (modifier.support?.status !== "calculable") issues.push(`${at}: supplementalAttack must be calculable`);
     }

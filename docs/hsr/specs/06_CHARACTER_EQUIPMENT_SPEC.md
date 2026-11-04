@@ -150,3 +150,12 @@
 [セイレンス/サフェル攻撃](../../../games/hsr/data/calc/attacks-serin-cipher-round12.json)と[補正](../../../games/hsr/data/calc/modifiers-serin-cipher-round12.json)は、択一DoT・領域1回・必殺直接成分・Cipherの指定記録4成分を区別する。Cipherの限定E0受入と範囲外は生成完成表が正本で、全状態の認定に読み替えない。[追加キャラ攻撃](../../../games/hsr/data/calc/attacks-extra-round12.json)と[DEF無視](../../../games/hsr/data/calc/modifiers-extra-round12.json)はジェイド/ギルガメッシュの本人成分を扱い、別所有者の全連携を完成扱いにしない。
 
 [LC](../../../games/hsr/data/calc/modifiers-equipment-round12.json)は確認したS1～S5の計算成分だけを追加し、恒常propertiesは既存の最終入力責務を維持。未確認の初回付与/複数提供者合成を全文完成として登録しない。分類・種類数と残範囲は[台帳](../../HSR_COMPLETION_WORKLOAD.md)で管理する。
+
+
+## 第13回の効果正本と認定範囲
+
+[攻撃マニフェスト](../../../games/hsr/data/calc/data-files.json)から読む`attacks-dahlia-round13.json`、`attacks-serin-round13.json`、`attacks-jade-gilgamesh-round13.json`、`attacks-promotions-round13.json`が新しい限定成分/状態の正本。LC23011/23029/23032は`modifiers-equipment-round13.json`、セイバー風連携は`modifiers-jade-gilgamesh-round13.json`へ登録する。原係数/条件は各provenanceの固定版skills/trees/light_cone_ranksを参照する。
+
+ジェイドの認定は、本人非債権回収者・敵1体・明示したダメージ時点質草・既存の必殺限定条件を維持した主要構成だけ。層獲得時点/チャージ更新を自動認定しない。ダリアの変換、セイレンスの他所有者DoT/更新順、ギルガメッシュの連携合算と興等の全構成は未完成のまま管理する。人数/登録数は[生成完成表](../../HSR_CHARACTER_COMPLETION.md)、限定受入は[攻撃範囲](../../HSR_MAIN_ATTACK_SCOPE.md)、残成分は[残作業台帳](../../HSR_COMPLETION_WORKLOAD.md)が正本。
+
+ジェイドのスキルSPDは、計算対象の味方が債権回収者である任意状態を既存キーで指定し、本人を除いて固定+30を適用する。最終速度への既算入・提供者解除を尊重し、支援後SPDを既存グラモス閾値へ渡す。付加ダメージ行1314021は成立した単発の想定値として常時一覧へ出し、表示専用チェックを要求しない。

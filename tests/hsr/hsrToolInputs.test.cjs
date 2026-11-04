@@ -2603,7 +2603,10 @@ test("Jade capped-Pawn Follow-Up uses final stats once and only needs Ultimate L
     const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
     const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
     app.window.HsrTool.applyProfileCharacter({id:"1314",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:220,damageBonus:0}});
-    const follow=target=>target.calculate().find(r=>r.attack.name==="富を削ぐ毒牙（質草50層・敵1体）");
+    app.state.modifierInputs["jade-pawned-asset-stacks"]=50;
+    app.state.modifierInputs["traceNode:1314:1314103:pawned-asset-atk-in-final"]=true;
+    app.state.modifierInputs["trace:1314:131404:pawned-asset-crit-damage-in-final"]=true;
+    const follow=target=>target.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='131404').name);
     let result=follow(app);near(result.nonCrit,1296);near(result.crit,4147.2);near(result.expected,2721.6);assert.match(app.node("hsrResults").innerHTML,/hsr-result-scope-label">[^<]*必殺技強化なし/);assert.equal(result.breakdown.critDamagePercent,220,"the final 50-stack CRIT DMG is not added twice");
     app.state.modifierInputs["jade-enhanced-followup-active"]=true;
     result=follow(app);near(result.nonCrit,2160);near(result.crit,6912);near(result.expected,4536);near(result.breakdown.multiplierAddition,80);
@@ -3881,4 +3884,57 @@ test('round12 Cipher native core, threshold and inclusion reach real App calcula
  app.node('hsrStat-speed').value='139.99';near(find(app,'140604').expected,2268*2);app.node('hsrStat-speed').value='140';near(find(app,'140604').expected,2268*2.5);app.node('hsrStat-speed').value='170';
  app.state.modifierInputs['cipher-fua-crit-damage-in-final-stats']=true;app.node('hsrStat-critDamage').value='200';near(find(app,'140604').expected,6804);app.state.modifierInputs['cipher-a6-taken-damage-in-enemy-input']=true;app.node('hsrEnemyTakenDamage').value='40';near(find(app,'140603').nonCrit,13919.2);
  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved,'140604').expected,6804);near(find(saved,'140603').nonCrit,13919.2);
+});
+
+
+test('round13 Serin snapshot inputs reach each component, local missing state and saved restoration',async()=>{
+ const {data:p}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),data={...p,structuredModifiers:[]},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);app.state.characterId='1410';
+ for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ const name=data.attacks.find(a=>a.id==='1410032').name,find=x=>x.calculate().find(r=>r.attack?.name===name);assert.equal(find(app),undefined);
+ const keys=['1410041','1410042','1410043','1410044'].map(id=>'serin-detonation-original:'+id);keys.forEach((key,i)=>app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:key,structuredStrict:'true'},value:String([111,222,0,444][i])}}));app.state.modifierInputs['serin-zone-proc-count']=2;app.node('hsrUltimateTrace').value='10';
+ const r=find(app);assert.ok(r,app.node('hsrResults').innerHTML);near(r.nonCrit,3000*2*.36+777*1.5+2*3000*.8*.36);near(r.crit,3000*2*.36*2+777*1.5+2*3000*.8*.36);assert.equal(Object.keys(r.components).length,7);assert.match(app.node('hsrResults').innerHTML,/本人の事前DoT起爆/);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();for(const key of [...keys,'serin-zone-proc-count'])assert.equal((app.node('hsrConditionList').innerHTML.match(new RegExp('data-structured-input="'+key+'"','g'))||[]).length,1);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).expected,r.expected);delete saved.state.modifierInputs[keys[2]];assert.equal(find(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='141001').name));
+});
+
+test('round13 Dahlia same-event sum uses Talent level, separate direct/break modifiers and restored explicit toughness',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);app.state.characterId='1321';app.node('hsrTalentTrace').value='10';app.node('hsrUltimateTrace').value='1';
+ for(const[k,v]of Object.entries({atk:3000,breakEffect:200,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.node('hsrToughnessState').value='broken';app.node('hsrWeakness').value='true';
+ const name=data.attacks.find(a=>a.id==='1321043').name,find=x=>x.calculate().find(r=>r.attack?.name===name);assert.equal(find(app),undefined);app.state.modifierInputs['dahlia-fua-base-toughness']=50;const r=find(app);assert.ok(r,app.node('hsrResults').innerHTML);near(r.nonCrit,3000*.3*5*.4+3767.5533*2*5*3*.4);near(r.expected,3000*.3*5*.4*1.5+3767.5533*2*5*3*.4);
+ app.state.modifierInputs['dahlia-skill-field-active']=true;near(find(app).nonCrit,1800+3767.5533*2*5*3*.4*1.5);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).expected,find(app).expected);saved.node('hsrToughnessState').value='active';assert.equal(find(saved),undefined);
+});
+
+test('round13 Gilgamesh joint Wind uses Saber snapshot and never own stats or owner buffs twice',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);app.state.characterId='1509';app.state.party[0]={characterId:'1014',eidolon:0,traceLevels:{talent:10}};app.node('hsrTalentTrace').value='10';
+ for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ const name='「攻撃を許す」・セイバーの連携追加攻撃（風属性成分）',find=x=>x.calculate().find(r=>r.attack?.name===name);assert.equal(find(app),undefined);
+ for(const[k,v]of Object.entries({atk:4321,critRate:37,critDamage:123,Wind:29,defenseIgnore:17,resistancePenetration:11}))app.state.modifierInputs['party-reference:1014:'+k]=v;app.state.modifierInputs['enemy-resistance:Wind']=31;
+ const nc=4321*6*1.29*(100/183)*.8*.9,ev=nc*(1+.37*1.23),r=find(app);assert.ok(r,app.node('hsrResults').innerHTML);near(r.nonCrit,nc);near(r.expected,ev);app.node('hsrStat-atk').value='999999';app.node('hsrStat-critDamage').value='9999';near(find(app).expected,ev);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/セイバーの最終風属性与ダメージ/);assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="enemy-resistance:Wind"/g)||[]).length,1);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).expected,ev);saved.state.party=[];assert.equal(find(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='1509051').name),saved.node('hsrCalculationFeedback').innerHTML+' '+saved.node('hsrWarnings').innerHTML);
+});
+
+test('round13 new LC post-event states survive restoration and equipment removal',async()=>{
+ const {data:p}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7);
+ for(const[id,key]of [['23011','lc-23011-hp-loss-buff-active'],['23029','lc-23029-cornered-active'],['23032','lc-23032-woefree-active']]){
+  const cone=p.lightCones.find(c=>c.id===id),cid=p.characters.find(c=>c.path===cone.path).id,data={...p,structuredModifiers:p.structuredModifiers.filter(m=>m.source.kind==='lightCone'&&m.source.id===id),attacks:[{id:'lc-test',characterId:cid,name:'LC test',type:'normal',element:p.characters.find(c=>c.id===cid).element,scalingStat:'atk',multipliers:[100],canCrit:true,fixedTraceLevel:1,support:{status:'calculable',verified:true}}]},app=await tool(undefined,data);app.state.characterId=cid;app.state.coneId=id;
+  for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100,breakEffect:150}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].expected,1620);app.state.modifierInputs[key]=true;const value=app.calculate()[0].expected;assert.ok(value>1620);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,value);saved.state.coneId='';near(saved.calculate()[0].expected,1620);
+ }
+});
+
+
+test('round13 Jade reuses one Pawn selector, current damage-time stats and final inclusion through save',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);app.state.characterId='1314';for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.node('hsrTalentTrace').value='10';
+ const name=data.attacks.find(a=>a.id==='131404').name,find=x=>x.calculate().find(r=>r.attack?.name===name);assert.equal(find(app),undefined);const base=data.characters.find(c=>c.id==='1314').base.atk;
+ for(const stacks of [0,1,25,49,50]){app.state.modifierInputs['jade-pawned-asset-stacks']=stacks;near(find(app).expected,(3000+base*.005*stacks)*1.2*.36*(1+.5*(1+.024*stacks)));}
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="jade-pawned-asset-stacks"/g)||[]).length,1);
+ const before=find(app).expected;app.node('hsrStat-atk').value=String(3000+base*.25);app.node('hsrStat-critDamage').value='220';app.state.modifierInputs['traceNode:1314:1314103:pawned-asset-atk-in-final']=true;app.state.modifierInputs['trace:1314:131404:pawned-asset-crit-damage-in-final']=true;near(find(app).expected,before);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).expected,before);delete saved.state.modifierInputs['jade-pawned-asset-stacks'];assert.equal(find(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='131401').name));
+});
+
+
+test('round13 Jade Debt Collector support reaches beneficiary Glamoth and restores without doubling final SPD',async()=>{
+ const {data:p}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),data={...p,attacks:[p.attacks.find(a=>a.id==='100301')],structuredModifiers:p.structuredModifiers.filter(m=>m.id==='trace:1314:131402:debt-collector-speed'||m.id==='ornament:311:2pc:speed-damage')},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+ app.state.characterId='1003';app.state.party[0]={characterId:'1314',eidolon:0,traceLevels:{skill:10}};app.state.ornamentId='311';for(const[k,v]of Object.entries({atk:3000,speed:132,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.node('hsrNormalTrace').value='6';near(app.calculate()[0].expected,1620);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'jade-debt-collector-active'},checked:true}});near(app.calculate()[0].expected,1911.6);app.node('hsrStat-speed').value='162';app.state.modifierInputs['jade-debt-collector-speed-in-final']=true;near(app.calculate()[0].expected,1911.6);
+ app.node('hsrStat-speed').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,1911.6);saved.state.modifierInputs['jade-debt-collector-speed-in-final']=false;saved.node('hsrStat-speed').value='132';saved.state.party=[];near(saved.calculate()[0].expected,1620);
 });

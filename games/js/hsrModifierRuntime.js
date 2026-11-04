@@ -99,6 +99,7 @@
     const sourceName = typeof context.sourceNameFor === "function"
       ? context.sourceNameFor(source.kind, id)
       : record.name;
+    if (record.supplementalAttack?.requiredStatReferenceId && !partyIds.includes(String(record.supplementalAttack.requiredStatReferenceId))) return {selected:false};
     if (record.variant && record.variant !== context.enhancementState) return { selected: false };
 
     if (["character", "trace", "eidolon"].includes(source.kind)) {
@@ -312,7 +313,7 @@
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じオーナメントの複数提供者による支援は条件未確定です。" });
       }
-      if (record.source?.kind === "lightCone" && ["21015", "23008", "23047", "23041", "23054", "21050", "22007", "24006", "23016", "23017", "23056", "23058", "23059", "23063", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
+      if (record.source?.kind === "lightCone" && ["23011", "23029", "23032", "21015", "23008", "23047", "23041", "23054", "21050", "22007", "24006", "23016", "23017", "23056", "23058", "23059", "23063", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
         const count = Number(String(context.lightConeId || "") === String(record.source.id))
           + (context.partyEquipment || []).filter(item => String(item.lightConeId || "") === String(record.source.id)).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じ光円錐の複数提供者による支援は条件未確定です。" });
@@ -535,9 +536,10 @@
     const sourceId = String(candidate.providerId || candidate.sourceMeta?.id || candidate.source?.id || "");
     const ownerId = String(context.characterId || "");
     if (definition.statReference === "selectedParty") {
-      const id=String(inputs[definition.ownerInputKey]||''), snapshot=partyReferenceSnapshot(id,definition.element,context,inputs);
+      const id=String(inputs[definition.ownerInputKey] || definition.requiredStatReferenceId || ''), snapshot=partyReferenceSnapshot(id,definition.element,context,inputs);
+      if (definition.requiredStatReferenceId && id !== definition.requiredStatReferenceId) return {supported:false,reason:"この連携成分には指定された所有者のパーティ入力が必要です。",sourceCharacterId:sourceId,statReferenceId:id};
       if (![String(context.characterId),...(context.partyIds||[]).map(String)].includes(sourceId)) return {supported:false,reason:"補正の提供者がパーティにいません。",sourceCharacterId:sourceId,statReferenceId:id};
-      return {...snapshot,sourceCharacterId:sourceId,statReferenceId:id,damageOwnerId:id,triggerCharacterId:definition.triggerActor==='provider'?sourceId:id,traceOwnerId:sourceId,inputKey:definition.ownerInputKey};
+      return {...snapshot,sourceCharacterId:sourceId,statReferenceId:id,damageOwnerId:id,triggerCharacterId:definition.triggerActor==='provider'?sourceId:definition.triggerActor==='unspecified'?null:id,traceOwnerId:sourceId,inputKey:definition.ownerInputKey};
     }
     if (definition.statReference !== "activeCharacter") return {supported:false,reason:"この付加ダメージのステータス参照者は未対応です。"};
     const key = definition.damageBonusInputKey ? definition.damageBonusInputKey + ":" + ownerId : "";
