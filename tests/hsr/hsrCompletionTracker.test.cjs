@@ -46,7 +46,9 @@ test('candidate audit keeps missing damage components distinct from registered s
  for(const id of ['1507','1225'])assert.equal(e0CandidateAudit[id].status,'confirmed');
  for(const id of ['1307','1405','1410','8007','8008'])assert.equal(e0CandidateAudit[id].workClass,'D');
  for(const id of ['1013','1108','1222','1101','1217','1306'])assert.equal(e0CandidateAudit[id].status,'confirmed');
- for(const id of ['1106','1207','1218'])assert.equal(e0CandidateAudit[id].status,'pending');
+ for(const id of ['1106','1218'])assert.equal(e0CandidateAudit[id].status,'pending');
+ assert.equal(e0CandidateAudit['1207'].status,'confirmed','Round16 Basic-tag and native-support acceptance');
+ assert.equal(e0CandidateAudit['1214'].status,'pending','prior-broken Ultimate alone does not certify unbroken states');
  assert.ok(audits.every(a=>['confirmed','pending','missing'].includes(a.status)));
  for(const id of ['1001','1003'])assert.equal(e0CandidateAudit[id].missingComponents.length,0,'the independently added delayed event resolves the registration gap');
  for(const a of audits)if(a.missingComponents?.length)assert.equal(a.status,'missing');

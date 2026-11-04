@@ -522,7 +522,7 @@ function calculateFanning(input) {
                 return fail("複合攻撃の各成分は同じ攻撃時点のステータス・敵条件で計算してください。");
             }
         }
-        if (yukong) { const reason = normalOnlyModifierReason(components.flatMap(c=>c.input.modifiers || [])); if(reason) return fail(reason); }
+        if (yukong && !components[1].input.attack.tags?.includes("normal")) return fail("徹札矢の通常攻撃タグを確認できません。構成データを再読み込みしてください。");
         const followUpModifiers = Array.isArray(components[1].input.modifiers) ? components[1].input.modifiers : [];
         const nativeFollowUpBonus = followUpModifiers.filter(item => item.id === "trace:1220:122004:followup-damage");
         if (!yukong && !moze && (nativeFollowUpBonus.length !== 1 || nativeFollowUpBonus[0].enabled !== true || nativeFollowUpBonus[0].applicable !== true

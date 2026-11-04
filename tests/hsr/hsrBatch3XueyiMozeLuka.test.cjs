@@ -381,7 +381,8 @@ test("batch3 Moze full Skill responds independently to owner ATK and provider le
 test("batch3 uncertain whole actions and Luka random extra punches remain distinct from verified components", async () => {
     const { data } = await loadProductionFixture();
     const xueyiUltimate = attackOf(data, "121403");
-    assert.notEqual(xueyiUltimate.support.status, "calculable", "unproven variable toughness mapping is not a formal whole-Ultimate result");
+    assert.equal(xueyiUltimate.requiresBrokenTarget, true, "Round16 admits only prior-broken targets; variable toughness mapping remains unproven");
+    assert.equal(xueyiUltimate.enforceSnapshotContract, true, "the partial Ultimate must reject unverified snapshots");
     const extraPunch = attackOf(data, "11111031");
     assert.equal(extraPunch.support.status, "review", "1.5 expected extra punches are not a certain realized attack");
     assert.match(extraPunch.name + " " + extraPunch.conditionText, /期待|平均|確率/, "probabilistic result is labeled");

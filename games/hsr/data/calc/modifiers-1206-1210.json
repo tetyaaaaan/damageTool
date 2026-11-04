@@ -870,6 +870,10 @@
         "operation": "add"
       },
       "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "trace:1207:120702:party-atk-in-final",
+        "inputLabel": "鳴弦号令の攻撃力上昇を最終ATKに反映済み"
+      },
       "support": {
         "status": "calculable",
         "verified": true
@@ -938,6 +942,10 @@
         "operation": "add"
       },
       "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "trace:1207:120703:party-crit-rate-in-final",
+        "inputLabel": "貫雲箭の会心率上昇を最終会心率に反映済み"
+      },
       "support": {
         "status": "calculable",
         "verified": true
@@ -1006,6 +1014,10 @@
         "operation": "add"
       },
       "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "trace:1207:120703:party-crit-damage-in-final",
+        "inputLabel": "貫雲箭の会心ダメージ上昇を最終会心ダメージに反映済み"
+      },
       "support": {
         "status": "calculable",
         "verified": true

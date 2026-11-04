@@ -2749,7 +2749,7 @@ test("Yukong compares Basic, Talent and total with scoped buffs and keeps missin
  assert.equal(app.state.modifierInputs["yukong-bowshot-ready"],undefined);assert.match(app.node("hsrResults").innerHTML,/通常本体＋徹札矢の合計/);assert.match(app.node("hsrResults").innerHTML,/通常本体＋天賦付加1回/);
  app.node("hsrTalentTrace").value="";assert.equal(row(app,"120704"),undefined);assert.equal(row(app,"1207011"),undefined);assert.ok(row(app,"120701"));assert.ok(row(app,"120703"));app.node("hsrTalentTrace").value="10";
  app.state.data.structuredModifiers.push({id:"test-normal-only",source:{kind:"trace",id:"1207"},name:"通常限定検証",category:"damageBonus",unit:"percent",value:{kind:"fixed",fixed:20},target:{owner:"self",attackTypes:["normal"],elements:[]},activation:{mode:"toggle",inputKey:"test-normal-only-active",default:false},stacking:{group:"test-normal",rule:"nonStacking"},calculation:{stage:"damageBonus",operation:"add"},inputPolicy:"conditional",support:{status:"calculable",verified:true}});
- app.state.modifierInputs["test-normal-only-active"]=true;assert.equal(row(app,"120704"),undefined);assert.equal(row(app,"1207011"),undefined);assert.ok(row(app,"120701"));assert.ok(row(app,"120703"));assert.match(app.node("hsrResults").innerHTML,/通常攻撃限定補正.*未検証/);app.state.modifierInputs["test-normal-only-active"]=false;
+ app.state.modifierInputs["test-normal-only-active"]=true;near(row(app,"120701").nonCrit,1425.6);near(row(app,"120704").nonCrit,1140.48);near(row(app,"1207011").nonCrit,2566.08);near(row(app,"1207011").crit,5132.16);near(row(app,"1207011").expected,3849.12);near(row(app,"120703").nonCrit,4596.48);assert.doesNotMatch(app.node("hsrResults").innerHTML,/通常攻撃限定補正.*未検証/);app.state.modifierInputs["test-normal-only-active"]=false;
  app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;near(row(app,"1207011").nonCrit,3149.28);app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(row(restored,"1207011").nonCrit,3149.28);restored.state.party[0].characterId="";near(row(restored,"1207011").nonCrit,2177.28);
 });
 
@@ -3960,4 +3960,51 @@ test('R14 final-stat component controls preserve mixed inclusion and missing pro
  app.state.modifierInputs['traceNode:1101:1101103:party-damage-in-final-stats']=true;app.node('hsrConditionDialogOpen').handlers.click();html=app.node('hsrConditionList').innerHTML;assert.ok((html.match(/最終入力に反映済み（追加なし）/g)||[]).length>=3);
  app.node('hsrConditionDialog').handlers.input({target:{dataset:{structuredProviderStat:'critDamage',providerId:'1101'},value:''}});app.state.modifierInputs['trace:1101:110103:crit-damage-in-final-stats']=false;assert.equal(app.calculate().some(r=>r.attack?.name===a.name),false);assert.ok(app.calculate().some(r=>r.attack?.name==='R14 DoT scope fixture'));
  app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);assert.equal(restored.state.modifierInputs['trace:1101:110103:atk-percent-in-final-stats'],true);
+});
+
+test("Round16 Yukong native supports reach self and party damage without double-counting final inputs", async () => {
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture();
+ const app=await tool(undefined,data), near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+" != "+b);
+ const profile=id=>app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:id==="1207"?12:0}});
+ const row=(t,id)=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id===id).name);
+ const toggle=(t,key,on)=>t.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:key},checked:on}});
+ const atkKey="yukong-roaring-bowstrings-active", critKey="yukong-ultimate-buffs-active";
+ const ids=["trace:1207:120702:party-atk","trace:1207:120703:party-crit-rate","trace:1207:120703:party-crit-damage"];
+ profile("1207"); near(row(app,"1207011").nonCrit,2177.28);
+ toggle(app,atkKey,true); toggle(app,critKey,true);
+ // 80% of beneficiary base ATK, 28% CR and 65% CD; A4 12% is already in final DMG.
+ const boostedAtk=3000+599.76*.8, nc=boostedAtk*1.8*1.12*.36;
+ let r=row(app,"1207011"); near(r.nonCrit,nc); near(r.crit,nc*2.65); near(r.expected,nc*(1+.78*1.65));
+ for(const part of Object.values(r.components)) for(const id of ids) assert.equal(part.applied.filter(m=>m.id===id).length,1);
+ app.node("hsrStat-atk").value=String(boostedAtk); app.node("hsrStat-critRate").value="78"; app.node("hsrStat-critDamage").value="165";
+ for(const id of ids) toggle(app,id+"-in-final",true);
+ near(row(app,"1207011").expected,r.expected);
+ app.node("hsrStat-atk").handlers.input(); const saved=await tool(app.storage,data); near(row(saved,"1207011").expected,r.expected);
+ for(const id of ids) assert.equal(saved.state.modifierInputs[id+"-in-final"],true);
+ // Reuse the same real support rows on an Imaginary recipient. Provider ATK is deliberately unrelated.
+ profile("1004");app.state.enhancementState="enhanced";app.node("hsrEnhancementState").value="enhanced";
+ for(const id of ids) app.state.modifierInputs[id+"-in-final"]=false;
+ app.state.party[0]={characterId:"1207",level:80,eidolon:0,atk:9999,traceLevels:{skill:10,ultimate:10}};
+ toggle(app,atkKey,false);toggle(app,critKey,false);near(row(app,"1100401").nonCrit,1209.6);
+ toggle(app,atkKey,true);toggle(app,critKey,true);
+ const partyNc=(3000+620.928*.8)*1.12*.36;
+ r=row(app,"1100401");near(r.nonCrit,partyNc);near(r.crit,partyNc*2.65);near(r.expected,partyNc*(1+.78*1.65));
+ app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(row(restored,"1100401").expected,r.expected);
+ restored.state.party[0].characterId="";near(row(restored,"1100401").expected,1620);
+});
+
+test("Round16 Xueyi limited Ultimate uses the existing broken-state input and restores it", async () => {
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture();
+ const app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1214",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:200,breakEffect:200}});
+ const row=(t,id)=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id===id).name);
+ assert.equal(row(app,"121403"),undefined);assert.ok(row(app,"121402"));
+ app.node("hsrToughnessState").value="broken";let r=row(app,"121403");
+ // Final DMG already contains min(BE,240)=200%; broken target removes the 0.9 toughness factor.
+ near(r.nonCrit,9000);near(r.crit,18000);near(r.expected,13500);near(r.breakdown.referenceValue,3000);
+ assert.match(app.node("hsrResults").innerHTML,/攻撃前から撃破済み/);
+ app.node("hsrUltimateTrace").value="1";near(row(app,"121403").nonCrit,5400);
+ app.node("hsrUltimateTrace").value="";assert.equal(row(app,"121403"),undefined);assert.ok(row(app,"121401"));app.node("hsrUltimateTrace").value="10";
+ app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(row(restored,"121403").expected,13500);assert.equal(restored.state.enemy.toughnessActive,false);
+ restored.node("hsrToughnessState").value="active";assert.equal(row(restored,"121403"),undefined);assert.ok(row(restored,"121401"));
 });

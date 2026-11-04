@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "必殺技発動前から撃破済みの敵に対する直接攻撃成分のみ。攻撃前の実削靭0に伴う可変与ダメージとA4条件不成立を限定して扱います。未撃破敵や必殺技の全状態は対応しません。"
+  },
+  "overrides": [
+    {
+      "id": "121403",
+      "characterId": "1214",
+      "sourceSkillId": "121403",
+      "name": "身を貫く天罰",
+      "element": "Quantum",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [150, 160, 170, 180, 190, 200, 212.5, 225, 237.5, 250],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiresBrokenTarget": true,
+      "calculationScope": "independently-checked-fixed-state-action",
+      "conditionText": "必殺技発動前から撃破済みの敵1体。攻撃前の実削靭が0のため削靭量依存の必殺技与ダメージ上昇は0。残り靭性50%以上を条件とする追加能力は不成立。",
+      "resultSummary": "攻撃前から撃破済みの敵に対する必殺技の直接ダメージのみ。未撃破状態の削靭量依存補正は含みません。",
+      "calculationNote": "Lv80・星魂0・必殺技Lv1～10・敵1体・攻撃前から撃破済みで状態一定。直接攻撃の基礎ATK倍率を計算します。敵の靭性は攻撃前から0なので、この攻撃の削靭による可変与ダメージ上昇は0です。残り靭性50%以上を条件とする追加能力も不成立です。撃破特効から変換される予兆の機杼の与ダメージは完成済み最終入力に含め、再加算しません。必殺技の未撃破敵への効果、削靭量換算、撃破ダメージは含めません。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121403.params[0..9][0]; character_skill_trees.json:1214101,1214102",
+        "verifiedAt": "2026-11-05",
+        "verification": "tests/hsr/hsrXueyiRound16.test.cjs",
+        "relatedSourceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1200/Xueyi.ts",
+        "relatedSourceCommit": "90bc8401408b17dba0a6743d882eb096ee236816",
+        "notes": "The pinned Fribbels source exposes a manually set toughnessReductionDmgBoost Ultimate slider. This is evidence for a manual condition only, not a conversion from toughness reduced to bonus DMG. No conversion formula is inferred or used here."
+      }
+    }
+  ]
+}

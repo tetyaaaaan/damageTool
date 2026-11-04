@@ -4,7 +4,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const {
     fixedSourceSha, loadProductionFixture, attackOf, makeRequest,
-    independentDirectDamage, assertClose
+    independentDirectDamage, assertClose, runtime
 } = require("./helpers/hsrDirectVerification.cjs");
 
 // Fixed StarRailRes character_skills.json curves for Yukong, transcribed
@@ -12,6 +12,9 @@ const {
 const normalCurve = [50, 60, 70, 80, 90, 100];
 const talentCurve = [40, 44, 48, 52, 56, 60, 65, 70, 75, 80];
 const ultimateCurve = [228, 243.2, 258.4, 273.6, 288.8, 304, 323, 342, 361, 380];
+const skillAtkCurve = [40, 44, 48, 52, 56, 60, 65, 70, 75, 80];
+const ultimateCurveCR = [21, 21.7, 22.4, 23.1, 23.8, 24.5, 25.37, 26.25, 27.12, 28];
+const ultimateCurveCD = [39, 41.6, 44.2, 46.8, 49.4, 52, 55.25, 58.5, 61.75, 65];
 
 const profiles = [
     {
@@ -149,13 +152,161 @@ test("Yukong E0 fixed-source Normal, Talent, and Ultimate curves are retained", 
         assert.equal(attack.characterId, "1207", id + " belongs to Yukong");
         assert.equal(attack.scalingStat, "atk", id + " uses ATK");
         assert.equal(attack.element, "Imaginary", id + " is Imaginary damage");
+        assert.equal(attack.target, "single", id + " targets one selected enemy");
         assert.deepEqual(Array.from(attack.multipliers).slice(0, curve.length), curve, id + " fixed-source curve");
         assert.equal(attack.requiredEidolon || 0, 0, id + " exists at E0");
     }
     const talent = attackOf(data, "120704");
     assert.equal(talent.type, "additional", "Talent damage is a distinct additional-damage instance");
+    assert.deepEqual(Array.from(talent.tags || []), ["normal"], "Talent additional damage retains Basic attack modifier applicability");
     assert.equal(talent.sourceSkillId, "120704", "Talent contribution has its own source ID");
     assert.equal(attackOf(data, "1207011").support?.verified, true, "only the compound row represents the full Talent-triggered Basic action");
+});
+
+test("Yukong E0 support records preserve full curves, activation conditions, and final-stat ownership", async () => {
+    const { data } = await loadProductionFixture();
+    const modifier = (id) => {
+        const record = data.structuredModifiers.find((item) => item.id === id);
+        assert.ok(record, "production loader includes modifier " + id);
+        return record;
+    };
+    const skillAtk = modifier("trace:1207:120702:party-atk");
+    assert.deepEqual(Array.from(skillAtk.value.values).slice(0, 10), [40, 44, 48, 52, 56, 60, 65, 70, 75, 80]);
+    assert.deepEqual([skillAtk.finalStatsInclusion.inputKey, skillAtk.finalStatsInclusion.inputLabel], ["trace:1207:120702:party-atk-in-final", "鳴弦号令の攻撃力上昇を最終ATKに反映済み"]);
+    assert.deepEqual(Array.from(skillAtk.target.attackTypes), ["all"]);
+    assert.equal(skillAtk.target.owner, "partyAll");
+    assert.deepEqual([skillAtk.activation.inputKey, skillAtk.activation.default], ["yukong-roaring-bowstrings-active", false]);
+
+    const critRate = modifier("trace:1207:120703:party-crit-rate");
+    const critDamage = modifier("trace:1207:120703:party-crit-damage");
+    assert.deepEqual([critRate.finalStatsInclusion.inputKey, critRate.finalStatsInclusion.inputLabel], ["trace:1207:120703:party-crit-rate-in-final", "貫雲箭の会心率上昇を最終会心率に反映済み"]);
+    assert.deepEqual([critDamage.finalStatsInclusion.inputKey, critDamage.finalStatsInclusion.inputLabel], ["trace:1207:120703:party-crit-damage-in-final", "貫雲箭の会心ダメージ上昇を最終会心ダメージに反映済み"]);
+    assert.deepEqual(Array.from(critRate.value.values).slice(0, 10), [21, 21.7, 22.4, 23.1, 23.8, 24.5, 25.37, 26.25, 27.12, 28]);
+    assert.deepEqual(Array.from(critDamage.value.values).slice(0, 10), [39, 41.6, 44.2, 46.8, 49.4, 52, 55.25, 58.5, 61.75, 65]);
+    for (const record of [critRate, critDamage]) {
+        assert.equal(record.target.owner, "partyAll");
+        assert.deepEqual([record.activation.inputKey, record.activation.default], ["yukong-ultimate-buffs-active", false]);
+    }
+
+    const talentReady = modifier("trace:1207:120704:talent-ready");
+    assert.equal(talentReady.support.status, "displayOnly", "the Talent condition does not add a second damage modifier");
+    assert.deepEqual([talentReady.activation.inputKey, talentReady.activation.default], ["yukong-bowshot-ready", false]);
+    assert.deepEqual(Array.from(talentReady.target.attackIds), ["120704"]);
+
+    const teamImaginary = modifier("traceNode:1207:1207102:imaginary-damage");
+    const selfImaginary = modifier("traceNode:1207:1207102:imaginary-damage:self");
+    assert.equal(teamImaginary.value.fixed, 12);
+    assert.equal(teamImaginary.target.owner, "partyAll");
+    assert.deepEqual(Array.from(teamImaginary.target.elements), ["Imaginary"]);
+    assert.equal(teamImaginary.providerScope, "party");
+    assert.equal(selfImaginary.inputPolicy, "includedInFinalStats");
+    assert.equal(selfImaginary.support.status, "displayOnly", "Yukong's own A6 is included in her final Imaginary damage input");
+
+    for (const [id, value] of [["traceStats:1207:imaginary", 22.4], ["traceStats:1207:hp", 18], ["traceStats:1207:atk", 10]]) {
+        const traceStat = modifier(id);
+        assert.equal(traceStat.value.fixed, value, id + " fixed E0 trace subtotal");
+        assert.equal(traceStat.inputPolicy, "includedInFinalStats", id + " is not added a second time");
+    }
+
+    const supportRecords = [skillAtk, critRate, critDamage, teamImaginary];
+    const supportContext = {
+        characterId: "1002", partyIds: ["1207"], partyEidolons: { "1207": 0 },
+        stats: { atk: 3000, critRate: 50, critDamage: 100, damageBonus: 22.4 },
+        traceLevelFor: (source) => source?.skillId === "120702" || source?.skillId === "120703" ? 10 : 1,
+        attack: { type: "normal", attackType: "normal", target: "single", element: "Imaginary" }
+    };
+    const byId = (records, id) => records.find((item) => item.id === id);
+    const off = runtime.buildCandidates(supportRecords, supportContext, {});
+    for (const record of [skillAtk, critRate, critDamage]) assert.equal(byId(off, record.id).enabled, false, record.id + " defaults off until the timed state is entered");
+    const on = runtime.buildCandidates(supportRecords, supportContext, {
+        "yukong-roaring-bowstrings-active": true,
+        "yukong-ultimate-buffs-active": true
+    });
+    assert.deepEqual([byId(on, skillAtk.id).value, byId(on, skillAtk.id).enabled], [80, true]);
+    assert.deepEqual([byId(on, critRate.id).value, byId(on, critRate.id).enabled], [28, true]);
+    assert.deepEqual([byId(on, critDamage.id).value, byId(on, critDamage.id).enabled], [65, true]);
+    assert.equal(byId(on, teamImaginary.id).enabled, true, "the A6 Imaginary party buff is always on while Yukong is fielded");
+    assert.equal(runtime.applicableToAttack(byId(on, teamImaginary.id), { ...supportContext.attack, element: "Physical" }), false, "Imaginary A6 does not affect non-Imaginary attacks");
+});
+
+test("Yukong party buffs independently match each E0 level and do not double-count completed stats", async () => {
+    const { data, engine } = await loadProductionFixture();
+    const supportIds = ["trace:1207:120702:party-atk", "trace:1207:120703:party-crit-rate", "trace:1207:120703:party-crit-damage"];
+    const records = data.structuredModifiers.filter((item) => supportIds.includes(item.id));
+    assert.equal(records.length, 3);
+    const profile = {
+        characterLevel: 80, eidolon: 0,
+        atk: 2437.25, baseAtk: 1321.75, hp: 5927.5, def: 1103.25, baseHp: 1050.5, baseDef: 841.75,
+        critRate: 31.75, critDamage: 123.25, damageBonus: 27.5,
+        enemyCount: 1, enemyLevel: 83, resistance: 17.5, weakness: false, toughnessActive: true,
+        defenseReduction: 8.25, defenseIgnore: 3.5, resistancePenetration: 4.25, takenDamage: 6.75
+    };
+    const activeInputs = { "yukong-roaring-bowstrings-active": true, "yukong-ultimate-buffs-active": true };
+    const normalAttack = { id: "support-recipient-normal", characterId: "1002", sourceSkillId: "100201", type: "normal", attackType: "normal", element: "Imaginary", target: "single", scalingStat: "atk", canCrit: true, hitCount: 1, multipliers: [100] };
+    const ultimateAttack = { ...normalAttack, id: "support-recipient-ultimate", sourceSkillId: "100203", type: "ultimate", attackType: "ultimate", multipliers: [300] };
+    const candidatesFor = (attack, level, inputs) => runtime.buildCandidates(records, {
+        characterId: "1002", partyIds: ["1207"], partyEidolons: { "1207": 0 },
+        stats: { atk: profile.atk, critRate: profile.critRate, critDamage: profile.critDamage, damageBonus: profile.damageBonus },
+        baseStats: { atk: profile.baseAtk },
+        traceLevelFor: (source) => source?.skillId === "120702" ? level : level,
+        attack
+    }, inputs).map((candidate) => ({ ...candidate, applicable: candidate.applicable !== false && runtime.applicableToAttack(candidate, attack) }));
+    const candidate = (list, id) => {
+        const found = list.find((item) => item.id === id);
+        assert.ok(found, "native candidate exists: " + id);
+        assert.equal(found.providerId, "1207", id + " is provided by party member Yukong");
+        return found;
+    };
+    const calculate = (attack, stats, modifiers, level, label) => {
+        const input = makeRequest(attack, 1, { ...profile, ...stats }, modifiers);
+        const expected = independentDirectDamage(input);
+        const actual = engine.calculate(input);
+        assert.notEqual(actual.supported, false, label + " calculates");
+        for (const key of ["nonCrit", "crit", "expected"]) assertClose(actual[key], expected[key], label + " independent " + key);
+        return actual;
+    };
+
+    for (let level = 1; level <= 10; level += 1) {
+        const activeAtk = candidate(candidatesFor(normalAttack, level, activeInputs), supportIds[0]);
+        assert.deepEqual([activeAtk.value, activeAtk.enabled, activeAtk.applicable], [skillAtkCurve[level - 1], true, true]);
+        const skillResult = calculate(normalAttack, {}, [activeAtk], level, "Skill ATK Lv" + level);
+        const completedAtk = profile.atk + profile.baseAtk * activeAtk.value / 100;
+        const includedAtk = candidate(candidatesFor(normalAttack, level, { ...activeInputs, [records[0].finalStatsInclusion.inputKey]: true }), supportIds[0]);
+        assert.deepEqual([includedAtk.enabled, includedAtk.includedInFinalStats], [false, true]);
+        const includedSkillResult = calculate(normalAttack, { atk: completedAtk }, [includedAtk], level, "Skill ATK included Lv" + level);
+        for (const key of ["nonCrit", "crit", "expected"]) assertClose(includedSkillResult[key], skillResult[key], "ATK inclusion does not double count " + key + " Lv" + level);
+
+        const atkOff = candidate(candidatesFor(normalAttack, level, {}), supportIds[0]);
+        assert.equal(atkOff.enabled, false, "Roaring Bowstrings off Lv" + level);
+        const offSkillResult = calculate(normalAttack, {}, [atkOff], level, "Skill ATK off Lv" + level);
+        const noAtkResult = calculate(normalAttack, {}, [], level, "Skill ATK absent Lv" + level);
+        for (const key of ["nonCrit", "crit", "expected"]) assertClose(offSkillResult[key], noAtkResult[key], "ATK toggle off " + key + " Lv" + level);
+
+        const activeCritRate = candidate(candidatesFor(ultimateAttack, level, activeInputs), supportIds[1]);
+        const activeCritDamage = candidate(candidatesFor(ultimateAttack, level, activeInputs), supportIds[2]);
+        assert.deepEqual([activeCritRate.value, activeCritRate.enabled, activeCritRate.applicable], [ultimateCurveCR[level - 1], true, true]);
+        assert.deepEqual([activeCritDamage.value, activeCritDamage.enabled, activeCritDamage.applicable], [ultimateCurveCD[level - 1], true, true]);
+        const critRateResult = calculate(ultimateAttack, {}, [activeCritRate], level, "Ultimate CR Lv" + level);
+        const critDamageResult = calculate(ultimateAttack, {}, [activeCritDamage], level, "Ultimate CD Lv" + level);
+        const bothCritResult = calculate(ultimateAttack, {}, [activeCritRate, activeCritDamage], level, "Ultimate CR+CD Lv" + level);
+
+        const includedCritRate = candidate(candidatesFor(ultimateAttack, level, { ...activeInputs, [records[1].finalStatsInclusion.inputKey]: true }), supportIds[1]);
+        const includedCritRateResult = calculate(ultimateAttack, { critRate: profile.critRate + activeCritRate.value }, [includedCritRate], level, "Ultimate CR included Lv" + level);
+        assert.deepEqual([includedCritRate.enabled, includedCritRate.includedInFinalStats], [false, true]);
+        for (const key of ["nonCrit", "crit", "expected"]) assertClose(includedCritRateResult[key], critRateResult[key], "CR inclusion does not double count " + key + " Lv" + level);
+
+        const includedCritDamage = candidate(candidatesFor(ultimateAttack, level, { ...activeInputs, [records[2].finalStatsInclusion.inputKey]: true }), supportIds[2]);
+        const includedCritDamageResult = calculate(ultimateAttack, { critDamage: profile.critDamage + activeCritDamage.value }, [includedCritDamage], level, "Ultimate CD included Lv" + level);
+        assert.deepEqual([includedCritDamage.enabled, includedCritDamage.includedInFinalStats], [false, true]);
+        for (const key of ["nonCrit", "crit", "expected"]) assertClose(includedCritDamageResult[key], critDamageResult[key], "CD inclusion does not double count " + key + " Lv" + level);
+
+        const ultOffCandidates = candidatesFor(ultimateAttack, level, { "yukong-roaring-bowstrings-active": true });
+        for (const id of supportIds.slice(1)) assert.equal(candidate(ultOffCandidates, id).enabled, false, "Ultimate buff toggle off " + id + " Lv" + level);
+        const ultOffResult = calculate(ultimateAttack, {}, ultOffCandidates.filter((item) => supportIds.slice(1).includes(item.id)), level, "Ultimate buffs off Lv" + level);
+        const noUltResult = calculate(ultimateAttack, {}, [], level, "Ultimate buffs absent Lv" + level);
+        for (const key of ["nonCrit", "crit", "expected"]) assertClose(ultOffResult[key], noUltResult[key], "Ultimate toggle off " + key + " Lv" + level);
+        assert.ok(bothCritResult.expected >= critRateResult.expected && bothCritResult.expected >= critDamageResult.expected, "combined CR/CD state is independently calculable Lv" + level);
+    }
 });
 
 test("Yukong E0 normal plus Talent total independently matches every normal and Talent level", async () => {
@@ -175,6 +326,20 @@ test("Yukong E0 normal plus Talent total independently matches every normal and 
                 assertClose(result.components.basic.breakdown.referenceValue, profile.atk, "Basic uses Yukong final ATK");
                 assertClose(result.components.talent.breakdown.referenceValue, profile.atk, "Talent uses Yukong final ATK");
             }
+        }
+    }
+});
+
+test("Yukong E0 Ultimate independently matches all adopted levels and asymmetric battle profiles", async () => {
+    const { data, engine } = await loadProductionFixture();
+    const ultimate = attackOf(data, "120703");
+    for (let level = 1; level <= 10; level += 1) {
+        for (const [profileIndex, profile] of profiles.entries()) {
+            const input = directRequest(ultimate, level, ultimateCurve[level - 1], profile);
+            const expected = independentDirectDamage(input);
+            const actual = engine.calculate(input);
+            assert.notEqual(actual.supported, false, "Ultimate Lv" + level + " profile" + (profileIndex + 1) + " calculates");
+            for (const key of ["nonCrit", "crit", "expected"]) assertClose(actual[key], expected[key], "Ultimate Lv" + level + " profile" + (profileIndex + 1) + " independent " + key);
         }
     }
 });
@@ -202,7 +367,7 @@ test("Yukong sequence responds to ATK only and keeps its two damage components s
     }
 });
 
-test("Yukong sequence applies generic bonuses to both components but rejects uncertain Basic-only bonuses", async () => {
+test("Yukong sequence applies generic bonuses to both components and Basic-only bonuses to the Talent hit", async () => {
     const { data, engine } = await loadProductionFixture();
     const profile = profiles[1];
     const baselineInput = sequenceRequest(data, 6, 10, profile);
@@ -214,11 +379,33 @@ test("Yukong sequence applies generic bonuses to both components but rejects unc
     assert.ok(genericResult.components.talent.nonCrit > baseline.components.talent.nonCrit);
 
     const basicOnly = { id: "test-basic-only-damage", name: "通常攻撃限定与ダメージ", category: "damageBonus", value: 20, enabled: true, applicable: true, target: { attackTypes: ["normal"] } };
-    const stoppedSequence = engine.calculate(sequenceRequest(data, 6, 10, profile, { rootModifiers: [basicOnly], basicModifiers: [basicOnly] }));
-    assert.equal(stoppedSequence.supported, false, "the complete total is withheld while Talent classification is uncertain");
-    assert.equal(stoppedSequence.nonCrit, undefined, "no partial Basic value is presented as the full total");
-    const stoppedTalent = engine.calculate(directRequest(attackOf(data, "120704"), 10, 80, profile, [basicOnly]));
-    assert.equal(stoppedTalent.supported, false, "standalone additional component is also stopped by the uncertain Basic-only bonus");
+    const normalOnlyResult = assertSequenceMatches(engine, sequenceRequest(data, 6, 10, profile, { basicModifiers: [basicOnly], talentModifiers: [basicOnly] }), "Basic-only bonus applies to both components");
+    for (const component of [normalOnlyResult.components.basic, normalOnlyResult.components.talent]) {
+        assertClose(component.breakdown.damageBonus, profile.damageBonus + 20, "Basic-only bonus included in component damage bonus");
+    }
+
+    const talentInput = directRequest(attackOf(data, "120704"), 10, 80, profile, [basicOnly]);
+    const talentWithBasicBonus = engine.calculate(talentInput);
+    assert.notEqual(talentWithBasicBonus.supported, false, "the additional hit remains calculable with a Basic-only modifier");
+    assertClose(talentWithBasicBonus.breakdown.damageBonus, profile.damageBonus + 20, "standalone Talent hit inherits Basic-only bonus");
+
+    const ultimate = attackOf(data, "120703");
+    const ultimateInput = directRequest(ultimate, 10, ultimateCurve[9], profile);
+    const ultimateBaseline = engine.calculate(ultimateInput);
+    const ultimateWithBasicOnly = engine.calculate({ ...ultimateInput, modifiers: [basicOnly] });
+    assertClose(ultimateWithBasicOnly.nonCrit, ultimateBaseline.nonCrit, "Basic-only bonus does not affect Yukong Ultimate");
+
+    const disabled = { ...basicOnly, enabled: false, applicable: false };
+    const disabledSequence = assertSequenceMatches(engine, sequenceRequest(data, 6, 10, profile, { basicModifiers: [disabled], talentModifiers: [disabled] }), "disabled Basic-only bonus");
+    assertClose(disabledSequence.nonCrit, baseline.nonCrit, "off toggle restores baseline total");
+
+    const missingTalentTag = sequenceRequest(data, 6, 10, profile, { basicModifiers: [basicOnly], talentModifiers: [basicOnly] });
+    delete missingTalentTag.sequenceComponents[1].input.attack.tags;
+    const missingTagResult = engine.calculate(missingTalentTag);
+    assert.equal(missingTagResult.supported, false, "the compound action is withheld if the Talent hit loses its Basic tag");
+
+    const multiTarget = sequenceRequest(data, 6, 10, { ...profile, enemyCount: 2 });
+    assert.equal(engine.calculate(multiTarget).supported, false, "the verified Yukong composite is single-target only");
 });
 
 test("Yukong sequence preserves generic crit, defense, resistance, and damage-bonus behavior", async () => {
