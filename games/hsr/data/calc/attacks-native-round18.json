@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "native-round18-2026-11-05",
+  "description": "椒丘の通常攻撃を事前焼尽0～5層の固定状態で比較する追加行。既存5層専用行は維持。",
+  "overrides": [
+    {
+      "id": "1218011",
+      "characterId": "1218",
+      "name": "心火計（事前焼尽層数0～5）",
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "sourceSkillId": "121801",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "element": "Fire",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "calculationScope": "independently-checked-direct-instance",
+      "calculationNote": "星魂0・Lv80・通常Lv1～6・天賦Lv1～10・炎非弱点かつ未撃破の敵1体。攻撃前の焼尽層数を0～5で指定し、攻撃中の敵・補正状態が変わらない場合の単発想定ダメージです。0層では焼尽の被ダメージ増加なし。1～5層では天賦Lvに応じた初層値と追加層値を1回適用します。A4等の常時ATKは完成済み最終ATKへ含めます。DoTは別ダメージで合算しません。付与順・自動蓄積・途中撃破・星魂1以上は対象外。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの通常倍率と天賦層別被ダメージ増加を用い、0～5層の非対称ステータス・NC/C/EVを独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121801.params[0..5][0]; 121804.params[0..9][1,2]",
+        "verifiedAt": "2026-11-05",
+        "scope": "星魂0・Lv80・敵1体・攻撃前の焼尽層数を0～5で指定した単発通常攻撃。初回付与/層蓄積/時間経過は対象外。"
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "jiaoqiu-basic-roast-stacks",
+          "label": "攻撃前の焼尽層数",
+          "minimum": 0,
+          "maximum": 5,
+          "integer": true
+        }
+      ],
+      "conditionText": "攻撃前の焼尽層数を0～5で指定・攻撃中は状態一定"
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定SHAの通常倍率と天賦層別被ダメージ増加を用い、0～5層の非対称ステータス・NC/C/EVを独立検証。"
+  }
+}

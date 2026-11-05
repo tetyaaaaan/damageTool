@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "native-round18-2026-11-05",
+  "description": "椒丘事前焼尽0～5層の通常攻撃限定補正。",
+  "modifiers": [
+    {
+      "id": "trace:1218:121804:basic-roast-stacks",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1218",
+        "skillId": "121804"
+      },
+      "name": "心火計・事前焼尽層数の被ダメージ増加",
+      "description": "通常攻撃1218011のみ。攻撃前の焼尽層数0～5を指定します。0層は補正なし、1～5層は天賦Lvの初層値と追加層値で計算します。星魂0・敵1体・状態一定。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "jiaoqiu-basic-roast-stacks",
+        "inputLabel": "攻撃前の焼尽層数",
+        "inputUnit": "層",
+        "minimum": 0,
+        "maximum": 5,
+        "step": 1,
+        "scaleValues": [
+          250,
+          275,
+          300,
+          325,
+          350,
+          375,
+          406,
+          437,
+          469,
+          500
+        ],
+        "addValues": [
+          5,
+          5.5,
+          6,
+          6.5,
+          7,
+          7.5,
+          8.13,
+          8.76,
+          9.37,
+          10
+        ],
+        "sharedInput": true
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal"
+        ],
+        "attackIds": [
+          "1218011"
+        ],
+        "elements": [
+          "Fire"
+        ]
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "jiaoqiu-basic-roast-stacks",
+        "inputLabel": "攻撃前の焼尽層数",
+        "minimum": 0,
+        "maximum": 5,
+        "conditionText": "対象に攻撃前から0～5層の焼尽があり、攻撃中変化しない",
+        "operator": ">",
+        "threshold": 0,
+        "strictInput": true,
+        "step": 1
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 5,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "stacking": {
+        "group": "jiaoqiu-ashen-roast-vulnerability",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAのparams[1]（初層）・params[2]（追加層）を直接使用し、0～5層の非会心/会心/期待値を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121804.params[0..9][1,2]",
+        "verifiedAt": "2026-11-05",
+        "scope": "E0・Talent Lv1..10・事前焼尽0..5層の通常1218011だけ。"
+      }
+    }
+  ]
+}

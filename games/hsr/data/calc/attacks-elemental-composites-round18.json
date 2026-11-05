@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "elemental-composites-round18-fixed-dbe8cdf",
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "E0・Lv80・敵1体で、攻撃前から燃焼/感電が成立した単発行動の本体と天賦付加1回を成分別に計算します。新規付与順・DoT・複数敵は含みません。"
+  },
+  "overrides": [
+    {
+      "id": "1109012", "characterId": "1109", "sourceSkillId": "110901", "name": "通常攻撃＋天賦付加（事前燃焼・E0）",
+      "element": "Fire", "type": "normal", "traceKey": "normal", "target": "single", "scalingStat": "atk", "damageFormula": "componentSequence",
+      "hitCount": 2, "hitCountLabel": "通常攻撃1回＋天賦付加1回", "canCrit": true,
+      "multipliers": [50,60,70,80,90,100], "maximumEidolon": 0, "maximumTraceLevel": 6, "characterLevelExact": 80, "enemyCountExact": 1,
+      "modifierInputKey": "hook-enemy-burning", "modifierInputMinimum": 1, "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {"normal":{"minimum":1,"maximum":6},"talent":{"minimum":1,"maximum":10}},
+      "damageComponents": [
+        {"key":"body","name":"通常攻撃本体","attackId":"110901","type":"normal","element":"Fire","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100]},
+        {"key":"additional","name":"燃焼状態への天賦付加1回","attackId":"110904","type":"additional","element":"Fire","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100]}
+      ],
+      "calculationScope":"preexisting-burn-one-enemy-single-action",
+      "conditionText":"Lv80・星魂0・敵1体。攻撃前から対象が燃焼状態である通常攻撃1回と天賦付加1回。",
+      "calculationNote":"攻撃前から燃焼中の敵への通常攻撃と天賦付加1回を合算します。今回新たに付与する燃焼の同撃発生順、燃焼DoT、他の行動は含みません。成分行110901/110904やDoT行をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract":true,
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110901.params[0..5][0]; character_skills.json:110904.params[0..9][0]","verifiedAt":"2026-11-05","verification":"tests/hsr/hsrElementalCompositesRound18.test.cjs"}
+    },
+    {
+      "id": "1109022", "characterId": "1109", "sourceSkillId": "110902", "name": "戦闘スキル＋天賦付加（事前燃焼・E0）",
+      "element": "Fire", "type": "skill", "traceKey": "skill", "target": "single", "scalingStat": "atk", "damageFormula": "componentSequence",
+      "hitCount": 2, "hitCountLabel": "戦闘スキル1回＋天賦付加1回", "canCrit": true,
+      "multipliers": [120,132,144,156,168,180,195,210,225,240,252,264,276,288,300], "maximumEidolon": 0, "maximumTraceLevel": 10, "characterLevelExact": 80, "enemyCountExact": 1,
+      "modifierInputKey": "hook-enemy-burning", "modifierInputMinimum": 1, "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {"skill":{"minimum":1,"maximum":10},"talent":{"minimum":1,"maximum":10}},
+      "damageComponents": [
+        {"key":"body","name":"戦闘スキル本体","attackId":"110902","type":"skill","element":"Fire","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,132,144,156,168,180,195,210,225,240,252,264,276,288,300]},
+        {"key":"additional","name":"燃焼状態への天賦付加1回","attackId":"110904","type":"additional","element":"Fire","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100]}
+      ],
+      "calculationScope":"preexisting-burn-one-enemy-single-action",
+      "conditionText":"Lv80・星魂0・敵1体。攻撃前から対象が燃焼状態である戦闘スキル1回と天賦付加1回。",
+      "calculationNote":"攻撃前から燃焼中の敵への戦闘スキルと天賦付加1回を合算します。今回新たに付与する燃焼の同撃発生順、燃焼DoT、他の行動は含みません。成分行110902/110904やDoT行をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract":true,
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110902.params[0..9][0]; character_skills.json:110904.params[0..9][0]","verifiedAt":"2026-11-05","verification":"tests/hsr/hsrElementalCompositesRound18.test.cjs"}
+    },
+    {
+      "id": "1109092", "characterId": "1109", "sourceSkillId": "110909", "name": "強化戦闘スキル＋天賦付加（事前燃焼・E0）",
+      "element": "Fire", "type": "enhancedSkill", "traceKey": "skill", "target": "blast", "scalingStat": "atk", "damageFormula": "componentSequence",
+      "hitCount": 2, "hitCountLabel": "強化戦闘スキル1回＋天賦付加1回", "canCrit": true,
+      "multipliers": [140,154,168,182,196,210,227.5,245,262.5,280,294,308,322,336,350], "maximumEidolon": 0, "maximumTraceLevel": 10, "characterLevelExact": 80, "enemyCountExact": 1,
+      "modifierInputKey": "hook-enemy-burning", "modifierInputMinimum": 1, "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {"skill":{"minimum":1,"maximum":10},"talent":{"minimum":1,"maximum":10}},
+      "damageComponents": [
+        {"key":"body","name":"強化戦闘スキル本体・主対象","attackId":"110909","type":"enhancedSkill","element":"Fire","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[140,154,168,182,196,210,227.5,245,262.5,280,294,308,322,336,350]},
+        {"key":"additional","name":"燃焼状態への天賦付加1回","attackId":"110904","type":"additional","element":"Fire","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100]}
+      ],
+      "calculationScope":"preexisting-burn-one-enemy-single-action",
+      "conditionText":"Lv80・星魂0・敵1体。攻撃前から対象が燃焼状態である強化戦闘スキルの主対象1回と天賦付加1回。隣接対象は対象外。",
+      "calculationNote":"攻撃前から燃焼中の敵1体への強化戦闘スキル主対象成分と天賦付加1回を合算します。隣接対象、今回新たに付与する燃焼の同撃発生順、燃焼DoT、他の行動は含みません。成分行110909/110904やDoT行をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract":true,
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110909.params[0..9][0]; character_skills.json:110904.params[0..9][0]","verifiedAt":"2026-11-05","verification":"tests/hsr/hsrElementalCompositesRound18.test.cjs"}
+    },
+    {
+      "id": "1109032", "characterId": "1109", "sourceSkillId": "110903", "name": "必殺技＋天賦付加（事前燃焼・E0）",
+      "element": "Fire", "type": "ultimate", "traceKey": "ultimate", "target": "single", "scalingStat": "atk", "damageFormula": "componentSequence",
+      "hitCount": 2, "hitCountLabel": "必殺技1回＋天賦付加1回", "canCrit": true,
+      "multipliers": [240,256,272,288,304,320,340,360,380,400,416,432,448,464,480], "maximumEidolon": 0, "maximumTraceLevel": 10, "characterLevelExact": 80, "enemyCountExact": 1,
+      "modifierInputKey": "hook-enemy-burning", "modifierInputMinimum": 1, "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {"ultimate":{"minimum":1,"maximum":10},"talent":{"minimum":1,"maximum":10}},
+      "damageComponents": [
+        {"key":"body","name":"必殺技本体","attackId":"110903","type":"ultimate","element":"Fire","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[240,256,272,288,304,320,340,360,380,400,416,432,448,464,480]},
+        {"key":"additional","name":"燃焼状態への天賦付加1回","attackId":"110904","type":"additional","element":"Fire","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100]}
+      ],
+      "calculationScope":"preexisting-burn-one-enemy-single-action",
+      "conditionText":"Lv80・星魂0・敵1体。攻撃前から対象が燃焼状態である必殺技1回と天賦付加1回。",
+      "calculationNote":"攻撃前から燃焼中の敵への必殺技と天賦付加1回を合算します。今回新たに付与する燃焼の同撃発生順、燃焼DoT、他の行動は含みません。成分行110903/110904やDoT行をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract":true,
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110903.params[0..9][0]; character_skills.json:110904.params[0..9][0]","verifiedAt":"2026-11-05","verification":"tests/hsr/hsrElementalCompositesRound18.test.cjs"}
+    },
+    {
+      "id": "1103012", "characterId": "1103", "sourceSkillId": "110301", "name": "通常攻撃＋天賦付加（事前感電・E0）",
+      "element": "Thunder", "type": "normal", "traceKey": "normal", "target": "single", "scalingStat": "atk", "damageFormula": "componentSequence",
+      "hitCount": 2, "hitCountLabel": "通常攻撃1回＋天賦付加1回", "canCrit": true,
+      "multipliers": [50,60,70,80,90,100], "maximumEidolon": 0, "maximumTraceLevel": 6, "characterLevelExact": 80, "enemyCountExact": 1,
+      "modifierInputKey": "serval-target-shocked", "modifierInputMinimum": 1, "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {"normal":{"minimum":1,"maximum":6},"talent":{"minimum":1,"maximum":10}},
+      "damageComponents": [
+        {"key":"body","name":"通常攻撃本体","attackId":"110301","type":"normal","element":"Thunder","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100]},
+        {"key":"additional","name":"感電状態への天賦付加1回","attackId":"110304","type":"talent","element":"Thunder","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72]}
+      ],
+      "calculationScope":"preexisting-shock-one-enemy-single-action",
+      "conditionText":"Lv80・星魂0・敵1体。攻撃前から対象が感電状態である通常攻撃1回と天賦付加1回。",
+      "calculationNote":"攻撃前から感電中の敵への通常攻撃と天賦付加1回を合算します。今回新たに付与する感電の同撃発生順、感電DoT、他の行動は含みません。成分行110301/110304やDoT行をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract":true,
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110301.params[0..5][0]; character_skills.json:110304.params[0..9][0]","verifiedAt":"2026-11-05","verification":"tests/hsr/hsrElementalCompositesRound18.test.cjs"}
+    },
+    {
+      "id": "1103022", "characterId": "1103", "sourceSkillId": "110302", "name": "戦闘スキル＋天賦付加（事前感電・E0）",
+      "element": "Thunder", "type": "skill", "traceKey": "skill", "target": "blast", "scalingStat": "atk", "damageFormula": "componentSequence",
+      "hitCount": 2, "hitCountLabel": "戦闘スキル1回＋天賦付加1回", "canCrit": true,
+      "multipliers": [70,77,84,91,98,105,113.75,122.5,131.25,140,147,154,161,168,175], "maximumEidolon": 0, "maximumTraceLevel": 10, "characterLevelExact": 80, "enemyCountExact": 1,
+      "modifierInputKey": "serval-target-shocked", "modifierInputMinimum": 1, "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {"skill":{"minimum":1,"maximum":10},"talent":{"minimum":1,"maximum":10}},
+      "damageComponents": [
+        {"key":"body","name":"戦闘スキル本体・主対象","attackId":"110302","type":"skill","element":"Thunder","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[70,77,84,91,98,105,113.75,122.5,131.25,140,147,154,161,168,175]},
+        {"key":"additional","name":"感電状態への天賦付加1回","attackId":"110304","type":"talent","element":"Thunder","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72]}
+      ],
+      "calculationScope":"preexisting-shock-one-enemy-single-action",
+      "conditionText":"Lv80・星魂0・敵1体。攻撃前から対象が感電状態である戦闘スキルの主対象1回と天賦付加1回。隣接対象は対象外。",
+      "calculationNote":"攻撃前から感電中の敵1体への戦闘スキル主対象成分と天賦付加1回を合算します。隣接対象、今回新たに付与する感電の同撃発生順、感電DoT、他の行動は含みません。成分行110302/110304やDoT行をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract":true,
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110302.params[0..9][0]; character_skills.json:110304.params[0..9][0]","verifiedAt":"2026-11-05","verification":"tests/hsr/hsrElementalCompositesRound18.test.cjs"}
+    },
+    {
+      "id": "1103032", "characterId": "1103", "sourceSkillId": "110303", "name": "必殺技＋天賦付加（事前感電・E0）",
+      "element": "Thunder", "type": "ultimate", "traceKey": "ultimate", "target": "aoe", "scalingStat": "atk", "damageFormula": "componentSequence",
+      "hitCount": 2, "hitCountLabel": "必殺技1回＋天賦付加1回", "canCrit": true,
+      "multipliers": [108,115.2,122.4,129.6,136.8,144,153,162,171,180,187.2,194.4,201.6,208.8,216], "maximumEidolon": 0, "maximumTraceLevel": 10, "characterLevelExact": 80, "enemyCountExact": 1,
+      "modifierInputKey": "serval-target-shocked", "modifierInputMinimum": 1, "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {"ultimate":{"minimum":1,"maximum":10},"talent":{"minimum":1,"maximum":10}},
+      "damageComponents": [
+        {"key":"body","name":"必殺技本体・対象1体","attackId":"110303","type":"ultimate","element":"Thunder","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[108,115.2,122.4,129.6,136.8,144,153,162,171,180,187.2,194.4,201.6,208.8,216]},
+        {"key":"additional","name":"感電状態への天賦付加1回","attackId":"110304","type":"talent","element":"Thunder","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72]}
+      ],
+      "calculationScope":"preexisting-shock-one-enemy-single-action",
+      "conditionText":"Lv80・星魂0・敵1体。攻撃前から対象が感電状態である必殺技1回と天賦付加1回。",
+      "calculationNote":"攻撃前から感電中の敵1体への必殺技と天賦付加1回を合算します。今回新たに付与する感電の同撃発生順、感電DoT、他の行動は含みません。成分行110303/110304やDoT行をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract":true,
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110303.params[0..9][0]; character_skills.json:110304.params[0..9][0]","verifiedAt":"2026-11-05","verification":"tests/hsr/hsrElementalCompositesRound18.test.cjs"}
+    }
+  ]
+}

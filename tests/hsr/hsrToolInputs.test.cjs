@@ -4053,3 +4053,33 @@ test("Round17 Hunt March Shifu supports reach current recipient, speed threshold
  for(const id of ids)toggle(restored,id+"-in-final",false);restored.node("hsrStat-speed").value="130";restored.node("hsrStat-critDamage").value="100";restored.node("hsrStat-breakEffect").value="50";
  restored.state.party[0].characterId="";near(normal(restored).expected,1620);
 });
+
+
+test("Round18 pre-existing Burn/Shock composites resolve independent body/Talent levels and scopes", async () => {
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture();
+ const app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ const profile=id=>app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ const row=id=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ for(const [cid,key,ids,body,talent] of [["1109","hook-enemy-burning",["1109012","1109022","1109092","1109032"],[1080,2592,3024,4320],1080],["1103","serval-target-shocked",["1103012","1103022","1103032"],[1080,1512,1944],777.6]]){
+  profile(cid);app.state.modifierInputs[key]=false;
+  for(const id of ids)assert.equal(row(id),undefined,"composite requires prior DoT state");
+  app.state.modifierInputs[key]=true;
+  for(let i=0;i<ids.length;i++){const r=row(ids[i]);assert.ok(r,ids[i]);near(r.components.body.nonCrit,body[i]);near(r.components.additional.nonCrit,talent);near(r.nonCrit,body[i]+talent);near(r.crit,2*(body[i]+talent));near(r.expected,1.5*(body[i]+talent));}
+  app.state.relicId="134";app.node("hsrRelicMode").value="4";
+  const r=row(ids[0]);near(r.components.body.nonCrit,body[0]*1.36);near(r.components.additional.nonCrit,talent);
+  app.state.relicId="";app.node("hsrTalentTrace").value="";assert.equal(row(ids[0]),undefined);assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id===(cid==="1109"?"110901":"110301")).name));app.node("hsrTalentTrace").value="10";
+ }
+});
+
+test("Round18 numeric snapshots reach actual Jiaoqiu and Tribbie damage and stay local when missing",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ const profile=id=>app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:10000,def:2000,critRate:50,critDamage:100,damageBonus:0,effectHitRate:140}});
+ const row=id=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ profile("1218");delete app.state.modifierInputs["jiaoqiu-basic-roast-stacks"];assert.equal(row("1218011"),undefined);assert.ok(row("121801"));
+ app.state.conditionTab="軌跡";app.node("hsrConditionDialogOpen").handlers.click();assert.equal((app.node("hsrConditionList").innerHTML.match(/data-structured-input="jiaoqiu-basic-roast-stacks"/g)||[]).length,1,"one numeric state input, without a duplicate stack selector");
+ for(const [stacks,nc] of [[0,1080],[1,1242],[4,1404],[5,1458]]){app.state.modifierInputs["jiaoqiu-basic-roast-stacks"]=stacks;const r=row("1218011");assert.ok(r);near(r.nonCrit,nc);near(r.expected,nc*1.5);}
+ profile("1403");app.state.modifierInputs["tribbie-zone-active"]=false;const off=row("140301");assert.ok(off);
+ app.state.modifierInputs["tribbie-zone-active"]=true;delete app.state.modifierInputs["tribbie-a4-party-max-hp-snapshot"];assert.equal(row("140301"),undefined);
+ app.state.modifierInputs["tribbie-a4-party-max-hp-snapshot"]=30000;let r=row("140301");assert.ok(r);near(r.breakdown.referenceValue,12700);
+ app.node("hsrStat-hp").value="12700";app.state.modifierInputs["traceNode:1403:1403102:party-hp-snapshot-in-final"]=true;near(row("140301").expected,r.expected);
+});

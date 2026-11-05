@@ -35,7 +35,9 @@
     "attacks-serin-round13.json",
     "attacks-dahlia-round13.json",
     "attacks-jade-gilgamesh-round13.json",
-    "attacks-xueyi-round16.json"
+    "attacks-xueyi-round16.json",
+    "attacks-elemental-composites-round18.json",
+    "attacks-native-round18.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -124,6 +126,9 @@
     "modifiers-extra-round12.json",
     "modifiers-equipment-round13.json",
     "modifiers-jade-gilgamesh-round13.json",
-    "modifiers-march-round17.json"
+    "modifiers-march-round17.json",
+    "modifiers-elemental-composites-round18.json",
+    "modifiers-native-round18.json",
+    "modifiers-tribbie-round18.json"
   ]
 }

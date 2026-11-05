@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "elemental-composites-round18-fixed-dbe8cdf",
+  "modifiers": [
+    {
+      "id": "trace:1103:110302:shocked-state-round18",
+      "source": {"kind":"trace","id":"1103","skillId":"110302","traceId":"110302"},
+      "name": "天賦合計・攻撃前から感電状態",
+      "description": "本体と天賦付加を合算する単体行動用。感電は攻撃前から成立している状態を指定します。",
+      "category": "attackState", "unit": "boolean", "value": {"kind":"fixed","fixed":1},
+      "target": {"owner":"enemySingle","attackTypes":["all"],"elements":[]},
+      "activation": {"mode":"toggle","conditionText":"攻撃前から対象が感電状態","inputKey":"serval-target-shocked","inputLabel":"攻撃前から敵が感電状態","default":false},
+      "stacking": {"group":"serval-target-shocked","rule":"nonStacking"},
+      "calculation": {"stage":"attackState","operation":"set"},
+      "inputPolicy":"conditional",
+      "support": {"status":"displayOnly","verified":true,"reason":"事前感電を明示する状態入力です。E0ではダメージ補正を持たず、E6の同じキーは既存Modifierで一度だけ適用します。"},
+      "provenance": {"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110302.params; character_skill_trees.json:1103104","verifiedAt":"2026-11-05","notes":"The input selects pre-existing Shock only. It does not simulate the application order from the current Skill or Technique."}
+    }
+  ]
+}

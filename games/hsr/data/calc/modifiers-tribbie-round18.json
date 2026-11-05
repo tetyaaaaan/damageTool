@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "tribbie-a4-party-hp-round18-2026-11-05",
+  "description": "トリビー追加能力1403102の9%最大HP加算を、固定済みパーティHP合計の明示入力から計算する。",
+  "modifiers": [
+    {
+      "id": "traceNode:1403:1403102:party-hp-snapshot",
+      "source": { "kind": "trace", "id": "1403", "traceId": "1403102" },
+      "name": "追加能力「羽の生えたガラス玉！」・参照済み味方HP合計の9%",
+      "description": "結界中、A4が参照した味方全体の最大HP合計スナップショットを入力すると、その9%を計算対象のトリビーのHPへ加算します。入力値は参照済みの合計値として扱い、現在のステータスから味方HP合計を再構築しません。最終HPにA4分をすでに含む場合は、算入済み欄で除外します。",
+      "category": "statFlat",
+      "stat": "hp",
+      "unit": "flat",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "tribbie-a4-party-max-hp-snapshot",
+        "inputLabel": "A4が参照した味方全体の最大HP合計",
+        "inputUnit": " HP",
+        "inputStep": 0.01,
+        "scaleValues": [9],
+        "addValues": [0]
+      },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "結界が展開され、A4のHP上昇が有効",
+        "inputKey": "tribbie-zone-active",
+        "inputLabel": "トリビーの結界中",
+        "default": false
+      },
+      "stacking": { "group": "traceNode:1403:1403102:party-hp-snapshot", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "inputValidation": { "maximumEidolon": 0, "levelMaximum": 1, "minimum": 0, "maximum": 200000, "integer": false },
+      "finalStatsInclusion": {
+        "inputKey": "traceNode:1403:1403102:party-hp-snapshot-in-final",
+        "inputLabel": "トリビーA4のHP増加を最終HPへ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版trace1403102.params[0][0]=0.09。参照される味方全体HP合計だけを明示入力し、基礎/最終HPの合算や自己参照による再帰を行わない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1403102.desc/params[0][0]",
+        "referenceUrl": "https://raw.githubusercontent.com/fribbels/hsr-optimizer/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1400/Tribbie.ts",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-11-05",
+        "notes": "StarRailRes trace1403102は味方全体の最大HP合計×9%と記載。固定Fribbels Tribbie.tsはultZone中に明示的なalliesMaxHp入力へ0.09を乗じてHPへ加算（既定25000、範囲0～50000）し、パーティHPを計算対象の統計値から再構築しない。原仕様は合計値に含める自己HPの時点を明示していないため、本入力はA4が参照した値のスナップショットとして限定する。",
+        "scope": "E0トリビー本人の結界中のHPと、完成済みHPを参照する単発攻撃に限定。最終入力に加算済みの場合は算入済みトグルを使用。",
+        "verification": "tests/hsr/hsrTribbieRound18.test.cjs"
+      }
+    }
+  ]
+}
