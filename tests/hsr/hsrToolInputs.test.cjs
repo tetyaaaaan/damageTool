@@ -4008,3 +4008,48 @@ test("Round16 Xueyi limited Ultimate uses the existing broken-state input and re
  app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(row(restored,"121403").expected,13500);assert.equal(restored.state.enemy.toughnessActive,false);
  restored.node("hsrToughnessState").value="active";assert.equal(row(restored,"121403"),undefined);assert.ok(row(restored,"121401"));
 });
+
+test("Round17 Hunt March scopes real Basic-only relic damage to body and preserves mixed-element totals", async () => {
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture();
+ const app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1224",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ app.state.party[0]={characterId:"1003",level:80,eidolon:0,atk:99999,traceLevels:{skill:10}};
+ app.state.modifierInputs["march-shifu-id"]=1003;app.state.modifierInputs["element-damage:1224:Fire"]=50;app.state.modifierInputs["enemy-resistance:Fire"]=40;
+ const full=t=>t.calculate().filter(r=>r.attack?.name?.includes("攻撃型師匠"));
+ const verify=(t,normalBody,enhancedBody)=>{const rows=full(t);assert.equal(rows.length,7);for(const r of rows){const normal=r.attack.name.includes("妖魔"),n=r.components.basic.attack.hitCount,body=(normal?normalBody:enhancedBody)*n,additional=(normal?243:372.6)*n;near(r.components.basic.nonCrit,body);near(r.components.additional.nonCrit,additional);near(r.nonCrit,body+additional);near(r.crit,(body+additional)*2);near(r.expected,(body+additional)*1.5);}return rows;};
+ verify(app,1080,1555.2);
+ app.state.relicId="134";app.node("hsrRelicMode").value="4";
+ let rows=verify(app,1468.8,1866.24);
+ for(const r of rows){assert.equal(r.components.basic.applied.filter(m=>m.id==="relic:134:4pc:normal-damage").length,1);assert.equal(r.components.additional.applied.filter(m=>m.id==="relic:134:4pc:normal-damage").length,0);}
+ const ultimateName=data.attacks.find(a=>a.id==="122403").name;near(app.calculate().find(r=>r.attack.name===ultimateName).nonCrit,2592);
+ app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);verify(restored,1468.8,1866.24);
+ restored.state.relicId="";verify(restored,1080,1555.2);restored.state.relicId="134";
+ restored.state.party[0].characterId="";assert.equal(full(restored).length,0);assert.ok(restored.calculate().some(r=>r.attack.name===ultimateName));
+ app.node("hsrSkillTrace").value="";assert.equal(full(app).length,0);assert.ok(app.calculate().some(r=>r.attack.name===ultimateName));app.node("hsrSkillTrace").value="10";
+ app.node("hsrTalentTrace").value="";rows=full(app);assert.equal(rows.length,1);assert.match(rows[0].attack.name,/妖魔/);
+});
+
+test("Round17 Hunt March Shifu supports reach current recipient, speed threshold and separate Super Break", async () => {
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1003",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,speed:130,critRate:50,critDamage:100,damageBonus:0,breakEffect:50}});
+ app.state.party[0]={characterId:"1224",level:80,eidolon:0,speed:999,critDamage:999,breakEffect:999,traceLevels:{skill:10}};app.state.ornamentId="311";
+ const normal=t=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id==="100301").name);
+ const toggle=(t,key,on)=>t.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:key},checked:on}});
+ const skill="march-shifu-support-active",a6="march-shifu-a6-active",ids=["trace:1224:122402:shifu-speed","trace:1224:1224103:shifu-crit-damage","trace:1224:1224103:shifu-break-effect"];
+ near(normal(app).expected,1620);toggle(app,a6,true);near(normal(app).expected,1620,"A6 needs the current recipient to be Shifu");
+ toggle(app,skill,true);let r=normal(app);near(r.nonCrit,1209.6);near(r.crit,3144.96);near(r.expected,2177.28);
+ // Himeko base SPD96, not provider SPD999: 130+96*.10=139.6 crosses Glamoth135.
+ for(const [rawSpeed,expectedNc] of [[125.3999,1080],[125.4,1209.6],[125.4001,1209.6]]){app.node("hsrStat-speed").value=String(rawSpeed);near(normal(app).nonCrit,expectedNc);}
+ app.node("hsrStat-speed").value="130";
+ const catalogCharacters=app.state.data.characters;app.state.data.characters=catalogCharacters.map(c=>c.id==="1003"?{...c,base:{...c.base,speed:undefined}}:c);assert.equal(normal(app),undefined,"missing recipient base speed cannot establish a damage threshold");app.state.data.characters=catalogCharacters;near(normal(app).expected,2177.28);
+ app.node("hsrStat-speed").value="139.6";toggle(app,ids[0]+"-in-final",true);app.node("hsrStat-critDamage").value="160";toggle(app,ids[1]+"-in-final",true);near(normal(app).expected,2177.28);
+ app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(normal(restored).expected,2177.28);for(const id of ids.slice(0,2))assert.equal(restored.state.modifierInputs[id+"-in-final"],true);
+ restored.node("hsrBreakMode").value="superBreak";restored.node("hsrToughnessState").value="broken";restored.node("hsrEnemyResistance").value="0";restored.node("hsrSuperBreakToughness").value="30";restored.node("hsrSuperBreakMultiplier").value="100";
+ let superBreakResult;const engine=restored.window.HsrCalcEngine;restored.window.HsrCalcEngine={...engine,calculateSuperBreak(input){superBreakResult=engine.calculateSuperBreak(input);return superBreakResult;}};
+ // Existing level80 coefficient3767.5533 * current-unit toughness30/10 * (1+.50+.36) * DEF.5 * RES1.
+ const verifySuperBreak=()=>{restored.calculate();near(superBreakResult.value,10511.473707);};
+ verifySuperBreak();restored.node("hsrStat-breakEffect").value="86";toggle(restored,ids[2]+"-in-final",true);verifySuperBreak();
+ restored.node("hsrBreakMode").value="attacks";restored.node("hsrToughnessState").value="active";restored.node("hsrEnemyResistance").value="20";
+ for(const id of ids)toggle(restored,id+"-in-final",false);restored.node("hsrStat-speed").value="130";restored.node("hsrStat-critDamage").value="100";restored.node("hsrStat-breakEffect").value="50";
+ restored.state.party[0].characterId="";near(normal(restored).expected,1620);
+});

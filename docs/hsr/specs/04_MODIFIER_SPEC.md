@@ -288,3 +288,10 @@ LC23011はHP減少後の有効支援を任意指定。LC23029の甲卸/窮寇は
 徹札矢120704は`additional`の分類を保ち、既存`tags: [normal]`で通常攻撃限定補正の対象とする。合計1207011は本体/付加へ個別に同じ対象判定を行い、タグ欠落時は合計だけ停止する。必殺や別キャラの付加へ一般化しない。構造/演算は既存のまま。
 
 [御空Modifier](../../../games/hsr/data/calc/modifiers-1206-1210.json)のSkill ATK・Ult CR・Ult CDは既存任意発動キーを維持し、それぞれ`<modifier ID>-in-final`で最終入力の既算入を除外する。CR/CDは共通発動・個別算入済み入力。自己常時虚数12%は最終入力、外部味方への虚数12%は編成由来自動支援という責務を維持する。詳細の受入/保留は[第16回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round16-characters)を参照。
+
+
+## 第17回：巡狩なのかの成分別対象と師匠支援
+
+通常/強化通常の本体と師匠属性付加は独立した対象。1224011/1224081では既存の成分別type判定を使用し、Basic限定補正は本体だけに適用する。122404の強化時DMGは固有の別対象として付加にも1回適用する。御空のnormalタグ継承とは異なり、なのかの付加へnormalタグを追加しない。段間の累積被ダメージ等の未受入範囲は維持する。
+
+[師匠支援3成分](../../../games/hsr/data/calc/modifiers-march-round17.json)は既存activeAlly/providerScope=party、toggle/requiredToggleKey/finalStatsInclusionを使用。速度は受益者の基礎速度×スキルLv係数。計算対象が師匠でスキル有効という前提に加え、強化通常後の破浪が有効な場合のみCD/BEを付与する。CD/BEは発動キー共通・算入済み/重複グループ個別。現在のキャラに対する成立済み状態を指定し、自己へ支援を戻さない。既存の支援後閾値評価/基礎値欠損時停止を再利用する。詳細は[第17回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round17-followup)。

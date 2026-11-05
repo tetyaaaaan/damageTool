@@ -13,9 +13,13 @@ const {
 // Hand-transcribed from pinned StarRailRes JP character_skills.json:
 // 122401 params[0..5] (basic), 122408 params[0..5] (enhanced basic, per hit),
 // 122402 params[0..9] (Shifu-type Additional DMG, once per normal / each enhanced hit).
-// 122404 talent is the 60% Enhanced Basic ATK DMG bonus at Lv10. E0 trace caps:
+// 122404 talent is the 80% Enhanced Basic ATK DMG bonus at Lv10. E0 trace caps:
 // Normal 6, Skill 10. This test treats the realized enhanced hit count as a state,
 // not a probability average. Enemy and DMG bonus are looked up per component element.
+// Fixed Fribbels independently models the Shifu component with standardAdditional / DamageTag.ADDITIONAL,
+// while the body is standardBasic / DamageTag.BASIC. The 122404 buff explicitly covers both tags.
+// https://github.com/Fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1200/March7thImaginary.ts#L229-L239
+// https://github.com/Fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1200/March7thImaginary.ts#L283-L286
 const sourceUrl = "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json";
 const basicCurve = [50, 60, 70, 80, 90, 100];
 const enhancedPerHitCurve = [40, 48, 56, 64, 72, 80];
@@ -70,6 +74,7 @@ function componentRequest(attack, level, hits, element, perHitPercent, shifuDama
 function expectedChild(input) {
     const element = input.attack.element;
     const expectedInput = structuredClone(input);
+    expectedInput.modifiers = (expectedInput.modifiers || []).filter(modifier => modifierMatchesAttack(modifier, expectedInput.attack));
     expectedInput.character.stats.damageBonus = expectedInput.character.stats.damageBonuses[element];
     expectedInput.enemy.resistance = expectedInput.enemy.resistances[element];
     delete expectedInput.character.stats.damageBonuses;
@@ -85,9 +90,21 @@ function verifyChild(engine, input, label) {
     for (const key of ["nonCrit", "crit", "expected"]) assertClose(actual[key], expected[key], label + " " + key);
     assertClose(actual.breakdown.referenceValue, profile.atk, label + " March ATK owner");
     assertClose(actual.breakdown.damageBonus, input.character.stats.damageBonuses[input.attack.element]
-        + (input.modifiers || []).filter(modifier => modifier.enabled !== false && modifier.applicable !== false && modifier.category === "damageBonus").reduce((sum, modifier) => sum + Number(modifier.value || 0), 0), label + " element DMG bonus");
+        + (input.modifiers || []).filter(modifier => modifier.enabled !== false && modifier.applicable !== false && modifier.category === "damageBonus" && modifierMatchesAttack(modifier, input.attack)).reduce((sum, modifier) => sum + Number(modifier.value || 0), 0), label + " element DMG bonus");
     assertClose(actual.breakdown.resistance, 1 - (input.enemy.resistances[input.attack.element] - input.enemy.resistancePenetration) / 100, label + " element RES");
     return actual;
+}
+
+function modifierMatchesAttack(modifier, attack) {
+    const target = modifier.target || {};
+    const types = target.attackTypes || modifier.attackTypes || ["all"];
+    const ids = target.attackIds || [];
+    const elements = target.elements || [];
+    const type = attack.attackType || attack.type || "normal";
+    const tags = Array.isArray(attack.tags) ? attack.tags : [];
+    return (!ids.length || ids.includes(String(attack.id || "")))
+        && (types.includes("all") || types.includes(type) || tags.some(tag => types.includes(tag)))
+        && (!elements.length || elements.includes(attack.element || ""));
 }
 
 function sumExpected(children) {
@@ -123,20 +140,27 @@ test("batch5 Hunt March full normal/enhanced comparison uses pinned E0 curves an
     for (const shifuElement of ["Fire", "Thunder", "Physical", "Wind", "Quantum", "Imaginary", "Ice"]) {
         for (const shifuPath of ["Erudition", "Destruction", "Hunt", "Remembrance", "Elation"]) {
             for (let normalLevel = 1; normalLevel <= 6; normalLevel++) for (let skillLevel = 1; skillLevel <= 10; skillLevel++) {
+                const talentLevel = (normalLevel + skillLevel - 2) % 10 + 1;
                 const normalInput = {
                     character: { level: 80, eidolon: 0, stats: { atk: profile.atk, hp: profile.hp, def: profile.def, critRate: profile.critRate, critDamage: profile.critDamage, damageBonus: profile.damageBonus, damageBonuses: { ...profile.damageBonuses } }, baseStats: { atk: profile.baseAtk, hp: profile.baseHp, def: profile.baseDef } },
                     enemy: { count: 1, level: enemyProfile.enemyLevel, resistance: enemyProfile.resistance, resistances: { ...enemyProfile.resistances }, weakness: false, toughnessActive: true, defenseReduction: enemyProfile.defenseReduction, defenseIgnore: enemyProfile.defenseIgnore, resistancePenetration: enemyProfile.resistancePenetration, takenDamage: enemyProfile.takenDamage },
-                    attack: { ...normal, traceLevel: normalLevel, multiplier: normal.multipliers?.[normalLevel - 1], hitCount: 1, attackType: "normal", shifuElement, shifuPath, talentLevel: skillLevel }
+                    attack: { ...normal, traceLevel: normalLevel, multiplier: normal.multipliers?.[normalLevel - 1], hitCount: 1, attackType: "normal", shifuElement, shifuPath, talentLevel }
                 };
-                const nativeValue = enhancedDamageCurve[skillLevel - 1];
-                const normalBody = componentRequest(basic, normalLevel, 1, "Imaginary", basicCurve[normalLevel - 1], 0);
-                const normalAdditional = componentRequest(additional, skillLevel, 1, shifuElement, additionalCurve[skillLevel - 1], 0, [], "additional");
+                const normalOnly = { id: "test-march-normal-only", name: "通常限定与ダメージ", category: "damageBonus", value: 18.75, enabled: true, applicable: true, calculable: true, target: { attackTypes: ["normal"], elements: ["Imaginary"] } };
+                const additionalOnly = { id: "test-march-additional-only", name: "師匠付加限定与ダメージ", category: "damageBonus", value: 13.25, enabled: true, applicable: true, calculable: true, target: { attackIds: ["122402"], attackTypes: ["additional"], elements: [shifuElement] } };
+                const nativeValue = enhancedDamageCurve[talentLevel - 1];
+                const normalBody = componentRequest(basic, normalLevel, 1, "Imaginary", basicCurve[normalLevel - 1], 0, [normalOnly, additionalOnly]);
+                const normalAdditional = componentRequest(additional, skillLevel, 1, shifuElement, additionalCurve[skillLevel - 1], 0, [normalOnly, additionalOnly], "additional");
                 normalInput.sequenceComponents = [
                     { key: "basic", name: normal.damageComponents[0].name, input: normalBody },
                     { key: "additional", name: normal.damageComponents[1].name, input: normalAdditional }
                 ];
                 const normalBodyResult = verifyChild(engine, normalBody, "normal body E0 N" + normalLevel + " / skill" + skillLevel + " " + shifuElement);
                 const normalAdditionalResult = verifyChild(engine, normalAdditional, "normal Shifu DMG E0 N" + normalLevel + " / skill" + skillLevel + " " + shifuElement);
+                assert.equal(normalBodyResult.applied.filter(modifier => modifier.id === normalOnly.id).length, 1, "normal-only bonus applies to normal body");
+                assert.equal(normalBodyResult.applied.filter(modifier => modifier.id === additionalOnly.id).length, 0, "Additional-only bonus does not apply to normal body");
+                assert.equal(normalAdditionalResult.applied.filter(modifier => modifier.id === normalOnly.id).length, 0, "normal-only bonus is excluded from Shifu Additional DMG even when passed applicable");
+                assert.equal(normalAdditionalResult.applied.filter(modifier => modifier.id === additionalOnly.id).length, 1, "generic Additional bonus applies only to Shifu component");
                 const normalResult = engine.calculate(normalInput);
                 assert.notEqual(normalResult.supported, false, "normal aggregate: " + normalResult.reason);
                 const normalExpected = sumExpected([expectedChild(normalBody), expectedChild(normalAdditional)]);
@@ -144,21 +168,38 @@ test("batch5 Hunt March full normal/enhanced comparison uses pinned E0 curves an
                 assert.equal(normalResult.components?.basic?.attack?.hitCount, 1);
                 assert.equal(normalResult.components?.additional?.attack?.hitCount, 1);
 
+                if (shifuElement === "Fire" && shifuPath === "Erudition" && normalLevel === 1 && skillLevel === 1) {
+                    const off = structuredClone(normalInput);
+                    for (const child of off.sequenceComponents) child.input.modifiers.forEach(modifier => { modifier.enabled = false; });
+                    const offResult = engine.calculate(off);
+                    assert.notEqual(offResult.supported, false, "disabled type-specific bonuses remain calculable");
+                    const offExpected = sumExpected(off.sequenceComponents.map(component => expectedChild(component.input)));
+                    for (const key of ["nonCrit", "crit", "expected"]) assertClose(offResult[key], offExpected[key], "normal/additional modifier OFF " + key);
+                }
+
                 for (let realizedHits = 3; realizedHits <= 8; realizedHits++) {
                     const bodyBonus = { ...nativeModifier(native, nativeValue), target: { ...native.target, attackTypes: ["enhancedNormal"] } };
                     const additionalBonus = { ...nativeModifier(native, nativeValue), target: { ...native.target, owner: "self", attackIds: ["122402"], attackTypes: ["additional"], elements: [shifuElement] } };
+                    const enhancedOnly = { ...normalOnly, id: "test-march-enhanced-only", name: "強化通常限定与ダメージ", target: { attackTypes: ["enhancedNormal"], elements: ["Imaginary"] } };
+                    const enhancedAdditionalOnly = { ...additionalOnly, id: "test-march-enhanced-additional-only" };
                     const enhancedInput = {
                         character: structuredClone(normalInput.character), enemy: structuredClone(normalInput.enemy),
-                        attack: { ...enhanced, traceLevel: normalLevel, multiplier: enhanced.multipliers?.[normalLevel - 1], hitCount: realizedHits, attackType: "enhancedNormal", shifuElement, shifuPath, talentLevel: skillLevel }
+                        attack: { ...enhanced, traceLevel: normalLevel, multiplier: enhanced.multipliers?.[normalLevel - 1], hitCount: realizedHits, attackType: "enhancedNormal", shifuElement, shifuPath, talentLevel }
                     };
-                    const enhancedBody = componentRequest(enhancedBasic, normalLevel, realizedHits, "Imaginary", enhancedPerHitCurve[normalLevel - 1], nativeValue, [bodyBonus], "enhancedNormal");
-                    const enhancedAdditional = componentRequest(additional, skillLevel, realizedHits, shifuElement, additionalCurve[skillLevel - 1], nativeValue, [additionalBonus], "additional");
+                    const enhancedBody = componentRequest(enhancedBasic, normalLevel, realizedHits, "Imaginary", enhancedPerHitCurve[normalLevel - 1], nativeValue, [bodyBonus, enhancedOnly, enhancedAdditionalOnly], "enhancedNormal");
+                    const enhancedAdditional = componentRequest(additional, skillLevel, realizedHits, shifuElement, additionalCurve[skillLevel - 1], nativeValue, [additionalBonus, enhancedOnly, enhancedAdditionalOnly], "additional");
                     enhancedInput.sequenceComponents = [
                         { key: "basic", name: enhanced.damageComponents[0].name, input: enhancedBody },
                         { key: "additional", name: enhanced.damageComponents[1].name, input: enhancedAdditional }
                     ];
                     const bodyResult = verifyChild(engine, enhancedBody, "enhanced body Lv" + normalLevel + "/" + skillLevel + " hits" + realizedHits);
                     const additionalResult = verifyChild(engine, enhancedAdditional, "enhanced Shifu DMG Lv" + normalLevel + "/" + skillLevel + " hits" + realizedHits + " " + shifuElement);
+                    assert.equal(bodyResult.applied.filter(modifier => modifier.id === nativeEnhancedId).length, 1, "native 122404 buff applies once to the enhanced body");
+                    assert.equal(additionalResult.applied.filter(modifier => modifier.id === nativeEnhancedId).length, 1, "native 122404 buff applies once to Shifu Additional DMG");
+                    assert.equal(bodyResult.applied.filter(modifier => modifier.id === enhancedOnly.id).length, 1, "enhanced-normal-only bonus applies to the body");
+                    assert.equal(bodyResult.applied.filter(modifier => modifier.id === enhancedAdditionalOnly.id).length, 0, "Additional-only bonus is excluded from the enhanced body");
+                    assert.equal(additionalResult.applied.filter(modifier => modifier.id === enhancedOnly.id).length, 0, "enhanced-normal-only bonus is excluded from Additional DMG even when passed applicable");
+                    assert.equal(additionalResult.applied.filter(modifier => modifier.id === enhancedAdditionalOnly.id).length, 1, "generic Additional bonus applies only to Shifu component");
                     const total = engine.calculate(enhancedInput);
                     assert.notEqual(total.supported, false, "enhanced aggregate: " + total.reason);
                     const expected = sumExpected([expectedChild(enhancedBody), expectedChild(enhancedAdditional)]);
@@ -169,6 +210,8 @@ test("batch5 Hunt March full normal/enhanced comparison uses pinned E0 curves an
                     assert.ok(total.nonCrit > total.components.basic.nonCrit, "additional damage is a separate summed component");
                     if (shifuElement === "Fire" && shifuPath === "Erudition" && normalLevel === 1 && skillLevel === 1 && realizedHits === 3) {
                         const wrongScope=structuredClone(enhancedInput);wrongScope.sequenceComponents[1].input.modifiers[0].target.attackIds=["122408"];assert.equal(engine.calculate(wrongScope).supported,false,"native ID alone cannot replace actual per-component application");
+                        const off=structuredClone(enhancedInput);for(const child of off.sequenceComponents)child.input.modifiers.filter(modifier=>modifier.id!==nativeEnhancedId).forEach(modifier=>{modifier.enabled=false;});const offResult=engine.calculate(off);assert.notEqual(offResult.supported,false,"type-specific modifier OFF leaves required native talent buff intact");const offExpected=sumExpected(off.sequenceComponents.map(component=>expectedChild(component.input)));for(const key of ["nonCrit","crit","expected"])assertClose(offResult[key],offExpected[key],"enhanced type-specific modifier OFF "+key);
+                        const progressive=structuredClone(enhancedInput);progressive.sequenceComponents[0].input.modifiers.push({id:"test-march-progressive-taken",category:"progressiveTakenDamage",value:5,enabled:true,applicable:true,target:{attackTypes:["enhancedNormal"]}});const progressiveResult=engine.calculate(progressive);assert.equal(progressiveResult.supported,false,"progressive per-hit taken damage remains outside the fixed-state sum");assert.match(progressiveResult.reason,/段間/);
                         for (const stat of ["atk", "hp", "def"]) {
                             const changed = structuredClone(enhancedInput);
                             changed.character.stats[stat] += 1387.25;

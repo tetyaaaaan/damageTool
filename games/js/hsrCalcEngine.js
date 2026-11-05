@@ -755,7 +755,7 @@ function calculateFanning(input) {
             if(JSON.stringify(p.input.character)!==JSON.stringify(c)||JSON.stringify(p.input.enemy)!==JSON.stringify(e)) return fail("各成分は同じなのかのステータスと敵条件を使用してください。師匠のATKは参照しません。");
             if(!Number.isFinite(c.stats?.damageBonuses?.[element])||!Number.isFinite(e.resistances?.[element])) return fail("各成分の属性与ダメージと敵属性耐性を入力してください。補正なしは0を指定します。");
             const mods=p.input.modifiers||[];
-            if(mods.some(m=>m.enabled!==false&&m.applicable!==false&&((m.category==='progressiveTakenDamage')||((m.target?.attackTypes||[]).some(t=>['normal','enhancedNormal'].includes(t))&&!(m.target.attackTypes.includes('all'))&&m.id!=='trace:1224:122404:enhanced-damage')))) return fail("通常攻撃限定補正の師匠付加への継承、または段間更新は未検証のため合計を停止します。");
+            if(mods.some(m=>m.enabled!==false&&m.applicable!==false&&m.category==='progressiveTakenDamage')) return fail("段間で変化する被ダメージ補正はこの師匠付加の合計では計算対象外です。");
             const n=mods.filter(m=>m.id==='trace:1224:122404:enhanced-damage'&&m.enabled!==false&&m.applicable!==false);
             if(enhanced&&(n.length!==1||n[0].value!==native[a.talentLevel-1]||n[0].calculable===false||!modifierAppliesToAttack(n[0],b))) return fail("強化状態の天賦与ダメージを各成分に1回だけ適用してください。");
             if(!enhanced&&n.length) return fail("通常手番へ強化状態の天賦補正は適用しません。");

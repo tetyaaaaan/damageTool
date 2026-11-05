@@ -166,3 +166,10 @@
 御空は[120704の通常タグ](../../../games/hsr/data/calc/attacks-1206-1210.json)、[1207011の2成分合計](../../../games/hsr/data/attack-overrides.json)、[既存3支援の個別算入済み除外](../../../games/hsr/data/calc/modifiers-1206-1210.json)を接続。通常/天賦/必殺の全採用Lvと成立済み支援を既存共通UIで比較する。E0の限定受入は完成管理表を正本とし、初回付与順・ターン消費や全星魂認定へ拡張しない。
 
 [雪衣必殺](../../../games/hsr/data/calc/attacks-xueyi-round16.json)は攻撃前から撃破済みの直接成分だけ。削靭0による可変DMG0とA4不成立を前提にし、未撃破の換算式は未実装。予兆の機杼のBE→DMGは既存の完成済み最終入力で管理する。この部分実装で雪衣全体を完成扱いにしない。根拠URL/範囲は各provenanceと[台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round16-characters)、実装箇所/採用Lvは攻撃範囲資料へ記録する。装備種類・新規効果件数を本書へ重複管理しない。
+
+
+## 第17回：巡狩なのかの追加受入と雪衣の保留
+
+[既存攻撃override](../../../games/hsr/data/attack-overrides.json)の1224011/1224081は本体Basic・付加Additionalというカテゴリを固定Fribbelsと照合し、通常限定補正を本体へ適用する。付加を追撃や通常へ変更しない。[師匠支援](../../../games/hsr/data/calc/modifiers-march-round17.json)は固定122402/1224103に基づく速度/会心ダメージ/撃破特効。本人の強化比較と、別キャラクターを師匠として計算する支援方向を区別する。
+
+雪衣は既撃破121403の受入を維持。未撃破での残量clip/効率/途中撃破/A4時点の根拠が不足しており、最大補正を仮定しない。優先度/不足する証拠/次回確認/解決条件は[既存台帳の第17回追跡表](../../HSR_COMPLETION_WORKLOAD.md#hsr-round17-followup)へ集約する。E0人数・登録数を本仕様書へ複製しない。

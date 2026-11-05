@@ -163,3 +163,10 @@ UI・接続を変更したら1440/390/320pxで変更箇所と必要な境界を�
 [御空](../../../tests/hsr/hsrYukongE0Completion.test.cjs)は全通常6×天賦10Lv×非対称2条件、必殺10Lv×2条件、支援10Lvの独立NC/C/EVを検証する。通常限定補正の両成分適用/必殺非適用、タグ欠落時停止、ATK参照分離、既算入除外も含む。固定Fribbelsのタグ実装照合は外部画面の計算値照合とは区別する。
 
 [雪衣](../../../tests/hsr/hsrXueyiRound16.test.cjs)は既撃破必殺の全10Lv×2条件を独立計算し、未撃破/不明・敵複数・範囲外Lv/星魂を拒否する。部分対応から全体完成を推定しない。[App試験](../../../tests/hsr/hsrToolInputs.test.cjs)は実データと共通イベントで支援/靭性/軌跡Lv/局所停止/提供者離脱/保存復元を確認。実ブラウザ3幅の接続確認と模擬DOM試験、実UID通信をそれぞれ区別して[台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round16-characters)に記録する。新しいテスト基盤は追加しない。
+
+
+## 第17回：成分別カテゴリと師匠支援の回帰
+
+[March](../../../tests/hsr/hsrBatch5March.test.cjs)は通常/強化本体と付加の独立NC/C/EVに加え、通常限定・Additional限定・誤scope・OFF・固有天賦の各1回・段間補正停止を検証。[支援](../../../tests/hsr/hsrMarchSupportRound17.test.cjs)は全SkillLv、受益者基礎SPD、CD/BE、前提状態/既算入/解除/自己除外を既存Runtime/engineで照合する。
+
+[Golden](../../../tests/hsr/hsrGoldenScenarios.test.cjs)末尾の第17回シナリオは通常限定OFF/ONと強化3/8段の4固定状態。根拠区分は固定仕様＋独立手計算で、外部画面数値やゲーム実測ではない。[App試験](../../../tests/hsr/hsrToolInputs.test.cjs)では速度閾値の直下/一致/直上、基礎速度不足、提供者離脱、既算入と保存を確認。実ブラウザ3幅/UIDモック/実UID通信の区分は台帳へ記録。雪衣の換算候補は実証前にGoldenの正解へ固定せず、次回の実行証拠/分離測定で採否を判断する。

@@ -2267,3 +2267,34 @@ test("Dan Heng Lv6 compares four independent support cases with Fribbels BASIC i
         assert.ok(displayGap >= 0 && displayGap < 1, `${label} external BASIC integer ${state.externalExpectedInteger}; independent EV ${state.independent.expected}; gap ${displayGap}`);
     }
 });
+
+test("Round17 Hunt March mixed-element Basic goldens isolate Basic-only relic damage", async () => {
+ const {data,engine:directEngine}=await loadProductionFixture();
+ const {assertClose}=require("./helpers/hsrDirectVerification.cjs");
+ // Fixed-spec + independent hand calculation, not a game measurement or external UI result.
+ // StarRailRes dbe8cdf: N6=100%, enhanced N6=80%/hit, S10 additional=20%/hit, T10=80% DMG.
+ // DEF=.5; RES Imaginary=.8/Fire=.6; unbroken=.9; ATK3000; CR50/CD100.
+ // Body / hit: 1080 normal, 1555.2 enhanced; relic134 +36% makes 1468.8 / 1866.24.
+ // Additional / hit: 243 normal or 372.6 enhanced; relic134 does not modify this component.
+ const cases=[
+  {id:"r17-march-normal-off",root:"1224011",body:"122401",hits:1,relic:false,basic:1080,additional:243,nonCrit:1323,crit:2646,expected:1984.5},
+  {id:"r17-march-normal-relic36",root:"1224011",body:"122401",hits:1,relic:true,basic:1468.8,additional:243,nonCrit:1711.8,crit:3423.6,expected:2567.7},
+  {id:"r17-march-enhanced3-relic36",root:"1224081",body:"122408",hits:3,relic:true,basic:5598.72,additional:1117.8,nonCrit:6716.52,crit:13433.04,expected:10074.78},
+  {id:"r17-march-enhanced8-relic36",root:"1224081",body:"122408",hits:8,relic:true,basic:14929.92,additional:2980.8,nonCrit:17910.72,crit:35821.44,expected:26866.08}
+ ];
+ const relic=data.structuredModifiers.find(m=>m.id==="relic:134:4pc:normal-damage"),native=data.structuredModifiers.find(m=>m.id==="trace:1224:122404:enhanced-damage");
+ assert.equal(relic.value.fixed,36);assert.equal(native.value.values[9],80);
+ for(const scenario of cases){
+  const enhanced=scenario.root==="1224081",rootAttack=attackOf(data,scenario.root),input=makeRequest(rootAttack,6,{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0});
+  input.character.stats.damageBonuses={Imaginary:0,Fire:50};input.enemy.resistances={Imaginary:20,Fire:40};
+  input.attack={...input.attack,hitCount:scenario.hits,shifuElement:"Fire",shifuPath:"Erudition",talentLevel:10};
+  const child=(id,element,type,multiplier,key)=>({key,name:rootAttack.damageComponents.find(c=>c.key===key).name,input:{character:input.character,enemy:input.enemy,attack:{...attackOf(data,id),sourceSkillId:id,type,attackType:type,traceLevel:key==="basic"?6:10,multiplier,hitCount:scenario.hits,target:"single",element,damageFormula:"statMultiplier",scalingStat:"atk",canCrit:true},modifiers:[]}});
+  const basic=child(scenario.body,"Imaginary",enhanced?"enhancedNormal":"normal",enhanced?80:100,"basic"),additional=child("122402","Fire","additional",20,"additional");
+  if(scenario.relic)basic.input.modifiers.push({...relic,value:36,enabled:true,applicable:true});
+  if(enhanced){basic.input.modifiers.push({...native,value:80,enabled:true,applicable:true});additional.input.modifiers.push({...native,value:80,target:{owner:"self",attackIds:["122402"],attackTypes:["additional"],elements:[]},enabled:true,applicable:true});}
+  input.sequenceComponents=[basic,additional];
+  const actual=directEngine.calculate(input);assert.notEqual(actual.supported,false,scenario.id+": "+actual.reason);
+  assertClose(actual.components.basic.nonCrit,scenario.basic,scenario.id+" body");assertClose(actual.components.additional.nonCrit,scenario.additional,scenario.id+" additional");
+  for(const key of ["nonCrit","crit","expected"])assertClose(actual[key],scenario[key],scenario.id+" literal independent "+key);
+ }
+});

@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "march-support-round17-2026-11-05",
+  "description": "巡狩なのかのE0支援状態を、発動済みスナップショットとして指定する3効果。",
+  "modifiers": [
+    {
+      "id": "trace:1224:122402:shifu-speed",
+      "providerScope": "party",
+      "source": { "kind": "trace", "id": "1224", "skillId": "122402" },
+      "name": "戦闘スキル・指定した師匠の速度",
+      "description": "計算対象が巡狩なのかの戦闘スキルを受けた師匠である場合、その速度上昇状態を選択します。増加量は各スキルLvの6～10%で、師匠本人の基礎速度を参照します。効果発動前の通常状態は含めません。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": { "kind": "byLevel", "values": [6, 6.4, 6.8, 7.2, 7.6, 8, 8.5, 9, 9.5, 10] },
+      "target": { "owner": "activeAlly", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "計算対象が師匠で、巡狩なのかの戦闘スキルによる速度上昇が有効",
+        "inputKey": "march-shifu-support-active",
+        "inputLabel": "計算対象が師匠・なのかの戦闘スキル効果中",
+        "default": false
+      },
+      "stacking": { "group": "trace:1224:122402:shifu-speed", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "inputValidation": { "maximumEidolon": 0, "levelMaximum": 10 },
+      "finalStatsInclusion": { "inputKey": "trace:1224:122402:shifu-speed-in-final", "inputLabel": "なのかの支援速度を最終速度へ算入済み" },
+      "support": { "status": "calculable", "verified": true, "reason": "固定版の122402.params[0..9][0]にある速度上昇率を全Lv転記。対象の師匠を選ぶ状態指定で、速度%は受益者の基礎速度へ適用。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122402.params[0..9][0]",
+        "verifiedAt": "2026-11-05",
+        "notes": "原文の倍率を100倍して転記。技能発動と師匠選択は単発計算の入力状態。実際の持続状況を自動追跡しない。",
+        "scope": "E0巡狩なのかが編成中のとき、指定した別キャラクターの速度計算に限定。",
+        "verification": "tests/hsr/hsrMarchSupportRound17.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1224:1224103:shifu-crit-damage",
+      "providerScope": "party",
+      "source": { "kind": "trace", "id": "1224", "traceId": "1224103" },
+      "name": "追加能力・指定した師匠の会心ダメージ",
+      "description": "計算対象が巡狩なのかの強化通常攻撃後に破浪を受けた師匠である場合、会心ダメージ+60%の状態を選択します。2ターン継続。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": { "kind": "fixed", "fixed": 60 },
+      "target": { "owner": "activeAlly", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "計算対象の師匠に、なのかの強化通常攻撃後の破浪が有効",
+        "inputKey": "march-shifu-a6-active",
+        "inputLabel": "計算対象の師匠に破浪が有効",
+        "requiredToggleKey": "march-shifu-support-active",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": { "group": "trace:1224:1224103:shifu-crit-damage", "rule": "nonStacking" },
+      "calculation": { "stage": "critical", "operation": "add" },
+      "inputPolicy": "conditional",
+      "inputValidation": { "maximumEidolon": 0, "levelMaximum": 10 },
+      "finalStatsInclusion": { "inputKey": "trace:1224:1224103:shifu-crit-damage-in-final", "inputLabel": "なのかの会心ダメージ支援を最終入力へ算入済み" },
+      "support": { "status": "calculable", "verified": true, "reason": "固定版の1224103.params[0]=0.6を会心ダメージ+60%として確認。強化通常攻撃後・対象・持続状態を明示する。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1224103.params[0]",
+        "verifiedAt": "2026-11-05",
+        "notes": "原文0.6を60%に換算。時間順の発動判定は行わず、指定した受益者に成立済みの状態を入力する。",
+        "scope": "E0巡狩なのかが編成中のとき、指定した別キャラクターの会心ダメージ計算に限定。",
+        "verification": "tests/hsr/hsrMarchSupportRound17.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1224:1224103:shifu-break-effect",
+      "providerScope": "party",
+      "source": { "kind": "trace", "id": "1224", "traceId": "1224103" },
+      "name": "追加能力・指定した師匠の撃破特効",
+      "description": "計算対象が巡狩なのかの強化通常攻撃後に破浪を受けた師匠である場合、撃破特効+36%の状態を選択します。2ターン継続。",
+      "category": "breakEffect",
+      "unit": "percent",
+      "value": { "kind": "fixed", "fixed": 36 },
+      "target": { "owner": "activeAlly", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "計算対象の師匠に、なのかの強化通常攻撃後の破浪が有効",
+        "inputKey": "march-shifu-a6-active",
+        "inputLabel": "計算対象の師匠に破浪が有効",
+        "requiredToggleKey": "march-shifu-support-active",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": { "group": "trace:1224:1224103:shifu-break-effect", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "inputValidation": { "maximumEidolon": 0, "levelMaximum": 10 },
+      "finalStatsInclusion": { "inputKey": "trace:1224:1224103:shifu-break-effect-in-final", "inputLabel": "なのかの撃破特効支援を最終入力へ算入済み" },
+      "support": { "status": "calculable", "verified": true, "reason": "固定版の1224103.params[1]=0.36を撃破特効+36%として確認。会心ダメージ効果と共通の成立済み状態を使用する。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1224103.params[1]",
+        "verifiedAt": "2026-11-05",
+        "notes": "原文0.36を36%に換算。時間順の発動判定は行わず、指定した受益者に成立済みの状態を入力する。",
+        "scope": "E0巡狩なのかが編成中のとき、指定した別キャラクターの撃破特効計算に限定。",
+        "verification": "tests/hsr/hsrMarchSupportRound17.test.cjs"
+      }
+    }
+  ]
+}
