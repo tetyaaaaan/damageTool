@@ -4109,3 +4109,14 @@ test("Round19 Black Swan party Epiphany uses provider trace level and explicit v
  app.state.modifierInputs["black-swan-skill-def-active"]=true;near(normal().nonCrit,3000*.8*.9/(2-.208));
  app.state.modifierInputs["black-swan-epiphany-active"]=true;near(normal().nonCrit,3000*.8*.9*1.15/(2-.208));app.state.party[0].characterId="";near(normal().nonCrit,1080);
 });
+
+
+test("Round20 Guinaifen Ultimate displays own-Burn total with independent trace inputs and correct crit scope",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1210",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ const row=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==="1210032").name);
+ const check=(skill,ult,kiss)=>{const r=row(),common=3000*1.2*.5*.8*.9*(1+3*kiss/100),direct=common*ult/100,burn=common*skill*.92/100;assert.ok(r);near(r.components.direct.nonCrit,direct);near(r.components.burn.nonCrit,burn);near(r.nonCrit,direct+burn);near(r.crit,direct*2+burn);near(r.expected,direct*1.5+burn);return r;};
+ check(218.21,120,7);app.node("hsrSkillTrace").value="1";check(83.9,120,7);app.node("hsrTalentTrace").value="1";check(83.9,120,4);
+ app.state.modifierInputs["guinaifen-firekiss-stacks"]=0;app.state.modifierInputs["enemy-burning"]=false;check(83.9,120,4);assert.equal(app.state.modifierInputs["guinaifen-firekiss-stacks"],0,"row assumptions do not overwrite user state");
+ app.node("hsrSkillTrace").value="";assert.equal(row(),undefined);assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==="121003").name));
+});

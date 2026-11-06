@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "guinaifen-own-burn-ultimate-round20",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "事前の自身スキル燃焼1種と火喰い3層のみ。必殺直撃と自身燃焼の起爆1回を既存成分で分割・合算する。"
+  },
+  "overrides": [
+    {
+      "id": "1210032",
+      "characterId": "1210",
+      "name": "十八番を披露するね・直撃＋自身スキル燃焼起爆（事前火喰い3層）",
+      "element": "Fire",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 2,
+      "canCrit": true,
+      "multipliers": [
+        72,
+        76.8,
+        81.6,
+        86.4,
+        91.2,
+        96,
+        102,
+        108,
+        114,
+        120,
+        124.8,
+        129.6,
+        134.4,
+        139.2,
+        144
+      ],
+      "sourceSkillId": "121003",
+      "displayOrder": 30,
+      "generatedFrom": "catalog.json:characters[].skills",
+      "calculationScope": "own-skill-burn-only-preexisting-firekiss-three",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "事前の自身スキル燃焼1種と火喰い3層のみ。必殺直撃と自身燃焼の起爆1回を既存成分で分割・合算する。"
+      },
+      "overrideReason": "レビュー表のスキルID・パラメータ位置から生成。説明文解析は実行時に使用しない。",
+      "resultSummary": "自身のスキル燃焼だけ・火喰い事前3層の必殺合計。別の燃焼や別行を重ねて加算しません。",
+      "calculationNote": "Lv80・星魂0・炎非弱点/未撃破の敵1体。攻撃前から火喰い3層と桂乃芬自身のスキル燃焼1種だけが成立し、他者/撃破/通常由来の燃焼がない想定です。必殺直撃（会心あり）＋自身スキル燃焼の起爆1回（会心なし）を成分別に合算します。起爆はスキル燃焼倍率×必殺Lvの起爆割合。スキル・必殺・天賦Lvを別々に参照します。火喰いの新規層更新が不要な事前最大3層に限定し、初回付与順・途中撃破/層変化・他者燃焼の参照値/起爆・E1以上は含みません。直撃/起爆単独行をこの合計へ重ねて加算しないでください。",
+      "damageFormula": "componentSequence",
+      "hitCountLabel": "直撃1回＋自身燃焼起爆1回",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "comparisonModifierInputs": {
+        "guinaifen-firekiss-stacks": 3,
+        "enemy-burning": true,
+        "guinaifen-burn-active": true
+      },
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "121003",
+          "name": "必殺直撃",
+          "type": "ultimate",
+          "element": "Fire",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            72,
+            76.8,
+            81.6,
+            86.4,
+            91.2,
+            96,
+            102,
+            108,
+            114,
+            120,
+            124.8,
+            129.6,
+            134.4,
+            139.2,
+            144
+          ]
+        },
+        {
+          "key": "burn",
+          "attackId": "1210031",
+          "name": "自身スキル燃焼の起爆1回",
+          "type": "dot",
+          "element": "Fire",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": false,
+          "multiplierProductComponents": [
+            {
+              "name": "スキル燃焼倍率",
+              "traceKey": "skill",
+              "values": [
+                83.9,
+                92.3,
+                100.69,
+                109.09,
+                117.48,
+                130.07,
+                146.86,
+                167.84,
+                193.03,
+                218.21
+              ]
+            },
+            {
+              "name": "必殺技の起爆割合",
+              "traceKey": "ultimate",
+              "values": [
+                72,
+                74,
+                76,
+                78,
+                80,
+                82,
+                84.5,
+                87,
+                89.5,
+                92
+              ]
+            }
+          ]
+        }
+      ],
+      "firekissPerStackValues": [
+        4,
+        4.3,
+        4.6,
+        4.9,
+        5.2,
+        5.5,
+        5.87,
+        6.25,
+        6.63,
+        7
+      ],
+      "conditionText": "Lv80・E0・敵1体・事前火喰い3層・自身スキル燃焼1種だけが成立",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121003.params[0..9][0,1];121002.params[0..9][3];121004.params[0..9][3];character_skill_trees.json:1210103.params[0][0]",
+        "verifiedAt": "2026-11-06",
+        "scope": "Lv80/E0/one nonweak unbroken target with exactly one own Skill Burn and pre-existing3 Firekiss stacks. No other Burn owner/type, no in-action stack change.",
+        "verification": "tests/hsr/hsrGuinaifenRound20.test.cjs"
+      }
+    }
+  ]
+}

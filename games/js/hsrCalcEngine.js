@@ -246,6 +246,8 @@
             const validWeltDefinition = welt && attack.characterId === "1004" && attack.variant === "enhanced" && attack.sourceSkillId === welt.body
                 && attack.type === welt.type && attack.element === "Imaginary" && components?.length === welt.parts.length
                 && welt.parts.every((p,i) => components[i]?.key === p.key && components[i]?.attackId === p.id);
+            const validGuinaifenDefinition = attack.id === "1210032" && attack.characterId === "1210" && attack.sourceSkillId === "121003" && attack.type === "ultimate" && attack.element === "Fire"
+                && components?.length === 2 && components[0]?.key === "direct" && components[0]?.attackId === "121003" && components[1]?.key === "burn" && components[1]?.attackId === "1210031";
             const validAcheronDefinition = attack.id === "130803" && attack.characterId === "1308" && attack.sourceSkillId === "130803" && attack.type === "ultimate" && attack.element === "Thunder" && Array.isArray(components) && components.length === 13;
             const validFeixiaoDefinition = attack.id === "122002" && Array.isArray(components) && components.length === 2
                 && attack.type === "skill" && (!attack.attackType || attack.attackType === "skill") && attack.target === "single"
@@ -269,7 +271,7 @@
             const validSushangDefinition = attack.id === "1206022" && attack.characterId === "1206" && attack.sourceSkillId === "120602" && attack.type === "skill" && attack.element === "Physical" && attack.target === "single" && components?.length === 3;
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validElementalDefinition || validWeltDefinition || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validSerinDefinition || validDahliaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
+            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validElementalDefinition || validWeltDefinition || validGuinaifenDefinition || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validSerinDefinition || validDahliaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -494,6 +496,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if (input.attack?.id === "1210032") return calculateGuinaifenSnapshot(input);
         if(input.attack?.id === "1321043") return calculateDahliaSnapshot(input);
         if(input.attack?.id === "1410032") return calculateSerinSnapshot(input);
         if(input.attack?.id === "140603") return calculateCipherSnapshot(input);
@@ -568,6 +571,27 @@ function calculateFanning(input) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
         return combineDamageComponents(attack, components, welt ? "本体＋審判/天賦付加の合計（事前無重力・懲戒10層）" : elemental ? "本体＋事前DoT状態への天賦付加1回の合計" : yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+    }
+
+    function calculateGuinaifenSnapshot(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[];
+        const fail=reason=>({supported:false,reason});
+        if(c.level!==80 || c.eidolon!==0 || e.count!==1 || e.weakness!==false || e.toughnessActive!==true || parts.length!==2 || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10 || !Number.isInteger(a.talentTraceLevel) || a.talentTraceLevel<1 || a.talentTraceLevel>10) return fail("この必殺合計はLv80/E0・炎非弱点/未撃破の敵1体・各軌跡Lv1～10・事前火喰い3層/自身スキル燃焼1種のみの状態です。");
+        const perStack=[4,4.3,4.6,4.9,5.2,5.5,5.87,6.25,6.63,7];
+        for(let i=0;i<2;i++){
+            const p=parts[i],b=p?.input?.attack||{},d=a.damageComponents?.[i],mods=p?.input?.modifiers||[];
+            if(p?.key!==["direct","burn"][i] || p.name!==d?.name || b.id!==["121003","1210031"][i] || d.attackId!==b.id || b.characterId!=="1210" || b.sourceSkillId!=="121003" || b.type!==["ultimate","dot"][i] || b.attackType!==b.type || b.element!=="Fire" || b.scalingStat!=="atk" || b.target!=="single" || b.hitCount!==1 || !Number.isFinite(b.multiplier) || b.canCrit!==(i===0) || b.traceLevel!==a.traceLevel || JSON.stringify(p.input.character)!==JSON.stringify(c) || JSON.stringify(p.input.enemy)!==JSON.stringify(e))return fail("桂乃芬本人・同一の敵/ステータス・必殺Lvの直撃/燃焼起爆成分を指定してください。");
+            if(i===0 && b.multiplier!==d.multipliers?.[a.traceLevel-1])return fail("必殺直撃の倍率が登録曲線と一致しません。");
+            if(i===1){const values=b.resolvedMultiplierComponents||[];
+                if(values.length!==2 || values.some((v,j)=>v.traceKey!==["skill","ultimate"][j] || !Number.isInteger(v.level) || v.level<1 || v.level>10 || (j===1&&v.level!==a.traceLevel) || v.value!==d.multiplierProductComponents?.[j]?.values?.[v.level-1]) || Math.abs(b.multiplier-values[0].value*values[1].value/100)>1e-9)return fail("燃焼倍率のスキルLvと起爆割合の必殺Lvを独立に指定してください。");
+            }
+            for(const [id,value] of [["trace:1210:121004:firekiss",3*perStack[a.talentTraceLevel-1]],["traceNode:1210:1210103:burn-damage",20]]){
+                const rows=mods.filter(m=>m.id===id&&m.enabled===true&&m.applicable===true);
+                if(rows.length!==1 || !Number.isFinite(rows[0].value) || Math.abs(rows[0].value-value)>1e-9)return fail("各成分に事前火喰い3層と燃焼対象への20%を1回ずつ適用してください。");
+            }
+            if(mods.some(m=>m.enabled!==false&&m.applicable!==false&&m.category==="progressiveTakenDamage"))return fail("段間で更新する被ダメージ補正はこの状態一定の合計では扱いません。");
+        }
+        return combineDamageComponents(a,parts,"必殺直撃＋自身スキル燃焼1種の起爆（事前火喰い3層）");
     }
 
     function calculateDahliaSnapshot(input) {

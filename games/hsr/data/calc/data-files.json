@@ -38,7 +38,8 @@
     "attacks-xueyi-round16.json",
     "attacks-elemental-composites-round18.json",
     "attacks-native-round18.json",
-    "attacks-welt-round19.json"
+    "attacks-welt-round19.json",
+    "attacks-guinaifen-round20.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",

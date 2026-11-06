@@ -1223,6 +1223,11 @@
       const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), damageFormula:"statMultiplier", hitCount:i === 2 ? 2 : 1, comparisonModifierInputs:assumptions, modifierInputKey:undefined, modifierConditions:undefined})) : [];
       return {...selected, traceLevel:state.traceLevels.skill, multiplier:sequenceAttacks[0]?.multiplier, traceLevelLabel:`スキルLv${state.traceLevels.skill}＋必殺Lv${state.traceLevels.ultimate}`, attackType:"skill", sequenceAttacks};
     }
+    if (selected.id === "1210032" && selected.damageFormula === "componentSequence") {
+      const parts = selected.damageComponents.map(c => state.data.attacks.find(a => a.id === c.attackId && a.characterId === "1210"));
+      const sequenceAttacks = parts.every(Boolean) ? parts.map(a => ({...resolvedAttack(a),damageFormula:"statMultiplier",target:"single",hitCount:1,comparisonModifierInputs:{...selected.comparisonModifierInputs},modifierInputKey:undefined,modifierConditions:undefined})) : [];
+      return {...selected,traceLevel:state.traceLevels.ultimate,talentTraceLevel:state.traceLevels.talent,multiplier:selected.multipliers[state.traceLevels.ultimate-1],traceLevelLabel:`必殺Lv${state.traceLevels.ultimate}＋スキルLv${state.traceLevels.skill}＋天賦Lv${state.traceLevels.talent}`,attackType:"ultimate",sequenceAttacks};
+    }
     if (["11004012","11004022","11004032"].includes(selected.id) && selected.damageFormula === "componentSequence") {
       const parts = selected.damageComponents.map(c => state.data.attacks.find(a => a.id === c.attackId && a.characterId === "1004"));
       const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), damageFormula:"statMultiplier", target:"single", hitCount:selected.damageComponents[i].hitCount})) : [];
