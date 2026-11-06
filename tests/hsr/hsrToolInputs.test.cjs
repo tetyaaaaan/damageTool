@@ -4120,3 +4120,19 @@ test("Round20 Guinaifen Ultimate displays own-Burn total with independent trace 
  app.state.modifierInputs["guinaifen-firekiss-stacks"]=0;app.state.modifierInputs["enemy-burning"]=false;check(83.9,120,4);assert.equal(app.state.modifierInputs["guinaifen-firekiss-stacks"],0,"row assumptions do not overwrite user state");
  app.node("hsrSkillTrace").value="";assert.equal(row(),undefined);assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==="121003").name));
 });
+
+test("Round21 Kafka own-Shock action totals resolve distinct trace levels and component scopes in the App",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1005",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ const row=id=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ for(const [version,ids]of [["previous",["1005029","1005039"]],["enhanced",["11005029","11005039","11005049"]]]){
+  app.state.enhancementState=version;app.node("hsrEnhancementState").value=version;
+  for(const id of ids){const r=row(id),a=data.attacks.find(a=>a.id===id),direct=1080*a.multipliers[9]/100,product=a.damageComponents[1].multiplierProductComponents,shock=1080*product[0].values[9]*product[1].values[9]/10000;
+   assert.ok(r,id);near(r.components.direct.nonCrit,direct);near(r.components.shock.nonCrit,shock);near(r.nonCrit,direct+shock);near(r.crit,direct*2+shock);near(r.expected,direct*1.5+shock);
+  }
+ }
+ app.state.relicId="122";app.node("hsrRelicMode").value="4";app.state.modifierInputs["relic-122-next-skill"]=false;const relicOff=row("11005029");
+ app.state.modifierInputs["relic-122-next-skill"]=true;const relicOn=row("11005029");near(relicOn.components.direct.nonCrit-relicOff.components.direct.nonCrit,1080*1.6*.25);near(relicOn.components.shock.nonCrit,relicOff.components.shock.nonCrit,"skill-only modifier must not affect Shock");app.state.relicId="";
+ app.node("hsrSkillTrace").value="1";const low=row("11005029");near(low.components.direct.nonCrit,864);near(low.components.shock.nonCrit,1080*2.9*.60);
+ app.node("hsrUltimateTrace").value="";assert.equal(row("11005029"),undefined);assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==="1100502").name),"missing own-Shock level is local to composite");
+});

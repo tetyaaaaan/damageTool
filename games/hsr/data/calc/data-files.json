@@ -39,7 +39,8 @@
     "attacks-elemental-composites-round18.json",
     "attacks-native-round18.json",
     "attacks-welt-round19.json",
-    "attacks-guinaifen-round20.json"
+    "attacks-guinaifen-round20.json",
+    "attacks-kafka-round21.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",

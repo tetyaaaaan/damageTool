@@ -1,0 +1,669 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "kafka-own-shock-actions-round21-fixed-dbe8cdf",
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 catalog skill parameters and existing attack source curves",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "Kafka E0 one-target action totals: direct action plus exactly one pre-existing Kafka-owned Shock detonation, with source/trigger trace levels linked independently."
+  },
+  "overrides": [
+    {
+      "id": "1005029",
+      "characterId": "1005",
+      "name": "月明かりが撫でる連綿・直撃＋事前の自身感電起爆",
+      "element": "Thunder",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "主対象へのスキル直撃1回＋事前の自身感電起爆1回",
+      "canCrit": true,
+      "multipliers": [
+        80,
+        88,
+        96,
+        104,
+        112,
+        120,
+        130,
+        140,
+        150,
+        160
+      ],
+      "sourceSkillId": "100502",
+      "displayOrder": 22,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "戦闘スキル本体・主対象",
+          "attackId": "100502",
+          "type": "skill",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            80,
+            88,
+            96,
+            104,
+            112,
+            120,
+            130,
+            140,
+            150,
+            160
+          ]
+        },
+        {
+          "key": "shock",
+          "name": "事前に付与したカフカ自身の感電1種の起爆",
+          "attackId": "1005031",
+          "type": "dot",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": false,
+          "multiplierProductComponents": [
+            {
+              "name": "カフカ自身の感電ターンダメージ倍率",
+              "traceKey": "ultimate",
+              "values": [
+                116,
+                126.88,
+                137.75,
+                148.63,
+                159.5,
+                175.81,
+                197.56,
+                224.75,
+                257.37,
+                290
+              ]
+            },
+            {
+              "name": "戦闘スキルの主対象起爆割合",
+              "traceKey": "skill",
+              "values": [
+                60,
+                61.5,
+                63,
+                64.5,
+                66,
+                67.5,
+                69.37,
+                71.25,
+                73.12,
+                75
+              ]
+            }
+          ]
+        }
+      ],
+      "calculationScope": "preexisting-kafka-own-shock-skill-main-target-one-enemy",
+      "conditionText": "Lv80・E0・敵1体。攻撃前から主対象にカフカ自身の感電が1種だけ付与済みで、付与時と現在のカフカの計算ステータス/補正状態が同じ場合。主対象への直撃とその感電1種の起爆のみ。",
+      "calculationNote": "主対象へのスキル直撃と、攻撃前から付与済みのカフカ自身の感電1種の起爆を成分別に合算します。直接攻撃は戦闘スキルLv、感電は感電付与時に参照した必殺技Lv、起爆割合は戦闘スキルLvです。新たに付与する感電、隣接対象の直撃/起爆、他所有者のDoT、その他の付与DoT、敵複数への総和は含みません。単独行100502/1005021をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Pinned skill #1/#2 and Kafka-owned Shock tick #4 are independently linked; prior own Shock only."
+      },
+      "overrideReason": "固定版100502.params #1 direct/#2 detonation and 100503.params #4 own-Shock tick; no new Shock application is included.",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "catalog.json:100502.params[0..14][0,1];100503.params[0..14][3]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrKafkaRound21.test.cjs"
+      },
+      "variant": "previous"
+    },
+    {
+      "id": "1005039",
+      "characterId": "1005",
+      "name": "悲劇最果ての顫音・直撃＋事前の自身感電起爆",
+      "element": "Thunder",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "主対象への必殺技直撃1回＋事前の自身感電起爆1回",
+      "canCrit": true,
+      "multipliers": [
+        48,
+        51.2,
+        54.4,
+        57.6,
+        60.8,
+        64,
+        68,
+        72,
+        76,
+        80
+      ],
+      "sourceSkillId": "100503",
+      "displayOrder": 32,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "必殺技本体・対象1体",
+          "attackId": "100503",
+          "type": "ultimate",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            48,
+            51.2,
+            54.4,
+            57.6,
+            60.8,
+            64,
+            68,
+            72,
+            76,
+            80
+          ]
+        },
+        {
+          "key": "shock",
+          "name": "事前に付与したカフカ自身の感電1種の起爆",
+          "attackId": "1005031",
+          "type": "dot",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": false,
+          "multiplierProductComponents": [
+            {
+              "name": "カフカ自身の感電ターンダメージ倍率",
+              "traceKey": "ultimate",
+              "values": [
+                116,
+                126.88,
+                137.75,
+                148.63,
+                159.5,
+                175.81,
+                197.56,
+                224.75,
+                257.37,
+                290
+              ]
+            },
+            {
+              "name": "必殺技の起爆割合",
+              "traceKey": "ultimate",
+              "values": [
+                80,
+                82,
+                84,
+                86,
+                88,
+                90,
+                92.5,
+                95,
+                97.5,
+                100
+              ]
+            }
+          ]
+        }
+      ],
+      "calculationScope": "preexisting-kafka-own-shock-ultimate-one-enemy",
+      "conditionText": "Lv80・E0・敵1体。攻撃前から対象にカフカ自身の感電が1種だけ付与済みで、付与時と現在のカフカの計算ステータス/補正状態が同じ場合。直撃とその感電1種の起爆のみ。",
+      "calculationNote": "敵1体への必殺技直撃と、攻撃前から付与済みのカフカ自身の感電1種の起爆を合算します。新たに付与する感電の即時ダメージ、他所有者/他種類のDoT起爆、複数敵への合計は含みません。感電は付与時の必殺技Lvで作った単一スナップショットを使用し、同一Lvの必殺起爆割合を適用します。単独行100503/1005031/1005032をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Pinned ultimate direct #1, own-Shock tick #4 and detonation #5; one explicit pre-existing own Shock."
+      },
+      "overrideReason": "固定版100503.params #1 direct/#4 Shock tick/#5 detonation; existing applied Shock only.",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "catalog.json:100503.params[0..14][0,3,4]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrKafkaRound21.test.cjs"
+      },
+      "variant": "previous"
+    },
+    {
+      "id": "11005029",
+      "characterId": "1005",
+      "name": "月明かりが撫でる連綿・直撃＋事前の自身感電起爆（強化後）",
+      "element": "Thunder",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "主対象へのスキル直撃1回＋事前の自身感電起爆1回",
+      "canCrit": true,
+      "multipliers": [
+        80,
+        88,
+        96,
+        104,
+        112,
+        120,
+        130,
+        140,
+        150,
+        160
+      ],
+      "sourceSkillId": "1100502",
+      "displayOrder": 22,
+      "variant": "enhanced",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "戦闘スキル本体・主対象",
+          "attackId": "1100502",
+          "type": "skill",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            80,
+            88,
+            96,
+            104,
+            112,
+            120,
+            130,
+            140,
+            150,
+            160
+          ]
+        },
+        {
+          "key": "shock",
+          "name": "事前に付与したカフカ自身の感電1種の起爆",
+          "attackId": "11005031",
+          "type": "dot",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": false,
+          "multiplierProductComponents": [
+            {
+              "name": "カフカ自身の感電ターンダメージ倍率",
+              "traceKey": "ultimate",
+              "values": [
+                116,
+                126.88,
+                137.75,
+                148.63,
+                159.5,
+                175.81,
+                197.56,
+                224.75,
+                257.37,
+                290
+              ]
+            },
+            {
+              "name": "強化後戦闘スキルの主対象起爆割合",
+              "traceKey": "skill",
+              "values": [
+                60,
+                61.5,
+                63,
+                64.5,
+                66,
+                67.5,
+                69.37,
+                71.25,
+                73.12,
+                75
+              ]
+            }
+          ]
+        }
+      ],
+      "calculationScope": "enhanced-preexisting-kafka-own-shock-skill-main-target-one-enemy",
+      "conditionText": "Lv80・E0・敵1体。攻撃前から主対象にカフカ自身の感電が1種だけ付与済みで、付与時と現在のカフカの計算ステータス/補正状態が同じ場合。強化後の主対象直撃と自身感電のみ。",
+      "calculationNote": "強化後戦闘スキルの主対象直撃と、攻撃前から付与済みのカフカ自身の感電1種の起爆を合算します。直接攻撃と起爆割合は戦闘スキルLv、感電は付与時に参照した必殺技Lvです。新規付与DoT、隣接対象の直接/起爆成分、他所有者のDoT、その他のDoT、敵複数への総和は含みません。隣接成分は別行で確認し、単独行1100502/11005021/11005022をこの合計へ重ねないでください。",
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Pinned enhanced skill #1/#2 and own Shock tick #4 are linked by their source trace levels; main target only."
+      },
+      "overrideReason": "固定版1100502.params #1/#2 and 1100503.params #4; main target, pre-existing own Shock only.",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "catalog.json:1100502.params[0..14][0,1];1100503.params[0..14][3]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrKafkaRound21.test.cjs"
+      }
+    },
+    {
+      "id": "11005039",
+      "characterId": "1005",
+      "name": "悲劇最果ての顫音・直撃＋事前の自身感電起爆（強化後）",
+      "element": "Thunder",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "対象1体への必殺技直撃1回＋事前の自身感電起爆1回",
+      "canCrit": true,
+      "multipliers": [
+        48,
+        51.2,
+        54.4,
+        57.6,
+        60.8,
+        64,
+        68,
+        72,
+        76,
+        80
+      ],
+      "sourceSkillId": "1100503",
+      "displayOrder": 32,
+      "variant": "enhanced",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "必殺技本体・対象1体",
+          "attackId": "1100503",
+          "type": "ultimate",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            48,
+            51.2,
+            54.4,
+            57.6,
+            60.8,
+            64,
+            68,
+            72,
+            76,
+            80
+          ]
+        },
+        {
+          "key": "shock",
+          "name": "事前に付与したカフカ自身の感電1種の起爆",
+          "attackId": "11005031",
+          "type": "dot",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": false,
+          "multiplierProductComponents": [
+            {
+              "name": "カフカ自身の感電ターンダメージ倍率",
+              "traceKey": "ultimate",
+              "values": [
+                116,
+                126.88,
+                137.75,
+                148.63,
+                159.5,
+                175.81,
+                197.56,
+                224.75,
+                257.37,
+                290
+              ]
+            },
+            {
+              "name": "強化後必殺技の起爆割合",
+              "traceKey": "ultimate",
+              "values": [
+                100,
+                102,
+                104,
+                106,
+                108,
+                110,
+                112.5,
+                115,
+                117.5,
+                120
+              ]
+            }
+          ]
+        }
+      ],
+      "calculationScope": "enhanced-preexisting-kafka-own-shock-ultimate-one-enemy",
+      "conditionText": "Lv80・E0・敵1体。攻撃前から対象にカフカ自身の感電が1種だけ付与済みで、付与時と現在のカフカの計算ステータス/補正状態が同じ場合。対象1体の直撃と自身感電のみ。",
+      "calculationNote": "敵1体への強化後必殺技直撃と、攻撃前から付与済みのカフカ自身の感電1種の起爆を合算します。新たに付与する感電の即時ダメージ、他所有者/他種類のDoT起爆、複数敵への合計は含みません。感電倍率と起爆割合はそれぞれ固定版の必殺技Lvで参照します。単独行1100503/11005031/11005032をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Pinned enhanced ultimate direct #1, own-Shock tick #4 and detonation #5; one explicit pre-existing own Shock."
+      },
+      "overrideReason": "固定版1100503.params #1/#4/#5; explicit previous own Shock only, one enemy.",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "catalog.json:1100503.params[0..14][0,3,4]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrKafkaRound21.test.cjs"
+      }
+    },
+    {
+      "id": "11005049",
+      "characterId": "1005",
+      "name": "優しさもまた残酷・追加攻撃＋事前の自身感電起爆（強化後）",
+      "element": "Thunder",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "追加攻撃1回＋事前の自身感電起爆1回",
+      "canCrit": true,
+      "multipliers": [
+        42,
+        51.8,
+        61.6,
+        71.4,
+        81.2,
+        91,
+        103.25,
+        115.5,
+        127.75,
+        140
+      ],
+      "sourceSkillId": "1100504",
+      "displayOrder": 42,
+      "variant": "enhanced",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "天賦追加攻撃",
+          "attackId": "1100504",
+          "type": "followUp",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            42,
+            51.8,
+            61.6,
+            71.4,
+            81.2,
+            91,
+            103.25,
+            115.5,
+            127.75,
+            140
+          ]
+        },
+        {
+          "key": "shock",
+          "name": "事前に付与したカフカ自身の感電1種の起爆",
+          "attackId": "11005031",
+          "type": "dot",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": false,
+          "multiplierProductComponents": [
+            {
+              "name": "カフカ自身の感電ターンダメージ倍率",
+              "traceKey": "ultimate",
+              "values": [
+                116,
+                126.88,
+                137.75,
+                148.63,
+                159.5,
+                175.81,
+                197.56,
+                224.75,
+                257.37,
+                290
+              ]
+            },
+            {
+              "name": "追加能力「いばら」の起爆割合",
+              "traceKey": "talent",
+              "values": [
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80
+              ]
+            }
+          ]
+        }
+      ],
+      "calculationScope": "enhanced-preexisting-kafka-own-shock-followup-one-enemy",
+      "conditionText": "Lv80・E0・敵1体。カフカが天賦追加攻撃を行う前から対象にカフカ自身の感電が1種だけ付与済みで、付与時と現在の計算ステータス/補正状態が同じ場合。",
+      "calculationNote": "強化後天賦追加攻撃と、追加能力「いばら」による事前付与済みカフカ自身の感電1種の80%起爆を合算します。感電は付与時の必殺技Lvで参照し、80%係数は固定です。追加攻撃が新たに付与する感電、他所有者/他種類のDoT、複数敵への合計は含みません。単独行1100504/11005041をこの合計へ重ねて加算しないでください。",
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Pinned enhanced talent direct and E0 additional trace 11005103's own-DoT detonation; only pre-existing own Shock."
+      },
+      "overrideReason": "固定版1100504.params #1 and enhancement trace 11005103 80%; own Shock tick from 1100503.params #4.",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "catalog.json:1100504.params[0..14][0];1100503.params[0..14][3];trace 11005103 parameter 80%",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrKafkaRound21.test.cjs"
+      }
+    }
+  ]
+}

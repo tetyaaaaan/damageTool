@@ -228,6 +228,15 @@
         "11004032": {body:"1100403",type:"ultimate",parts:[{key:"body",id:"1100403",type:"ultimate"},{key:"talent",id:"1100404",type:"additional",hits:2}]}
     };
 
+    // Only Kafka-owned, pre-existing Shock; other owners remain separate.
+    const kafkaSequences = {
+        "1005029": {body:"100502",shock:"1005031",type:"skill",variant:"previous",trace:"skill"},
+        "1005039": {body:"100503",shock:"1005031",type:"ultimate",variant:"previous",trace:"ultimate"},
+        "11005029": {body:"1100502",shock:"11005031",type:"skill",variant:"enhanced",trace:"skill"},
+        "11005039": {body:"1100503",shock:"11005031",type:"ultimate",variant:"enhanced",trace:"ultimate"},
+        "11005049": {body:"1100504",shock:"11005031",type:"followUp",variant:"enhanced",trace:"talent"}
+    };
+
     function unsupportedAttackReason(attack = {}) {
         if (attack.damageFormula === "resolvedDamageMultiplier" && ["14101021","14101022","14101023","14101024"].includes(attack.id) && attack.characterId === "1410" && attack.dataOwnerId === "1410" && attack.type === "dot") return "";
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
@@ -246,6 +255,9 @@
             const validWeltDefinition = welt && attack.characterId === "1004" && attack.variant === "enhanced" && attack.sourceSkillId === welt.body
                 && attack.type === welt.type && attack.element === "Imaginary" && components?.length === welt.parts.length
                 && welt.parts.every((p,i) => components[i]?.key === p.key && components[i]?.attackId === p.id);
+            const kafka = kafkaSequences[attack.id];
+            const validKafkaDefinition = kafka && attack.characterId === "1005" && attack.sourceSkillId === kafka.body && attack.type === kafka.type && attack.variant === kafka.variant && attack.element === "Thunder"
+                && components?.length === 2 && components[0]?.key === "direct" && components[0]?.attackId === kafka.body && components[1]?.key === "shock" && components[1]?.attackId === kafka.shock;
             const validGuinaifenDefinition = attack.id === "1210032" && attack.characterId === "1210" && attack.sourceSkillId === "121003" && attack.type === "ultimate" && attack.element === "Fire"
                 && components?.length === 2 && components[0]?.key === "direct" && components[0]?.attackId === "121003" && components[1]?.key === "burn" && components[1]?.attackId === "1210031";
             const validAcheronDefinition = attack.id === "130803" && attack.characterId === "1308" && attack.sourceSkillId === "130803" && attack.type === "ultimate" && attack.element === "Thunder" && Array.isArray(components) && components.length === 13;
@@ -271,7 +283,7 @@
             const validSushangDefinition = attack.id === "1206022" && attack.characterId === "1206" && attack.sourceSkillId === "120602" && attack.type === "skill" && attack.element === "Physical" && attack.target === "single" && components?.length === 3;
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validElementalDefinition || validWeltDefinition || validGuinaifenDefinition || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validSerinDefinition || validDahliaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
+            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validElementalDefinition || validWeltDefinition || validGuinaifenDefinition || validKafkaDefinition || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validSerinDefinition || validDahliaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -496,6 +508,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if (kafkaSequences[input.attack?.id]) return calculateKafkaSnapshot(input);
         if (input.attack?.id === "1210032") return calculateGuinaifenSnapshot(input);
         if(input.attack?.id === "1321043") return calculateDahliaSnapshot(input);
         if(input.attack?.id === "1410032") return calculateSerinSnapshot(input);
@@ -571,6 +584,22 @@ function calculateFanning(input) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
         return combineDamageComponents(attack, components, welt ? "本体＋審判/天賦付加の合計（事前無重力・懲戒10層）" : elemental ? "本体＋事前DoT状態への天賦付加1回の合計" : yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+    }
+
+    function calculateKafkaSnapshot(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],spec=kafkaSequences[a.id];
+        const fail=reason=>({supported:false,reason});
+        if(c.level!==80 || c.eidolon!==0 || e.count!==1 || parts.length!==2 || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10)return fail("カフカの合計はLv80/E0・敵1体・本人の感電1種だけが事前成立した状態に限定します。");
+        for(let i=0;i<2;i++){
+            const p=parts[i],b=p?.input?.attack||{},d=a.damageComponents?.[i];
+            if(p?.key!==["direct","shock"][i] || p.name!==d?.name || b.id!==[spec.body,spec.shock][i] || d.attackId!==b.id || b.characterId!=="1005" || b.variant!==spec.variant || b.type!==(i===0?spec.type:"dot") || b.attackType!==b.type || b.element!=="Thunder" || b.scalingStat!=="atk" || b.target!=="single" || b.hitCount!==1 || b.damageFormula!=="statMultiplier" || b.canCrit!==(i===0) || !Number.isFinite(b.multiplier) || JSON.stringify(p.input.character)!==JSON.stringify(c) || JSON.stringify(p.input.enemy)!==JSON.stringify(e) || JSON.stringify(p.input.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail("同じカフカ本人・版・敵・入力を参照する直撃と本人感電を指定してください。");
+            if(i===0 && (b.sourceSkillId!==spec.body || b.traceLevel!==a.traceLevel || b.multiplier!==d.multipliers?.[a.traceLevel-1]))return fail("本体の軌跡Lv・倍率が登録曲線と一致しません。");
+            if(i===1){
+                const values=b.resolvedMultiplierComponents||[];
+                if(b.sourceSkillId!==(spec.variant==="previous"?"100503":"1100503") || values.length!==2 || values.some((v,j)=>v.traceKey!==["ultimate",spec.trace][j] || !Number.isInteger(v.level) || v.level<1 || v.level>10 || (j===1&&v.level!==a.traceLevel) || v.value!==d.multiplierProductComponents?.[j]?.values?.[v.level-1]) || Math.abs(b.multiplier-values[0].value*values[1].value/100)>1e-9)return fail("本人感電の必殺Lvと、今回の攻撃の起爆割合を独立に指定してください。");
+            }
+        }
+        return combineDamageComponents(a,parts,"直撃＋本人の事前感電1種の起爆（他者/撃破DoTは対象外）");
     }
 
     function calculateGuinaifenSnapshot(input) {

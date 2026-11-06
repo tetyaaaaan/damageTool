@@ -1223,6 +1223,15 @@
       const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), damageFormula:"statMultiplier", hitCount:i === 2 ? 2 : 1, comparisonModifierInputs:assumptions, modifierInputKey:undefined, modifierConditions:undefined})) : [];
       return {...selected, traceLevel:state.traceLevels.skill, multiplier:sequenceAttacks[0]?.multiplier, traceLevelLabel:`スキルLv${state.traceLevels.skill}＋必殺Lv${state.traceLevels.ultimate}`, attackType:"skill", sequenceAttacks};
     }
+    if (["1005029","1005039","11005029","11005039","11005049"].includes(selected.id) && selected.damageFormula === "componentSequence") {
+      const sequenceAttacks=selected.damageComponents.map((d,i)=>{
+        const source=state.data.attacks.find(a=>a.id===d.attackId && a.characterId==="1005");
+        if(!source)return null;
+        return {...resolvedAttack({...source,...(i===1?{multiplierProductComponents:d.multiplierProductComponents}:{} )}),damageFormula:"statMultiplier",target:"single",hitCount:1};
+      }).filter(Boolean);
+      const level=state.traceLevels[selected.traceKey];
+      return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],traceLevelLabel:`本体Lv${level}＋本人感電・必殺Lv${state.traceLevels.ultimate}`,attackType:selected.type,sequenceAttacks};
+    }
     if (selected.id === "1210032" && selected.damageFormula === "componentSequence") {
       const parts = selected.damageComponents.map(c => state.data.attacks.find(a => a.id === c.attackId && a.characterId === "1210"));
       const sequenceAttacks = parts.every(Boolean) ? parts.map(a => ({...resolvedAttack(a),damageFormula:"statMultiplier",target:"single",hitCount:1,comparisonModifierInputs:{...selected.comparisonModifierInputs},modifierInputKey:undefined,modifierConditions:undefined})) : [];
