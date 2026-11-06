@@ -7,12 +7,12 @@
       "id": "trace:1509:150902:kings-recognition-defense-ignore",
       "source": { "kind": "trace", "id": "1509", "skillId": "150902" },
       "name": "王が認める・防御無視",
-      "description": "必殺技または戦闘スキル後に「王が認める」が有効な状態を指定します。付与した攻撃の同一ヒットへ先行適用せず、状態成立後のギルガメッシュ戦闘スキルにのみ適用します。手動の敵防御無視へ既に含めている場合は算入済みを選択してください。",
+      "description": "戦闘スキル後に「王が認める」が有効な状態を指定します。付与した攻撃の同一ヒットへ先行適用せず、状態成立後のギルガメッシュ本人の通常・スキル・必殺・雷連携成分に適用します。手動の敵防御無視へ既に含めている場合は算入済みを選択してください。",
       "category": "defenseIgnore",
       "unit": "percent",
       "value": { "kind": "byLevel", "values": [15, 16.5, 18, 19.5, 21, 22.5, 24.37, 26.25, 28.12, 30], "levelInputLabel": "ギルガメッシュの戦闘スキルLv" },
-      "target": { "owner": "self", "attackTypes": ["skill"], "attackIds": ["150902"], "elements": ["Thunder"] },
-      "activation": { "mode": "toggle", "inputKey": "gilgamesh-kings-recognition-active", "inputLabel": "「王が認める」が攻撃前から有効", "conditionText": "必殺技または戦闘スキルの付与後・継続中", "default": false, "durationTurns": 3 },
+      "target": { "owner": "self", "attackTypes": ["all"], "attackIds": ["150901", "150902", "150903", "1509051"], "elements": ["Thunder"] },
+      "activation": { "mode": "toggle", "inputKey": "gilgamesh-kings-recognition-active", "inputLabel": "「王が認める」が攻撃前から有効", "conditionText": "戦闘スキルの付与後・継続中", "default": false, "durationTurns": 3 },
       "inputValidation": { "levelMaximum": 10, "maximumEidolon": 0 },
       "finalStatsInclusion": { "inputKey": "gilgamesh-kings-recognition-in-final-enemy-defense", "inputLabel": "「王が認める」の防御無視を敵の手動入力へ反映済み" },
       "stacking": { "group": "trace:1509:150902:kings-recognition-defense-ignore", "rule": "nonStacking" },
@@ -24,9 +24,9 @@
         "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
         "sourceFile": "character_skills.json:150902.params[0..9][4]",
-        "verifiedAt": "2026-10-31",
-        "scope": "星魂0・敵1体・ギルガメッシュ戦闘スキルID150902。「王が認める」が当該攻撃前から有効な場合のみ。",
-        "verification": "tests/hsr/hsrExtraRound12.test.cjs"
+        "verifiedAt": "2026-11-07",
+        "scope": "星魂0・敵1体・ギルガメッシュ本人の通常/スキル/必殺/雷連携。「王が認める」が当該攻撃前から有効な場合のみ。",
+        "verification": "tests/hsr/hsrExtraRound12.test.cjs;tests/hsr/hsrGilgameshRound23.test.cjs"
       }
     }
   ]

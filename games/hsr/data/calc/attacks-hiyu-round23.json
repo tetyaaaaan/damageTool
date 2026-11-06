@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "mixed-banger-round23-1505",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "既存の同一行動2成分を限定状態で合算。"
+  },
+  "overrides": [
+    {
+      "id": "1505022",
+      "characterId": "1505",
+      "sourceSkillId": "150502",
+      "name": "風紀・量刀にて裁かん（通常＋追加愉悦・指定状態）",
+      "element": "Physical",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "通常ダメージ＋同じ行動の追加愉悦",
+      "canCrit": true,
+      "multipliers": [
+        150,
+        165,
+        180,
+        195,
+        210,
+        225,
+        243.75,
+        262.5,
+        281.25,
+        300
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "hiyu-certified-banger",
+          "label": "緋英の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "150502",
+          "name": "通常ダメージ成分"
+        },
+        {
+          "key": "banger",
+          "attackId": "1505041",
+          "name": "本人の爆笑の褒美による追加愉悦"
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・同一行動の計算時点の最終値/状態を指定。CD由来愉悦度・A2会心率は最終入力へ含め、EP/褒美の獲得・消費や初回Foxの同撃付与順を再現しません。S/Uの事前A4は既存の通常/追加成分どちらかの事前成立条件がONなら両成分に共有します。Foxは事前A4 12%が両成分に必要です。",
+      "calculationNote": "既存の通常成分と追加愉悦をそれぞれの式・補正対象で計算し、非会心/会心/期待値を成分別に合算します。CD由来愉悦度・A2会心率は最終入力へ含め、EP/褒美の獲得・消費や初回Foxの同撃付与順を再現しません。S/Uの事前A4は既存の通常/追加成分どちらかの事前成立条件がONなら両成分に共有します。Foxは事前A4 12%が両成分に必要です。単独の成分行をこの合計へさらに加算しないでください。",
+      "resultSummary": "通常＋追加愉悦の限定単発合計。単独の成分行をさらに加算しないでください。",
+      "calculationScope": "same-action-ordinary-and-certified-banger-snapshot",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の既存成分曲線と別式を再利用し、明示した状態で成分/合計を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "150502;150504",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrMixedBangerRound23.test.cjs"
+      }
+    },
+    {
+      "id": "1505032",
+      "characterId": "1505",
+      "sourceSkillId": "150503",
+      "name": "剣歌・神鬼無赦（通常＋追加愉悦・事前A4有効）",
+      "element": "Physical",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "通常ダメージ＋同じ行動の追加愉悦",
+      "canCrit": true,
+      "multipliers": [
+        728,
+        779.2,
+        830.4,
+        881.6,
+        932.8,
+        984,
+        1048,
+        1112,
+        1176,
+        1240
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "hiyu-certified-banger",
+          "label": "緋英の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "150503",
+          "name": "通常ダメージ成分"
+        },
+        {
+          "key": "banger",
+          "attackId": "1505042",
+          "name": "本人の爆笑の褒美による追加愉悦"
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・同一行動の計算時点の最終値/状態を指定。CD由来愉悦度・A2会心率は最終入力へ含め、EP/褒美の獲得・消費や初回Foxの同撃付与順を再現しません。S/Uの事前A4は既存の通常/追加成分どちらかの事前成立条件がONなら両成分に共有します。Foxは事前A4 12%が両成分に必要です。",
+      "calculationNote": "既存の通常成分と追加愉悦をそれぞれの式・補正対象で計算し、非会心/会心/期待値を成分別に合算します。CD由来愉悦度・A2会心率は最終入力へ含め、EP/褒美の獲得・消費や初回Foxの同撃付与順を再現しません。S/Uの事前A4は既存の通常/追加成分どちらかの事前成立条件がONなら両成分に共有します。Foxは事前A4 12%が両成分に必要です。単独の成分行をこの合計へさらに加算しないでください。この必殺合計はA4 12%が攻撃前から有効な状態に限定し、新規Foxの付与順を仮定しません。",
+      "resultSummary": "通常＋追加愉悦の限定単発合計。単独の成分行をさらに加算しないでください。",
+      "calculationScope": "same-action-ordinary-and-certified-banger-snapshot",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の既存成分曲線と別式を再利用し、明示した状態で成分/合計を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "150503;150504",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrMixedBangerRound23.test.cjs"
+      },
+      "comparisonModifierInputs": {
+        "hiyu-prior-vulnerability": true,
+        "hiyu-prior-fox-vulnerability": true
+      }
+    },
+    {
+      "id": "1505044",
+      "characterId": "1505",
+      "sourceSkillId": "150504",
+      "name": "キツネ先生（通常＋追加愉悦・指定状態）",
+      "element": "Physical",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "通常ダメージ＋同じ行動の追加愉悦",
+      "canCrit": true,
+      "multipliers": [
+        50,
+        55,
+        60,
+        65,
+        70,
+        75,
+        81.25,
+        87.5,
+        93.75,
+        100
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "hiyu-certified-banger",
+          "label": "緋英の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "150504",
+          "name": "通常ダメージ成分"
+        },
+        {
+          "key": "banger",
+          "attackId": "1505043",
+          "name": "本人の爆笑の褒美による追加愉悦"
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・同一行動の計算時点の最終値/状態を指定。CD由来愉悦度・A2会心率は最終入力へ含め、EP/褒美の獲得・消費や初回Foxの同撃付与順を再現しません。S/Uの事前A4は既存の通常/追加成分どちらかの事前成立条件がONなら両成分に共有します。Foxは事前A4 12%が両成分に必要です。",
+      "calculationNote": "既存の通常成分と追加愉悦をそれぞれの式・補正対象で計算し、非会心/会心/期待値を成分別に合算します。CD由来愉悦度・A2会心率は最終入力へ含め、EP/褒美の獲得・消費や初回Foxの同撃付与順を再現しません。S/Uの事前A4は既存の通常/追加成分どちらかの事前成立条件がONなら両成分に共有します。Foxは事前A4 12%が両成分に必要です。単独の成分行をこの合計へさらに加算しないでください。",
+      "resultSummary": "通常＋追加愉悦の限定単発合計。単独の成分行をさらに加算しないでください。",
+      "calculationScope": "same-action-ordinary-and-certified-banger-snapshot",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の既存成分曲線と別式を再利用し、明示した状態で成分/合計を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "150504;150504",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrMixedBangerRound23.test.cjs"
+      }
+    }
+  ]
+}

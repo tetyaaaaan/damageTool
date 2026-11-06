@@ -280,6 +280,7 @@
       if (!Number.isInteger(count) || count < attack.hitCountMinimum || count > attack.hitCountMaximum) issue(attack.name + "の攻撃段数に" + attack.hitCountMinimum + "～" + attack.hitCountMaximum + "の整数を補正条件で入力してください。", "hsrConditionDialogOpen");
       if (attack.id === "1206031" && count > 1 && state.modifierInputs["sushang-sword-stance-stacks"] !== 10) issue("複数の追加剣勢は逐寇が事前10層で飽和した状態のみ計算対応です。単発は判定時点の有効層を指定できます。", "hsrConditionDialogOpen");
     }
+    if (["1513022","1513032"].includes(attack.id) && (attack.hasOtherElation!==true || attack.startingFervor!==0)) issue("この合計は他の愉悦キャラ編成・攻撃前の熱気0のみ対応です。", "hsrElationSettings");
     if (attack.requiresNonWeakTarget && state.enemy.weakness) issue(`${attack.name}は今回、${ELEMENT_KEYS[attack.element] || "対応する"}属性が弱点ではない敵のみ計算対応です。属性弱点を「弱点なし」にしてください。`, "hsrWeakness");
     if ((attack.requiredWeakTarget || attack.requiresFireWeakness) && !state.enemy.weakness) issue(attack.name+"は攻撃前から対応属性が弱点の敵を想定します。属性弱点を確認してください。", "hsrWeakness");
     if (attack.requiresBrokenTarget && state.enemy.toughnessActive) issue(attack.name+'は攻撃前から撃破済みの敵を想定します。靭性状態を撃破済みにしてください。','hsrToughnessState');
@@ -1222,6 +1223,18 @@
       const parts = selected.damageComponents.map(c => state.data.attacks.find(a => a.id === c.attackId && a.characterId === "1206"));
       const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), damageFormula:"statMultiplier", hitCount:i === 2 ? 2 : 1, comparisonModifierInputs:assumptions, modifierInputKey:undefined, modifierConditions:undefined})) : [];
       return {...selected, traceLevel:state.traceLevels.skill, multiplier:sequenceAttacks[0]?.multiplier, traceLevelLabel:`スキルLv${state.traceLevels.skill}＋必殺Lv${state.traceLevels.ultimate}`, attackType:"skill", sequenceAttacks};
+    }
+    if (["1505022","1505032","1505044","1513022","1513032"].includes(selected.id) && selected.damageFormula === "componentSequence") {
+      const prior=state.modifierInputs["hiyu-prior-vulnerability"]===true || state.modifierInputs["hiyu-prior-fox-vulnerability"]===true;
+      const sequenceAttacks=selected.damageComponents.map(d=>{
+        const source=state.data.attacks.find(a=>a.id===d.attackId && a.characterId===selected.characterId);
+        if(!source)return null;
+        const comparisonModifierInputs=selected.id==="1505044" ? {...source.comparisonModifierInputs,"hiyu-fox-prior-vulnerability":true} : selected.characterId==="1505" ? {...source.comparisonModifierInputs,"hiyu-prior-vulnerability":selected.id==="1505032" || prior,"hiyu-prior-fox-vulnerability":selected.id==="1505032" || prior} : source.comparisonModifierInputs;
+        return {...resolvedAttack(source),comparisonModifierInputs,...(selected.characterId==="1513"?{modifierInputKey:undefined}: {})};
+      }).filter(Boolean);
+      const hasOtherElation=state.party.some(m=>String(m.characterId)!==String(state.characterId) && find("characters",m.characterId)?.path==="Elation");
+      const level=state.traceLevels[selected.traceKey];
+      return {...selected,hasOtherElation,sequenceAttacks,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,traceLevelLabel:`本体Lv${level}＋天賦Lv${state.traceLevels.talent}`};
     }
     if (["1005029","1005039","11005029","11005039","11005049"].includes(selected.id) && selected.damageFormula === "componentSequence") {
       const sequenceAttacks=selected.damageComponents.map((d,i)=>{

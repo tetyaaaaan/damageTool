@@ -1,0 +1,575 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "gilgamesh-conquest-round23",
+  "modifiers": [
+    {
+      "id": "traceNode:1509:1509103:king-conquest-self-atk",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "traceId": "1509103"
+      },
+      "name": "王の争覇・ATK・基礎20%",
+      "description": "ギルガメッシュ編成中の味方への支援。受益者の現在の最大EP140超過1につきATK/CD各1%、追加分は各100%上限。基礎20%とは加算。最終入力に含めた成分は再加算しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "ギルガメッシュが編成中"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "gilgamesh-conquest-atk-in-final",
+        "inputLabel": "王の争覇 ATK・基礎20%を最終入力に反映済み"
+      },
+      "stacking": {
+        "group": "gilgamesh-conquest-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定1509103.params[0]=[0.2,0.2,140,0.01,1]を既存固定/閾値経路へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1509103.params[0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrGilgameshRound23.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1509:1509103:king-conquest-self-crit-damage",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "traceId": "1509103"
+      },
+      "name": "王の争覇・会心ダメージ・基礎20%",
+      "description": "ギルガメッシュ編成中の味方への支援。受益者の現在の最大EP140超過1につきATK/CD各1%、追加分は各100%上限。基礎20%とは加算。最終入力に含めた成分は再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "ギルガメッシュが編成中"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "gilgamesh-conquest-crit-damage-in-final",
+        "inputLabel": "王の争覇 会心ダメージ・基礎20%を最終入力に反映済み"
+      },
+      "stacking": {
+        "group": "gilgamesh-conquest-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定1509103.params[0]=[0.2,0.2,140,0.01,1]を既存固定/閾値経路へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1509103.params[0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrGilgameshRound23.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1509:1509103:king-conquest-self-energy-atk",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "traceId": "1509103"
+      },
+      "name": "王の争覇・ATK・最大EP140超過分",
+      "description": "ギルガメッシュ編成中の味方への支援。受益者の現在の最大EP140超過1につきATK/CD各1%、追加分は各100%上限。基礎20%とは加算。最終入力に含めた成分は再加算しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "linearThreshold",
+        "inputKey": "current-max-energy",
+        "inputLabel": "現在の最大EP",
+        "sharedInput": true,
+        "threshold": 140,
+        "step": 1,
+        "perStep": 1,
+        "maximum": 100
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "reference": "self.maxEnergy",
+        "operator": ">",
+        "threshold": 140,
+        "inputKey": "current-max-energy",
+        "inputLabel": "現在の最大EP",
+        "minimum": 1,
+        "maximum": 99999,
+        "step": 1,
+        "strictInput": true,
+        "conditionText": "受益者の現在の最大EPが140を超える"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "gilgamesh-conquest-energy-atk-in-final",
+        "inputLabel": "王の争覇 ATK・最大EP140超過分を最終入力に反映済み"
+      },
+      "stacking": {
+        "group": "gilgamesh-conquest-energy-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定1509103.params[0]=[0.2,0.2,140,0.01,1]を既存固定/閾値経路へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1509103.params[0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrGilgameshRound23.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1509:1509103:king-conquest-self-energy-crit-damage",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "traceId": "1509103"
+      },
+      "name": "王の争覇・会心ダメージ・最大EP140超過分",
+      "description": "ギルガメッシュ編成中の味方への支援。受益者の現在の最大EP140超過1につきATK/CD各1%、追加分は各100%上限。基礎20%とは加算。最終入力に含めた成分は再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "linearThreshold",
+        "inputKey": "current-max-energy",
+        "inputLabel": "現在の最大EP",
+        "sharedInput": true,
+        "threshold": 140,
+        "step": 1,
+        "perStep": 1,
+        "maximum": 100
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "reference": "self.maxEnergy",
+        "operator": ">",
+        "threshold": 140,
+        "inputKey": "current-max-energy",
+        "inputLabel": "現在の最大EP",
+        "minimum": 1,
+        "maximum": 99999,
+        "step": 1,
+        "strictInput": true,
+        "conditionText": "受益者の現在の最大EPが140を超える"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "gilgamesh-conquest-energy-crit-damage-in-final",
+        "inputLabel": "王の争覇 会心ダメージ・最大EP140超過分を最終入力に反映済み"
+      },
+      "stacking": {
+        "group": "gilgamesh-conquest-energy-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定1509103.params[0]=[0.2,0.2,140,0.01,1]を既存固定/閾値経路へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1509103.params[0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrGilgameshRound23.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1509:1509103:king-conquest-party-atk",
+      "providerScope": "party",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "traceId": "1509103"
+      },
+      "name": "王の争覇・ATK・基礎20%",
+      "description": "ギルガメッシュ編成中の味方への支援。受益者の現在の最大EP140超過1につきATK/CD各1%、追加分は各100%上限。基礎20%とは加算。最終入力に含めた成分は再加算しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "ギルガメッシュが編成中"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "gilgamesh-conquest-atk-in-final",
+        "inputLabel": "王の争覇 ATK・基礎20%を最終入力に反映済み"
+      },
+      "stacking": {
+        "group": "gilgamesh-conquest-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定1509103.params[0]=[0.2,0.2,140,0.01,1]を既存固定/閾値経路へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1509103.params[0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrGilgameshRound23.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1509:1509103:king-conquest-party-crit-damage",
+      "providerScope": "party",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "traceId": "1509103"
+      },
+      "name": "王の争覇・会心ダメージ・基礎20%",
+      "description": "ギルガメッシュ編成中の味方への支援。受益者の現在の最大EP140超過1につきATK/CD各1%、追加分は各100%上限。基礎20%とは加算。最終入力に含めた成分は再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "ギルガメッシュが編成中"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "gilgamesh-conquest-crit-damage-in-final",
+        "inputLabel": "王の争覇 会心ダメージ・基礎20%を最終入力に反映済み"
+      },
+      "stacking": {
+        "group": "gilgamesh-conquest-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定1509103.params[0]=[0.2,0.2,140,0.01,1]を既存固定/閾値経路へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1509103.params[0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrGilgameshRound23.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1509:1509103:king-conquest-party-energy-atk",
+      "providerScope": "party",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "traceId": "1509103"
+      },
+      "name": "王の争覇・ATK・最大EP140超過分",
+      "description": "ギルガメッシュ編成中の味方への支援。受益者の現在の最大EP140超過1につきATK/CD各1%、追加分は各100%上限。基礎20%とは加算。最終入力に含めた成分は再加算しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "linearThreshold",
+        "inputKey": "current-max-energy",
+        "inputLabel": "現在の最大EP",
+        "sharedInput": true,
+        "threshold": 140,
+        "step": 1,
+        "perStep": 1,
+        "maximum": 100
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "reference": "self.maxEnergy",
+        "operator": ">",
+        "threshold": 140,
+        "inputKey": "current-max-energy",
+        "inputLabel": "現在の最大EP",
+        "minimum": 1,
+        "maximum": 99999,
+        "step": 1,
+        "strictInput": true,
+        "conditionText": "受益者の現在の最大EPが140を超える"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "gilgamesh-conquest-energy-atk-in-final",
+        "inputLabel": "王の争覇 ATK・最大EP140超過分を最終入力に反映済み"
+      },
+      "stacking": {
+        "group": "gilgamesh-conquest-energy-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定1509103.params[0]=[0.2,0.2,140,0.01,1]を既存固定/閾値経路へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1509103.params[0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrGilgameshRound23.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1509:1509103:king-conquest-party-energy-crit-damage",
+      "providerScope": "party",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "traceId": "1509103"
+      },
+      "name": "王の争覇・会心ダメージ・最大EP140超過分",
+      "description": "ギルガメッシュ編成中の味方への支援。受益者の現在の最大EP140超過1につきATK/CD各1%、追加分は各100%上限。基礎20%とは加算。最終入力に含めた成分は再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "linearThreshold",
+        "inputKey": "current-max-energy",
+        "inputLabel": "現在の最大EP",
+        "sharedInput": true,
+        "threshold": 140,
+        "step": 1,
+        "perStep": 1,
+        "maximum": 100
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "reference": "self.maxEnergy",
+        "operator": ">",
+        "threshold": 140,
+        "inputKey": "current-max-energy",
+        "inputLabel": "現在の最大EP",
+        "minimum": 1,
+        "maximum": 99999,
+        "step": 1,
+        "strictInput": true,
+        "conditionText": "受益者の現在の最大EPが140を超える"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "gilgamesh-conquest-energy-crit-damage-in-final",
+        "inputLabel": "王の争覇 会心ダメージ・最大EP140超過分を最終入力に反映済み"
+      },
+      "stacking": {
+        "group": "gilgamesh-conquest-energy-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定1509103.params[0]=[0.2,0.2,140,0.01,1]を既存固定/閾値経路へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1509103.params[0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrGilgameshRound23.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1509:150904:kings-burden-ultimate",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1509",
+        "skillId": "150904"
+      },
+      "name": "王が背負う・必殺技与ダメージ",
+      "description": "自身以外の味方の必殺技使用後、計算時点で有効な状態を指定します。今回の必殺技から新規に付与されたとは仮定しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32.5,
+          35,
+          37.5,
+          40
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "attackIds": [
+          "150903"
+        ],
+        "elements": [
+          "Thunder"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "gilgamesh-kings-burden-active",
+        "inputLabel": "「王が背負う」が攻撃前から有効",
+        "default": false,
+        "conditionText": "本人以外の味方の必殺技使用後・現在有効"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "gilgamesh-kings-burden-in-final",
+        "inputLabel": "王が背負うの必殺技与ダメージを最終入力へ反映済み"
+      },
+      "stacking": {
+        "group": "gilgamesh-kings-burden-ultimate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定150904.params[][2]の20～40%を有効な必殺状態として既存経路で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150904.params[0..9][2]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrGilgameshRound23.test.cjs"
+      }
+    }
+  ]
+}

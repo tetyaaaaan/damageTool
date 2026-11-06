@@ -237,6 +237,14 @@
         "11005049": {body:"1100504",shock:"11005031",type:"followUp",variant:"enhanced",trace:"talent"}
     };
 
+    const bangerActionSequences = {
+        "1505022": {owner:"1505",body:"150502",rider:"1505041",type:"skill",element:"Physical"},
+        "1505032": {owner:"1505",body:"150503",rider:"1505042",type:"ultimate",element:"Physical"},
+        "1505044": {owner:"1505",body:"150504",rider:"1505043",type:"followUp",element:"Physical"},
+        "1513022": {owner:"1513",body:"151302",rider:"1513041",type:"skill",element:"Quantum"},
+        "1513032": {owner:"1513",body:"151303",rider:"1513042",type:"ultimate",element:"Quantum"}
+    };
+
     function unsupportedAttackReason(attack = {}) {
         if (attack.damageFormula === "resolvedDamageMultiplier" && ["14101021","14101022","14101023","14101024"].includes(attack.id) && attack.characterId === "1410" && attack.dataOwnerId === "1410" && attack.type === "dot") return "";
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
@@ -255,6 +263,9 @@
             const validWeltDefinition = welt && attack.characterId === "1004" && attack.variant === "enhanced" && attack.sourceSkillId === welt.body
                 && attack.type === welt.type && attack.element === "Imaginary" && components?.length === welt.parts.length
                 && welt.parts.every((p,i) => components[i]?.key === p.key && components[i]?.attackId === p.id);
+            const mixed = bangerActionSequences[attack.id];
+            const validBangerAction = mixed && attack.characterId === mixed.owner && attack.sourceSkillId === mixed.body && attack.type === mixed.type && attack.element === mixed.element
+                && components?.length === 2 && components[0]?.key === "direct" && components[0]?.attackId === mixed.body && components[1]?.key === "banger" && components[1]?.attackId === mixed.rider;
             const kafka = kafkaSequences[attack.id];
             const validKafkaDefinition = kafka && attack.characterId === "1005" && attack.sourceSkillId === kafka.body && attack.type === kafka.type && attack.variant === kafka.variant && attack.element === "Thunder"
                 && components?.length === 2 && components[0]?.key === "direct" && components[0]?.attackId === kafka.body && components[1]?.key === "shock" && components[1]?.attackId === kafka.shock;
@@ -283,7 +294,7 @@
             const validSushangDefinition = attack.id === "1206022" && attack.characterId === "1206" && attack.sourceSkillId === "120602" && attack.type === "skill" && attack.element === "Physical" && attack.target === "single" && components?.length === 3;
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validElementalDefinition || validWeltDefinition || validGuinaifenDefinition || validKafkaDefinition || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validSerinDefinition || validDahliaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
+            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validElementalDefinition || validWeltDefinition || validGuinaifenDefinition || validKafkaDefinition || validBangerAction || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validSerinDefinition || validDahliaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -509,6 +520,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if (bangerActionSequences[input.attack?.id]) return calculateBangerActionSnapshot(input);
         if (kafkaSequences[input.attack?.id]) return calculateKafkaSnapshot(input);
         if (input.attack?.id === "1210032") return calculateGuinaifenSnapshot(input);
         if(input.attack?.id === "1321043") return calculateDahliaSnapshot(input);
@@ -585,6 +597,29 @@ function calculateFanning(input) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
         return combineDamageComponents(attack, components, welt ? "本体＋審判/天賦付加の合計（事前無重力・懲戒10層）" : elemental ? "本体＋事前DoT状態への天賦付加1回の合計" : yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+    }
+
+    function calculateBangerActionSnapshot(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],spec=bangerActionSequences[a.id],values=input.modifierInputs||{};
+        const fail=reason=>({supported:false,reason});
+        if(c.level!==80 || c.eidolon!==0 || e.count!==1 || e.toughnessActive!==true || parts.length!==2 || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10)return fail("通常＋追加愉悦の合計はLv80/E0・未撃破の敵1体・状態一定の単発計算です。");
+        if(spec.owner==="1513" && (a.hasOtherElation!==true || a.startingFervor!==0))return fail("この合計は他の愉悦キャラを編成し、攻撃前の熱気0を想定した行です。");
+        const key=spec.owner==="1505"?"hiyu-certified-banger":"elation-certified-banger",cb=values[key];
+        if(!Number.isInteger(cb)||cb<1||cb>10000)return fail("本人の追加愉悦が参照する爆笑の褒美1～10000を入力してください。");
+        const prior=values["hiyu-prior-vulnerability"]===true || values["hiyu-prior-fox-vulnerability"]===true;
+        for(let i=0;i<2;i++){
+            const p=parts[i],b=p?.input?.attack||{},d=a.damageComponents?.[i],mods=p?.input?.modifiers||[];
+            if(p?.key!==["direct","banger"][i] || b.id!==[spec.body,spec.rider][i] || d?.attackId!==b.id || b.characterId!==spec.owner || b.element!==spec.element || b.canCrit!==true || b.damageFormula!==(i===0?"statMultiplier":"elation") || b.type!==(i===0?spec.type:"elation") || b.attackType!==b.type || b.hitCount!==(i===1&&spec.rider==="1505042"?10:1) || !Number.isInteger(b.traceLevel) || b.traceLevel<1 || b.traceLevel>10 || b.multiplier!==b.multipliers?.[b.traceLevel-1] || JSON.stringify(p.input.character)!==JSON.stringify(c) || JSON.stringify(p.input.enemy)!==JSON.stringify(e) || JSON.stringify(p.input.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail("同じ本人・敵・状態と、行動Lv/天賦Lvに対応する登録済み2成分を指定してください。");
+            if(i===0 && (b.sourceSkillId!==spec.body || b.traceLevel!==a.traceLevel || b.multiplier!==a.multipliers?.[a.traceLevel-1]))return fail("通常成分の行動Lvと倍率を確認してください。");
+            if(i===1 && (b.sourceSkillId!==(spec.owner==="1505"?"150504":"151304") || b.elationContext!=="certifiedBanger" || p.input.elation?.context!=="certifiedBanger" || p.input.elation?.certifiedBanger!==cb))return fail("追加愉悦は本人の天賦Lvと本人の爆笑の褒美を参照します。");
+            if(mods.some(m=>m.category==="progressiveTakenDamage"&&m.enabled!==false&&m.applicable!==false&&modifierAppliesToAttack(m,b)))return fail("この合計は段間で更新する被ダメージ補正を扱いません。");
+            if(spec.owner==="1505" && (spec.type==="followUp" || spec.type==="ultimate" || prior)){
+                const id=spec.type==="followUp" ? (i===0?"traceNode:1505:1505102:fox-prior-vulnerability":"traceNode:1505:1505102:fox-cb-prior-vulnerability") : (i===0?"traceNode:1505:1505102:prior-vulnerability":"traceNode:1505:1505102:cb-prior-vulnerability");
+                const rows=mods.filter(m=>m.id===id&&m.enabled!==false&&m.applicable!==false&&modifierAppliesToAttack(m,b));
+                if(rows.length!==1 || rows[0].value!==12)return fail("同一の敵に事前成立した緋英A4 12%を各対象成分へ1回適用してください。");
+            }
+        }
+        return combineDamageComponents(a,parts,"通常ダメージ＋同一行動の本人追加愉悦（各式・補正対象を分離）");
     }
 
     function calculateKafkaSnapshot(input) {

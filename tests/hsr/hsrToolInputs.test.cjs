@@ -4147,3 +4147,28 @@ test("Round22 Phainon adjacent targets and current A6 stacks reach actual App da
  check();app.node("hsrStat-atk").value=String(effectiveAtk);app.state.modifierInputs["phainon-a6-atk-in-final-stats"]=true;check();
  app.node("hsrEnemyCount").value="1";const single=app.calculate();for(const id of ["140802","140808"])assert.equal(matching(single,id).length,1,"no adjacent target exists in a one-enemy snapshot");
 });
+
+test("Round23 mixed ordinary/Elation totals reach the App and share prior A4 without changing saved inputs",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ const profile=id=>app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,elation:100}});
+ const row=id=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ profile("1505");app.node("hsrStat-elation").value="100";app.node("hsrMerrymake").value="0";app.state.modifierInputs["hiyu-certified-banger"]=40;
+ for(const [id,d,c,b,taken]of [["1505022",3,.16,40,1],["1505032",12.4,2.76,480,1.12],["1505044",1,.25,40,1.12]]){const r=row(id),direct=1080*d*taken,extra=7535.107*c*2*(1+5*b/(b+240))*.36*taken;assert.ok(r,id);near(r.components.direct.nonCrit,direct);near(r.components.banger.nonCrit,extra);near(r.expected,(direct+extra)*1.5);}
+ app.state.modifierInputs["hiyu-prior-vulnerability"]=true;let r=row("1505022");near(r.components.direct.nonCrit,1080*3*1.12);near(r.components.banger.nonCrit,7535.107*.16*2*(1+200/280)*.36*1.12);assert.equal(app.state.modifierInputs["hiyu-prior-fox-vulnerability"],undefined,"comparison does not overwrite the separate saved component control");
+ delete app.state.modifierInputs["hiyu-certified-banger"];assert.equal(row("1505022"),undefined);assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==="150502").name));
+ profile("1513");app.node("hsrStat-elation").value="100";app.node("hsrFervor").value="0";app.state.modifierInputs["elation-certified-banger"]=40;app.state.party[0]={characterId:"1505",level:80,eidolon:0};
+ for(const [id,d,c]of [["1513022",2.4,.4],["1513032",4,.72]]){r=row(id);assert.ok(r,id);near(r.nonCrit,1080*d+7535.107*c*2*(1+200/280)*.36);}
+ app.state.party=[];assert.equal(row("1513022"),undefined);app.state.party[0]={characterId:"1505",level:80,eidolon:0};app.node("hsrFervor").value="10";assert.ok(row("1513022"),"the heat0 comparison does not reuse enhanced-Aha consumed Fervor");
+});
+
+test("Round23 Gilgamesh party support uses the active recipient's max Energy and stays automatic",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1003",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ app.state.party[0]={characterId:"1509",level:80,eidolon:0,maxEnergy:999};
+ const row=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==="100301").name),base=data.characters.find(c=>c.id==="1003").base.atk;
+ let r=row();near(r.nonCrit,(3000+base*.2)*.36);near(r.crit,r.nonCrit*2.2);
+ app.state.modifierInputs["current-max-energy"]=180;r=row();near(r.nonCrit,(3000+base*.6)*.36);near(r.crit,r.nonCrit*2.6);
+ for(const m of data.structuredModifiers.filter(m=>m.source.traceId==="1509103"))app.state.modifierInputs[m.finalStatsInclusion.inputKey]=true;
+ app.node("hsrStat-atk").value=String(3000+base*.6);app.node("hsrStat-critDamage").value="160";near(row().expected,r.expected);
+ app.state.party=[];for(const m of data.structuredModifiers.filter(m=>m.source.traceId==="1509103"))app.state.modifierInputs[m.finalStatsInclusion.inputKey]=false;app.node("hsrStat-atk").value="3000";app.node("hsrStat-critDamage").value="100";near(row().expected,1620);
+});

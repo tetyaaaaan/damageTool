@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "mixed-banger-round23-1513",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "既存の同一行動2成分を限定状態で合算。"
+  },
+  "overrides": [
+    {
+      "id": "1513022",
+      "characterId": "1513",
+      "sourceSkillId": "151302",
+      "name": "フィニッシュに沸く熱砂（通常＋追加愉悦・熱気0想定）",
+      "element": "Quantum",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "通常ダメージ＋同じ行動の追加愉悦",
+      "canCrit": true,
+      "multipliers": [
+        120,
+        132,
+        144,
+        156,
+        168,
+        180,
+        195,
+        210,
+        225,
+        240
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "151302",
+          "name": "通常ダメージ成分"
+        },
+        {
+          "key": "banger",
+          "attackId": "1513041",
+          "name": "本人の爆笑の褒美による追加愉悦"
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・同一行動の計算時点の最終値/状態を指定。他の愉悦キャラを編成・攻撃前の熱気0。本人の爆笑の褒美は追加成分のダメージ発生時点の値を指定。熱気10の自動発動や行動中の褒美更新は合算しません。A2/A4の愉悦度とA6の会心補正は最終入力へ含めます。",
+      "calculationNote": "既存の通常成分と追加愉悦をそれぞれの式・補正対象で計算し、非会心/会心/期待値を成分別に合算します。他の愉悦キャラを編成・攻撃前の熱気0。本人の爆笑の褒美は追加成分のダメージ発生時点の値を指定。熱気10の自動発動や行動中の褒美更新は合算しません。A2/A4の愉悦度とA6の会心補正は最終入力へ含めます。単独の成分行をこの合計へさらに加算しないでください。この行は攻撃前熱気0の比較であり、強化版が消費する熱気の入力欄は参照しません。",
+      "resultSummary": "通常＋追加愉悦の限定単発合計。単独の成分行をさらに加算しないでください。",
+      "calculationScope": "same-action-ordinary-and-certified-banger-snapshot",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の既存成分曲線と別式を再利用し、明示した状態で成分/合計を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "151302;151304",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrMixedBangerRound23.test.cjs"
+      },
+      "startingFervor": 0
+    },
+    {
+      "id": "1513032",
+      "characterId": "1513",
+      "sourceSkillId": "151303",
+      "name": "荒波の先の勝利（通常＋追加愉悦・熱気0想定）",
+      "element": "Quantum",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "通常ダメージ＋同じ行動の追加愉悦",
+      "canCrit": true,
+      "multipliers": [
+        240,
+        256,
+        272,
+        288,
+        304,
+        320,
+        340,
+        360,
+        380,
+        400
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "151303",
+          "name": "通常ダメージ成分"
+        },
+        {
+          "key": "banger",
+          "attackId": "1513042",
+          "name": "本人の爆笑の褒美による追加愉悦"
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・同一行動の計算時点の最終値/状態を指定。他の愉悦キャラを編成・攻撃前の熱気0。本人の爆笑の褒美は追加成分のダメージ発生時点の値を指定。熱気10の自動発動や行動中の褒美更新は合算しません。A2/A4の愉悦度とA6の会心補正は最終入力へ含めます。",
+      "calculationNote": "既存の通常成分と追加愉悦をそれぞれの式・補正対象で計算し、非会心/会心/期待値を成分別に合算します。他の愉悦キャラを編成・攻撃前の熱気0。本人の爆笑の褒美は追加成分のダメージ発生時点の値を指定。熱気10の自動発動や行動中の褒美更新は合算しません。A2/A4の愉悦度とA6の会心補正は最終入力へ含めます。単独の成分行をこの合計へさらに加算しないでください。この行は攻撃前熱気0の比較であり、強化版が消費する熱気の入力欄は参照しません。必殺の速度上昇は事前から有効で、A2換算を含む最終愉悦度に反映した状態です。初回SPD付与順は計算しません。",
+      "resultSummary": "通常＋追加愉悦の限定単発合計。単独の成分行をさらに加算しないでください。",
+      "calculationScope": "same-action-ordinary-and-certified-banger-snapshot",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の既存成分曲線と別式を再利用し、明示した状態で成分/合計を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "151303;151304",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrMixedBangerRound23.test.cjs"
+      },
+      "startingFervor": 0
+    }
+  ]
+}
