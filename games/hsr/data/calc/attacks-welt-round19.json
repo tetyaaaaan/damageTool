@@ -1,0 +1,469 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "welt-composites-round19-fixed-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "E0強化版・事前無重力/減速・懲戒10層・敵1体の状態一定で、攻撃本体/審判/命中に伴う天賦を成分別合算。"
+  },
+  "overrides": [
+    {
+      "id": "11004012",
+      "characterId": "1004",
+      "name": "重力制圧＋付加合計（強化版・事前無重力/懲戒10層）",
+      "element": "Imaginary",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 3,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140
+      ],
+      "sourceSkillId": "1100401",
+      "displayOrder": 10,
+      "generatedFrom": "catalog.json:characters[].skills",
+      "calculationScope": "enhanced-preexisting-weightless-saturated-punishment",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "E0強化版・事前無重力/減速・懲戒10層・敵1体の状態一定で、攻撃本体/審判/命中に伴う天賦を成分別合算。"
+      },
+      "variant": "enhanced",
+      "overrideReason": "Ver.4.2強化後の通常攻撃。全10レベルの第1パラメータを照合。",
+      "damageFormula": "componentSequence",
+      "hitCountLabel": "本体＋審判/天賦の合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "modifierInputKey": "welt-weightless-active",
+      "modifierInputMinimum": 1,
+      "modifierInputDefault": 0,
+      "numericModifierInputs": [
+        {
+          "inputKey": "welt-weightless-damage-stacks",
+          "label": "事前に有効な懲戒層数",
+          "minimum": 10,
+          "maximum": 10,
+          "integer": true
+        }
+      ],
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "body",
+          "attackId": "1100401",
+          "name": "攻撃本体",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100,
+            110,
+            120,
+            130,
+            140
+          ]
+        },
+        {
+          "key": "judgment",
+          "attackId": "110041021",
+          "name": "審判付加1回",
+          "type": "additional",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            40,
+            48,
+            56,
+            64,
+            72,
+            80,
+            88,
+            96,
+            104,
+            112
+          ]
+        },
+        {
+          "key": "talent",
+          "attackId": "1100404",
+          "name": "減速対象への天賦付加1回",
+          "type": "additional",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75,
+            81.25,
+            87.5,
+            93.75,
+            100,
+            105,
+            110,
+            115,
+            120,
+            125
+          ]
+        }
+      ],
+      "calculationNote": "Lv80・E0強化版・非虚数弱点/未撃破の敵1体。攻撃前から無重力（減速・DEF低下40%）と懲戒10層が有効で、全成分中に状態変化なし。本体・審判・天賦付加を合算します。通常は天賦1回、スキル5ヒットは天賦5回、必殺2ヒットは天賦2回。審判は通常/スキル使用ごとに1回。各単独行をこの合計へ重ねないでください。裁決/EHR変換と恒常値は完成済み最終ATKへ含めます。初回減速/無重力付与順、懲戒0～9層の途中更新、途中撃破、複数敵、星魂1以上、強化前の合計は対象外。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1100401/1100404; character_skill_trees.json:11004102",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1000/WeltB1.ts",
+        "verifiedAt": "2026-11-06",
+        "verification": "tests/hsr/hsrWeltRound19.test.cjs",
+        "notes": "固定Fribbels: normalTalent1, skillTalent*(1+skillExtraHits), ultTalent*2 (10%/90%の2hit); 審判normal*.8/skill perHit*1.2 once."
+      }
+    },
+    {
+      "id": "11004022",
+      "characterId": "1004",
+      "name": "虚空断界＋付加合計（強化版・事前無重力/懲戒10層）",
+      "element": "Imaginary",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 11,
+      "canCrit": true,
+      "multipliers": [
+        36,
+        39.6,
+        43.2,
+        46.8,
+        50.4,
+        54,
+        58.5,
+        63,
+        67.5,
+        72,
+        75.6,
+        79.2,
+        82.8,
+        86.4,
+        90
+      ],
+      "sourceSkillId": "1100402",
+      "displayOrder": 20,
+      "generatedFrom": "catalog.json:characters[].skills",
+      "calculationScope": "enhanced-preexisting-weightless-saturated-punishment",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "E0強化版・事前無重力/減速・懲戒10層・敵1体の状態一定で、攻撃本体/審判/命中に伴う天賦を成分別合算。"
+      },
+      "variant": "enhanced",
+      "overrideReason": "Ver.4.2強化後は初撃と追加4ヒットの計5ヒット。各ヒット倍率を全15レベルで照合。",
+      "damageFormula": "componentSequence",
+      "hitCountLabel": "本体＋審判/天賦の合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "modifierInputKey": "welt-weightless-active",
+      "modifierInputMinimum": 1,
+      "modifierInputDefault": 0,
+      "numericModifierInputs": [
+        {
+          "inputKey": "welt-weightless-damage-stacks",
+          "label": "事前に有効な懲戒層数",
+          "minimum": 10,
+          "maximum": 10,
+          "integer": true
+        }
+      ],
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "body",
+          "attackId": "1100402",
+          "name": "攻撃本体",
+          "type": "skill",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 5,
+          "canCrit": true,
+          "multipliers": [
+            36,
+            39.6,
+            43.2,
+            46.8,
+            50.4,
+            54,
+            58.5,
+            63,
+            67.5,
+            72,
+            75.6,
+            79.2,
+            82.8,
+            86.4,
+            90
+          ]
+        },
+        {
+          "key": "judgment",
+          "attackId": "110041022",
+          "name": "審判付加1回",
+          "type": "additional",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            43.2,
+            47.52,
+            51.84,
+            56.16,
+            60.48,
+            64.8,
+            70.2,
+            75.6,
+            81,
+            86.4,
+            90.72,
+            95.04,
+            99.36,
+            103.68,
+            108
+          ]
+        },
+        {
+          "key": "talent",
+          "attackId": "1100404",
+          "name": "減速対象への天賦付加5回",
+          "type": "additional",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 5,
+          "canCrit": true,
+          "multipliers": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75,
+            81.25,
+            87.5,
+            93.75,
+            100,
+            105,
+            110,
+            115,
+            120,
+            125
+          ]
+        }
+      ],
+      "calculationNote": "Lv80・E0強化版・非虚数弱点/未撃破の敵1体。攻撃前から無重力（減速・DEF低下40%）と懲戒10層が有効で、全成分中に状態変化なし。本体・審判・天賦付加を合算します。通常は天賦1回、スキル5ヒットは天賦5回、必殺2ヒットは天賦2回。審判は通常/スキル使用ごとに1回。各単独行をこの合計へ重ねないでください。裁決/EHR変換と恒常値は完成済み最終ATKへ含めます。初回減速/無重力付与順、懲戒0～9層の途中更新、途中撃破、複数敵、星魂1以上、強化前の合計は対象外。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1100402/1100404; character_skill_trees.json:11004102",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1000/WeltB1.ts",
+        "verifiedAt": "2026-11-06",
+        "verification": "tests/hsr/hsrWeltRound19.test.cjs",
+        "notes": "固定Fribbels: normalTalent1, skillTalent*(1+skillExtraHits), ultTalent*2 (10%/90%の2hit); 審判normal*.8/skill perHit*1.2 once."
+      }
+    },
+    {
+      "id": "11004032",
+      "characterId": "1004",
+      "name": "疑似ブラックホール＋付加合計（強化版・事前無重力/懲戒10層）",
+      "element": "Imaginary",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 3,
+      "canCrit": true,
+      "multipliers": [
+        90,
+        96,
+        102,
+        108,
+        114,
+        120,
+        127.5,
+        135,
+        142.5,
+        150,
+        156,
+        162,
+        168,
+        174,
+        180
+      ],
+      "sourceSkillId": "1100403",
+      "displayOrder": 30,
+      "generatedFrom": "catalog.json:characters[].skills",
+      "calculationScope": "enhanced-preexisting-weightless-saturated-punishment",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "E0強化版・事前無重力/減速・懲戒10層・敵1体の状態一定で、攻撃本体/審判/命中に伴う天賦を成分別合算。"
+      },
+      "variant": "enhanced",
+      "overrideReason": "Ver.4.2強化後必殺技の第1パラメータを全15レベルで照合。無重力は構造化補正へ分離。",
+      "damageFormula": "componentSequence",
+      "hitCountLabel": "本体＋審判/天賦の合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "modifierInputKey": "welt-weightless-active",
+      "modifierInputMinimum": 1,
+      "modifierInputDefault": 0,
+      "numericModifierInputs": [
+        {
+          "inputKey": "welt-weightless-damage-stacks",
+          "label": "事前に有効な懲戒層数",
+          "minimum": 10,
+          "maximum": 10,
+          "integer": true
+        }
+      ],
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "body",
+          "attackId": "1100403",
+          "name": "攻撃本体",
+          "type": "ultimate",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            90,
+            96,
+            102,
+            108,
+            114,
+            120,
+            127.5,
+            135,
+            142.5,
+            150,
+            156,
+            162,
+            168,
+            174,
+            180
+          ]
+        },
+        {
+          "key": "talent",
+          "attackId": "1100404",
+          "name": "減速対象への天賦付加2回",
+          "type": "additional",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 2,
+          "canCrit": true,
+          "multipliers": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75,
+            81.25,
+            87.5,
+            93.75,
+            100,
+            105,
+            110,
+            115,
+            120,
+            125
+          ]
+        }
+      ],
+      "calculationNote": "Lv80・E0強化版・非虚数弱点/未撃破の敵1体。攻撃前から無重力（減速・DEF低下40%）と懲戒10層が有効で、全成分中に状態変化なし。本体・審判・天賦付加を合算します。通常は天賦1回、スキル5ヒットは天賦5回、必殺2ヒットは天賦2回。審判は通常/スキル使用ごとに1回。各単独行をこの合計へ重ねないでください。裁決/EHR変換と恒常値は完成済み最終ATKへ含めます。初回減速/無重力付与順、懲戒0～9層の途中更新、途中撃破、複数敵、星魂1以上、強化前の合計は対象外。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1100403/1100404; character_skill_trees.json:11004102",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1000/WeltB1.ts",
+        "verifiedAt": "2026-11-06",
+        "verification": "tests/hsr/hsrWeltRound19.test.cjs",
+        "notes": "固定Fribbels: normalTalent1, skillTalent*(1+skillExtraHits), ultTalent*2 (10%/90%の2hit); 審判normal*.8/skill perHit*1.2 once."
+      }
+    }
+  ]
+}

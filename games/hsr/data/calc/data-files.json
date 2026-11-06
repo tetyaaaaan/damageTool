@@ -37,7 +37,8 @@
     "attacks-jade-gilgamesh-round13.json",
     "attacks-xueyi-round16.json",
     "attacks-elemental-composites-round18.json",
-    "attacks-native-round18.json"
+    "attacks-native-round18.json",
+    "attacks-welt-round19.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -129,6 +130,7 @@
     "modifiers-march-round17.json",
     "modifiers-elemental-composites-round18.json",
     "modifiers-native-round18.json",
-    "modifiers-tribbie-round18.json"
+    "modifiers-tribbie-round18.json",
+    "modifiers-black-swan-round19.json"
   ]
 }

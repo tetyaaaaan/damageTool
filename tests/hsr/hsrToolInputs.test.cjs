@@ -4083,3 +4083,29 @@ test("Round18 numeric snapshots reach actual Jiaoqiu and Tribbie damage and stay
  app.state.modifierInputs["tribbie-a4-party-max-hp-snapshot"]=30000;let r=row("140301");assert.ok(r);near(r.breakdown.referenceValue,12700);
  app.node("hsrStat-hp").value="12700";app.state.modifierInputs["traceNode:1403:1403102:party-hp-snapshot-in-final"]=true;near(row("140301").expected,r.expected);
 });
+
+
+test("Round19 enhanced Welt displays three native-component totals without a new condition input",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1004",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ app.state.enhancementState="enhanced";app.node("hsrEnhancementState").value="enhanced";
+ const row=id=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ app.state.modifierInputs["welt-weightless-active"]=true;app.state.modifierInputs["welt-weightless-damage-stacks"]=10;
+ for(const [id,nc]of [["11004012",7560],["11004022",25552.8],["11004032",9450]]){const r=row(id);assert.ok(r,id);near(r.nonCrit,nc);near(r.crit,nc*2);near(r.expected,nc*1.5);}
+ app.state.relicId="134";app.node("hsrRelicMode").value="4";let r=row("11004012");near(r.components.body.nonCrit,3186);near(r.components.judgment.nonCrit,2160);near(r.components.talent.nonCrit,2700);app.state.relicId="";
+ app.state.modifierInputs["welt-weightless-damage-stacks"]=9;assert.equal(row("11004022"),undefined);assert.ok(app.calculate().some(r=>r.attack?.name==="虚空断界"));
+ app.state.modifierInputs["welt-weightless-damage-stacks"]=10;app.node("hsrTalentTrace").value="";assert.equal(row("11004012"),undefined);app.node("hsrTalentTrace").value="10";
+ app.state.enhancementState="previous";app.node("hsrEnhancementState").value="previous";assert.equal(row("11004012"),undefined);
+});
+
+test("Round19 Black Swan party Epiphany uses provider trace level and explicit valid state",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1002",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ const normal=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==="100201").name);
+ near(normal().nonCrit,1080);app.state.party[0]={characterId:"1307",level:80,eidolon:0,traceLevels:{skill:10,ultimate:10}};app.state.modifierInputs["black-swan-epiphany-active"]=true;
+ for(const version of ["previous","enhanced"]){app.state.enhancementState=version;near(normal().nonCrit,1350);}
+ app.state.conditionTab="パーティ";app.node("hsrConditionDialogOpen").handlers.click();assert.match(app.node("hsrConditionList").innerHTML,/通常版は対象自身のターン中/);
+ app.state.party[0].traceLevels.ultimate=1;near(normal().nonCrit,1242);app.state.modifierInputs["black-swan-epiphany-active"]=false;near(normal().nonCrit,1080);
+ app.state.modifierInputs["black-swan-skill-def-active"]=true;near(normal().nonCrit,3000*.8*.9/(2-.208));
+ app.state.modifierInputs["black-swan-epiphany-active"]=true;near(normal().nonCrit,3000*.8*.9*1.15/(2-.208));app.state.party[0].characterId="";near(normal().nonCrit,1080);
+});

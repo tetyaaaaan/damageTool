@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "black-swan-round19-2026-11-06",
+  "description": "ブラックスワンの開示被ダメージ増加を条件成立済みの味方攻撃へ接続。通常版は敵自身のターン中、強化版は開示中という同じ率の成立状態を一入力で指定。 スキルの敵防御ダウンも版共通modifierで接続。",
+  "modifiers": [
+    {
+      "id": "trace:1307:130703:party-epiphany",
+      "providerScope": "party",
+      "source": {
+        "kind": "trace",
+        "id": "1307",
+        "skillId": "130703"
+      },
+      "name": "開示・味方攻撃への被ダメージ増加",
+      "description": "パーティのブラックスワンが敵へ付与済みの開示による被ダメージ増加です。通常版は対象自身のターン中、強化版は開示中に有効で、この入力はその有効状態が既に成立していることを表します。受益者の版選択から提供者の版を推測しません。対象1体の味方攻撃に適用し、効果時間・付与順は管理しません。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21.25,
+          22.5,
+          23.75,
+          25
+        ],
+        "levelInputLabel": "ブラックスワンの必殺技Lv"
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "black-swan-epiphany-active",
+        "inputLabel": "開示の被ダメージ増加が有効（通常版は対象自身のターン中）",
+        "default": false,
+        "conditionText": "通常版は対象自身のターン中、強化版は開示中。正しい事前状態を手動指定"
+      },
+      "stacking": {
+        "group": "trace:1307:party-epiphany",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHA 130703/1130703の必殺技記述で確認した開示の敵被ダメージ増加を、条件成立済みの味方通常/スキル/必殺技/DoTへ適用。両版の全E0必殺技Lvで15～25%が一致。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130703.params[0..9][2]; 1130703.params[0..9][2] (same E0 rate)",
+        "verifiedAt": "2026-11-06",
+        "scope": "E0 Black Swan provider; one enemy with pre-existing effective Epiphany state. For the previous version this means the target own turn; for enhanced version any time while Epiphany is active. This explicit combined-state input does not infer provider version from recipient enhancement selection."
+      }
+    },
+    {
+      "id": "trace:1307:130702:party-defense-reduction",
+      "providerScope": "party",
+      "source": {
+        "kind": "trace",
+        "id": "1307",
+        "skillId": "130702"
+      },
+      "name": "ブラックスワン・スキル防御ダウン（味方攻撃）",
+      "description": "パーティのブラックスワンが敵へ付与済みのスキル防御ダウンを、味方の対象1体への攻撃へ適用します。通常版/強化版によらずE0倍率は同じです。付与と継続時間は管理しません。",
+      "category": "defenseReduction",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          14.8,
+          15.4,
+          16,
+          16.6,
+          17.2,
+          17.8,
+          18.55,
+          19.3,
+          20.05,
+          20.8
+        ],
+        "levelInputLabel": "ブラックスワンのスキルLv"
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "black-swan-skill-def-active",
+        "inputLabel": "スキルの防御ダウンが事前成立",
+        "default": false,
+        "conditionText": "対象へブラックスワンのスキル防御ダウンが事前成立"
+      },
+      "stacking": {
+        "group": "trace:1307:party-skill-defense-reduction",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHA通常版130702.params[3]と強化版1130702.params[3]のE0スキルLv1～10が一致。成立済みの敵防御ダウンを味方通常/スキル/必殺技/DoTへ単発適用し独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130702.params[0..9][3]; 1130702.params[0..9][3] (same E0 reduction)",
+        "verifiedAt": "2026-11-06",
+        "scope": "E0 provider; target enemy has pre-existing Black Swan skill DEF reduction; one unchanged enemy; no application/duration simulation; same values for previous/enhanced versions."
+      }
+    }
+  ]
+}

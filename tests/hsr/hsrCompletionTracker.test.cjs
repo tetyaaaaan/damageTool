@@ -44,10 +44,11 @@ test('candidate audit keeps missing damage components distinct from registered s
  for(const id of ['1212','1304'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round8 stable E0 acceptance');
  for(const id of ['1308','1401'])assert.equal(e0CandidateAudit[id].status,'pending','limited state rows do not certify all main states');
  for(const id of ['1507','1225'])assert.equal(e0CandidateAudit[id].status,'confirmed');
- for(const id of ['1307','1405','1410','8007','8008'])assert.equal(e0CandidateAudit[id].workClass,'D');
+ for(const id of ['1405','1410','8007','8008'])assert.equal(e0CandidateAudit[id].workClass,'D');
  for(const id of ['1013','1108','1222','1101','1217','1306'])assert.equal(e0CandidateAudit[id].status,'confirmed');
  assert.equal(e0CandidateAudit['1106'].status,'pending');
  for(const id of ['1103','1109','1218','1403'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round18 stable major-composition acceptance');
+ for(const id of ['1307','1223','1009'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round19 explicit stable E0 acceptance');
  assert.equal(e0CandidateAudit['1207'].status,'confirmed','Round16 Basic-tag and native-support acceptance');
  assert.equal(e0CandidateAudit['1214'].status,'pending','prior-broken Ultimate alone does not certify unbroken states');
  assert.equal(e0CandidateAudit['1224'].status,'confirmed','Round17 Basic/Additional scope and native Shifu support acceptance');
