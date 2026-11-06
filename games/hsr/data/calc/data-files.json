@@ -40,7 +40,9 @@
     "attacks-native-round18.json",
     "attacks-welt-round19.json",
     "attacks-guinaifen-round20.json",
-    "attacks-kafka-round21.json"
+    "attacks-kafka-round21.json",
+    "attacks-native-round22.json",
+    "attacks-phainon-round22.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",

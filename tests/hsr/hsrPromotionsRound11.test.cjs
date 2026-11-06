@@ -68,7 +68,7 @@ test("Round11 attack promotions use only fixed E0 direct-damage curves", async (
         assert.ok(attack, "expected promotion " + id);
         assert.equal(attack.maximumEidolon, 0);
         assert.equal(attack.maximumTraceLevel, curve.length);
-        assert.equal(attack.enemyCountExact, 1);
+        assert.equal(attack.enemyCountExact, ["140802", "140808"].includes(id) ? undefined : 1);
         assert.equal(attack.characterLevelExact, 80);
         assert.equal(attack.damageFormula, "statMultiplier");
         assert.deepEqual(attack.multipliers, curve, id + " fixed-source E0 curve");

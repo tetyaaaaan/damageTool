@@ -42,7 +42,8 @@ test('candidate audit keeps missing damage components distinct from registered s
  const initial=audits.filter(a=>a.batch6InitialClass);assert.equal(initial.length,34);
  assert.deepEqual(initial.reduce((r,a)=>(r[a.batch6InitialClass]=(r[a.batch6InitialClass]||0)+1,r),{}),{C1:17,B:1,C2:16});
  for(const id of ['1212','1304'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round8 stable E0 acceptance');
- assert.equal(e0CandidateAudit['1308'].status,'pending','unverified first Thunder Core update remains outside acceptance');
+ assert.equal(e0CandidateAudit['1308'].status,'confirmed','Round22 explicit prior Thunder Core3/Crimson0-9 major composition');
+ for(const id of ['1315','1014'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round22 explicit stable main-composition acceptance');
  for(const id of ['1005','1410','1401'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round21 explicit own-DoT/damage-time snapshot major composition');
  for(const id of ['1507','1225'])assert.equal(e0CandidateAudit[id].status,'confirmed');
  for(const id of ['8007','8008'])assert.equal(e0CandidateAudit[id].workClass,'D');

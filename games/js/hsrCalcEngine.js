@@ -364,6 +364,7 @@ function calculateFanning(input) {
         const attack = input?.attack || {};
         const unsupportedReason = unsupportedAttackReason(attack);
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
+        if (attack.id === "1014032" && (input.modifiers || []).some(m => m.category === "progressiveTakenDamage" && m.enabled !== false && m.applicable !== false && modifierAppliesToAttack(m, attack))) return {supported:false,reason:"この必殺合計は全11段で補正が一定の状態です。段間で更新する被ダメージ補正は合算できません。"};
         if (attack.id === "1206031" && attack.requiresValidHitCount && attack.hitCount > 1 && input.modifierInputs?.["sushang-sword-stance-stacks"] !== 10) return {supported:false,reason:"複数の追加剣勢は逐寇が事前10層で飽和した状態のみ計算対応です。"};
         if (attack.id === "122204" && (character.eidolon < 3 && attack.traceLevel > 10 || attack.traceLevel > 12)) return {supported:false,reason:"浮元は星魂0～2で天賦Lv1～10、星魂3以上でLv1～12に対応します。"};
         if (attack.enforceSnapshotContract && attack.id === "122204" && character.eidolon === 6 && !(input.modifiers || []).some(m => m.id === "eidolon:1222:6:fuyuan-all-res-down" && (m.includedInFinalStats || m.enabled !== false && m.applicable !== false && !(m.inputWarnings || []).length))) return {supported:false,reason:"浮元が攻撃する星魂6の本体には、在場中の耐性低下の適用または算入済み指定が必要です。"};

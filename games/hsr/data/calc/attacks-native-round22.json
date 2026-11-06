@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "native-round22-2026-11-07",
+  "description": "セイバー1014の既存必殺合算行を、全11段に共通する攻撃前状態の限定計算として昇格。既存IDを上書きし、追加攻撃行は作らない。",
+  "support": {"status": "calculable", "verified": true, "reason": "既存の必殺合計を敵1体・攻撃前の確定状態で独立検証し、段間の状態更新を除外する。"},
+  "overrides": [
+    {
+      "id": "1014032",
+      "characterId": "1014",
+      "sourceSkillId": "101403",
+      "name": "約束された勝利の剣（全体斬撃＋10段・攻撃前状態指定）",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "element": "Wind",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "全体1段＋追加10段",
+      "canCrit": true,
+      "multipliers": [
+        690,
+        759,
+        828,
+        897,
+        966,
+        1035,
+        1121.3,
+        1207.5,
+        1293.7,
+        1380
+      ],
+      "multiplierComponents": [
+        {
+          "name": "全体斬撃",
+          "traceKey": "ultimate",
+          "values": [
+            140,
+            154,
+            168,
+            182,
+            196,
+            210,
+            227.5,
+            245,
+            262.5,
+            280
+          ]
+        },
+        {
+          "name": "ランダム10段の合計",
+          "traceKey": "ultimate",
+          "values": [
+            550,
+            605,
+            660,
+            715,
+            770,
+            825,
+            893.8,
+            962.5,
+            1031.2,
+            1100
+          ]
+        }
+      ],
+      "displayOrder": 29,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の全Lv倍率を照合。全体1段＋追加10段の係数和と、攻撃前の既確定な補正状態を固定した独立計算を検証。同じ必殺技で発生する効果の同撃適用は推測せず、状態スナップショットに限定。"
+      },
+      "calculationNote": "Lv80・星魂0・敵1体。必殺技Lv1～10、入力済みの最終ATK/会心/与ダメージを参照し、全体斬撃1回とランダム10段の係数を合算します。全11段で攻撃前に確定した同一状態を使用します。竜の炉心による与ダメージと星の冠による会心ダメージは、攻撃前に既に有効な状態だけを選択してください。この必殺技自身が付与する効果を同じ必殺技へ自動適用せず、段間更新も行いません。ヒットごとに被ダメージ補正が変わる条件はこの合計では計算対象外です。別成分行をさらに合算しないでください。",
+      "resultSummary": "全体1段＋ランダム10段の限定単発合計（攻撃前状態を指定）。下の2成分はこの内訳です。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-11-07",
+        "scope": "Lv80・E0・敵1体・全11段に共通する攻撃前確定状態の単発計算。必殺技自身が発生させる効果の同撃/途中適用順は対象外。",
+        "verification": "tests/hsr/hsrBatch2ArcherSaberQingque.test.cjs; tests/hsr/hsrNativeRound22.test.cjs"
+      },
+      "calculationScope": "independently-checked-fixed-preimpact-snapshot",
+      "conditionText": "Lv80・星魂0・敵1体。攻撃前の確定状態を選択し、全11段で同一状態を使用",
+      "enforceSnapshotContract": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1
+    }
+  ]
+}

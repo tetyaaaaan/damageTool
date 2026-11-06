@@ -94,13 +94,13 @@
     {
       "id": "traceNode:1408:1408103:battle-atk",
       "source": { "kind": "trace", "id": "1408", "traceId": "1408103" },
-      "name": "追加能力「映し出されし英雄の本質」・戦闘開始時の攻撃力",
-      "description": "戦闘開始時または変身終了時に得る攻撃力+50%の層数（最大2）を指定します。変身中・変身終了後のどちらも成立層数が異なるため、自動で決めません。最終ATKへ反映済みなら算入済み欄で除外してください。",
+      "name": "追加能力「映し出されし英雄の本質」・現在のATK上昇層",
+      "description": "戦闘開始または変身終了時に得た、現在の攻撃力+50%層数（最大2）を指定します。ファイノン本人の通常・スキル・必殺・変身中の攻撃に適用します。層数は自動追跡しません。最終ATKへ反映済みなら算入済み欄で除外してください。",
       "category": "statPercent",
       "stat": "atk",
       "unit": "percent",
       "value": { "kind": "perStack", "perStack": 50 },
-      "target": { "owner": "self", "attackTypes": ["all"], "elements": [], "attackIds": ["140803", "140809", "140811"] },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [], "attackIds": ["140801", "140802", "140803", "140808", "140809", "140811"] },
       "activation": {
         "mode": "stack",
         "inputKey": "phainon-a6-atk-stacks",
@@ -112,7 +112,7 @@
       "inputValidation": { "minimum": 1, "maximum": 2, "integer": true, "maximumEidolon": 0 },
       "finalStatsInclusion": {
         "inputKey": "phainon-a6-atk-in-final-stats",
-        "inputLabel": "追加能力「映し出されし英雄の本質」の戦闘開始時ATK+50%を最終ATKへ反映済み"
+        "inputLabel": "追加能力「映し出されし英雄の本質」の現在のATK+50%層を最終ATKへ反映済み"
       },
       "stacking": { "group": "traceNode:1408:1408103:battle-atk", "rule": "nonStacking" },
       "calculation": { "stage": "baseStats", "operation": "add" },
@@ -120,16 +120,16 @@
       "support": {
         "status": "calculable",
         "verified": true,
-        "reason": "固定版1408103.params[0][0]=0.5、params[0][1]=2を確認。戦闘開始/変身終了で得た状態層数1～2を必須入力し、層ごとにATK+50%。最終ATK算入済み入力で二重加算を防ぐ。"
+        "reason": "固定版1408103.params[0][0]=0.5、params[0][1]=2を確認。戦闘開始または変身終了で成立した現在のATK+50%層数1～2を必須入力し、ファイノン本人の通常/スキル/必殺/変身攻撃へ適用。最終ATK算入済み入力で二重加算を防ぐ。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",
         "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
         "sourceFile": "character_skill_trees.json:1408103.params[0][0..1]",
-        "verifiedAt": "2026-10-31",
-        "scope": "カスライナ形態のファイノン攻撃140803/140809/140811。戦闘開始/変身終了で得たATK+50%を1～2層の明示入力から反映。",
-        "verification": "tests/hsr/hsrPhainonRound12.test.cjs"
+        "verifiedAt": "2026-11-07",
+        "scope": "ファイノン本人の攻撃140801/140802/140803/140808/140809/140811。戦闘開始/変身終了で成立したATK+50%の現在層数1～2を明示指定。",
+        "verification": "tests/hsr/hsrPhainonRound22.test.cjs"
       }
     }
   ]

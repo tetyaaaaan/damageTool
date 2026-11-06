@@ -2882,7 +2882,7 @@ test('batch2 Guardian, Hidden Hand, detonation levels and delayed Freeze retain 
  a.state.modifierInputs['guinaifen-firekiss-stacks']=3;a.node('hsrTalentTrace').value='';assert.equal(one(b.run(),'121001'),undefined,'selected Firekiss requires provider Talent level');a.state.modifierInputs['guinaifen-firekiss-stacks']=0;assert.ok(one(b.run(),'121001'),'Firekiss OFF leaves the basic available');
  b.profile('1006');a.state.enhancementState='previous';a.node('hsrEnhancementState').value='previous';const resKey=b.data.structuredModifiers.find(m=>m.id==='trace:1006:100602:all-resistance').activation.inputKey;a.state.modifierInputs[resKey]=true;a.node('hsrSkillTrace').value='';assert.equal(one(b.run(),'100601'),undefined,'selected RES debuff requires Skill level');a.state.modifierInputs[resKey]=false;assert.ok(one(b.run(),'100601'));
  b.profile('1312');rs=b.run();near(one(rs,'1312032').result.nonCrit,324);near(one(rs,'1312032').result.crit,324);a.node('hsrUltimateTrace').value='';rs=b.run();assert.equal(one(rs,'1312032'),undefined);assert.ok(one(rs,'131201'));
- b.profile('1014');rs=b.run();near(one(rs,'1014032').result.nonCrit,14904);assert.match(a.node('hsrResults').innerHTML,/状態一定の参考値/);assert.equal(b.data.attacks.find(r=>r.id==='1014032').support.status,'review');a.state.modifierInputs['saber-ally-ultimate-damage-active']=true;a.node('hsrTalentTrace').value='';assert.equal(one(b.run(),'101401'),undefined,'selected Talent damage requires Talent level');a.state.modifierInputs['saber-ally-ultimate-damage-active']=false;assert.ok(one(b.run(),'101401'));
+ b.profile('1014');rs=b.run();near(one(rs,'1014032').result.nonCrit,14904);assert.match(a.node('hsrResults').innerHTML,/限定単発合計（攻撃前状態を指定）/);assert.equal(b.data.attacks.find(r=>r.id==='1014032').support.status,'calculable');a.state.modifierInputs['saber-ally-ultimate-damage-active']=true;a.node('hsrTalentTrace').value='';assert.equal(one(b.run(),'101401'),undefined,'selected Talent damage requires Talent level');a.state.modifierInputs['saber-ally-ultimate-damage-active']=false;assert.ok(one(b.run(),'101401'));
 });
 
 test("batch3 Robin fixed-CRIT proc and Moze two-component Skill preserve localized input stops and saved trace levels", async () => {
@@ -3834,7 +3834,7 @@ test('round11 Lingsha E0-E6 native ranges and E6 full event reach App, exclusion
 
 test('round11 reference promotions use proper attack kinds, native prior states and stored inclusion flags',async()=>{
  const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),rows=require('../../games/hsr/data/calc/attacks-promotions-round11.json').overrides,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
- for(const row of rows){const app=await tool(undefined,{...data,attacks:[data.attacks.find(a=>a.id===row.id)]});app.state.characterId=row.characterId;for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);let last;
+ for(const row of rows){const app=await tool(undefined,{...data,attacks:[data.attacks.find(a=>a.id===row.id)]});app.state.characterId=row.characterId;if(row.characterId==='1408')app.state.modifierInputs['phainon-a6-atk-in-final-stats']=true;for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);let last;
   for(let lv=1;lv<=(row.traceKey==='normal'?6:10);lv++){app.node(({normal:'hsrNormalTrace',skill:'hsrSkillTrace',ultimate:'hsrUltimateTrace',talent:'hsrTalentTrace'})[row.traceKey]).value=String(lv);const out=app.calculate();assert.equal(out.length,1,app.node('hsrResults').innerHTML);last=out[0];let factor=.36;if(row.id==='132103')factor=(100/(200-[8,9,10,11,12,13,14.25,15.5,16.75,18][lv-1]))*.8*.9;if(row.id==='141002')factor*=1+[10,11,12,13,14,15,16.25,17.5,18.75,20][lv-1]/100;if(row.id==='140604')factor*=1.4;near(last.nonCrit,3000*row.multipliers[lv-1]/100*factor);near(last.expected,last.nonCrit*(row.id==='140604'?2:1.5));}
   app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,{...data,attacks:[row]});near(saved.calculate()[0].expected,last.expected);
  }
@@ -4135,4 +4135,15 @@ test("Round21 Kafka own-Shock action totals resolve distinct trace levels and co
  app.state.modifierInputs["relic-122-next-skill"]=true;const relicOn=row("11005029");near(relicOn.components.direct.nonCrit-relicOff.components.direct.nonCrit,1080*1.6*.25);near(relicOn.components.shock.nonCrit,relicOff.components.shock.nonCrit,"skill-only modifier must not affect Shock");app.state.relicId="";
  app.node("hsrSkillTrace").value="1";const low=row("11005029");near(low.components.direct.nonCrit,864);near(low.components.shock.nonCrit,1080*2.9*.60);
  app.node("hsrUltimateTrace").value="";assert.equal(row("11005029"),undefined);assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==="1100502").name),"missing own-Shock level is local to composite");
+});
+
+test("Round22 Phainon adjacent targets and current A6 stacks reach actual App damage once",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1408",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ app.node("hsrEnemyCount").value="3";app.state.modifierInputs["phainon-a6-atk-stacks"]=1;
+ const matching=(rows,id)=>rows.filter(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ const effectiveAtk=3000+582.12*.5;
+ const check=()=>{const rows=app.calculate();for(const [id,main,adjacent]of [["140802",3,1.2],["140808",2.5,.75]]){const parts=matching(rows,id);assert.equal(parts.length,2);near(parts[0].nonCrit,effectiveAtk*main*.36);near(parts[1].nonCrit,effectiveAtk*adjacent*.36);near(parts[1].crit,parts[1].nonCrit*2);}};
+ check();app.node("hsrStat-atk").value=String(effectiveAtk);app.state.modifierInputs["phainon-a6-atk-in-final-stats"]=true;check();
+ app.node("hsrEnemyCount").value="1";const single=app.calculate();for(const id of ["140802","140808"])assert.equal(matching(single,id).length,1,"no adjacent target exists in a one-enemy snapshot");
 });
