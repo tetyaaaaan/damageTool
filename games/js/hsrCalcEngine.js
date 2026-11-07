@@ -274,6 +274,8 @@
     };
 
     function unsupportedAttackReason(attack = {}) {
+        if(attack.id==='140709'&&attack.characterId==='1407'&&attack.sourceSkillId==='140709'&&attack.type==='enhancedSkill'&&attack.element==='Quantum'&&attack.damageFormula==='componentSequence')return '';
+        if(attack.id==='11407022'&&attack.characterId==='1407'&&attack.sourceSkillId==='1140702'&&attack.damageFormula==='componentSequence'&&attack.type==='memospriteSkill'&&attack.element==='Quantum')return '';
         if(attack.id==='1140901'&&attack.characterId==='1409'&&attack.sourceSkillId==='1140901'&&attack.type==='memospriteSkill'&&attack.damageFormula==='recordedHealing'&&attack.scalingStat==='healingRecord'&&attack.element==='Wind')return '';
         if(attack.id==='11415012'&&attack.characterId==='1415'&&attack.sourceSkillId==='1141501'&&attack.damageFormula==='componentSequence'&&attack.type==='memospriteSkill'&&attack.element==='Ice')return '';
         if (attack.damageFormula === "resolvedDamageMultiplier" && ["14101021","14101022","14101023","14101024"].includes(attack.id) && attack.characterId === "1410" && attack.dataOwnerId === "1410" && attack.type === "dot") return "";
@@ -402,6 +404,14 @@ function calculateFanning(input) {
     }
 
     function calculate(input) {
+        if(['141303','1141301','1141307'].includes(input.attack?.id)){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,q=input.modifierInputs?.['evernight-memoquanta'],ult=a.id==='141303',curve=ult?[100,110,120,130,140,150,162.5,175,187.5,200]:a.id==='1141307'?[96,115.2,134.4,153.6,172.8,192]:[25,30,35,40,45,50],expected=curve[l-1]+(a.id==='1141301'?Math.floor(q/4)*[5,6,7,8,9,10][l-1]:0);
+            if(a.characterId!=='1413'||a.sourceSkillId!==a.id||a.damageFormula!=='statMultiplier'||a.scalingStat!=='hp'||a.element!=='Ice'||a.type!==(ult?'ultimate':'memospriteSkill')||a.hitCount!==1||c.id!=='11413'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!a.completedReferenceSnapshot||a.damageOwnerId!=='11413'||!Number.isInteger(l)||l<1||l>curve.length||a.multiplier!==expected||(a.scalingTerms&&(a.id!=='1141301'||a.scalingTerms.length!==2||a.scalingTerms.some(t=>t.stat!=='hp')||a.scalingTerms[0].multiplier!==curve[l-1]||a.scalingTerms[1].multiplier!==Math.floor(q/4)*[5,6,7,8,9,10][l-1]))||(!ult&&(!Number.isInteger(q)||q<0||q>16||a.id==='1141307'&&q!==16))||!['hp','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&(k==='hp'?c.stats[k]>0:c.stats[k]>=0))||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(!['enemyAll','enemySingle'].includes(m.target?.owner)||m.category==='progressiveTakenDamage')))return {supported:false,reason:'長夜の独立した最終HP/会心/氷DMG、攻撃前の憶質0～16（終結技16）を指定してください。Lv80/E0・未撃破の敵1体・状態一定のみ対応です。'};
+        }
+        if(input.attack?.id==='1140702'||input.attack?.requiresIndependentCastorice){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,n=input.modifierInputs?.['castorice-breath-stage'],curve=[[12,14.4,16.8,19.2,21.6,24],[14,16.8,19.6,22.4,25.2,28],[17,20.4,23.8,27.2,30.6,34]];
+            if(a.characterId!=='1407'||c.id!=='11407'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!a.completedReferenceSnapshot||a.damageOwnerId!=='11407'||!Number.isInteger(l)||l<1||l>(a.id==='140709:dragon'?10:6)||!['hp','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&(k==='hp'?c.stats[k]>0:c.stats[k]>=0))||a.id==='1140702'&&(!Number.isInteger(n)||n<0||n>2||a.multiplier!==curve[n]?.[l-1]||a.hitCount!==1)||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(!['enemyAll','enemySingle'].includes(m.target?.owner)||m.category==='progressiveTakenDamage')))return {supported:false,reason:'キャストリスの最終HPと死竜の独立した最終会心/量子DMGを指定してください。息吹は事前段階0～2、Lv80/E0・敵1体・精霊Lv1～6のみ対応です。'};
+        }
         // A recorded healing amount is a base reference, not HP and not an already resolved damage value.
         if(input.attack?.damageFormula==='recordedHealing'){
             const a=input.attack,c=input.character||{},e=input.enemy||{},v=input.modifierInputs?.['hyacine-recorded-healing'],curve=[10,12,14,16,18,20];
@@ -585,6 +595,20 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(input.attack?.id==='140709'){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],l=a.traceLevel,curves=[[15,16.5,18,19.5,21,22.5,24.37,26.25,28.12,30],[25,27.5,30,32.5,35,37.5,40.62,43.75,46.88,50]];
+            if(c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||parts.length!==2||!Number.isInteger(l)||l<1||l>10)return {supported:false,reason:'キャストリスの連携はLv80/E0・未撃破の敵1体・Skill Lv1～10・事前飽和天賦で状態一定のみ対応です。'};
+            for(let i=0;i<2;i++){const q=parts[i]?.input,b=q?.attack||{};if(parts[i].key!==['caster','dragon'][i]||b.id!==['140709:caster','140709:dragon'][i]||b.characterId!=='1407'||b.sourceSkillId!=='140709'||b.type!=='enhancedSkill'||b.damageFormula!=='statMultiplier'||b.scalingStat!=='hp'||b.element!=='Quantum'||b.hitCount!==1||b.traceLevel!==l||b.multiplier!==curves[i][l-1]||JSON.stringify(q.modifierInputs)!==JSON.stringify(input.modifierInputs)||(!i&&(JSON.stringify(q.character)!==JSON.stringify(c)||JSON.stringify(q.enemy)!==JSON.stringify(e)))||(i&&(q.character?.id!=='11407'||!b.completedReferenceSnapshot||b.damageOwnerId!=='11407'||q.character.stats?.hp!==c.stats?.hp||['level','count','resistance','defenseReduction','takenDamage','toughnessActive'].some(k=>q.enemy?.[k]!==e[k]))))return {supported:false,reason:'連携の本人HP・所有者別の最終値・Skill Lv・同じ敵条件を確認してください。'};}
+            return combineDamageComponents(a,parts,'本人＋死竜の連携スキル（HP参照は本人、会心/DMGは別所有者）');
+        }
+
+        if(input.attack?.id==='11407022'){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],h=input.modifierInputs?.['castorice-dragon-hp-percent'];
+            if(c.id!=='11407'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!Number.isFinite(h)||h<=0||h>100||parts.length!==2||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6)return {supported:false,reason:'息吹の合計は死竜の攻撃前HP割合0%超～100%・敵1体を指定してください。HP25%以下だけ同時に発生する退場天賦6段を合算します。'};
+            for(let i=0;i<2;i++){const q=parts[i]?.input,b=q?.attack||{};if(parts[i].key!==['breath','exit'][i]||b.id!==['1140702','1140706'][i]||a.damageComponents?.[i]?.attackId!==b.id||!b.requiresIndependentCastorice||b.type!==(i?'memospriteTalent':'memospriteSkill')||b.scalingStat!=='hp'||b.damageFormula!=='statMultiplier'||b.sourceSkillId!==b.id||b.hitCount!==(i?6:1)||!Number.isInteger(b.traceLevel)||b.traceLevel<1||b.traceLevel>6||(!i&&b.traceLevel!==a.traceLevel)||(i&&b.multiplier!==[20,24,28,32,36,40][b.traceLevel-1])||JSON.stringify(q.character)!==JSON.stringify(c)||JSON.stringify(q.enemy)!==JSON.stringify(e)||JSON.stringify(q.modifierInputs)!==JSON.stringify(input.modifierInputs))return {supported:false,reason:'死竜の息吹と同時発生する天賦の所有者・独立Lv・敵・事前状態が一致しません。'};}
+            return combineDamageComponents(a,h<=25?parts:[parts[0]],h<=25?'息吹1回＋同時発生する退場天賦6段':'息吹1回（攻撃前HP25%超・退場天賦なし）');
+        }
+
         if(input.attack?.id==='11415012'){
             const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],n=input.modifierInputs?.['cyrene-recollection-allies'];
             if(c.id!=='11415'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!Number.isInteger(n)||n<0||n>3||parts.length!==2||a.damageComponents?.length!==2||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6)return {supported:false,reason:'精霊の舞曲合計はLv80/E0・敵1体・他精霊なし・追憶を得た異なる味方0～3名の明示が必要です。'};

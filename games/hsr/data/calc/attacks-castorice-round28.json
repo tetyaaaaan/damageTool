@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "castorice-round28",
+  "overrides": [
+    {
+      "id": "1140702",
+      "characterId": "1407",
+      "sourceSkillId": "1140702",
+      "name": "晦冥焼き払う息吹（固定の発動段階）",
+      "element": "Quantum",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "aoe",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        12,
+        14.4,
+        16.8,
+        19.2,
+        21.6,
+        24
+      ],
+      "breathStageMultipliers": [
+        [
+          12,
+          14.4,
+          16.8,
+          19.2,
+          21.6,
+          24
+        ],
+        [
+          14,
+          16.8,
+          19.6,
+          22.4,
+          25.2,
+          28
+        ],
+        [
+          17,
+          20.4,
+          23.8,
+          27.2,
+          30.6,
+          34
+        ]
+      ],
+      "numericModifierInputs": [
+        {
+          "inputKey": "castorice-breath-stage",
+          "label": "この攻撃前までの息吹発動段階（0～2、2で上限）",
+          "minimum": 0,
+          "maximum": 2,
+          "integer": true
+        }
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresIndependentCastorice": true,
+      "damageOwnerId": "11407",
+      "calculationScope": "castorice-dragon-breath-prior-stage-single-enemy",
+      "conditionText": "キャストリスLv80/E0・精霊スキルLv1～6・敵1体。精霊の攻撃前発動段階を0～2で指定し、キャストリスの最終最大HPと死竜の独立した最終会心/量子与ダメージを参照します。",
+      "calculationNote": "固定版1140702.params[0..5][1..3]の係数を用います。前段階0/1/2は、発動前までの精霊スキル発動回数に応じる選択済みの値で、段階2を上限とします。この行は精霊スキルの直接成分だけを計算します。キャストリスの最終最大HPと死竜の会心率・会心ダメージ・量子与ダメージを個別に入力し、死竜HPや状態を推定しません。追加能力1407103は今回の発動による30%を含むダメージ時点の有効層を死竜の最終DMGへ一度含めます。精霊HP消費・回数・段階の自動更新や敵複数への分配は行いません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版E0精霊スキルLv1～6の3発動段階を確認し、単一対象のHP参照式で独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1140702.params[0..5][1..3]; character_skill_trees.json:1407301(max_level=6,1140702 num=1)",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrCastoriceRound28.test.cjs"
+      }
+    },
+    {
+      "id": "11407022",
+      "characterId": "1407",
+      "sourceSkillId": "1140702",
+      "name": "晦冥焼き払う息吹（＋条件成立時の同時天賦）",
+      "element": "Quantum",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "aoe",
+      "scalingStat": "hp",
+      "damageFormula": "componentSequence",
+      "hitCount": 7,
+      "hitCountLabel": "精霊スキル1回＋同時発動の天賦攻撃6回",
+      "canCrit": true,
+      "multipliers": [
+        12,
+        14.4,
+        16.8,
+        19.2,
+        21.6,
+        24
+      ],
+      "breathStageMultipliers": [
+        [
+          12,
+          14.4,
+          16.8,
+          19.2,
+          21.6,
+          24
+        ],
+        [
+          14,
+          16.8,
+          19.6,
+          22.4,
+          25.2,
+          28
+        ],
+        [
+          17,
+          20.4,
+          23.8,
+          27.2,
+          30.6,
+          34
+        ]
+      ],
+      "numericModifierInputs": [
+        {
+          "inputKey": "castorice-breath-stage",
+          "label": "この攻撃前までの息吹発動段階（0～2、2で上限）",
+          "minimum": 0,
+          "maximum": 2,
+          "integer": true
+        },
+        {
+          "inputKey": "castorice-dragon-hp-percent",
+          "label": "攻撃前の死竜残りHP（最大HP比%）",
+          "minimum": 0,
+          "maximum": 100,
+          "integer": false
+        }
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "requiredTraceLevelRanges": {
+        "memSkill": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "memTalent": {
+          "minimum": 1,
+          "maximum": 6
+        }
+      },
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresIndependentCastorice": true,
+      "damageOwnerId": "11407",
+      "calculationScope": "castorice-dragon-breath-threshold-talent-sequence",
+      "conditionText": "キャストリスLv80/E0・敵1体。攻撃前の死竜残りHPを明示指定します。25%以下の場合は精霊スキル後に同時発生する天賦攻撃6回を加算します。",
+      "calculationNote": "精霊スキル1140702を選択済み段階のキャストリス最大HP参照で1回計算し、攻撃前の死竜HP割合が25%以下の場合だけ天賦1140706をE0上限Lv6の固定6ヒットで同じ敵へ加算します。死竜HP比0<HP<=100%を明示指定し、閾値やHP消費を推定しません。発動段階0～2は過去の発動状態として選択し、自動更新しません。キャストリス最大HPと死竜の会心率・会心ダメージ・量子与ダメージは独立した完成済み最終値を入力します。範囲ダメージは敵1体に限定し、味方回復・精霊HP消費・召喚/退場履歴は計算しません。単独成分行は合算へ再加算しないでください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1140702の閾値説明、E0天賦上限Lv6の6ヒット、同一所有者の完成済み最終値で独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1140702.params[0..5][1..4];1140706.params[0..5][0..1]; character_skill_trees.json:1407301(max_level=6),1407302(max_level=6)",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrCastoriceRound28.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "damageComponents": [
+        {
+          "key": "breath",
+          "name": "精霊スキル（キャストリス最大HP参照）",
+          "attackId": "1140702"
+        },
+        {
+          "key": "exit",
+          "name": "残りHP閾値で同時発動する天賦攻撃",
+          "attackId": "1140706"
+        }
+      ]
+    },
+    {
+      "id": "140709",
+      "characterId": "1407",
+      "sourceSkillId": "140709",
+      "name": "骸爪、冥竜の抱擁（本人＋死竜の連携）",
+      "element": "Quantum",
+      "type": "enhancedSkill",
+      "traceKey": "skill",
+      "target": "aoe",
+      "scalingStat": "hp",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "本人1成分＋死竜1成分",
+      "canCrit": true,
+      "multipliers": [
+        15,
+        16.5,
+        18,
+        19.5,
+        21,
+        22.5,
+        24.37,
+        26.25,
+        28.12,
+        30
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "castorice-dragon-breath-threshold-talent-sequence",
+      "conditionText": "Lv80/E0・未撃破の敵1体。死竜在場・天賦DMGが事前3層で飽和した状態の連携1回。本人HPを共通参照し、本人/死竜の会心・量子DMG・DEF無視・貫通は分けます。",
+      "calculationNote": "固定140709.params[0..9][1,2]は本人HP15～30%と同HP25～50%の別所有者成分。Skill Lv1～10を両者へ適用します。本人/死竜それぞれの最終値には在場DMG・飽和天賦DMG・装備/支援を一度含めます。初回HP消費による天賦獲得順を推測せず、事前飽和・状態一定のみ対応。味方のHP消費や新蕾/召喚/行動順を追跡せず、別の息吹や退場攻撃を合算しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の本人/死竜の連携係数を別所有者の会心/DMGで計算し、成分と合計を独立照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140709.params[0..9][1,2]; character_skill_trees.json:1407002.max_level=10",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrToolInputs.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "damageComponents": [
+        {
+          "key": "caster",
+          "name": "キャストリス本人のスキル成分",
+          "attackId": "140709"
+        },
+        {
+          "key": "dragon",
+          "name": "死竜のスキル成分",
+          "attackId": "140709"
+        }
+      ],
+      "dragonMultipliers": [
+        25,
+        27.5,
+        30,
+        32.5,
+        35,
+        37.5,
+        40.62,
+        43.75,
+        46.88,
+        50
+      ]
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版のE0精霊スキル係数・HP閾値と既存のHP参照式で、状態一定の単体敵攻撃を独立検証。"
+  }
+}

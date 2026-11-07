@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "evernight-round28-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "長夜月・長夜の独立完成最終値と攻撃前の憶質を指定し、E0・敵1体・状態一定の直接成分を既存式で比較。"
+  },
+  "overrides": [
+    {
+      "id": "141303",
+      "characterId": "1413",
+      "sourceSkillId": "141303",
+      "name": "眠れぬ世界に永き眠りを（長夜の必殺技直接成分）",
+      "element": "Ice",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-independent-evernight-ultimate-direct-single-enemy",
+      "conditionText": "長夜月Lv80・星魂0・必殺技Lv1～10・敵1体。「至暗の謎」が攻撃前から有効な状態を指定し、必殺技の長夜によるHP参照ダメージ成分1回を計算します。",
+      "calculationNote": "固定版141303.params[0..9][0]。攻撃者は記憶の精霊「長夜」です。長夜の入力済み最終HP・会心・氷与ダメージを参照します。「至暗の謎」による双方の与ダメージ+30～60%は長夜の最終値へ、敵の被ダメージ+15～30%は敵の最終値へ一度だけ算入します。追加能力/天賦/装備/支援由来の既算入値も再加算しません。必殺技の初回状態付与・チャージ・召喚・後続攻撃・状態更新は再現しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "必殺技params[0..9][0]の長夜最大HP倍率を、長夜の独立した完成済み最終値で敵1体に計算する状態固定の直接成分。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:141303.params[0..9][0]; character_skill_trees.json:1413003",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrEvernightRound28.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "requiresIndependentEvernight": true,
+      "damageOwnerId": "11413"
+    },
+    {
+      "id": "1141301",
+      "characterId": "1413",
+      "sourceSkillId": "1141301",
+      "name": "雨のように降る記憶（長夜の精霊スキル・憶質指定）",
+      "element": "Ice",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+      ],
+      "baseCurve": [
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+      ],
+      "bonusCurve": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "memoquantaBonusStep": 4,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-independent-evernight-memosprite-skill-memoquanta-snapshot",
+      "conditionText": "長夜月Lv80・星魂0・精霊スキルLv1～6・敵1体。攻撃前の憶質を0～16で指定し、長夜の通常HP倍率と憶質4ごとの追加HP倍率を計算します。",
+      "calculationNote": "固定版1141301.params[0..5][0..2]。基礎倍率は長夜の最大HP25～50%。攻撃前の憶質4ごとに追加5～10%を同じHP参照成分へ加算します。憶質を攻撃後に1獲得する効果、以後の自動ターゲット選択・行動・更新は扱いません。長夜の入力済み最終HP・会心・氷与ダメージには、天賦/必殺技/追加能力/装備/支援で既に反映した分を一度だけ含めます。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の基礎HP倍率と4憶質ごとの追加HP倍率を分離し、攻撃前の明示層数で合成する敵1体の単発計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141301.params[0..5][0..3]; character_skill_trees.json:1413301",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrEvernightRound28.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "requiresIndependentEvernight": true,
+      "damageOwnerId": "11413",
+      "memoquantaInputKey": "evernight-memoquanta",
+      "numericModifierInputs": [
+        {
+          "inputKey": "evernight-memoquanta",
+          "label": "攻撃前の憶質",
+          "minimum": 0,
+          "maximum": 16,
+          "integer": true
+        }
+      ]
+    },
+    {
+      "id": "1141307",
+      "characterId": "1413",
+      "sourceSkillId": "1141307",
+      "name": "露のように儚い夢（憶質16・敵1体）",
+      "element": "Ice",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        96,
+        115.2,
+        134.4,
+        153.6,
+        172.8,
+        192
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-independent-evernight-finisher-sixteen-memoquanta-single-enemy",
+      "conditionText": "長夜月Lv80・星魂0・精霊スキルLv1～6・敵1体。発動条件の憶質16が攻撃前から成立し、全16層をメインターゲットへ消費する状態を指定します。",
+      "calculationNote": "固定版1141307.params[0..5][0]×16。敵1体のメインターゲットへ長夜の最大HP96～192%分を合算した一成分として計算します。攻撃前の憶質は16に固定し、発動条件を保証します。別敵への隣接倍率、憶質/HP消費、長夜の退場、退場後の速度効果は含めません。長夜の入力済み最終HP・会心・氷与ダメージを使用し、長夜月から戦闘値を継承しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の1層あたり倍率を発動条件の憶質16で合成し、敵1体のメイン対象成分だけを状態固定で計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141307.params[0..5][0]; character_skill_trees.json:1413301",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrEvernightRound28.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "requiresIndependentEvernight": true,
+      "damageOwnerId": "11413",
+      "requiredMemoquanta": 16,
+      "memoquantaInputKey": "evernight-memoquanta",
+      "numericModifierInputs": [
+        {
+          "inputKey": "evernight-memoquanta",
+          "label": "攻撃前の憶質（終結技は16のみ）",
+          "minimum": 0,
+          "maximum": 16,
+          "integer": true
+        }
+      ]
+    }
+  ]
+}

@@ -55,7 +55,9 @@
     "attacks-silverwolf999-round26.json",
     "attacks-yaoguang-round27.json",
     "attacks-hyacine-round27.json",
-    "attacks-cyrene-round27.json"
+    "attacks-cyrene-round27.json",
+    "attacks-evernight-round28.json",
+    "attacks-castorice-round28.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -152,6 +154,7 @@
     "modifiers-gilgamesh-round23.json",
     "modifiers-fudie-round24.json",
     "modifiers-gilgamesh-round24.json",
-    "modifiers-trailblazer-elation-round24.json"
+    "modifiers-trailblazer-elation-round24.json",
+    "modifiers-cyrene-round28.json"
   ]
 }

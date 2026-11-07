@@ -4286,3 +4286,36 @@ test('Round27 Yaoguang normal CB and fixed20 Ultimate Aha stay separate from man
  const aha=row('150221');assert.ok(aha);near(aha.nonCrit,7535.107*2*2.3*(1+100/260)*.36*1.16);app.node('hsrPunchline').value='0';near(row('150221').expected,aha.expected);
  delete app.state.modifierInputs['elation-certified-banger'];assert.ok(!row('1502012'));assert.ok(row('150201'));assert.ok(row('150221'));
 });
+
+
+test('Round28 Evernight uses independent spirit HP and explicit preattack Memoquanta without inheriting the owner',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1413',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6},{type:'MemospriteTalent',level:6}],stats:{hp:8000,atk:1300,def:2000,critRate:50,critDamage:100,damageBonus:110}});
+ const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);assert.ok(!row('141303'));assert.ok(row('141301'));
+ for(const[k,v]of Object.entries({hp:5000,critRate:70,critDamage:200,damageBonus:110,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:1413:'+k]=v;
+ app.node('hsrEnemyTakenDamage').value='30';app.state.modifierInputs['evernight-memoquanta']=15;
+ near(row('141303').expected,5000*2*2.1*.36*1.3*2.4);near(row('1141301').expected,5000*.8*2.1*.36*1.3*2.4);assert.deepEqual(Array.from(row('1141301').breakdown.scalingTerms,t=>t.multiplierPercent),[50,30]);assert.ok(!row('1141307'));
+ app.state.modifierInputs['evernight-memoquanta']=16;const value=row('1141307').expected;near(value,5000*1.92*2.1*.36*1.3*2.4);
+ app.node('hsrStat-hp').value='16000';app.node('hsrStat-critDamage').value='333';near(row('1141307').expected,value);app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="evernight-memoquanta"/g)||[]).length,1);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row('1141307',saved).expected,value);delete saved.state.modifierInputs['evernight-memoquanta'];assert.ok(!row('1141301',saved));assert.ok(row('141303',saved));
+});
+
+test('Round28 Castorice keeps caster HP and Dragon crit separate and adds the same-event exit only at the threshold',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1407',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6},{type:'MemospriteTalent',level:6}],stats:{hp:6000,atk:1300,def:2000,critRate:10,critDamage:50,damageBonus:0}});
+ const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);assert.ok(!row('1140702'));assert.ok(row('140701'));
+ for(const[k,v]of Object.entries({critRate:80,critDamage:200,damageBonus:30,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:1407:'+k]=v;
+ app.state.modifierInputs['castorice-breath-stage']=2;app.state.modifierInputs['castorice-dragon-hp-percent']=25;
+ const joint=row('140709');assert.ok(joint);near(joint.components.caster.expected,6000*.3*.36*1.05);near(joint.components.dragon.expected,6000*.5*1.3*.36*2.6);near(joint.expected,6000*.3*.36*1.05+6000*.5*1.3*.36*2.6);
+ let r=row('11407022');assert.ok(r,app.node('hsrResults').innerHTML.replace(/<[^>]*>/g,' ').slice(-1800));near(r.expected,6000*(.34+6*.4)*1.3*.36*2.6);assert.equal(Object.keys(r.components).length,2);
+ app.state.modifierInputs['castorice-dragon-hp-percent']=.001;near(row('11407022').expected,r.expected);
+ app.state.modifierInputs['castorice-dragon-hp-percent']=26;r=row('11407022');near(r.expected,6000*.34*1.3*.36*2.6);assert.equal(Object.keys(r.components).length,1);app.node('hsrStat-critDamage').value='333';near(row('11407022').expected,r.expected);
+ app.node('hsrStat-hp').value='12000';near(row('11407022').expected,2*r.expected);app.node('hsrStat-hp').handlers.input();const saved=await tool(app.storage,data);near(row('11407022',saved).expected,2*r.expected);delete saved.state.modifierInputs['castorice-breath-stage'];assert.ok(!row('11407022',saved));assert.ok(row('1140701',saved));
+});
+
+test('Round28 Cyrene blessing uses the provider Mem Skill level, final-inclusion and recipient scope in the App',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1003',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ const row=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='100301').name),base=row().expected;app.state.party[0]={characterId:'1415',level:80,eidolon:0,traceLevels:{memSkill:6}};app.state.modifierInputs['cyrene-generic-blessing-active']=true;near(row().expected,base*1.4);delete app.state.party[0].traceLevels;app.state.party[0].level=10;near(row().expected,base*1.4);
+ app.state.modifierInputs['cyrene-generic-blessing-in-final-stats']=true;app.node('hsrStat-damageBonus').value='40';near(row().expected,base*1.4);app.state.modifierInputs['cyrene-generic-blessing-in-final-stats']=false;app.node('hsrStat-damageBonus').value='0';app.state.party=[];near(row().expected,base);
+});

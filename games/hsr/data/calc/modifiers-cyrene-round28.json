@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-support-round28-dbe8cdf",
+  "description": "キュレネの祝福から、通常の味方単体与ダメージ補正として安全に扱えるE0一般対象分のみを登録。",
+  "modifiers": [
+    {
+      "id": "trace:1415:1141502:generic-blessing-damage",
+      "source": { "kind": "trace", "id": "1415", "skillId": "1141502", "traceId": "1415301" },
+      "name": "此の詩をすべての命に捧げる・一般対象の与ダメージ",
+      "description": "キュレネが選択した非黄金裔の味方に祝福を付与し、姫子またはゼーレを選択対象として攻撃時点で祝福が有効な場合に与ダメージを上げます。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": { "kind": "byLevel", "values": [20, 24, 28, 32, 36, 40] },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": ["all"],
+        "elements": [],
+        "attackIds": ["100301", "100302", "100303", "100304", "110201", "110202", "110203"]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "姫子またはゼーレがキュレネの一般対象祝福を受けている",
+        "inputKey": "cyrene-generic-blessing-active",
+        "inputLabel": "姫子・ゼーレへの一般対象祝福中",
+        "default": false
+      },
+      "stacking": { "group": "cyrene-generic-blessing-damage", "rule": "nonStacking" },
+      "calculation": { "stage": "damageBonus", "operation": "add" },
+      "inputPolicy": "conditional",
+      "support": { "status": "calculable", "verified": true, "reason": "E0精霊スキルLv1～6の一般対象ダメージ補正を、通常攻撃データが登録済みの姫子/ゼーレと有効中の祝福だけに限定。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141502.params[0..5][1]; character_skill_trees.json:1415301.max_level",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-07",
+        "notes": "一般対象の与ダメージはparams[1]の20～40%。星魂0の精霊スキル上限はtree 1415301.max_level=6。非黄金裔対象のうち登録済み攻撃を持つ姫子/ゼーレだけに制限し、特殊効果を得る黄金裔へ一般値を流用しない。",
+        "verification": "tests/hsr/hsrCyreneSupportRound28.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "cyrene-generic-blessing-in-final-stats",
+        "inputLabel": "祝福の与ダメージ上昇を最終ステータスへ反映済み"
+      }
+    }
+  ]
+}

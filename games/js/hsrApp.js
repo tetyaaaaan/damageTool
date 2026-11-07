@@ -424,7 +424,7 @@
       closeDialog($("hsrSelectionDialog")); markDirty(); return;
     }
     if (type === "party") {
-      const member = state.party[state.partySlot]; member.characterId = id; member.eidolon = 0; member.level = 10; member.atk = 0; member.critDamage = 50; member.breakEffect = NaN; member.speed = NaN; member.effectRes = NaN; member.lightConeId = ""; member.coneRank = 1; member.relicId = ""; member.relicSecondId = ""; member.relicMode = "4pc"; member.ornamentId = ""; member.source = "manual"; member.traceLevels = Object.fromEntries(partyTraceRequirements(member).map(key => [key, 10])); if (profile) applyPartyProfile(member, profile); renderPartyDialog(); renderPartySummary(); updateConditionSummary();
+      const member = state.party[state.partySlot]; member.characterId = id; member.eidolon = 0; member.level = 10; member.atk = 0; member.critDamage = 50; member.breakEffect = NaN; member.speed = NaN; member.effectRes = NaN; member.lightConeId = ""; member.coneRank = 1; member.relicId = ""; member.relicSecondId = ""; member.relicMode = "4pc"; member.ornamentId = ""; member.source = "manual"; member.traceLevels = Object.fromEntries(partyTraceRequirements(member).map(key => [key, Math.min(10,supportTraceMaximum(member,key))])); if (profile) applyPartyProfile(member, profile); renderPartyDialog(); renderPartySummary(); updateConditionSummary();
     } else if (type === "enemy") {
       applyEnemy(id);
     } else {
@@ -471,7 +471,7 @@
     if (!key) return NaN;
     if (Object.hasOwn(member.traceLevels || {}, key)) return member.traceLevels[key];
     // The shared value is a legacy manual setting, never a UID fallback.
-    return member.source === "api" ? NaN : Number(member.level);
+    return member.source === "api" ? NaN : ["memSkill","memTalent"].includes(key) ? Math.min(Number(member.level),supportTraceMaximum(member,key)) : Number(member.level);
   }
 
   function supportTraceMaximum(member, key) {
@@ -661,7 +661,7 @@
     if (!window.HsrModifierRuntime) return [];
     const brokenSwordStance = state.characterId === "1206" && state.enemy.toughnessActive === false;
     const effectiveInputs = brokenSwordStance ? {...inputs, "sushang-post-ultimate-sword-stance-hits": 2} : inputs;
-    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs);
+    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId));
     // Only infer the existing enemy condition from known positive reductions, without feeding threshold outputs back.
     const knownDefenseDown = state.enemy.defenseReduction > 0 || candidates.some(item => item.category === "defenseReduction" && item.value > 0
       && item.enabled && item.applicable !== false && !item.inputWarnings?.length
@@ -998,15 +998,15 @@
     const stats=Object.fromEntries(['atk','critRate','critDamage','damageBonus'].map(k=>[k,get(k)]));
     return {referenceCharacter:{id:'11402',level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},requiresIndependentLaftra:true,completedReferenceSnapshot:valid,damageOwnerId:'11402',referenceIssue:valid?'':'ラフトラの最終ATK・会心・雷与ダメージ・防御無視・耐性貫通を入力してください。補正なしは0です。',referenceCondition:{id:'memosprite:1402',tab:'軌跡'}};
   }
-  function round27MemospriteSnapshot(id) {
-    const cyrene=id==='1415',owner=cyrene?'11415':'11409',keys=[...(cyrene?['hp']:[]),'critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'],get=k=>state.modifierInputs['memosprite:'+id+':'+k];
-    const valid=keys.every(k=>Number.isFinite(get(k))&&(k==='hp'?get(k)>0:get(k)>=0)),stats=Object.fromEntries(keys.filter(k=>!['defenseIgnore','resistancePenetration'].includes(k)).map(k=>[k,get(k)]));
-    return {referenceCharacter:{id:owner,level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},completedReferenceSnapshot:valid,damageOwnerId:owner,referenceIssue:valid?'':(cyrene?'デミウルゴス':'イカルン')+'の独立した最終値を補正条件で入力してください。補正なしは0です。',referenceCondition:{id:'memosprite:'+id,tab:'軌跡'}};
+  function independentMemospriteSnapshot(id) {
+    const cyrene=id==='1415',owner=({'1415':'11415','1409':'11409','1413':'11413','1407':'11407'})[id],keys=[...(['1415','1413'].includes(id)?['hp']:[]),'critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'],get=k=>state.modifierInputs['memosprite:'+id+':'+k];
+    const valid=keys.every(k=>Number.isFinite(get(k))&&(k==='hp'?get(k)>0:get(k)>=0))&&(id!=='1407'||Number.isFinite(state.stats.hp)&&state.stats.hp>0),stats={...Object.fromEntries(keys.filter(k=>!['defenseIgnore','resistancePenetration'].includes(k)).map(k=>[k,get(k)])),...(id==='1407'?{hp:state.stats.hp}:{})};
+    return {referenceCharacter:{id:owner,level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},completedReferenceSnapshot:valid,damageOwnerId:owner,referenceIssue:valid?'':({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜'})[id]+'の独立した最終値を補正条件で入力してください。補正なしは0です。',referenceCondition:{id:'memosprite:'+id,tab:'軌跡'}};
   }
   function partyReferenceControls() {
-    if(['1409','1415'].includes(state.characterId)&&state.conditionTab==='軌跡'){
-      const id=state.characterId,cyrene=id==='1415',name=cyrene?'デミウルゴス':'イカルン',pairs=[...(cyrene?[['hp','精霊の最終HP']]:[]),['critRate','精霊の最終会心率（%）'],['critDamage','精霊の最終会心ダメージ（%）'],['damageBonus','精霊の最終'+(cyrene?'氷':'風')+'与ダメージ（%）'],['defenseIgnore','精霊の防御無視（%）'],['resistancePenetration','精霊の属性耐性貫通（%）']];
-      return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:'+id+'"><h5>'+name+'の独立した戦闘中の最終値</h5><p class="genshin-help">本人の値は継承しません。装備・支援・固有補正を各自の最終値へ一度含めます。'+(cyrene?'必殺の会心、天賦DMG・A6のSPD由来氷貫通も含めてください。追憶の追加は他精霊なしの味方0～3名です。特殊な祝福は未対応です。':'微笑む暗雲の会心率+100%、治癒後の天賦DMG最大3層も含めてください。累計治癒量は攻撃直前の記録値です。HPや与ダメージ結果ではありません。記録の蓄積・50%消去は自動追跡しません。')+'</p>'+pairs.map(([k,label])=>{const key='memosprite:'+id+':'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
+    if(['1409','1415','1413','1407'].includes(state.characterId)&&state.conditionTab==='軌跡'){
+      const id=state.characterId,cyrene=id==='1415',name=({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜'})[id],pairs=[...(['1415','1413'].includes(id)?[['hp','精霊の最終HP']]:[]),['critRate','精霊の最終会心率（%）'],['critDamage','精霊の最終会心ダメージ（%）'],['damageBonus','精霊の最終'+(id==='1409'?'風':id==='1407'?'量子':'氷')+'与ダメージ（%）'],['defenseIgnore','精霊の防御無視（%）'],['resistancePenetration','精霊の属性耐性貫通（%）']];
+      return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:'+id+'"><h5>'+name+'の独立した戦闘中の最終値</h5><p class="genshin-help">本人の値は継承しません。装備・支援・固有補正を各自の最終値へ一度含めます。'+(id==='1413'?'長夜の最終HPを入力します。天賦CD・精霊在場DMG・常時会心率35%・有効スキルと編成人数由来の会心DMGを含めてください。必殺は至暗の謎が事前成立した状態で、DMGと敵被ダメージも各最終入力に含めます。憶質は攻撃前の値、終結技は16のみ対応です。':id==='1407'?'HP参照は画面のキャストリス本人の最終HPです。死竜の会心・量子DMG・防御無視・貫通は独立入力します。天賦DMGと、今回の息吹発動で加わる30%を含む追加能力の有効層は、ダメージ発生時点の死竜DMGへ一度含めてください。息吹の事前段階と死竜のHP割合を指定し、25%以下の同時天賦は合計行へ一度だけ加算します。':cyrene?'必殺の会心、天賦DMG・A6のSPD由来氷貫通も含めてください。追憶の追加は他精霊なしの味方0～3名です。特殊な祝福は未対応です。':'微笑む暗雲の会心率+100%、治癒後の天賦DMG最大3層も含めてください。累計治癒量は攻撃直前の記録値です。HPや与ダメージ結果ではありません。記録の蓄積・50%消去は自動追跡しません。')+'</p>'+pairs.map(([k,label])=>{const key='memosprite:'+id+':'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
     }
     if(state.characterId==='1402'&&state.conditionTab==='軌跡')return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:1402"><h5>ラフトラの独立した戦闘中の最終値</h5><p class="genshin-help">本人と精霊のATK・会心・雷与ダメージを分けます。至高の姿の速度由来ATK・保持速度層・装備・支援は各自の最終値に一度含めてください。本人の値を精霊へ自動継承しません。敵1体・事前の糸・状態一定の単発比較です。</p>'+[['atk','ラフトラの最終ATK'],['critRate','ラフトラの最終会心率（%）'],['critDamage','ラフトラの最終会心ダメージ（%）'],['damageBonus','ラフトラの最終雷与ダメージ（%）'],['defenseIgnore','ラフトラの防御無視（%）'],['resistancePenetration','ラフトラの雷耐性貫通（%）']].map(([k,label])=>{const key='memosprite:1402:'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
 
@@ -1022,7 +1022,7 @@
     return '<section class="hsr-condition-purpose" data-hsr-condition-ids="party-reference:1202"><h5>停雲本人の攻撃後に発生する賜福対象の付加</h5><p class="genshin-help">Lv80・星魂0の賜福対象の戦闘中の最終値を入力します。賜福・他の支援・装備の効果を含めた値を使い、この付加行には攻撃者側の支援を再加算しません。停雲本人の通常とは別の1回分です。</p><label class="genshin-condition-control"><span>賜福対象</span><select data-comparison-choice="party-reference-owner:1202"><option value="">パーティから選択</option>'+state.party.filter(m=>m.characterId).map(m=>'<option value="'+m.characterId+'"'+(String(m.characterId)===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
   }
   function comparisonReferenceControls() {
-    if (["1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415"].includes(state.characterId) && state.conditionTab === "軌跡") {
+    if (["1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415","1413","1407"].includes(state.characterId) && state.conditionTab === "軌跡") {
       const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => spec.inputKey !== 'rappa-consumed-charge' && !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
       return (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
     }
@@ -1166,9 +1166,27 @@
   }
 
   function resolvedAttack(selected) {
-    if(['1140901','1141501','1141526'].includes(selected.id))return {...selected,traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:selected.type,...round27MemospriteSnapshot(selected.characterId)};
+    if(selected.id==='140709'&&selected.damageFormula==='componentSequence'){
+      const level=state.traceLevels.skill,ref=independentMemospriteSnapshot('1407'),body={...selected,id:'140709:caster',damageFormula:'statMultiplier',damageComponents:undefined,hitCount:1,hitCountLabel:'本人1ヒット',traceLevel:level,multiplier:selected.multipliers[level-1],attackType:'enhancedSkill'},dragon={...body,id:'140709:dragon',hitCountLabel:'死竜1ヒット',multiplier:selected.dragonMultipliers[level-1],requiresIndependentCastorice:true,...ref};
+      return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks:[body,dragon],referenceIssue:ref.referenceIssue,referenceCondition:ref.referenceCondition};
+    }
+
+    if(['141303','1141301','1141307'].includes(selected.id)&&selected.requiresIndependentEvernight){
+      const level=state.traceLevels[selected.traceKey],q=state.modifierInputs['evernight-memoquanta'],multiplier=selected.id==='1141301'?selected.baseCurve[level-1]+Math.floor(q/4)*selected.bonusCurve[level-1]:selected.multipliers[level-1];
+      return {...selected,traceLevel:level,multiplier,...(selected.id==='1141301'?{scalingTerms:[{stat:'hp',multiplier:selected.baseCurve[level-1]},{stat:'hp',multiplier:Math.floor(q/4)*selected.bonusCurve[level-1]}]}:{}),attackType:selected.type,...independentMemospriteSnapshot('1413')};
+    }
+    if(['1140701','1140702','1140706','1140712'].includes(selected.id)){
+      const traceKey=selected.id==='1140706'||selected.id==='1140712'?'memTalent':'memSkill',level=state.traceLevels[traceKey],n=state.modifierInputs['castorice-breath-stage'],multiplier=selected.id==='1140702'?selected.breathStageMultipliers?.[n]?.[level-1]:selected.multipliers[level-1];
+      return {...selected,traceKey,maximumTraceLevel:6,damageFormula:"statMultiplier",traceLevel:level,multiplier,attackType:selected.type,requiresIndependentCastorice:true,...independentMemospriteSnapshot('1407')};
+    }
+    if(selected.id==='11407022'){
+      const ref=independentMemospriteSnapshot('1407'),level=state.traceLevels.memSkill,sequenceAttacks=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);
+      return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks,...ref};
+    }
+
+    if(['1140901','1141501','1141526'].includes(selected.id))return {...selected,traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:selected.type,...independentMemospriteSnapshot(selected.characterId)};
     if(selected.id==='11415012'){
-      const ref=round27MemospriteSnapshot('1415'),level=state.traceLevels.memSkill,sequenceAttacks=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);
+      const ref=independentMemospriteSnapshot('1415'),level=state.traceLevels.memSkill,sequenceAttacks=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks,...ref};
     }
     if(selected.id==='1140201')return {...selected,traceKey:'memSkill',traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:'memospriteSkill',...laftraSnapshot()};
