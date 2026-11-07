@@ -193,6 +193,8 @@
 
     // Scoped to one final, non-True damage instance; no automatic result chaining.
     function supportedTrueAttack(attack) {
+        if(['1800707','1800807'].includes(attack.id))return attack.characterId===(attack.id==='1800707'?'8007':'8008')&&attack.sourceSkillId==='1800707'&&attack.damageFormula==='trueDamage'&&attack.type==='trueDamage'&&attack.target==='single'&&attack.hitCount===1;
+
         if (["1406033","1406034"].includes(attack.id)) return attack.characterId === "1406" && attack.sourceSkillId === "140603" && attack.damageFormula === "trueDamage" && attack.type === "trueDamage" && attack.target === "single" && attack.hitCount === 1;
         return attack.id === "1415021" && attack.damageFormula === "trueDamage"
             && attack.type === "trueDamage" && attack.sourceSkillId === "141502"
@@ -201,6 +203,11 @@
 
     function trueDamageInputWarnings(input = {}) {
         const values = input.trueDamage || {};
+        if(['1800707','1800807'].includes(input.attack?.id)){
+            const a=input.attack,l=a.traceLevel,ep=input.modifierInputs?.['mem-beneficiary-max-energy'],v=input.modifierInputs?.['mem-original-damage'];
+            return input.character?.level===80&&input.character?.eidolon===0&&input.enemy?.count===1&&Number.isInteger(l)&&l>=1&&l<=6&&Number.isInteger(ep)&&ep>=100&&ep<=200&&ep%10===0&&Number.isFinite(v)&&v>=0&&v<=1e12&&values.active===true&&values.sourceKind==='memSupportFinalNonTrueDamage'&&values.originalDamage===v&&a.multiplier===[18,20,22,24,26,28][l-1]+Math.min(20,(ep-100)/10*2)?[]:['応援が成立した味方の元ダメージ1回と最大EP100～200（10刻み）、精霊スキルLv1～6を指定してください。Lv80/E0・敵1体のみ対応です。'];
+        }
+
         const warnings = [];
         if (["1406033","1406034"].includes(input.attack?.id)) {
             const expected=input.attack.id==="1406033"?25:75;
@@ -227,8 +234,8 @@
         return {
             attack: { name: input.attack.name, hitCount: 1, target: "single", canCrit: false },
             nonCrit: value,
-            ...(["1406033","1406034"].includes(input.attack.id) ? {crit:value,expected:value} : {}),
-            breakdown: { damageFormula: "trueDamage", sourceKind:input.trueDamage.sourceKind, originalDamage, multiplierPercent, condition: ["1406033","1406034"].includes(input.attack.id) ? "サフェルのこの成分が参照する記録値。補正/会心を再適用しない" : "領域有効・キュレネ生存／確定ダメージを含まない元ダメージ1回分" },
+            ...(["1406033","1406034","1800707","1800807"].includes(input.attack.id) ? {crit:value,expected:value} : {}),
+            breakdown: { damageFormula: "trueDamage", sourceKind:input.trueDamage.sourceKind, originalDamage, multiplierPercent, condition: ['1800707','1800807'].includes(input.attack.id)?'応援が事前成立・元ダメージは確定分を含まない指定味方の補正後1回分': ["1406033","1406034"].includes(input.attack.id) ? "サフェルのこの成分が参照する記録値。補正/会心を再適用しない" : "領域有効・キュレネ生存／確定ダメージを含まない元ダメージ1回分" },
             applied: [],
             skipped: (input.modifiers || []).map(normalizeModifier).map((item) => ({ ...item, applicable: false, reason: "確定ダメージへ補正を再適用しません。元ダメージに含まれる補正は保持します。" }))
         };
@@ -274,6 +281,8 @@
     };
 
     function unsupportedAttackReason(attack = {}) {
+        if(['800708','800808','150805'].includes(attack.id)&&attack.damageFormula==='componentSequence'&&attack.sourceSkillId===attack.id&&attack.characterId===(attack.id==='150805'?'1508':attack.id.slice(0,4)))return '';
+
         if(attack.id==='140709'&&attack.characterId==='1407'&&attack.sourceSkillId==='140709'&&attack.type==='enhancedSkill'&&attack.element==='Quantum'&&attack.damageFormula==='componentSequence')return '';
         if(attack.id==='11407022'&&attack.characterId==='1407'&&attack.sourceSkillId==='1140702'&&attack.damageFormula==='componentSequence'&&attack.type==='memospriteSkill'&&attack.element==='Quantum')return '';
         if(attack.id==='1140901'&&attack.characterId==='1409'&&attack.sourceSkillId==='1140901'&&attack.type==='memospriteSkill'&&attack.damageFormula==='recordedHealing'&&attack.scalingStat==='healingRecord'&&attack.element==='Wind')return '';
@@ -404,6 +413,14 @@ function calculateFanning(input) {
     }
 
     function calculate(input) {
+        const round29Attack=input.attack||{};
+        if(['800703','800803','1800701','1800801','150803','150809'].includes(round29Attack.id)){
+            const a=round29Attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,memo=['800703','800803','1800701','1800801'].includes(a.id),u=['800703','800803'].includes(a.id),n=input.modifierInputs?.['rin-repeat-count'];
+            const curve=memo?(u?[120,132,144,156,168,180,195,210,225,240]:[117,140.4,163.8,187.2,210.6,234]):a.id==='150803'?[300,330,360,390,420,450,487.5,525,562.5,600]:[45,49.5,54,58.5,63,67.5,73.12,78.75,84.38,90];
+            const expected=curve[l-1]*(a.id==='150809'?1+n:1);
+            if(c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!Number.isInteger(l)||l<1||l>curve.length||a.damageFormula!=='statMultiplier'||a.scalingStat!=='atk'||a.hitCount!==1||Math.abs(a.multiplier-expected)>1e-8||!Number.isFinite(expected)||a.element!==(memo?'Ice':'Quantum')||a.type!==(memo?(u?'ultimate':'memospriteSkill'):a.id==='150803'?'ultimate':'enhancedSkill')||a.characterId!==(memo?(['800703','1800701'].includes(a.id)?'8007':'8008'):'1508')||a.sourceSkillId!==(memo?u?a.id:'1800701':a.id)||(memo&&(c.id!=='18007'||!a.completedReferenceSnapshot||a.damageOwnerId!=='18007'))||(!memo&&c.id!=='1508')||(memo&&!['defenseIgnore','resistancePenetration'].every(k=>Number.isFinite(e[k])))||(a.id!=='150809'&&a.scalingTerms?.length&&(!['1800701','1800801'].includes(a.id)||a.scalingTerms.length!==2||a.scalingTerms[0].stat!=='atk'||a.scalingTerms[1].stat!=='atk'||Math.abs(a.scalingTerms[0].multiplier-[18,21.6,25.2,28.8,32.4,36][l-1]*4)>1e-8||a.scalingTerms[1].multiplier!==[45,54,63,72,81,90][l-1]))||!['atk','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&(k==='atk'?c.stats[k]>0:c.stats[k]>=0))||(a.id==='150809'&&(!Number.isInteger(n)||n<0||n>33||a.scalingTerms?.length!==2||a.scalingTerms[0].stat!=='atk'||a.scalingTerms[1].stat!=='atk'||a.scalingTerms[0].multiplier!==curve[l-1]||a.scalingTerms[1].multiplier!==curve[l-1]*n))||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(m.category==='progressiveTakenDamage'||memo&&!['enemyAll','enemySingle'].includes(m.target?.owner))))return {supported:false,reason:'所有者別の最終ATK/会心/属性DMGを指定してください。Lv80/E0・未撃破の敵1体・状態一定、凛の追加回数0～33、精霊スキルLv1～6のみ対応です。'};
+        }
+
         if(['141303','1141301','1141307'].includes(input.attack?.id)){
             const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,q=input.modifierInputs?.['evernight-memoquanta'],ult=a.id==='141303',curve=ult?[100,110,120,130,140,150,162.5,175,187.5,200]:a.id==='1141307'?[96,115.2,134.4,153.6,172.8,192]:[25,30,35,40,45,50],expected=curve[l-1]+(a.id==='1141301'?Math.floor(q/4)*[5,6,7,8,9,10][l-1]:0);
             if(a.characterId!=='1413'||a.sourceSkillId!==a.id||a.damageFormula!=='statMultiplier'||a.scalingStat!=='hp'||a.element!=='Ice'||a.type!==(ult?'ultimate':'memospriteSkill')||a.hitCount!==1||c.id!=='11413'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!a.completedReferenceSnapshot||a.damageOwnerId!=='11413'||!Number.isInteger(l)||l<1||l>curve.length||a.multiplier!==expected||(a.scalingTerms&&(a.id!=='1141301'||a.scalingTerms.length!==2||a.scalingTerms.some(t=>t.stat!=='hp')||a.scalingTerms[0].multiplier!==curve[l-1]||a.scalingTerms[1].multiplier!==Math.floor(q/4)*[5,6,7,8,9,10][l-1]))||(!ult&&(!Number.isInteger(q)||q<0||q>16||a.id==='1141307'&&q!==16))||!['hp','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&(k==='hp'?c.stats[k]>0:c.stats[k]>=0))||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(!['enemyAll','enemySingle'].includes(m.target?.owner)||m.category==='progressiveTakenDamage')))return {supported:false,reason:'長夜の独立した最終HP/会心/氷DMG、攻撃前の憶質0～16（終結技16）を指定してください。Lv80/E0・未撃破の敵1体・状態一定のみ対応です。'};
@@ -595,6 +612,17 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(['800708','800808','150805'].includes(input.attack?.id)){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],l=a.traceLevel,rin=a.id==='150805',owner=rin?'1508':a.id.slice(0,4),partner=rin?'1015':'18007',curve=rin?[150,165,180,195,210,225,243.75,262.5,281.25,300]:[60,72,84,96,108,120];
+            const fail=()=>({supported:false,reason:'成立済み連携1回の2所有者の最終値を指定してください。Lv80/E0・未撃破の敵1体・全段で状態一定のみ対応です。'});
+            if(c.id!==owner||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||parts.length!==2||!Number.isInteger(l)||l<1||l>curve.length)return fail();
+            for(let i=0;i<2;i++){
+                const q=parts[i]?.input,b=q?.attack||{},cc=q?.character||{};
+                if(parts[i].key!==['caster','partner'][i]||b.id!==a.damageComponents?.[i]?.attackId||b.sourceSkillId!==a.id||b.characterId!==owner||b.damageFormula!=='statMultiplier'||b.type!==(rin?'followUp':'enhancedNormal')||b.element!==(rin?'Quantum':'Ice')||b.scalingStat!=='atk'||b.hitCount!==1||b.scalingTerms||b.multiplier!==curve[l-1]||b.traceLevel!==l||cc.id!==(i?partner:owner)||cc.level!==80||cc.eidolon!==0||!['atk','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(cc.stats?.[k])&&(k==='atk'?cc.stats[k]>0:cc.stats[k]>=0))||i&&(!b.completedReferenceSnapshot||b.damageOwnerId!==partner||!['defenseIgnore','resistancePenetration'].every(k=>Number.isFinite(q.enemy?.[k])))||!i&&(JSON.stringify(cc)!==JSON.stringify(c)||JSON.stringify(q.enemy)!==JSON.stringify(e))||['count','level','resistance','defenseReduction','takenDamage','toughnessActive'].some(k=>q.enemy?.[k]!==e[k])||JSON.stringify(q.modifierInputs)!==JSON.stringify(input.modifierInputs)||(q.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(m.category==='progressiveTakenDamage'||i&&!['enemyAll','enemySingle'].includes(m.target?.owner))))return fail();
+            }
+            return combineDamageComponents(a,parts,'成立済み連携1回（所有者別の最終ATK/会心/属性DMG）');
+        }
+
         if(input.attack?.id==='140709'){
             const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],l=a.traceLevel,curves=[[15,16.5,18,19.5,21,22.5,24.37,26.25,28.12,30],[25,27.5,30,32.5,35,37.5,40.62,43.75,46.88,50]];
             if(c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||parts.length!==2||!Number.isInteger(l)||l<1||l>10)return {supported:false,reason:'キャストリスの連携はLv80/E0・未撃破の敵1体・Skill Lv1～10・事前飽和天賦で状態一定のみ対応です。'};

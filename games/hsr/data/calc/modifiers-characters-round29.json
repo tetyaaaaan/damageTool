@@ -1,0 +1,471 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "characters-round29",
+  "modifiers": [
+    {
+      "id": "trace:8007:1800703:mem-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "8007",
+        "skillId": "1800703"
+      },
+      "name": "ミュリオン在場・指定味方の会心ダメージ",
+      "description": "ミュリオン在場時の味方CD支援。独立したミュリオンの最終CDを入力し、その自己算入を再帰計算しません。本人/味方の最終CDへ算入済みなら反映済みを選択。男女の同時編成・複数提供者合成は扱いません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "memosprite:8007:critDamage",
+        "inputLabel": "ミュリオンの完成済み最終会心ダメージ（%）",
+        "scaleValues": [
+          6,
+          7.2,
+          8.4,
+          9.6,
+          10.8,
+          12
+        ],
+        "addValues": [
+          12,
+          14.4,
+          16.8,
+          19.2,
+          21.6,
+          24
+        ],
+        "minimum": 0,
+        "inputMaximum": 10000,
+        "inputStep": 0.1
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "mem-8007-on-field",
+        "inputLabel": "ミュリオン在場・指定味方の会心ダメージが攻撃前から有効",
+        "conditionText": "ミュリオン在場・指定味方の会心ダメージが攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:8007:1800703:mem-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の該当成分のみ、既存Modifierで計算する状態固定の支援。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1800703",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "Lv80/E0・単発比較。自動状態遷移/未確認継承は扱わない。",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6,
+        "minimum": 0,
+        "maximum": 10000
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:8007:1800703:mem-crit-damage-in-final-stats",
+        "inputLabel": "ミュリオン在場・指定味方の会心ダメージを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:8008:1800703:mem-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "8008",
+        "skillId": "1800703"
+      },
+      "name": "ミュリオン在場・指定味方の会心ダメージ",
+      "description": "ミュリオン在場時の味方CD支援。独立したミュリオンの最終CDを入力し、その自己算入を再帰計算しません。本人/味方の最終CDへ算入済みなら反映済みを選択。男女の同時編成・複数提供者合成は扱いません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "memosprite:8008:critDamage",
+        "inputLabel": "ミュリオンの完成済み最終会心ダメージ（%）",
+        "scaleValues": [
+          6,
+          7.2,
+          8.4,
+          9.6,
+          10.8,
+          12
+        ],
+        "addValues": [
+          12,
+          14.4,
+          16.8,
+          19.2,
+          21.6,
+          24
+        ],
+        "minimum": 0,
+        "inputMaximum": 10000,
+        "inputStep": 0.1
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "mem-8008-on-field",
+        "inputLabel": "ミュリオン在場・指定味方の会心ダメージが攻撃前から有効",
+        "conditionText": "ミュリオン在場・指定味方の会心ダメージが攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:8008:1800703:mem-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の該当成分のみ、既存Modifierで計算する状態固定の支援。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1800703",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "Lv80/E0・単発比較。自動状態遷移/未確認継承は扱わない。",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6,
+        "minimum": 0,
+        "maximum": 10000
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:8008:1800703:mem-crit-damage-in-final-stats",
+        "inputLabel": "ミュリオン在場・指定味方の会心ダメージを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1508:150804:ally-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1508",
+        "skillId": "150804"
+      },
+      "name": "宝石魔術・SP消費または回復後の対象会心DMG",
+      "description": "宝石魔術・SP消費または回復後の対象会心DMG。攻撃前から成立した状態のみ指定し、最終入力への算入済み効果を再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          35,
+          38.5,
+          42,
+          45.5,
+          49,
+          52.5,
+          56.87,
+          61.25,
+          65.62,
+          70
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1508:150804:ally-crit-damage-active",
+        "inputLabel": "宝石魔術・SP消費または回復後の対象会心DMGが攻撃前から有効",
+        "conditionText": "宝石魔術・SP消費または回復後の対象会心DMGが攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1508:150804:ally-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の該当成分のみ、既存Modifierで計算する状態固定の支援。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150804",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "Lv80/E0・単発比較。自動状態遷移/未確認継承は扱わない。",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1508:150804:ally-crit-damage-in-final-stats",
+        "inputLabel": "宝石魔術・SP消費または回復後の対象会心DMGを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1508:150803:enemy-vulnerability",
+      "source": {
+        "kind": "trace",
+        "id": "1508",
+        "skillId": "150803"
+      },
+      "name": "凛必殺・事前成立した敵の被ダメージ",
+      "description": "凛必殺・事前成立した敵の被ダメージ。攻撃前から成立した状態のみ指定し、最終入力への算入済み効果を再加算しません。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16.25,
+          17.5,
+          18.75,
+          20
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1508:150803:enemy-vulnerability-active",
+        "inputLabel": "凛必殺・事前成立した敵の被ダメージが攻撃前から有効",
+        "conditionText": "凛必殺・事前成立した敵の被ダメージが攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1508:150803:enemy-vulnerability",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "takenDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の該当成分のみ、既存Modifierで計算する状態固定の支援。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150803",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "Lv80/E0・単発比較。自動状態遷移/未確認継承は扱わない。",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1508:150803:enemy-vulnerability-in-final-stats",
+        "inputLabel": "凛必殺・事前成立した敵の被ダメージを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1415:1141520:cipher-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141520"
+      },
+      "name": "詭術の祝福・サフェルの与ダメージ",
+      "description": "詭術の祝福・サフェルの与ダメージ。攻撃前から成立した状態のみ指定し、最終入力への算入済み効果を再加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          18,
+          21.6,
+          25.2,
+          28.8,
+          32.4,
+          36
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "140601",
+          "140602",
+          "1406031",
+          "1406032",
+          "140604"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1415:1141520:cipher-damage-active",
+        "inputLabel": "詭術の祝福・サフェルの与ダメージが攻撃前から有効",
+        "conditionText": "詭術の祝福・サフェルの与ダメージが攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141520:cipher-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の該当成分のみ、既存Modifierで計算する状態固定の支援。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141520",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "Lv80/E0・単発比較。自動状態遷移/未確認継承は扱わない。",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141520:cipher-damage-in-final-stats",
+        "inputLabel": "詭術の祝福・サフェルの与ダメージを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1415:1141515:tribbie-defense-ignore",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141515"
+      },
+      "name": "門の祝福・トリビーの防御無視",
+      "description": "門の祝福・トリビーの防御無視。攻撃前から成立した状態のみ指定し、最終入力への算入済み効果を再加算しません。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          6,
+          7.2,
+          8.4,
+          9.6,
+          10.8,
+          12
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "140301",
+          "140303",
+          "1403031",
+          "140304"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1415:1141515:tribbie-defense-ignore-active",
+        "inputLabel": "門の祝福・トリビーの防御無視が攻撃前から有効",
+        "conditionText": "門の祝福・トリビーの防御無視が攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141515:tribbie-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の該当成分のみ、既存Modifierで計算する状態固定の支援。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141515",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "Lv80/E0・単発比較。自動状態遷移/未確認継承は扱わない。",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141515:tribbie-defense-ignore-in-final-stats",
+        "inputLabel": "門の祝福・トリビーの防御無視を最終値へ反映済み"
+      }
+    }
+  ]
+}

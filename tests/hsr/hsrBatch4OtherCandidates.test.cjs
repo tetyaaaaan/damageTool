@@ -127,7 +127,7 @@ test("batch4 Remembrance owner boundaries withhold Mem-only Ultimate and two-own
         const attack = attackOf(data, id);
         assert.equal(attack.characterId, "8008");
         assert.equal(attack.sourceSkillId, id);
-        assert.equal(attack.support.status, "displayOnly", id + " requires an independently entered Mem ATK snapshot");
+        assert.equal(attack.support.status, "calculable", id + " now requires the independently entered Mem snapshot rather than substituting Trailblazer ATK");
         assert.match(attack.support.reason, /Mem|ミュリオン|精霊/, id + " explains the missing owner");
         for (let level = 1; level <= source.mem.length; level++) {
             // Generated coefficients may remain as display data; they are not

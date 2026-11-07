@@ -4319,3 +4319,30 @@ test('Round28 Cyrene blessing uses the provider Mem Skill level, final-inclusion
  const row=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='100301').name),base=row().expected;app.state.party[0]={characterId:'1415',level:80,eidolon:0,traceLevels:{memSkill:6}};app.state.modifierInputs['cyrene-generic-blessing-active']=true;near(row().expected,base*1.4);delete app.state.party[0].traceLevels;app.state.party[0].level=10;near(row().expected,base*1.4);
  app.state.modifierInputs['cyrene-generic-blessing-in-final-stats']=true;app.node('hsrStat-damageBonus').value='40';near(row().expected,base*1.4);app.state.modifierInputs['cyrene-generic-blessing-in-final-stats']=false;app.node('hsrStat-damageBonus').value='0';app.state.party=[];near(row().expected,base);
 });
+
+test('Round29 Trailblazers keep Mem independent, resolve joint/True values locally, and restore saved inputs',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const ch of ['8007','8008']){
+  const app=await tool(undefined,data);app.window.HsrTool.applyProfileCharacter({id:ch,level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6},{type:'MemospriteTalent',level:6}],stats:{atk:3000,hp:6000,def:2000,critRate:10,critDamage:50,damageBonus:0}});
+  assert.equal(app.node('hsrMemSkillTraceField').hidden,false);assert.equal(app.node('hsrMemTalentTraceField').hidden,false);const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);assert.ok(row(ch+'01'));assert.ok(!row(ch+'03'));
+  for(const[k,v]of Object.entries({atk:5000,critRate:80,critDamage:200,damageBonus:30,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:'+ch+':'+k]=v;
+  near(row(ch+'03').expected,5000*2.4*1.3*.36*2.6);const joint=row(ch+'08');assert.ok(joint,app.node('hsrResults').innerHTML.slice(-800));near(joint.expected,3000*1.2*.36*1.05+5000*1.2*1.3*.36*2.6);assert.equal(Object.keys(joint.components).length,2);
+  const memo=ch==='8007'?'1800701':'1800801';near(row(memo).expected,5000*2.34*1.3*.36*2.6);const ownBefore=row(ch+'01').expected;app.state.modifierInputs['mem-'+ch+'-on-field']=true;near(row(ch+'01').expected,ownBefore/1.05*1.098);near(row(memo).expected,5000*2.34*1.3*.36*2.6);app.state.modifierInputs['trace:'+ch+':1800703:mem-crit-damage-in-final-stats']=true;near(row(ch+'01').expected,ownBefore);
+  const tr=ch==='8007'?'1800707':'1800807';assert.ok(!row(tr));app.state.modifierInputs['mem-original-damage']=10000;app.state.modifierInputs['mem-beneficiary-max-energy']=160;near(row(tr).expected,4000);
+  app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,new RegExp('memosprite:'+ch+':atk'));assert.equal((app.node('hsrConditionList').innerHTML.match(new RegExp('data-structured-input="memosprite:'+ch+':critDamage"','g'))||[]).length,1);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row(ch+'03',saved).expected,row(ch+'03').expected);delete saved.state.modifierInputs['memosprite:'+ch+':atk'];assert.ok(!row(ch+'03',saved));assert.ok(row(ch+'01',saved));near(row(tr,saved).expected,4000);
+ }
+});
+
+test('Round29 Rin repeats and Archer joint use existing inputs, provider removal and save restoration',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1508',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:10,critDamage:50,damageBonus:0}});
+ const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);assert.ok(row('150803'));assert.ok(!row('150809'));assert.ok(!row('150805'));
+ app.state.modifierInputs['rin-repeat-count']=5;near(row('150809').expected,3000*.9*6*.36*1.05);app.state.party[0]={characterId:'1015',level:10,eidolon:0};for(const[k,v]of Object.entries({atk:5000,critRate:80,critDamage:200,damageBonus:30,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:1508:'+k]=v;
+ const joint=row('150805');assert.ok(joint,app.node('hsrResults').innerHTML.slice(-1000));near(joint.expected,3000*3*.36*1.05+5000*3*1.3*.36*2.6);assert.equal(Object.keys(joint.components).length,2);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row('150805',saved).expected,joint.expected);saved.state.party=[];assert.ok(!row('150805',saved));assert.ok(row('150803',saved));near(row('150809',saved).expected,3000*.9*6*.36*1.05);
+});
+
+test('Round29 Cyrene special components use the party Mem Skill level and fixed recipients in the App',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1403',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:10,critDamage:50,damageBonus:0}});
+ const row=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='140301').name),base=row().expected;app.state.party[0]={characterId:'1415',level:10,eidolon:0,traceLevels:{memSkill:6}};app.state.modifierInputs['trace:1415:1141515:tribbie-defense-ignore-active']=true;near(row().expected,base*2/1.88);app.state.party[0].traceLevels.memSkill=1;near(row().expected,base*2/1.94);app.state.modifierInputs['trace:1415:1141515:tribbie-defense-ignore-in-final-stats']=true;near(row().expected,base);app.state.party=[];near(row().expected,base);
+});

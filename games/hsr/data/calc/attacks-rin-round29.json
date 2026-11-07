@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "rin-round29-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "凛の必殺直撃、回数指定の強化スキル、アーチャー別参照の連携追撃を敵1体・状態一定で検証。"
+  },
+  "overrides": [
+    {
+      "id": "150803",
+      "characterId": "1508",
+      "sourceSkillId": "150803",
+      "name": "山脈震撼す明星の薪（主対象・敵1体）",
+      "element": "Quantum",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "指定した主対象への必殺技直撃1回",
+      "canCrit": true,
+      "multipliers": [
+        300,
+        330,
+        360,
+        390,
+        420,
+        450,
+        487.5,
+        525,
+        562.5,
+        600
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "conditionText": "Lv80/E0・必殺技Lv1～10・敵1体。指定した主対象への直撃のみを計算します。",
+      "calculationScope": "e0-final-snapshot-single-enemy",
+      "calculationNote": "固定版150803.params[0]のE0必殺技Lv1～10を使用。敵全体への副対象倍率、敵被ダメージ増加の継続状態、SP回復をこの直撃値に合算しません。攻撃時点の遠坂凛の最終ATK・会心・量子DMG・敵補正を既存式で評価します。 Lv80/E0・未撃破の敵1体・全段で補正一定。天賦CD・A2 ATK/量子貫通は本人最終値へ一度含め、必殺の被ダメージ上昇は事前成立分のみ敵入力へ含めます。初回付与順は再現しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の主対象ATK倍率をE0採用Lv1～10で照合し、敵1体の主対象直撃を独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150803.params; character_skill_trees.json:1508003",
+        "verifiedAt": "2026-11-08",
+        "scope": "Lv80/E0・必殺技Lv1～10・敵1体・指定した主対象への直撃のみ。",
+        "verification": "tests/hsr/hsrRinRound29.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    },
+    {
+      "id": "150809",
+      "characterId": "1508",
+      "sourceSkillId": "150809",
+      "name": "第二魔法の実験（敵1体・反復回数指定）",
+      "element": "Quantum",
+      "type": "enhancedSkill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        45.0,
+        49.5,
+        54.0,
+        58.5,
+        63.0,
+        67.5,
+        73.12,
+        78.75,
+        84.38,
+        90.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版倍率・所有者別の最終値による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150809.params; character_skill_trees.json:1508002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "rin-repeat-count",
+          "label": "第二魔法の実験の単体追加攻撃回数",
+          "minimum": 0,
+          "maximum": 33,
+          "integer": true
+        }
+      ],
+      "calculationNote": "敵1体が全段で存命し補正一定。初撃1回＋明示した追加0～33回。宝石/SPの獲得・消費・敵死亡は自動追跡しません。A2 ATK/貫通と天賦CDは本人最終値へ一度含めます。表示用の発動チェックは不要です。",
+      "calculationScope": "e0-final-snapshot-single-enemy"
+    },
+    {
+      "id": "150805",
+      "characterId": "1508",
+      "sourceSkillId": "150805",
+      "name": "自在遠坂流（凛＋アーチャー・成立済み連携）",
+      "element": "Quantum",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        150.0,
+        165.0,
+        180.0,
+        195.0,
+        210.0,
+        225.0,
+        243.75,
+        262.5,
+        281.25,
+        300
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版倍率・所有者別の最終値による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150805.params; character_skill_trees.json:1508004",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "damageComponents": [
+        {
+          "key": "caster",
+          "attackId": "150805:rin",
+          "name": "遠坂凛の量子追撃"
+        },
+        {
+          "key": "partner",
+          "attackId": "150805:archer",
+          "name": "アーチャーの量子追撃"
+        }
+      ],
+      "calculationNote": "アーチャーを編成した成立済み連携1回。偽・螺旋剣後、SP3以下または今回の回路接続中5回使用・連携未消費を想定。2者の最終ATK/会心/量子DMG・防御無視/貫通を分離。A2・天賦CD等を各最終値に一度含めます。発生元の戦闘スキルをこの合計へ加算せず、行動回数/SP/宝石の更新は行いません。",
+      "calculationScope": "e0-final-snapshot-single-enemy"
+    }
+  ]
+}

@@ -1,0 +1,425 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "trailblazer-round29",
+  "overrides": [
+    {
+      "id": "800703",
+      "characterId": "8007",
+      "sourceSkillId": "800703",
+      "name": "やっちゃえミュリオン！（ミュリオンの独立ATK）",
+      "element": "Ice",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        120.0,
+        132.0,
+        144.0,
+        156.0,
+        168.0,
+        180.0,
+        195.0,
+        210.0,
+        225.0,
+        240.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "ミュリオンと本人の独立した最終値・固定版倍率による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800703.params; character_skill_trees.json:8007003",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "requiresIndependentTrailblazerMemo": true,
+      "calculationNote": "必殺技によってミュリオンが与える氷ダメージ1回。本人ATKを流用しません。ミュリオンの攻撃時点の最終値には天賦CD・装備・支援を一度含めます。未確認の必殺専用補正の継承、初回召喚/チャージ/応援の更新は扱いません。",
+      "calculationScope": "e0-final-snapshot-single-enemy"
+    },
+    {
+      "id": "1800701",
+      "characterId": "8007",
+      "sourceSkillId": "1800701",
+      "name": "厄介な悪者さん！（敵1体・4段＋全体1段）",
+      "element": "Ice",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        117.0,
+        140.4,
+        163.8,
+        187.2,
+        210.6,
+        234.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "ミュリオンと本人の独立した最終値・固定版倍率による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1800701.params; character_skill_trees.json:8007301",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "requiresIndependentTrailblazerMemo": true,
+      "calculationNote": "チャージ100%未満で発動する精霊スキルを想定。未撃破の敵1体に4回のランダム単体と最後の全体1回がすべて命中し、全段で最終値一定。異なる倍率を合算した117～234%で通常式を使用。敵複数体・途中チャージ更新・対象配分は対象外。",
+      "calculationScope": "e0-final-snapshot-single-enemy",
+      "hitCountLabel": "ランダム単体4回＋最後の全体1回（同じ敵1体）"
+    },
+    {
+      "id": "800708",
+      "characterId": "8007",
+      "sourceSkillId": "800708",
+      "name": "明日を一緒に紡ごう！（本人＋ミュリオン）",
+      "element": "Ice",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        60.0,
+        72.0,
+        84.0,
+        96.0,
+        108.0,
+        120.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "ミュリオンと本人の独立した最終値・固定版倍率による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800708.params; character_skill_trees.json:8007001",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "damageComponents": [
+        {
+          "key": "caster",
+          "attackId": "800708:caster",
+          "name": "開拓者の氷通常"
+        },
+        {
+          "key": "partner",
+          "attackId": "800708:memo",
+          "name": "ミュリオンの氷通常"
+        }
+      ],
+      "calculationNote": "叙事詩1層以上・ミュリオン在場の強化通常1回を想定。本人と精霊のATK/会心/氷DMG・防御無視/貫通を分離して2成分合算。天賦のCD支援を各最終値へ一度含め、叙事詩消費/チャージ獲得・一般継承は自動再現しません。E0通常Lv1～6。",
+      "calculationScope": "e0-final-snapshot-single-enemy"
+    },
+    {
+      "id": "1800707",
+      "characterId": "8007",
+      "sourceSkillId": "1800707",
+      "name": "あたしが助ける！（応援の追加確定1回）",
+      "element": "Ice",
+      "type": "trueDamage",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "finalNonTrueDamage",
+      "damageFormula": "trueDamage",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        18.0,
+        20.0,
+        22.0,
+        24.0,
+        26.0,
+        28.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "ミュリオンと本人の独立した最終値・固定版倍率による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1800707.params; character_skill_trees.json:8007301 / 8007103",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "mem-original-damage",
+          "label": "応援を持つ味方の元ダメージ1回（確定分を除く補正後値）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        },
+        {
+          "inputKey": "mem-beneficiary-max-energy",
+          "label": "応援対象の最大EP（100～200・10刻み）",
+          "minimum": 100,
+          "maximum": 200,
+          "integer": true
+        }
+      ],
+      "calculationNote": "応援がすでに有効な指定味方の補正後ダメージ1回から追加確定値を計算。元ダメージを合計へ再加算せず、会心/防御/耐性/バフも再適用しません。追加能力A6は最大EP100～200の10刻みに限定し、100超過10ごとに2ポイント（最大20）加算。最大EPがないキャラや連鎖・複数提供者は対象外。",
+      "calculationScope": "e0-final-snapshot-single-enemy"
+    },
+    {
+      "id": "800803",
+      "characterId": "8008",
+      "sourceSkillId": "800803",
+      "name": "やっちゃえミュリオン！（ミュリオンの独立ATK）",
+      "element": "Ice",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        120.0,
+        132.0,
+        144.0,
+        156.0,
+        168.0,
+        180.0,
+        195.0,
+        210.0,
+        225.0,
+        240.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "ミュリオンと本人の独立した最終値・固定版倍率による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800803.params; character_skill_trees.json:8008003",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "requiresIndependentTrailblazerMemo": true,
+      "calculationNote": "必殺技によってミュリオンが与える氷ダメージ1回。本人ATKを流用しません。ミュリオンの攻撃時点の最終値には天賦CD・装備・支援を一度含めます。未確認の必殺専用補正の継承、初回召喚/チャージ/応援の更新は扱いません。",
+      "calculationScope": "e0-final-snapshot-single-enemy"
+    },
+    {
+      "id": "1800801",
+      "characterId": "8008",
+      "sourceSkillId": "1800701",
+      "name": "厄介な悪者さん！（敵1体・4段＋全体1段）",
+      "element": "Ice",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        117.0,
+        140.4,
+        163.8,
+        187.2,
+        210.6,
+        234.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "ミュリオンと本人の独立した最終値・固定版倍率による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1800701.params; character_skill_trees.json:8008301",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "requiresIndependentTrailblazerMemo": true,
+      "calculationNote": "チャージ100%未満で発動する精霊スキルを想定。未撃破の敵1体に4回のランダム単体と最後の全体1回がすべて命中し、全段で最終値一定。異なる倍率を合算した117～234%で通常式を使用。敵複数体・途中チャージ更新・対象配分は対象外。",
+      "calculationScope": "e0-final-snapshot-single-enemy",
+      "hitCountLabel": "ランダム単体4回＋最後の全体1回（同じ敵1体）"
+    },
+    {
+      "id": "800808",
+      "characterId": "8008",
+      "sourceSkillId": "800808",
+      "name": "明日を一緒に紡ごう！（本人＋ミュリオン）",
+      "element": "Ice",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        60.0,
+        72.0,
+        84.0,
+        96.0,
+        108.0,
+        120.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "ミュリオンと本人の独立した最終値・固定版倍率による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800808.params; character_skill_trees.json:8008001",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "damageComponents": [
+        {
+          "key": "caster",
+          "attackId": "800808:caster",
+          "name": "開拓者の氷通常"
+        },
+        {
+          "key": "partner",
+          "attackId": "800808:memo",
+          "name": "ミュリオンの氷通常"
+        }
+      ],
+      "calculationNote": "叙事詩1層以上・ミュリオン在場の強化通常1回を想定。本人と精霊のATK/会心/氷DMG・防御無視/貫通を分離して2成分合算。天賦のCD支援を各最終値へ一度含め、叙事詩消費/チャージ獲得・一般継承は自動再現しません。E0通常Lv1～6。",
+      "calculationScope": "e0-final-snapshot-single-enemy"
+    },
+    {
+      "id": "1800807",
+      "characterId": "8008",
+      "sourceSkillId": "1800707",
+      "name": "あたしが助ける！（応援の追加確定1回）",
+      "element": "Ice",
+      "type": "trueDamage",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "finalNonTrueDamage",
+      "damageFormula": "trueDamage",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        18.0,
+        20.0,
+        22.0,
+        24.0,
+        26.0,
+        28.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "ミュリオンと本人の独立した最終値・固定版倍率による敵1体の状態固定計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1800707.params; character_skill_trees.json:8008301 / 8008103",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrRound29Owners.test.cjs"
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "mem-original-damage",
+          "label": "応援を持つ味方の元ダメージ1回（確定分を除く補正後値）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        },
+        {
+          "inputKey": "mem-beneficiary-max-energy",
+          "label": "応援対象の最大EP（100～200・10刻み）",
+          "minimum": 100,
+          "maximum": 200,
+          "integer": true
+        }
+      ],
+      "calculationNote": "応援がすでに有効な指定味方の補正後ダメージ1回から追加確定値を計算。元ダメージを合計へ再加算せず、会心/防御/耐性/バフも再適用しません。追加能力A6は最大EP100～200の10刻みに限定し、100超過10ごとに2ポイント（最大20）加算。最大EPがないキャラや連鎖・複数提供者は対象外。",
+      "calculationScope": "e0-final-snapshot-single-enemy"
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "所有者別最終値の独立検証済み状態固定計算。"
+  }
+}
