@@ -112,6 +112,7 @@
 
     function supportedElationAttack(attack) {
         if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
+        if(attack.id==='150621'&&attack.characterId==='1506'&&attack.sourceSkillId==='150621'&&attack.element==='Imaginary'&&attack.elationContext==='ahaInstant'&&attack.target==='single'&&attack.hitCount===6&&attack.secretScoreSnapshot===240)return true;
         if(attack.characterId==='1501'&&attack.element==='Fire'&&attack.sourceSkillId===(attack.id==='150120'?'150120':'150104'))return (['1501041','1501042'].includes(attack.id)&&attack.elationContext==='certifiedBanger'&&attack.hitCount===1&&attack.target==='single')||(attack.id==='150120'&&attack.elationContext==='ahaInstant'&&attack.hitCount===21&&attack.target==='single');
         return (["1505041","1505042","1505043"].includes(attack.id) && attack.characterId==='1505' && attack.sourceSkillId==='150504' && attack.elationContext==='certifiedBanger' && attack.hitCount===(attack.id==='1505042'?10:1) && attack.target==='aoe' && attack.requiresFinalCritDamageConversion===true && attack.minimumCertifiedBanger===(attack.id==='1505042'?480:undefined)) || (["1513041","1513042"].includes(attack.id) && attack.characterId==='1513' && attack.sourceSkillId==='151304' && attack.elationContext==='certifiedBanger' && attack.hitCount===1 && attack.target==='aoe') || (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
             || (attack.id === "150220" && attack.elationContext === "firstAhaInstant" && attack.target === "single" && attack.hitCount === 6)
@@ -132,6 +133,10 @@
         const stats = character.stats || {};
         const values = input.elation || {};
         const warnings = [];
+        if(input.attack?.id==='150621'){
+            const a=input.attack,curve=[270,297,324,351,378,405,438.72,472.5,506.28,540];
+            if(input.enemy?.count!==1||input.enemy?.toughnessActive!==true||values.context!=='ahaInstant'||a.secretScoreSnapshot!==240||a.multiplier!==curve[a.traceLevel-1])warnings.push('銀狼LV.999は事前無敵/スコア240・未撃破の敵1体・状態一定の6段のみ対応です。');
+        }
         if (!ELATION_LEVEL_BASE[character.level] || (character.eidolon ?? 0) !== 0) warnings.push("この愉悦攻撃はLv80・星魂0のみ計算対応です。");
         if(input.attack?.id==='150120'){
             const a=input.attack,parts=elationComponents(a),per=[12.5,13.75,15,16.25,17.5,18.75,20.31,21.88,23.44,25],aoe=[25,27.5,30,32.5,35,37.5,40.62,43.75,46.88,50],i=a.traceLevel-1;
@@ -273,6 +278,7 @@
         if (attack.id === "131508" && attack.damageFormula === "normalAndBreak" && attack.type === "enhancedNormal") return "";
         if (attack.damageFormula === "componentSequence") {
             const components = attack.damageComponents;
+            if (["1402012","140208"].includes(attack.id) && attack.characterId === "1402" && attack.sourceSkillId === (attack.id === "140208" ? "140208" : "140201") && attack.element === "Thunder") return "";
             const elemental = elementalSequences[attack.id];
             const validElementalDefinition = elemental && attack.characterId === elemental.owner && attack.sourceSkillId === elemental.body
                 && attack.type === elemental.type && attack.element === elemental.element && components?.length === 2
@@ -397,6 +403,10 @@ function calculateFanning(input) {
         const attack = input?.attack || {};
         const unsupportedReason = unsupportedAttackReason(attack);
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
+        if (attack.characterId === '1402') {
+            if((input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.includedInFinalStats!==true&&(['statFlat','statPercent'].includes(m.category)&&m.stat==='speed'||m.category==='progressiveTakenDamage')))return {supported:false,reason:'アグライアの比較は速度由来ATKまで完成した最終値・段間状態一定で入力してください。'};
+            if(attack.requiresIndependentLaftra && (!attack.completedReferenceSnapshot||attack.damageOwnerId!=='11402'||character.id!=='11402'||!['atk','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(character.stats?.[k])&&(k==='atk'?character.stats[k]>0:character.stats[k]>=0))||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&!['enemyAll','enemySingle'].includes(m.target?.owner))))return {supported:false,reason:'ラフトラの独立した最終ATK/会心/雷与ダメージを入力し、本人の支援を再加算しないでください。'};
+        }
         if (attack.id === "150402" && attack.enforceSnapshotContract && (input.modifiers || []).some(m=>m.category==="progressiveTakenDamage"&&m.enabled!==false&&m.applicable!==false&&modifierAppliesToAttack(m,attack))) return {supported:false,reason:"餌食の本体＋追加成分は状態一定の比較です。段間で更新する被ダメージ補正は扱いません。"};
         if (attack.id === "1014032" && (input.modifiers || []).some(m => m.category === "progressiveTakenDamage" && m.enabled !== false && m.applicable !== false && modifierAppliesToAttack(m, attack))) return {supported:false,reason:"この必殺合計は全11段で補正が一定の状態です。段間で更新する被ダメージ補正は合算できません。"};
         if (attack.id === "1206031" && attack.requiresValidHitCount && attack.hitCount > 1 && input.modifierInputs?.["sushang-sword-stance-stacks"] !== 10) return {supported:false,reason:"複数の追加剣勢は逐寇が事前10層で飽和した状態のみ計算対応です。"};
@@ -556,6 +566,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if (["1402012","140208"].includes(input.attack?.id)) return calculateAglaeaSnapshot(input);
         if (input.attack?.id === "150403") return calculateFudieUltimateSnapshot(input);
         if (input.attack?.id === "150905") return calculateGilgameshJoint(input);
         if (bangerActionSequences[input.attack?.id]) return calculateBangerActionSnapshot(input);
@@ -635,6 +646,20 @@ function calculateFanning(input) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
         return combineDamageComponents(attack, components, welt ? "本体＋審判/天賦付加の合計（事前無重力・懲戒10層）" : elemental ? "本体＋事前DoT状態への天賦付加1回の合計" : yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+    }
+
+    // The joint action has two owners; both use completed, explicitly separate stat snapshots.
+    function calculateAglaeaSnapshot(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],joint=a.id==='140208',level=a.traceLevel,fail=reason=>({supported:false,reason});
+        if(a.characterId!=='1402'||a.element!=='Thunder'||a.preexistingSilkStitch!==true||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!Number.isInteger(level)||level<1||level>6||parts.length!==(joint?3:2))return fail('この合計はLv80/E0・未撃破の敵1体・事前の隙を縫う糸・本人/精霊の状態一定のみ対応です。');
+        const specs=joint?[['aglaea','140208:aglaea','enhancedNormal'],['laftra','140208:laftra','enhancedNormal'],['silkTalent','140204','additional']]:[['aglaea','140201','normal'],['silkTalent','140204','additional']];
+        for(let i=0;i<parts.length;i++){
+            const q=parts[i]?.input||{},b=q.attack||{},talent=specs[i][0]==='silkTalent',memo=specs[i][0]==='laftra',curve=talent?[12,13.8,15.6,17.4,19.2,21,23.25,25.5,27.75,30]:joint?[100,120,140,160,180,200]:[50,60,70,80,90,100];
+            if(parts[i].key!==specs[i][0]||b.id!==specs[i][1]||b.characterId!=='1402'||b.sourceSkillId!==(talent?'140204':joint?'140208':'140201')||b.type!==specs[i][2]||b.element!=='Thunder'||b.damageFormula!=='statMultiplier'||b.hitCount!==1||!Number.isInteger(b.traceLevel)||b.traceLevel<1||b.traceLevel>curve.length||(!talent&&b.traceLevel!==level)||b.multiplier!==curve[b.traceLevel-1]||JSON.stringify(q.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail('アグライア/ラフトラ/天賦の所有者別成分と独立Lvを確認してください。');
+            if(!memo&&(JSON.stringify(q.character)!==JSON.stringify(c)||JSON.stringify(q.enemy)!==JSON.stringify(e)))return fail('本人と天賦はアグライアの同じ最終値を参照してください。');
+            if(memo&&(!b.requiresIndependentLaftra||!b.completedReferenceSnapshot||b.damageOwnerId!=='11402'||q.character?.id!=='11402'||q.character.level!==80||q.character.eidolon!==0||['level','count','resistance','defenseReduction','takenDamage','toughnessActive'].some(k=>q.enemy?.[k]!==e[k])))return fail('ラフトラの完成済み最終値と同じ敵条件を指定してください。');
+        }
+        return combineDamageComponents(a,parts,joint?'本人＋ラフトラ＋事前の糸の天賦1回':'本人通常＋事前の糸の天賦1回');
     }
 
     function calculateFudieUltimateSnapshot(input) {
@@ -1035,6 +1060,7 @@ function calculateFanning(input) {
             && (input.modifiers || []).some(m => m.enabled !== false && m.applicable !== false && m.includedInFinalStats !== true && ["statPercent","statFlat"].includes(m.category) && m.stat === "atk")) {
             return {supported:false,reason:"愉悦度へのATK変換は最終入力へ算入してください。この愉悦結果ではATK支援からの再変換を扱いません。"};
         }
+        if(attack.id==='150621'&&(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.includedInFinalStats!==true&&(m.category==='progressiveTakenDamage'||['critRate','critRateOverride'].includes(m.category)||['statFlat','statPercent'].includes(m.category)&&m.stat==='speed')))return {supported:false,reason:'スコア由来会心とSPD由来愉悦を完成済み最終値に反映してください。この6段は途中補正更新を扱いません。'};
         if (attack.id === "150220") modifiers.push(normalizeModifier({
             id: "yaoguang-woes-whisper", name: "爻光・被ダメージ増加（攻撃前に付与）", source: "愉悦スキル150220",
             category: "takenDamage", value: attack.intrinsicTakenDamage, conditionText: "初回の通常アッハタイム・敵1体",

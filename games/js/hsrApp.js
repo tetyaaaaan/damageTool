@@ -175,7 +175,7 @@
     $("hsrElationInputHelp").hidden = char?.path !== "Elation";
     $("hsrTrueDamageSettings").hidden = char?.id !== "1415";
     $("hsrSongbirdSettings").hidden = char?.id !== "1512";
-    $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010", "1501"].includes(char?.id);
+    $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010", "1501", "1506"].includes(char?.id);
     $("hsrElationContextField").hidden = char?.id !== "1502";
     $("hsrElationScope").textContent = char?.id === "1502" ? "爻光Lv80・星魂0・敵1体、初回の通常アッハタイムの全6ヒットです。" : "緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。";
     $("hsrPunchlineField").hidden = false;
@@ -188,6 +188,10 @@
     if (["8009","8010"].includes(char?.id)) {
       $("hsrElationScope").textContent="愉悦開拓者Lv80・星魂0・未撃破の敵1体。通常アッハタイムの8段＋最後撃と、本人が味方最大の褒美を持つスキル追加を別に比較します。";
       $("hsrPunchlineHelp").textContent="この爆笑ネタはアッハタイムだけに使用。スキル追加は補正条件の本人の爆笑の褒美を参照します。A2のATK由来愉悦度とA4会心率を最終値へ1回含めてください。ATK支援を追加計算する場合、この愉悦結果は再換算せず除外します。上笑なしは0。";
+    }
+    if(char?.id==='1506'){
+      $('hsrElationScope').textContent='銀狼LV.999・Lv80/E0・事前無敵プレイヤー/スコア240・未撃破の敵1体への愉悦6段。';
+      $('hsrPunchlineHelp').textContent='現在の爆笑ネタを使用。スコア由来会心とSPD由来愉悦は最終値へ一度含めてください。スコア240上限の比較で、SSS供給箱・強化通常の合計や資源更新は含みません。';
     }
     if(char?.id==='1501'){
       $("hsrElationScope").textContent='火花Lv80/E0・未撃破の敵1体。通常アッハタイム21段と、本人CBによる強化通常/必殺の追加愉悦を別に比較します。';
@@ -273,7 +277,7 @@
   function attackStateIssues(attack, issue) {
     if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
-    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "150403" ? 2+Math.floor(state.modifierInputs["fudie-gluttony-stacks"]/4) : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : attack.id === "140208" ? 3 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "150403" ? 2+Math.floor(state.modifierInputs["fudie-gluttony-stacks"]/4) : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (["1224011","1224081"].includes(attack.id)) {
       if(!['Erudition','Destruction','Hunt','Remembrance','Elation'].includes(attack.shifuPath) || !Object.keys(ELEMENT_KEYS).includes(attack.shifuElement)) issue('攻撃型師匠の運命と属性を補正条件で指定してください。従来の支援型師匠の比較はそのまま計算できます。','hsrConditionDialogOpen');
       if(attack.shifuElement && attack.shifuElement!=='Imaginary') for(const [key,label] of [['element-damage:1224:'+attack.shifuElement,'なのかの師匠属性与ダメージ'],['enemy-resistance:'+attack.shifuElement,'敵の師匠属性耐性']]) if(!Number.isFinite(state.modifierInputs[key])) issue(label+'を入力してください。補正なしは0です。','hsrConditionDialogOpen');
@@ -988,7 +992,15 @@
       return [id,{characterId:id,element:find('characters',id)?.element,level:80,eidolon:m.eidolon,stats:{atk:get('atk'),critRate:get('critRate'),critDamage:get('critDamage')},damageBonuses:{Thunder:get('Thunder'),Wind:get('Wind')},defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')}];
     }));
   }
+  function laftraSnapshot() {
+    const get=k=>state.modifierInputs['memosprite:1402:'+k],keys=['atk','critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'];
+    const valid=keys.every(k=>Number.isFinite(get(k))&&(k==='atk'?get(k)>0:get(k)>=0));
+    const stats=Object.fromEntries(['atk','critRate','critDamage','damageBonus'].map(k=>[k,get(k)]));
+    return {referenceCharacter:{id:'11402',level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},requiresIndependentLaftra:true,completedReferenceSnapshot:valid,damageOwnerId:'11402',referenceIssue:valid?'':'ラフトラの最終ATK・会心・雷与ダメージ・防御無視・耐性貫通を入力してください。補正なしは0です。',referenceCondition:{id:'memosprite:1402',tab:'軌跡'}};
+  }
   function partyReferenceControls() {
+    if(state.characterId==='1402'&&state.conditionTab==='軌跡')return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:1402"><h5>ラフトラの独立した戦闘中の最終値</h5><p class="genshin-help">本人と精霊のATK・会心・雷与ダメージを分けます。至高の姿の速度由来ATK・保持速度層・装備・支援は各自の最終値に一度含めてください。本人の値を精霊へ自動継承しません。敵1体・事前の糸・状態一定の単発比較です。</p>'+[['atk','ラフトラの最終ATK'],['critRate','ラフトラの最終会心率（%）'],['critDamage','ラフトラの最終会心ダメージ（%）'],['damageBonus','ラフトラの最終雷与ダメージ（%）'],['defenseIgnore','ラフトラの防御無視（%）'],['resistancePenetration','ラフトラの雷耐性貫通（%）']].map(([k,label])=>{const key='memosprite:1402:'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
+
     if (state.characterId === '1509' && state.conditionTab === '軌跡') {
       const present=state.party.some(m=>String(m.characterId)==='1014'),id=present?'1014':'';
       const fields=present && id==='1014' ? [['atk','セイバーの最終ATK'],['critRate','セイバーの最終会心率（%）'],['critDamage','セイバーの最終会心ダメージ（%）'],['Wind','セイバーの最終風属性与ダメージ（%）'],['defenseIgnore','セイバーの防御無視（%）'],['resistancePenetration','セイバーの風耐性貫通（%）']].map(([k,label])=>{const key='party-reference:1014:'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input class="input_num" type="number" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" step="0.1"></label>';}).join('') : '';
@@ -1109,6 +1121,8 @@
   }
 
   function modifierTargetsCalculation(item, attack) {
+    if(state.characterId==='1402'&&!attack.requiresIndependentLaftra&&['statFlat','statPercent'].includes(item.category)&&item.stat==='speed')return true;
+    if(attack.id==='150621'&&(item.category==='progressiveTakenDamage'||['critRate','critRateOverride'].includes(item.category)||['statFlat','statPercent'].includes(item.category)&&item.stat==='speed'))return true;
     if (attack.fixedCritStats && ["critRate","critRateOverride","critDamage"].includes(item.category)) return false;
     if (attack.damageFormula === "trueDamage") return false;
     if (state.characterId === "1205" && attack.type === "normal" && item.activation?.inputKey === "blade-hellscape-active") return false;
@@ -1143,6 +1157,14 @@
   }
 
   function resolvedAttack(selected) {
+    if(selected.id==='1140201')return {...selected,traceKey:'memSkill',traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:'memospriteSkill',...laftraSnapshot()};
+    if(['1402012','140208'].includes(selected.id)&&selected.damageFormula==='componentSequence'){
+      const joint=selected.id==='140208',level=state.traceLevels.normal,talent=state.data.attacks.find(a=>a.id==='140204'),ref=joint?laftraSnapshot():null;
+      const body=joint?{...selected,id:'140208:aglaea',damageFormula:'statMultiplier',damageComponents:undefined,hitCount:1,attackType:'enhancedNormal',traceLevel:level,multiplier:selected.multipliers[level-1]}:resolvedAttack(state.data.attacks.find(a=>a.id==='140201'));
+      const sequenceAttacks=talent?[body,...(joint?[{...body,id:'140208:laftra',...ref}]:[]),resolvedAttack(talent)]:[];
+      return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks,...(ref?{referenceIssue:ref.referenceIssue,referenceCondition:ref.referenceCondition}:{})};
+    }
+
     if(selected.id==='150108')return {...selected,traceLevel:state.traceLevels.normal,multiplier:selected.multipliers[state.traceLevels.normal-1],sparxieSkillLevel:state.traceLevels.skill,sparxieTrapCount:state.modifierInputs['sparkle-interactive-trap-count'],attackType:'enhancedNormal'};
     if(selected.id==='1501042'){
       const n=state.modifierInputs['sparkle-interactive-trap-count'],level=state.traceLevels.talent,multipliers=[20,22,24,26,28,30,32.5,35,37.5,40].map((v,i)=>v+n*[10,11,12,13,14,15,16.25,17.5,18.75,20][i]);return {...selected,multipliers,traceLevel:level,multiplier:multipliers[level-1],sparxieTrapCount:n,attackType:'elation'};

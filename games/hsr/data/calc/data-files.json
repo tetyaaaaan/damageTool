@@ -50,7 +50,9 @@
     "attacks-trailblazer-elation-round24.json",
     "attacks-rappa-round25.json",
     "attacks-fudie-round25.json",
-    "attacks-sparxie-round25.json"
+    "attacks-sparxie-round25.json",
+    "attacks-aglaea-round26.json",
+    "attacks-silverwolf999-round26.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",

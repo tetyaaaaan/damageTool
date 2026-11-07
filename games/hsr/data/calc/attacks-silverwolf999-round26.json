@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "silverwolf999-round26-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "星魂0・敵1体・攻撃前から無敵プレイヤー状態・状態一定に限定した150621の6段愉悦ダメージ。"
+  },
+  "overrides": [
+    {
+      "id": "150621",
+      "characterId": "1506",
+      "sourceSkillId": "150621",
+      "name": "崩壊級ダメージ実演（事前無敵・スコア240・敵1体）",
+      "element": "Imaginary",
+      "type": "elation",
+      "traceKey": "elation",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "ahaInstant",
+      "hitCount": 6,
+      "hitCountLabel": "敵1体へランダム単体愉悦ダメージ6回。敵数1のため全段が同じ対象。",
+      "canCrit": true,
+      "multipliers": [
+        270,
+        297,
+        324,
+        351,
+        378,
+        405,
+        438.72,
+        472.5,
+        506.28,
+        540
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "requiredTraceLevelRanges": {
+        "elation": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-invincible-player-six-hit-elation-single-target",
+      "conditionText": "Lv80/E0・未撃破の敵1体・攻撃前から無敵プレイヤー/シークレットスコア240。全6段の状態一定。爆笑ネタは既存愉悦設定を使用。",
+      "calculationNote": "固定版character_skills.json:150621.params[0..9][0]は1段ごとの愉悦倍率45～90%。敵1体で同一条件の6段すべてを処理するため総倍率を6倍で記録。params[0..9][1]=6は段数。各段後のSSS供給箱固定確率リセットはダメージを発生させず、SP消費による箱発動もこの攻撃からは自動生成しません。E0愉悦スキルの上限はcharacter_skill_trees.json:1506420.max_level=10。 この行は攻撃前スコア240上限を仮定し、A4/A6の新規獲得でスコアが変わらない比較。スコア由来会心とSPD由来愉悦は最終入力に含め、未算入CR/SPD支援がある当該愉悦行だけ除外します。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のE0愉悦スキルLv1～10係数を6段合算し、敵1体・事前成立状態へ限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150621.params[0..9][0..1]; character_skill_trees.json:1506420.max_level",
+        "verifiedAt": "2026-11-07",
+        "scope": "Lv80/E0・敵1体・無敵プレイヤー状態が攻撃前から成立・全6段の状態不変。",
+        "verification": "tests/hsr/hsrSilverwolf999Round26.test.cjs"
+      },
+      "secretScoreSnapshot": 240,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    }
+  ]
+}

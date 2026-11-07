@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "aglaea-round26-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "本人・精霊の独立最終値と固定成分を、敵1体/状態一定で既存式に接続。"
+  },
+  "overrides": [
+    {
+      "id": "140201",
+      "characterId": "1402",
+      "sourceSkillId": "140201",
+      "name": "サイフォスの蜜（通常攻撃・敵1体）",
+      "element": "Thunder",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-single-enemy-basic-direct",
+      "conditionText": "Lv80・星魂0・通常攻撃Lv1～6・敵1体。アグライア本人の入力済み最終ATK・会心・雷与ダメージを参照します。",
+      "calculationNote": "固定版140201.params[0..9][0]の本人ATK直接倍率。精霊召喚、速度層、行動管理、通常攻撃後の「隙を縫う糸」付与や天賦追加ダメージは合算しません。 至高の姿A2のATK上昇（本人SPD×7.2＋ラフトラSPD×3.6）は双方の最終ATKへ含めてください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..9][0]を使用する単発ATK攻撃。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140201.params[0..5][0]; character_skill_trees.json:1402001",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrAglaeaRound26.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    },
+    {
+      "id": "1140201",
+      "characterId": "1402",
+      "sourceSkillId": "1140201",
+      "name": "サイフォスの罠（ラフトラ精霊スキル・敵1体）",
+      "element": "Thunder",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        55,
+        66,
+        77,
+        88,
+        99,
+        110
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-independent-memosprite-direct-one-enemy",
+      "conditionText": "アグライアLv80・星魂0・敵1体。ラフトラの独立した最終ATK・会心率・会心ダメージ・雷与ダメージを明示入力し、精霊スキルLv1～6の指定対象1体分を計算します。",
+      "calculationNote": "固定版1140201.params[0..9][0]のラフトラATK参照。隣接対象への係数#2は敵1体のため発生しません。至高の姿の2者SPD参照ATK上昇（軌跡1402101）などはラフトラの明示最終ATKへ一度だけ算入し、アグライアの値を継承しません。召喚・速度層更新・連携攻撃を合算しません。 至高の姿A2のATK上昇（本人SPD×7.2＋ラフトラSPD×3.6）は双方の最終ATKへ含めてください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "精霊固有値を独立入力する通常の単一攻撃計算に限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1140201.params[0..5][0]; character_skill_trees.json:1402301",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrAglaeaRound26.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "requiresIndependentLaftra": true
+    },
+    {
+      "id": "140204",
+      "characterId": "1402",
+      "sourceSkillId": "140204",
+      "name": "薔薇色の指先（「隙を縫う糸」攻撃後の付加ダメージ1回）",
+      "element": "Thunder",
+      "type": "additional",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        12,
+        13.8,
+        15.6,
+        17.4,
+        19.2,
+        21,
+        23.25,
+        25.5,
+        27.75,
+        30
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-independent-talent-additional-damage-on-tagged-target",
+      "conditionText": "Lv80・星魂0・天賦Lv1～10・敵1体。「隙を縫う糸」が付与済みの敵を攻撃した後に発生する天賦付加ダメージ1回を、アグライア本人の最終ATKで計算します。",
+      "calculationNote": "固定版140204.params[0..14][0]。タグ済み敵を攻撃後の独立した付加ダメージ成分1回です。連携通常140208でのタグ付与・付加ダメージ発生回数・成分順を推定せず、自動合算しません。対象は最後にタグ付与された敵1体に限ります。 至高の姿A2のATK上昇（本人SPD×7.2＋ラフトラSPD×3.6）は双方の最終ATKへ含めてください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "付与済みタグ対象への独立した天賦追加ダメージ1回として計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140204.params[0..9][0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrAglaeaRound26.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    },
+    {
+      "id": "140208",
+      "characterId": "1402",
+      "sourceSkillId": "140208",
+      "name": "剣先より千の口付けを（アグライア＋ラフトラ連携攻撃）",
+      "element": "Thunder",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        100,
+        120,
+        140,
+        160,
+        180,
+        200
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-joint-aglaea-laftra-one-enemy-separate-owner-snapshots",
+      "conditionText": "Lv80/E0・未撃破の敵1体・至高の姿、隙を縫う糸が事前成立。本人とラフトラの完成済み最終値を独立入力。",
+      "calculationNote": "本人とラフトラの通常Lv1～6の各100～200%ATKと、本人天賦Lv1～10の追加12～30%ATKを合算。固定Fribbelsの同一行動は天賦1回。最終ATKには各自の至高の姿/SPD変換・装備・支援を含め、再変換しません。段間更新・初回糸付与・敵交替/複数敵は対象外。単独行を合計へ再加算しないでください。 至高の姿A2のATK上昇（本人SPD×7.2＋ラフトラSPD×3.6）は双方の最終ATKへ含めてください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版2所有者と事前糸の天賦1回を既存通常式で分離し独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140208.params[0..5][0..3]; character_skill_trees.json:1402001/1402101",
+        "verifiedAt": "2026-11-07",
+        "scope": "E0・Lv80・敵1体。本人と精霊を別の完成最終値として入力し、速度由来ATKを各々一度算入。強化通常の単発状態のみ。",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1400/Aglaea.ts",
+        "verification": "tests/hsr/hsrAglaeaRound26.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "damageComponents": [
+        {
+          "key": "aglaea",
+          "name": "アグライア本人",
+          "attackId": "140208:aglaea",
+          "scalingStat": "atk",
+          "type": "enhancedNormal",
+          "element": "Thunder",
+          "multipliers": [
+            100,
+            120,
+            140,
+            160,
+            180,
+            200
+          ],
+          "count": 1
+        },
+        {
+          "key": "laftra",
+          "name": "ラフトラ",
+          "attackId": "140208:laftra",
+          "scalingStat": "atk",
+          "type": "enhancedNormal",
+          "element": "Thunder",
+          "multipliers": [
+            100,
+            120,
+            140,
+            160,
+            180,
+            200
+          ],
+          "count": 1
+        },
+        {
+          "key": "silkTalent",
+          "name": "「隙を縫う糸」対象への天賦付加ダメージ",
+          "attackId": "140204",
+          "scalingStat": "atk",
+          "type": "additional",
+          "element": "Thunder",
+          "multipliers": [
+            12,
+            13.8,
+            15.6,
+            17.4,
+            19.2,
+            21,
+            23.25,
+            25.5,
+            27.75,
+            30
+          ],
+          "count": 1,
+          "requiresPreexistingSilkStitch": true
+        }
+      ],
+      "preexistingSilkStitch": true
+    },
+    {
+      "id": "1402012",
+      "characterId": "1402",
+      "sourceSkillId": "140201",
+      "name": "サイフォスの蜜（事前の糸・通常＋天賦付加）",
+      "element": "Thunder",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-normal-and-prior-silk-talent",
+      "conditionText": "Lv80/E0・未撃破の敵1体・隙を縫う糸が事前成立。通常本体＋天賦1回。",
+      "calculationNote": "本人通常と本人ATK参照の天賦1回を各軌跡Lvで合算。糸の初回付与や敵交替を再現しません。 至高の姿A2のATK上昇（本人SPD×7.2＋ラフトラSPD×3.6）は双方の最終ATKへ含めてください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..9][0]を使用する単発ATK攻撃。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140201.params[0..5][0]; character_skill_trees.json:1402001",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrAglaeaRound26.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "preexistingSilkStitch": true,
+      "damageComponents": [
+        {
+          "key": "aglaea",
+          "name": "本人通常",
+          "attackId": "140201"
+        },
+        {
+          "key": "silkTalent",
+          "name": "天賦付加1回",
+          "attackId": "140204"
+        }
+      ]
+    }
+  ]
+}

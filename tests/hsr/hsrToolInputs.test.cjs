@@ -4242,3 +4242,19 @@ test('Round25 Sparxie traps and owner CB reach separate direct/Elation actions t
  const row=id=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);assert.equal(app.node('hsrElationSettings').hidden,false);for(const[id,d,c]of [['1501082',1.4,1.2],['1501032',1.166,.48]]){const r=row(id);assert.ok(r,app.node('hsrCalculationFeedback').innerHTML);near(r.components.direct.nonCrit,3000*d*1.19*.36);near(r.components.banger.nonCrit,7535.107*c*2.11*(1+200/280)*.36);}
  assert.ok(row('150120'));delete app.state.modifierInputs['sparkle-interactive-trap-count'];assert.ok(!row('1501082'));assert.ok(row('150103'));assert.ok(row('150101'));
 });
+
+
+test('Round26 Aglaea resolves separate spirit values, combines prior-Silk components and restores the snapshot',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1402',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);assert.ok(row('140201'));assert.ok(!row('140208'));
+ for(const[k,v]of Object.entries({atk:5000,critRate:20,critDamage:200,damageBonus:20,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:1402:'+k]=v;
+ const r=row('140208');assert.ok(r,app.node('hsrResults').innerHTML.replace(/<[^>]*>/g,' ').slice(-1600));near(r.components.aglaea.nonCrit,2160);near(r.components.laftra.nonCrit,4320);near(r.components.silkTalent.nonCrit,324);near(r.expected,9774);near(row('1402012').expected,2106);near(row('1140201').nonCrit,2376);
+ app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);near(row('140208',restored).expected,9774);delete restored.state.modifierInputs['memosprite:1402:atk'];assert.ok(!row('140208',restored));assert.ok(row('140201',restored));
+});
+
+test('Round26 Silver Wolf LV.999 uses the shared Punchline field only for the explicit six-hit snapshot',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1506',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,elation:100}});app.node('hsrStat-elation').value='100';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';app.node('hsrElationTrace').value='10';
+ const row=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='150621').name);assert.equal(app.node('hsrElationSettings').hidden,false);let r=row();assert.ok(r,app.node('hsrCalculationFeedback').innerHTML);near(r.nonCrit,7535.107*5.4*2*(1+100/260)*.36);assert.equal(r.attack.hitCount,6);app.node('hsrPunchline').value='40';near(row().expected,7535.107*5.4*2*(1+200/280)*.36*1.5);app.node('hsrPunchline').value='';assert.ok(!row());assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='150601').name));
+});
