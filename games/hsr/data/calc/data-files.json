@@ -47,7 +47,10 @@
     "attacks-native-round23.json",
     "attacks-fudie-round24.json",
     "attacks-gilgamesh-round24.json",
-    "attacks-trailblazer-elation-round24.json"
+    "attacks-trailblazer-elation-round24.json",
+    "attacks-rappa-round25.json",
+    "attacks-fudie-round25.json",
+    "attacks-sparxie-round25.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",

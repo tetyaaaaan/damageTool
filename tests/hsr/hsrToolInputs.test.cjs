@@ -644,8 +644,8 @@ test("unimplemented Elation attacks and mixed True/Elation records are unavailab
         const blocked = attacks.get(id);
         app.state.characterId = blocked.characterId;
         const results = app.calculate();
-        assert.ok(results.some((result) => result.attack.name === attacks.get(`${blocked.characterId}01`)?.name), `normal attack remains for ${id}`);
-        assert.ok(!results.some((result) => result.attack.name === blocked.name), id);
+        assert.ok(results.some((result) => result.attack?.name === attacks.get(`${blocked.characterId}01`)?.name), `normal attack remains for ${id}`);
+        assert.ok(!results.some((result) => result.attack?.name === blocked.name), id);
         assert.match(app.node("hsrResults").innerHTML, /表示のみ・計算不可/);
         assert.ok(app.node("hsrResults").innerHTML.includes(blocked.support.reason), id);
     }
@@ -2388,7 +2388,7 @@ test("promoted attacks keep reviewed siblings, per-attack limits, source correct
     profile("1317"); app.node("hsrWeakness").value = "false"; app.node("hsrToughnessState").value = "active";
     near(find("忍切・初志貫徹").nonCrit, 1296);
     app.node("hsrWeakness").value = "true";
-    assert.equal(find("忍切・初志貫徹"), undefined); assert.equal(find("忍法・七転八起"), undefined, "both verified direct attacks require the non-weak target scope"); assert.ok(app.calculate().some(r => r.attack.name === "忍具・降魔の花弁（直撃3段のみ・参考値）"), "the unverified enhanced comparison remains a reference value");
+    assert.equal(find("忍切・初志貫徹"), undefined); assert.equal(find("忍法・七転八起"), undefined, "both verified direct attacks require the non-weak target scope"); assert.ok(!app.calculate().some(r => r.attack?.name === "忍具・降魔の花弁（直接＋天賦撃破＋超撃破・事前撃破済み）"), "Round25 aggregate excludes the unbroken snapshot instead of retaining an unverified direct reference");
     assert.match(app.node("hsrResults").innerHTML, /hsrWeakness/);
     app.node("hsrWeakness").value = "false"; app.node("hsrToughnessState").value = "broken";
     assert.equal(find("忍切・初志貫徹"), undefined); assert.match(app.node("hsrResults").innerHTML, /hsrToughnessState/);
@@ -4215,4 +4215,30 @@ test('Round24 Fudie inputs reach the promoted Talent and preserve already-includ
  for(const m of data.structuredModifiers.filter(m=>m.source.id==='1504'))if(m.finalStatsInclusion)app.state.modifierInputs[m.finalStatsInclusion.inputKey]=true;
  app.node('hsrEnemyDefenseReduction').value='40';app.node('hsrStat-damageBonus').value='100';app.node('hsrStat-critDamage').value='220';r=row();assert.ok(r,app.node('hsrCalculationFeedback').innerHTML);near(r.expected,11340);
  delete app.state.modifierInputs['fudie-gluttony-stacks'];assert.ok(!row());assert.ok(app.calculate().some(x=>x.attack?.name===data.attacks.find(a=>a.id==='1504031').name));
+});
+
+
+test('Round25 Rappa native action reaches three isolated components and keeps prior Break inputs local',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1317',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,breakEffect:230}});
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="rappa-consumed-charge"/g)||[]).length,1,'reuse the existing charge field');
+ app.node('hsrWeakness').value='true';app.node('hsrToughnessState').value='broken';app.node('hsrMaxToughness').value='180';app.state.modifierInputs['rappa-consumed-charge']=5;app.state.modifierInputs['rappa-prior-break-vulnerability']=8;
+ const row=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='131718').name),extra=3767.5533*3.3*.4*1.08*(.5*3.1*2),sb=3767.5533*3.3*.4*1.08*3.2*1.5*.6;let r=row();assert.ok(r,app.node('hsrResults').innerHTML.replace(/<[^>]*>/g,' ').slice(-2200));near(r.components.direct.nonCrit,3600);near(r.components.additionalBreak.value,extra);near(r.components.superBreak.value,sb);near(r.expected,5400+extra+sb);assert.match(app.node('hsrResults').innerHTML,/天賦追加撃破・会心不可/);assert.doesNotMatch(app.node('hsrResults').innerHTML,/NaN/);
+ app.node('hsrEnemyTakenDamage').value='8';app.state.modifierInputs['rappa-prior-break-vulnerability-in-final']=true;near(row().expected,r.expected);assert.equal(app.state.modifierInputs['rappa-sealform-super-break-efficiency'],undefined,'local Sealform assumption does not overwrite the saved optional mode');
+ app.node('hsrToughnessState').value='active';app.node('hsrWeakness').value='false';assert.ok(!row());assert.ok(app.calculate().some(a=>a.attack?.name===data.attacks.find(a=>a.id==='131701').name));
+});
+
+test('Round25 Fudie Ultimate resolves post-spend stacks without changing the saved first-hit snapshot',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1504',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:1}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});app.state.modifierInputs['fudie-gluttony-stacks']=8;
+ const row=x=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='150403').name);let r=row(app);assert.ok(r,app.node('hsrCalculationFeedback').innerHTML);assert.equal(Object.keys(r.components).length,4);near(r.components.direct.nonCrit,5400);near(r.components.freeTalent.nonCrit,3510);near(r.components.gluttonyBite1.nonCrit,5940);near(r.components.gluttonyBite2.nonCrit,4860);near(r.expected,5400*1.7+(3510+5940+4860)*2.1);assert.equal(app.state.modifierInputs['fudie-gluttony-stacks'],8);
+ app.state.modifierInputs['fudie-gluttony-stacks']=12;r=row(app);assert.ok(r);assert.equal(Object.keys(r.components).length,5);app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);near(row(restored).expected,r.expected);assert.equal(restored.state.modifierInputs['fudie-gluttony-stacks'],12);
+ restored.state.modifierInputs['fudie-a4-stack-in-final']=true;assert.ok(!row(restored));assert.ok(restored.calculate().some(a=>a.attack?.name===data.attacks.find(a=>a.id==='1504031').name));
+});
+
+test('Round25 Sparxie traps and owner CB reach separate direct/Elation actions through existing fields',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1501',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:1},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:37,critDamage:143,damageBonus:19,elation:111}});app.node('hsrStat-elation').value='111';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';app.node('hsrElationTrace').value='10';app.state.modifierInputs['sparkle-interactive-trap-count']=4;app.state.modifierInputs['elation-certified-banger']=40;
+ const row=id=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);assert.equal(app.node('hsrElationSettings').hidden,false);for(const[id,d,c]of [['1501082',1.4,1.2],['1501032',1.166,.48]]){const r=row(id);assert.ok(r,app.node('hsrCalculationFeedback').innerHTML);near(r.components.direct.nonCrit,3000*d*1.19*.36);near(r.components.banger.nonCrit,7535.107*c*2.11*(1+200/280)*.36);}
+ assert.ok(row('150120'));delete app.state.modifierInputs['sparkle-interactive-trap-count'];assert.ok(!row('1501082'));assert.ok(row('150103'));assert.ok(row('150101'));
 });

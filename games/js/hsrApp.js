@@ -175,7 +175,7 @@
     $("hsrElationInputHelp").hidden = char?.path !== "Elation";
     $("hsrTrueDamageSettings").hidden = char?.id !== "1415";
     $("hsrSongbirdSettings").hidden = char?.id !== "1512";
-    $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010"].includes(char?.id);
+    $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010", "1501"].includes(char?.id);
     $("hsrElationContextField").hidden = char?.id !== "1502";
     $("hsrElationScope").textContent = char?.id === "1502" ? "爻光Lv80・星魂0・敵1体、初回の通常アッハタイムの全6ヒットです。" : "緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。";
     $("hsrPunchlineField").hidden = false;
@@ -188,6 +188,10 @@
     if (["8009","8010"].includes(char?.id)) {
       $("hsrElationScope").textContent="愉悦開拓者Lv80・星魂0・未撃破の敵1体。通常アッハタイムの8段＋最後撃と、本人が味方最大の褒美を持つスキル追加を別に比較します。";
       $("hsrPunchlineHelp").textContent="この爆笑ネタはアッハタイムだけに使用。スキル追加は補正条件の本人の爆笑の褒美を参照します。A2のATK由来愉悦度とA4会心率を最終値へ1回含めてください。ATK支援を追加計算する場合、この愉悦結果は再換算せず除外します。上笑なしは0。";
+    }
+    if(char?.id==='1501'){
+      $("hsrElationScope").textContent='火花Lv80/E0・未撃破の敵1体。通常アッハタイム21段と、本人CBによる強化通常/必殺の追加愉悦を別に比較します。';
+      $("hsrPunchlineHelp").textContent='この爆笑ネタはアッハタイムだけに使用。本人CBとトラップ回数は補正条件で指定します。A2愉悦とA6会心ダメージはダメージ参照時点の最終入力へ一度含めてください。SP/衝撃ネタの更新は計算しません。';
     }
     $("hsrEnhancementField").hidden = !state.data.attacks.some(item => item.characterId === char?.id && item.variant);
     $("hsrEnhancementState").value = state.enhancementState;
@@ -269,7 +273,7 @@
   function attackStateIssues(attack, issue) {
     if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
-    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "150403" ? 2+Math.floor(state.modifierInputs["fudie-gluttony-stacks"]/4) : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (["1224011","1224081"].includes(attack.id)) {
       if(!['Erudition','Destruction','Hunt','Remembrance','Elation'].includes(attack.shifuPath) || !Object.keys(ELEMENT_KEYS).includes(attack.shifuElement)) issue('攻撃型師匠の運命と属性を補正条件で指定してください。従来の支援型師匠の比較はそのまま計算できます。','hsrConditionDialogOpen');
       if(attack.shifuElement && attack.shifuElement!=='Imaginary') for(const [key,label] of [['element-damage:1224:'+attack.shifuElement,'なのかの師匠属性与ダメージ'],['enemy-resistance:'+attack.shifuElement,'敵の師匠属性耐性']]) if(!Number.isFinite(state.modifierInputs[key])) issue(label+'を入力してください。補正なしは0です。','hsrConditionDialogOpen');
@@ -301,11 +305,11 @@
     if (attack.enemyCountExact !== undefined && state.enemy.count !== attack.enemyCountExact) issue("この攻撃は敵" + attack.enemyCountExact + "体の条件のみ計算対応です。", "hsrEnemyCount");
     if (attack.enemyCountMinimum !== undefined && state.enemy.count < attack.enemyCountMinimum) issue("この攻撃は敵" + attack.enemyCountMinimum + "体以上の条件のみ計算対応です。", "hsrEnemyCount");
     for (const input of attack.numericModifierInputs || []) {
-      const value = state.modifierInputs[input.inputKey] === undefined ? input.default : state.modifierInputs[input.inputKey];
+      const value = input.inputKey === "fudie-gluttony-stacks" && Number.isInteger(attack.fudieEffectiveStacks) ? attack.fudieEffectiveStacks : state.modifierInputs[input.inputKey] === undefined ? input.default : state.modifierInputs[input.inputKey];
       if (!Number.isFinite(value) || value < input.minimum || value > input.maximum || (input.integer && !Number.isInteger(value))) issue(`${input.label}に${input.minimum}～${input.maximum}の数値を入力してください。`, "hsrConditionDialogOpen");
     }
     for (const id of (attack.damageFormula === "nativeBreakSequence" && attack.type !== "superBreak" ? [] : attack.requiredModifierIds || [])) {
-      const required = modifiers(attack).filter(item => item.id === id && (item.enabled && item.matchesAttack || ["140803","140809","140811","150402","1504031","1504032","150404"].includes(attack.id) && item.includedInFinalStats));
+      const required = modifiers(attack).map(item => ["1504032","1504033","150404"].includes(attack.id) && item.id === "traceNode:1504:1504102:follow-up-stacks" && item.value === 0 && (attack.fudieEffectiveStacks ?? state.modifierInputs["fudie-gluttony-stacks"]) === 0 ? {...item,enabled:true,applicable:true,matchesAttack:true} : item).filter(item => item.id === id && (item.enabled && item.matchesAttack || ["140803","140809","140811","150402","150403","1504031","1504032","1504033","150404","131718"].includes(attack.id) && item.includedInFinalStats));
       if (required.length !== 1 || (!required[0].inputWarnings?.length && (!required[0].includedInFinalStats && (!required[0].applicable || !Number.isFinite(required[0].value))))) issue(`${attack.name}の固有補正を読み込めませんでした。ページを再読み込みしてください。`);
     }
     const conditions = [...(attack.modifierConditions || [])];
@@ -997,8 +1001,8 @@
     return '<section class="hsr-condition-purpose" data-hsr-condition-ids="party-reference:1202"><h5>停雲本人の攻撃後に発生する賜福対象の付加</h5><p class="genshin-help">Lv80・星魂0の賜福対象の戦闘中の最終値を入力します。賜福・他の支援・装備の効果を含めた値を使い、この付加行には攻撃者側の支援を再加算しません。停雲本人の通常とは別の1回分です。</p><label class="genshin-condition-control"><span>賜福対象</span><select data-comparison-choice="party-reference-owner:1202"><option value="">パーティから選択</option>'+state.party.filter(m=>m.characterId).map(m=>'<option value="'+m.characterId+'"'+(String(m.characterId)===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
   }
   function comparisonReferenceControls() {
-    if (["1408","1406","1321","1410","1314","1504","8009","8010"].includes(state.characterId) && state.conditionTab === "軌跡") {
-      const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
+    if (["1408","1406","1321","1410","1314","1504","8009","8010","1317","1501"].includes(state.characterId) && state.conditionTab === "軌跡") {
+      const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => spec.inputKey !== 'rappa-consumed-charge' && !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
       return (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
     }
     if (state.characterId === "1308" && state.conditionTab === "軌跡" && availableAttacks().some(a => a.numericModifierInputs?.some(x => x.inputKey === "acheron-initial-knots"))) {
@@ -1112,7 +1116,7 @@
     if (item.structured && !window.HsrModifierRuntime.applicableToAttack(item, attack)) return false;
     if (attack.id === "1151201") return ["trace:1512:151204:fever-defense-ignore", "trace:1512:1151203:songbirds-vulnerability"].includes(item.id);
     // Match the existing engines' accepted categories; this only scopes validation/application.
-    if (["8009041","8010041","800920","801020"].includes(attack.id) && ((["statPercent","statFlat"].includes(item.category) && item.stat === "atk") || item.category === "progressiveTakenDamage")) return true;
+    if (["8009041","8010041","800920","801020","1501041","1501042","150120"].includes(attack.id) && ((["statPercent","statFlat"].includes(item.category) && item.stat === "atk") || item.category === "progressiveTakenDamage")) return true;
     if (attack.damageFormula === "elation") return ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"].includes(item.category);
     if (["break", "superBreak"].includes(attack.type)) return ["breakEffect", "breakDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage", ...(attack.type === "superBreak" ? ["breakEfficiency", "superBreakDamage"] : [])].includes(item.category);
     if ((attack.canCrit === false || attack.type === "dot") && ["critRate", "critRateOverride", "critDamage", "critTakenDamage"].includes(item.category)) return false;
@@ -1139,6 +1143,10 @@
   }
 
   function resolvedAttack(selected) {
+    if(selected.id==='150108')return {...selected,traceLevel:state.traceLevels.normal,multiplier:selected.multipliers[state.traceLevels.normal-1],sparxieSkillLevel:state.traceLevels.skill,sparxieTrapCount:state.modifierInputs['sparkle-interactive-trap-count'],attackType:'enhancedNormal'};
+    if(selected.id==='1501042'){
+      const n=state.modifierInputs['sparkle-interactive-trap-count'],level=state.traceLevels.talent,multipliers=[20,22,24,26,28,30,32.5,35,37.5,40].map((v,i)=>v+n*[10,11,12,13,14,15,16.25,17.5,18.75,20][i]);return {...selected,multipliers,traceLevel:level,multiplier:multipliers[level-1],sparxieTrapCount:n,attackType:'elation'};
+    }
     if (["140809","140811"].includes(selected.id)) {
       const level=state.traceLevels.skill, n=state.modifierInputs[selected.id==="140809" ? "phainon-counter-flame-stacks" : "phainon-ruin-stacks"];
       const multiplier=selected.id==="140809" ? (selected.phainonCounterBaseMultipliers?.[level-1]+4*selected.phainonCounterBounceMultipliers?.[level-1])*(1+.2*n) : selected.phainonRuinMultipliers?.[String(n)]?.[level-1];
@@ -1163,7 +1171,7 @@
       const sequenceAttacks=parts.every(Boolean)?parts.map(a=>resolvedAttack(a)):[];
       return {...selected,traceLevel:state.traceLevels[selected.traceKey],multiplier:sequenceAttacks[0]?.multiplier,traceLevelLabel:(selected.id==='1405011'?'通常Lv'+state.traceLevels.normal+'＋':'')+'スキルLv'+state.traceLevels.skill+'＋天賦Lv'+state.traceLevels.talent,attackType:selected.type,sequenceAttacks};
     }
-    if (selected.damageFormula === "nativeBreakSequence") return {...selected,traceLevel:state.traceLevels[selected.traceKey],multiplier:selected.multipliers[state.traceLevels[selected.traceKey]-1],nativeUltimateLevel:state.traceLevels.ultimate,attackType:selected.type};
+    if (selected.damageFormula === "nativeBreakSequence") return {...selected,traceLevel:state.traceLevels[selected.traceKey],multiplier:selected.multipliers[state.traceLevels[selected.traceKey]-1],nativeUltimateLevel:state.traceLevels.ultimate,...(selected.id==="131718"?{nativeTalentLevel:state.traceLevels.talent}:{}),attackType:selected.type};
     if (selected.id === "131508") { const level=state.traceLevels.normal; return { ...selected, traceLevel:level, multiplier:selected.multipliers[level-1], attackType:selected.type, fanningInputs:{allowZeroStacks:selected.allowZeroStacks===true,confirmed:selected.comparisonModifierInputs?.["boothill-fanning-broken"]===true || state.modifierInputs["boothill-fanning-broken"]===true,stacks:state.modifierInputs["boothill-pocket-stacks"]===undefined?3:state.modifierInputs["boothill-pocket-stacks"],talentLevel:state.traceLevels.talent} }; }
     if (selected.id === "1151201") { const level=state.songbirdInputs.skillLevel; return { ...selected, traceLevel: level, multiplier: selected.multipliers[level-1] }; }
     if (selected.id === "140109" && selected.damageFormula === "componentSequence") {
@@ -1229,11 +1237,16 @@
       const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), damageFormula:"statMultiplier", hitCount:i === 2 ? 2 : 1, comparisonModifierInputs:assumptions, modifierInputKey:undefined, modifierConditions:undefined})) : [];
       return {...selected, traceLevel:state.traceLevels.skill, multiplier:sequenceAttacks[0]?.multiplier, traceLevelLabel:`スキルLv${state.traceLevels.skill}＋必殺Lv${state.traceLevels.ultimate}`, attackType:"skill", sequenceAttacks};
     }
+    if (selected.id === "150403" && selected.characterId === "1504" && selected.damageFormula === "componentSequence") {
+      const n=state.modifierInputs["fudie-gluttony-stacks"],components=selected.damageComponents.slice(0,Number.isInteger(n)&&n>=2&&n<=12?2+Math.floor(n/4):0);
+      const sequenceAttacks=components.map((d,i)=>{const source=state.data.attacks.find(a=>a.id===d.attackId),effective=i?n-4*Math.max(0,i-1):undefined;if(!source)return null;return {...resolvedAttack(source),...(i?{fudieEffectiveStacks:effective}:{}),comparisonModifierInputs:{...source.comparisonModifierInputs,...(i?{"fudie-gluttony-stacks":effective}:{})}};}).filter(Boolean);
+      return {...selected,damageComponents:components,traceLevel:state.traceLevels.ultimate,multiplier:selected.multipliers[state.traceLevels.ultimate-1],attackType:"ultimate",sequenceAttacks};
+    }
     if (selected.id === "150905" && selected.damageFormula === "componentSequence") {
       const body=state.data.attacks.find(a=>a.id==="1509051"),wind=supplementalAttacks().find(a=>a.sourceModifierId==="trace:1509:150905:saber-wind-followup"),level=state.traceLevels.talent;
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:"followUp",sequenceAttacks:body&&wind?[resolvedAttack(body),{...wind,characterId:"1014",sourceSkillId:"150905",damageFormula:"statMultiplier"}]:[],referenceIssue:wind?.referenceIssue || (!wind?"セイバーを編成し、独立した完成済み戦闘値と敵の風耐性を入力してください。":""),referenceCondition:wind?.referenceCondition || {id:"party-reference:1014",tab:"軌跡"}};
     }
-    if (["1505022","1505032","1505044","1513022","1513032","8009022","8010022"].includes(selected.id) && selected.damageFormula === "componentSequence") {
+    if (["1505022","1505032","1505044","1513022","1513032","8009022","8010022","1501082","1501032"].includes(selected.id) && selected.damageFormula === "componentSequence") {
       const prior=state.modifierInputs["hiyu-prior-vulnerability"]===true || state.modifierInputs["hiyu-prior-fox-vulnerability"]===true;
       const sequenceAttacks=selected.damageComponents.map(d=>{
         const source=state.data.attacks.find(a=>a.id===d.attackId && a.characterId===selected.characterId);
@@ -1502,6 +1515,7 @@
       return `<section class="hsr-target-breakdown"><h4>通常部分と天賦撃破の合計</h4>${damageBreakdown(result.components.direct, "通常部分（全段合算）")}<h4>天賦・物理撃破ダメージ</h4><dl>${[["ポケットアドバンテージ",b.stacks],["物理撃破に対する天賦倍率（%）",b.breakMultiplierPercent],["撃破基礎値",extra.base],["属性・天賦倍率",extra.multiplier],["撃破特効倍率",extra.effect],["防御倍率",extra.defense],["耐性倍率",extra.resistance],["最大靭性倍率",extra.toughnessScale],["被ダメージ倍率",extra.vulnerability],["天賦撃破ダメージ",extra.value]].map(([label,value])=>`<div><dt>${esc(label)}</dt><dd>${detailNumber(value)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">天賦撃破は会心しません。元の撃破イベント・撃破DoT・超撃破は合算しません。</p><h4>通常部分＋天賦撃破</h4>${damageValues(result)}</section>`;
     }
 
+    if (b.damageFormula === "breakComponent" && b.kind === "break") return '<section class="hsr-target-breakdown"><h4>天賦追加撃破・会心不可</h4><dl>'+[['最終戦闘撃破特効（%）',b.finalBreakEffect],['消費チャージ',b.charge],['天賦追加撃破倍率（%）',b.coefficient],['撃破基礎値',b.base],['属性・攻撃倍率',b.multiplier],['撃破特効倍率',b.effect],['撃破与ダメージ倍率',b.breakDamageMultiplier],['最大靭性倍率',b.toughnessScale],['防御倍率',b.defense],['耐性倍率',b.resistance],['被ダメージ倍率',b.vulnerability],['追加撃破ダメージ',b.value]].map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+detailNumber(v)+'</dd></div>').join('')+'</dl>'+damageValues(result)+'</section>';
     if (b.damageFormula === "breakComponent") return '<section class="hsr-target-breakdown"><h4>本人の超撃破・会心不可</h4><dl>'+[['最終戦闘撃破特効（%）',b.finalBreakEffect],['発生倍率',b.conversionMultiplier],['基礎削靭（通常攻撃10の単位）',b.toughnessDamage],['撃破効率倍率',b.breakEfficiency],['有効削靭',b.effectiveToughnessDamage],['防御倍率',b.defense],['耐性倍率',b.resistance],['被ダメージ倍率',b.vulnerability],['超撃破ダメージ',b.value]].map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+detailNumber(v)+'</dd></div>').join('')+'</dl>'+damageValues(result)+'</section>';
     if (b.damageFormula === "resolvedDamageMultiplier") return '<section class="hsr-target-breakdown"><h4>本人の事前DoT起爆</h4><p>'+esc(b.condition)+'</p><dl><div><dt>所有DoTの補正済み1回分</dt><dd>'+detailNumber(b.referenceValue)+'</dd></div><div><dt>起爆倍率</dt><dd>150%</dd></div></dl>'+damageValues(result)+'</section>';
     if (b.damageFormula === "trueDamage") return `<section class="hsr-target-breakdown"><h4>敵1体・追加確定ダメージ1回分</h4><dl><div><dt>${b.sourceKind === "cipherRecord" ? "この成分が参照する記録値" : "参照元ダメージ（補正適用後）"}</dt><dd>${detailNumber(b.originalDamage)}</dd></div><div><dt>確定ダメージ倍率</dt><dd>${detailNumber(b.multiplierPercent)}%</dd></div><div><dt>追加確定ダメージ</dt><dd>${detailNumber(result.nonCrit)}</dd></div><div><dt>適用条件</dt><dd>${esc(b.condition)}</dd></div></dl><p>${b.sourceKind === "cipherRecord" ? "記録値 × 確定ダメージ倍率。会心・防御・耐性・与ダメージ等は再適用せず、記録値自体を合計へ足しません。" : "元ダメージ × 確定ダメージ倍率。会心・防御・耐性・与ダメージ・靭性等は再適用しません。元ダメージとの合算は行いません。"}</p>${damageValues(result)}</section>`;
@@ -1740,7 +1754,8 @@
       if (attack.referenceIssue) { const item=attack.referenceCondition; const target="modifier:"+item.id; modifierIssueIds.add(item.id); modifierIssueLinks.set(target,{item,message:attack.referenceIssue}); fieldWarning(attack.referenceIssue,target); }
       const attackScopes = attack.sequenceAttacks?.length ? attack.sequenceAttacks : [attack];
       if (!attack.referenceCharacter && attackScopes.some(scope => scope.canCrit !== false && scope.type !== "dot" && !scope.fixedCritStats)) { requiredBonuses.add("critRate"); requiredBonuses.add("critDamage"); }
-      if (attackScopes.some(scope => scope.damageFormula === "elation")) requiredBonuses.add("elation"); else if (!attack.referenceStats && !["dahliaSuperBreak","resolvedDamageMultiplier"].includes(attack.damageFormula)) requiredBonuses.add("damageBonus");
+      if (attackScopes.some(scope => scope.damageFormula === "elation" || scope.sparxieElationScaling)) requiredBonuses.add("elation"); else if (!attack.referenceStats && !["dahliaSuperBreak","resolvedDamageMultiplier"].includes(attack.damageFormula)) requiredBonuses.add("damageBonus");
+      if(state.characterId==='1501'&&attackScopes.some(scope=>scope.damageFormula==='statMultiplier'))requiredBonuses.add('damageBonus');
       if (attackScopes.some(scope => ["normalAndBreak","nativeBreakSequence","dahliaSuperBreak"].includes(scope.damageFormula))) requiredBonuses.add("breakEffect");
       if (Object.hasOwn(state.traceLevels, attack.traceKey) && (!Number.isInteger(state.traceLevels[attack.traceKey]) || state.traceLevels[attack.traceKey] < 1 || state.traceLevels[attack.traceKey] > traceMaximum(attack.traceKey))) fieldWarning(`${ATTACK_LABELS[attack.traceKey] || attack.traceKey}のレベルを確認して選択してください。`, TRACE_FIELDS[attack.traceKey][1]);
       if (attack.maximumTraceLevel && attack.traceLevel > attack.maximumTraceLevel) {
@@ -1824,7 +1839,8 @@
     let results = attacks.map((selected) => {
       const attackEnemy=selected.requiredWeaknessCount?{...baseRequest.enemy,weakness:true,weaknessCount:selected.requiredWeaknessCount}:baseRequest.enemy;
       const request = { ...baseRequest, modifierInputs:state.modifierInputs, character:selected.referenceCharacter || (selected.referenceStats ? {...baseRequest.character,stats:selected.referenceStats}:baseRequest.character), enemy:selected.referenceEnemy || attackEnemy, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected), breakModifiers: selected.damageFormula === "nativeBreakSequence" ? modifiers({...selected,type:"superBreak",attackType:"superBreak"}) : selected.damageFormula === "normalAndBreak" ? modifiers({...selected,type:"break",attackType:"break"}) : undefined, breakBaseDamage: state.data.breakBaseDamage };
-      if (selected.damageFormula === "componentSequence") request.sequenceComponents = (selected.sequenceAttacks || []).map((component, index) => ({ key: selected.damageComponents[index].key, name: selected.damageComponents[index].name, input: { ...baseRequest, character:component.referenceCharacter || baseRequest.character, enemy:component.referenceEnemy || attackEnemy, modifierInputs:state.modifierInputs, attack: component, trueDamage: selected.id === "140603" && component.damageFormula === "trueDamage" ? {active:true,sourceKind:"cipherRecord",originalDamage:state.modifierInputs[component.recordInputKey]} : baseRequest.trueDamage, modifiers: modifiers(component), songbird: songbirdSnapshot(), elation: attackElationInputs(component), breakBaseDamage: state.data.breakBaseDamage } }));
+      if (selected.id === "131718" && selected.nativeBreakKind === "rappa") { request.superBreakModifiers=modifiers({...selected,type:"superBreak",attackType:"superBreak"}); request.breakModifiers=modifiers({...selected,type:"break",attackType:"break"}); }
+      if (selected.damageFormula === "componentSequence") request.sequenceComponents = (selected.sequenceAttacks || []).map((component, index) => ({ key: selected.damageComponents[index].key, name: selected.damageComponents[index].name, input: { ...baseRequest, character:component.referenceCharacter || baseRequest.character, enemy:component.referenceEnemy || attackEnemy, modifierInputs:selected.id==="150403" && Number.isInteger(component.fudieEffectiveStacks)?{...state.modifierInputs,"fudie-gluttony-stacks":component.fudieEffectiveStacks}:state.modifierInputs, attack: component, trueDamage: selected.id === "140603" && component.damageFormula === "trueDamage" ? {active:true,sourceKind:"cipherRecord",originalDamage:state.modifierInputs[component.recordInputKey]} : baseRequest.trueDamage, modifiers: modifiers(component), songbird: songbirdSnapshot(), elation: attackElationInputs(component), breakBaseDamage: state.data.breakBaseDamage } }));
       if (selected.sequenceTemplates) request.attack = {...request.attack, damageComponents:selected.sequenceTemplates};
       const result = window.HsrCalcEngine.calculate(request);
       const adjacentAttack = selected.adjacentMultiplier && !(selected.suppressAdjacentWithSingleEnemy && state.enemy.count === 1) ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;

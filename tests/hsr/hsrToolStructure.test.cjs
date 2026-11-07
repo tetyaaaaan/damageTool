@@ -104,10 +104,10 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
         effectiveCounts[effective]++;
     });
     assert.deepEqual(effectiveCounts, registeredCounts, "registration must agree with the engine's static damage-kind gate");
-    for (const id of ["150120", "150621"]) {
+    for (const id of ["150621"]) {
         assert.equal(data.attacks.find((attack) => attack.id === id).support.status, "displayOnly", id);
     }
-    for (const id of ["140603", "150902", "800920", "801020"]) {
+    for (const id of ["140603", "150902", "800920", "801020", "150120"]) {
         const promoted = data.attacks.find((attack) => attack.id === id);
         assert.equal(promoted.support.status, "calculable", id);
         assert.equal(promoted.support.verified, true, id);

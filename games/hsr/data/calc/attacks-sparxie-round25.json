@@ -1,0 +1,648 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "sparkle-round25-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "本人の明示した単発状態で、通常/追加愉悦と各合計を既存式へ接続して独立検証。"
+  },
+  "overrides": [
+    {
+      "id": "150103",
+      "characterId": "1501",
+      "sourceSkillId": "150103",
+      "name": "火花で盛り上がろう！カメラは止めないで（ATK＋愉悦度・敵1体分）",
+      "element": "Fire",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "elationMultiplierScale": 0.6,
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        30,
+        32,
+        34,
+        36,
+        38,
+        40,
+        42.5,
+        45,
+        47.5,
+        50
+      ],
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "maximumTraceLevel": 10,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "Lv80・星魂0・必殺Lv1～10・敵1体の1対象分。攻撃時点の最終愉悦度を使用し、必殺による爆笑ネタの取得後状態は計算しない。 A2のATK由来愉悦とA6の爆笑ネタ由来CDはダメージ参照時点の最終値へ算入済み。SP/資源の取得・消費・途中補正更新は再現しません。",
+      "calculationScope": "e0-single-target-elation-scaled-ultimate",
+      "calculationNote": "固定版150103.params[0..9][1..2]。基礎ATK倍率30～50%に、#3=60%×最終愉悦度を加える。ATKから愉悦度へのA2変換・小軌跡は最終愉悦度に算入済みとし、再変換しない。全体攻撃の敵1体分だけを計算し、複数敵合計・発動後リソース更新は含めない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の本人/敵1体/明示状態に限定し、通常式と愉悦式を分けて独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150103; character_skill_trees.json:1501101/1501103",
+        "verifiedAt": "2026-11-07",
+        "scope": "Lv80/E0・未撃破の敵1体・状態一定。A2由来愉悦とA6由来CDは最終値へ一度含める。",
+        "verification": "tests/hsr/hsrSparxieRound25.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "sparxieElationScaling": true
+    },
+    {
+      "id": "1501041",
+      "characterId": "1501",
+      "sourceSkillId": "150104",
+      "name": "裏でタネを仕掛ける花（必殺技の愉悦追加ダメージ）",
+      "element": "Fire",
+      "type": "elation",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "hitCount": 1,
+      "canCrit": true,
+      "elationContext": "certifiedBanger",
+      "multipliers": [
+        24,
+        26.4,
+        28.8,
+        31.2,
+        33.6,
+        36,
+        39,
+        42,
+        45,
+        48
+      ],
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "maximumTraceLevel": 10,
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "requiredModifierInputs": [
+        {
+          "inputKey": "sparkle-laughter-reward-active",
+          "expected": true
+        }
+      ],
+      "conditionText": "Lv80・星魂0・天賦Lv1～10・爆笑の褒美を所持して必殺技を発動・敵1体。必殺技本体のATKダメージとは別の愉悦ダメージ。 A2のATK由来愉悦とA6の爆笑ネタ由来CDはダメージ参照時点の最終値へ算入済み。SP/資源の取得・消費・途中補正更新は再現しません。",
+      "calculationScope": "e0-single-target-established-reward-ultimate-rider",
+      "calculationNote": "固定版150104.params[0..9][1]。必殺技発動時の#2追加愉悦ダメージ24～48%。爆笑の褒美がない状態では発生しない。爆笑の褒美数は参照せず、攻撃前に所持しているかだけを条件入力する。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の本人/敵1体/明示状態に限定し、通常式と愉悦式を分けて独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150104; character_skill_trees.json:1501101/1501103",
+        "verifiedAt": "2026-11-07",
+        "scope": "Lv80/E0・未撃破の敵1体・状態一定。A2由来愉悦とA6由来CDは最終値へ一度含める。",
+        "verification": "tests/hsr/hsrSparxieRound25.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "certifiedBangerInputKey": "elation-certified-banger",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "火花本人の追加ダメージ時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ]
+    },
+    {
+      "id": "150108",
+      "characterId": "1501",
+      "sourceSkillId": "150108",
+      "name": "百花繚乱、ひとり勝ち！（事前状態指定・敵1体）",
+      "element": "Fire",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "trapBonusBySkillLevel": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16.25,
+        17.5,
+        18.75,
+        20
+      ],
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "maximumTraceLevel": 6,
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "sparkle-interactive-trap-count",
+          "label": "攻撃前のインタラクティブ・トラップ発動回数",
+          "minimum": 1,
+          "maximum": 20,
+          "integer": true
+        }
+      ],
+      "requiredModifierInputs": [
+        {
+          "inputKey": "sparkle-stream-active",
+          "expected": true
+        }
+      ],
+      "conditionText": "Lv80・星魂0・配信中・強化通常攻撃Lv1～6・スキルLv1～10・敵1体。インタラクティブ・トラップ発動回数1～20を指定。 A2のATK由来愉悦とA6の爆笑ネタ由来CDはダメージ参照時点の最終値へ算入済み。SP/資源の取得・消費・途中補正更新は再現しません。",
+      "calculationScope": "e0-explicit-stream-enhanced-basic-single-target",
+      "calculationNote": "固定版150108.params[0..5][0]の指定敵倍率50～100%に、150109.params[0..9][3]（スキルLv）の発動ごとの主対象倍率10～20%を、入力された攻撃前トラップ回数だけ加算。隣接倍率は敵1体なので対象外。攻撃内の状態更新は行わず、指定した発動回数の同一条件スナップショットを計算する。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の本人/敵1体/明示状態に限定し、通常式と愉悦式を分けて独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150108; character_skill_trees.json:1501101/1501103",
+        "verifiedAt": "2026-11-07",
+        "scope": "Lv80/E0・未撃破の敵1体・状態一定。A2由来愉悦とA6由来CDは最終値へ一度含める。",
+        "verification": "tests/hsr/hsrSparxieRound25.test.cjs",
+        "notes": "150108/150110は固定版の名称・種類・属性・効果・全係数・アイコン・最大Lvが一致。1501001は150108をLv加算対象に指定。説明のある150108を同じ係数定義の代表とし、150110を追加ダメージとして重ねない。150109は独立した攻撃でなく、この通常のSkillLv別倍率増加。"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "sparxieTrapScaling": true,
+      "triggerSkillId": "150110",
+      "trapAdjacentBonusBySkillLevel": [
+        5,
+        5.5,
+        6,
+        6.5,
+        7,
+        7.5,
+        8.13,
+        8.75,
+        9.38,
+        10
+      ]
+    },
+    {
+      "id": "1501042",
+      "characterId": "1501",
+      "sourceSkillId": "150104",
+      "name": "裏でタネを仕掛ける花（強化通常・主対象＋トラップ追加愉悦）",
+      "element": "Fire",
+      "type": "elation",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "hitCount": 1,
+      "hitCountLabel": "主対象1回＋指定トラップ回数分",
+      "canCrit": true,
+      "elationContext": "certifiedBanger",
+      "multipliers": [
+        30,
+        33,
+        36,
+        39,
+        42,
+        45,
+        48.75,
+        52.5,
+        56.25,
+        60
+      ],
+      "elationComponents": [
+        {
+          "name": "強化通常の主対象",
+          "count": 1,
+          "multipliers": [
+            20,
+            22,
+            24,
+            26,
+            28,
+            30,
+            32.5,
+            35,
+            37.5,
+            40
+          ]
+        },
+        {
+          "name": "トラップ発動ごとのランダム追加愉悦",
+          "countFrom": "sparxieTraps",
+          "multipliers": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16.25,
+            17.5,
+            18.75,
+            20
+          ]
+        }
+      ],
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "maximumTraceLevel": 10,
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "sparkle-interactive-trap-count",
+          "label": "攻撃前のインタラクティブ・トラップ発動回数",
+          "minimum": 1,
+          "maximum": 20,
+          "integer": true
+        },
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "火花本人の追加ダメージ時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "requiredModifierInputs": [
+        {
+          "inputKey": "sparkle-laughter-reward-active",
+          "expected": true
+        },
+        {
+          "inputKey": "sparkle-stream-active",
+          "expected": true
+        }
+      ],
+      "conditionText": "Lv80・星魂0・天賦Lv1～10・爆笑の褒美あり・配信中の強化通常攻撃・敵1体。主対象とトラップ分の全愉悦追加成分を合算。 A2のATK由来愉悦とA6の爆笑ネタ由来CDはダメージ参照時点の最終値へ算入済み。SP/資源の取得・消費・途中補正更新は再現しません。",
+      "calculationScope": "e0-explicit-stream-enhanced-basic-elation-single-target",
+      "calculationNote": "固定版150104.params[0..9][0,2]。主対象#3を1回、#1を指定トラップ発動回数分加算。敵1体のときランダムな敵も同じ対象となる。#4の隣接敵成分は敵1体のため0。direct150108は別攻撃行として保持し、同じダメージ結果に自動合算しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の本人/敵1体/明示状態に限定し、通常式と愉悦式を分けて独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150104; character_skill_trees.json:1501101/1501103",
+        "verifiedAt": "2026-11-07",
+        "scope": "Lv80/E0・未撃破の敵1体・状態一定。A2由来愉悦とA6由来CDは最終値へ一度含める。",
+        "verification": "tests/hsr/hsrSparxieRound25.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "certifiedBangerInputKey": "elation-certified-banger",
+      "sparxieTrapScaling": true
+    },
+    {
+      "id": "150120",
+      "characterId": "1501",
+      "sourceSkillId": "150120",
+      "name": "電波最強：アンコール！（敵1体・直接1回＋ランダム20回）",
+      "element": "Fire",
+      "type": "elation",
+      "traceKey": "elation",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "hitCount": 21,
+      "hitCountLabel": "直接1回＋ランダム20ヒット（敵1体）",
+      "canCrit": true,
+      "elationContext": "ahaInstant",
+      "multipliers": [
+        275,
+        302.5,
+        330,
+        357.5,
+        385,
+        412.5,
+        446.82,
+        481.35,
+        515.68,
+        550
+      ],
+      "elationComponents": [
+        {
+          "name": "全体部分の単一敵分",
+          "count": 1,
+          "multipliers": [
+            25,
+            27.5,
+            30,
+            32.5,
+            35,
+            37.5,
+            40.62,
+            43.75,
+            46.88,
+            50
+          ]
+        },
+        {
+          "name": "ランダム跳弾",
+          "count": 20,
+          "multipliers": [
+            12.5,
+            13.75,
+            15,
+            16.25,
+            17.5,
+            18.75,
+            20.31,
+            21.88,
+            23.44,
+            25
+          ]
+        }
+      ],
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "maximumTraceLevel": 10,
+      "requiredTraceLevelRanges": {
+        "elation": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "Lv80/E0・未撃破の敵1体・通常アッハタイム中の全体1回＋ランダム20回が同じ敵に当たる想定。A2愉悦/A6会心は最終入力。獲得する衝撃ネタ2はダメージへ足さず、発動前に20個所持する条件も要求しません。",
+      "calculationScope": "e0-one-enemy-elation-skill-single-invocation",
+      "calculationNote": "固定150120の全体25～50%と各12.5～25%のランダム20回を既存愉悦式で計算。爆笑ネタと本人CBは別。SP/衝撃ネタの獲得・消費と途中補正更新は計算しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の本人/敵1体/明示状態に限定し、通常式と愉悦式を分けて独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150120; character_skill_trees.json:1501101/1501103",
+        "verifiedAt": "2026-11-07",
+        "scope": "Lv80/E0・未撃破の敵1体・状態一定。A2由来愉悦とA6由来CDは最終値へ一度含める。",
+        "verification": "tests/hsr/hsrSparxieRound25.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    },
+    {
+      "id": "1501082",
+      "characterId": "1501",
+      "sourceSkillId": "150108",
+      "name": "百花繚乱、ひとり勝ち！（事前状態指定・敵1体）（通常＋本人追加愉悦の合計）",
+      "element": "Fire",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "trapBonusBySkillLevel": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16.25,
+        17.5,
+        18.75,
+        20
+      ],
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "maximumTraceLevel": 6,
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "sparkle-interactive-trap-count",
+          "label": "攻撃前のインタラクティブ・トラップ発動回数",
+          "minimum": 1,
+          "maximum": 20,
+          "integer": true
+        },
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "火花本人の追加ダメージ時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "requiredModifierInputs": [
+        {
+          "inputKey": "sparkle-stream-active",
+          "expected": true
+        }
+      ],
+      "conditionText": "Lv80・星魂0・配信中・強化通常攻撃Lv1～6・スキルLv1～10・敵1体。インタラクティブ・トラップ発動回数1～20を指定。 A2のATK由来愉悦とA6の爆笑ネタ由来CDはダメージ参照時点の最終値へ算入済み。SP/資源の取得・消費・途中補正更新は再現しません。",
+      "calculationScope": "e0-explicit-stream-enhanced-basic-single-target",
+      "calculationNote": "固定版150108.params[0..5][0]の指定敵倍率50～100%に、150109.params[0..9][3]（スキルLv）の発動ごとの主対象倍率10～20%を、入力された攻撃前トラップ回数だけ加算。隣接倍率は敵1体なので対象外。攻撃内の状態更新は行わず、指定した発動回数の同一条件スナップショットを計算する。 同一行動の通常成分と本人CBの追加愉悦を各式で計算して合算。単独成分行をこの合計へ再加算しないでください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の本人/敵1体/明示状態に限定し、通常式と愉悦式を分けて独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150108; character_skill_trees.json:1501101/1501103; character_skills.json:150104",
+        "verifiedAt": "2026-11-07",
+        "scope": "Lv80/E0・未撃破の敵1体・状態一定。A2由来愉悦とA6由来CDは最終値へ一度含める。",
+        "verification": "tests/hsr/hsrSparxieRound25.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "sparxieTrapScaling": true,
+      "triggerSkillId": "150109",
+      "trapAdjacentBonusBySkillLevel": [
+        5,
+        5.5,
+        6,
+        6.5,
+        7,
+        7.5,
+        8.13,
+        8.75,
+        9.38,
+        10
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "150108",
+          "name": "通常のATK参照成分"
+        },
+        {
+          "key": "banger",
+          "attackId": "1501042",
+          "name": "本人CBによる追加愉悦"
+        }
+      ]
+    },
+    {
+      "id": "1501032",
+      "characterId": "1501",
+      "sourceSkillId": "150103",
+      "name": "火花で盛り上がろう！カメラは止めないで（ATK＋愉悦度・敵1体分）（通常＋本人追加愉悦の合計）",
+      "element": "Fire",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "elationMultiplierScale": 0.6,
+      "hitCount": 2,
+      "canCrit": true,
+      "multipliers": [
+        30,
+        32,
+        34,
+        36,
+        38,
+        40,
+        42.5,
+        45,
+        47.5,
+        50
+      ],
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "maximumTraceLevel": 10,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "Lv80・星魂0・必殺Lv1～10・敵1体の1対象分。攻撃時点の最終愉悦度を使用し、必殺による爆笑ネタの取得後状態は計算しない。 A2のATK由来愉悦とA6の爆笑ネタ由来CDはダメージ参照時点の最終値へ算入済み。SP/資源の取得・消費・途中補正更新は再現しません。",
+      "calculationScope": "e0-single-target-elation-scaled-ultimate",
+      "calculationNote": "固定版150103.params[0..9][1..2]。基礎ATK倍率30～50%に、#3=60%×最終愉悦度を加える。ATKから愉悦度へのA2変換・小軌跡は最終愉悦度に算入済みとし、再変換しない。全体攻撃の敵1体分だけを計算し、複数敵合計・発動後リソース更新は含めない。 同一行動の通常成分と本人CBの追加愉悦を各式で計算して合算。単独成分行をこの合計へ再加算しないでください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の本人/敵1体/明示状態に限定し、通常式と愉悦式を分けて独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150103; character_skill_trees.json:1501101/1501103; character_skills.json:150104",
+        "verifiedAt": "2026-11-07",
+        "scope": "Lv80/E0・未撃破の敵1体・状態一定。A2由来愉悦とA6由来CDは最終値へ一度含める。",
+        "verification": "tests/hsr/hsrSparxieRound25.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "sparxieElationScaling": true,
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "火花本人の追加ダメージ時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "150103",
+          "name": "通常のATK参照成分"
+        },
+        {
+          "key": "banger",
+          "attackId": "1501041",
+          "name": "本人CBによる追加愉悦"
+        }
+      ]
+    }
+  ]
+}

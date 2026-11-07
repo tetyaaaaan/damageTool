@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "fudie-round25-ultimate-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "E0・敵1体・撃破なしの不死途必殺技を、暴食の明示入力から直接攻撃・強化天賦・消費追加攻撃へ分けて合算。"
+  },
+  "overrides": [
+    {
+      "id": "150403",
+      "characterId": "1504",
+      "sourceSkillId": "150403",
+      "name": "饗宴の幕、開けば閉じず（暴食入力・敵1体・撃破なし）",
+      "element": "Thunder",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "必殺直撃1回＋強化天賦1回＋暴食4層消費ごとの追加攻撃",
+      "canCrit": true,
+      "multipliers": [200, 220, 240, 260, 280, 300, 325, 350, 375, 400],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": { "minimum": 1, "maximum": 10 },
+        "talent": { "minimum": 1, "maximum": 10 }
+      },
+      "comparisonModifierInputs": {
+        "fudie-prey-active": true
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "fudie-gluttony-stacks",
+          "label": "必殺の強化天賦1回目・ダメージ時点の暴食層（必殺時の獲得分を含む）",
+          "minimum": 2,
+          "maximum": 12,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "必殺技の直撃",
+          "attackId": "1504031",
+          "type": "ultimate",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true
+        },
+        {
+          "key": "freeTalent",
+          "name": "必殺技による強化天賦（チャージ消費なし）",
+          "attackId": "1504032",
+          "type": "followUp",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true
+        },
+        {
+          "key": "gluttonyBite1",
+          "name": "暴食4層消費・追加攻撃1",
+          "attackId": "1504033",
+          "type": "followUp",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true
+        },
+        {
+          "key": "gluttonyBite2",
+          "name": "暴食4層消費・追加攻撃2",
+          "attackId": "1504033",
+          "type": "followUp",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true
+        },
+        {
+          "key": "gluttonyBite3",
+          "name": "暴食4層消費・追加攻撃3",
+          "attackId": "1504033",
+          "type": "followUp",
+          "element": "Thunder",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true
+        }
+      ],
+      "conditionText": "Lv80・星魂0・必殺技/天賦Lv1～10・敵1体・餌食成立済み・全成分の途中で敵を撃破しない単発想定。暴食は必殺による獲得後、強化天賦1回目のダメージ時点を2～12層で指定します。4層消費ごとに同倍率の追加攻撃を最大3回計算します。",
+      "calculationScope": "e0-one-prey-one-enemy-no-kill-explicit-first-follow-up-gluttony",
+      "calculationNote": "固定版150403の順序に従い、直接攻撃→強化天賦1回（チャージ消費なし）→暴食4層以上なら4層を消費して追加攻撃を繰り返す構成です。入力Nは最初の強化天賦ダメージ時点の暴食層であり、必殺の獲得分を含めた実効値を選択します。天賦追加能力の追撃DMGは最初の成分にN層、消費成分ごとにN-4/N-8/N-12層として適用します。攻撃中の撃破、新しい餌食への標的変更、撃破時の暴食獲得、他の行動は再現しません。条件付き追加攻撃DMG・層別追加攻撃DMG・追加攻撃限定会心ダメージの既算入フラグは、必殺直撃と各成分の層数で適用範囲が異なるため、本合計では使用できません。一般会心ダメージ+40%と餌食DEF低下の既算入は使用できます。独立成分行1504031/1504032/1504033をこの合計に重ねないでください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の直接倍率・無料強化天賦・4層消費条件と既存暴食追撃補正を成分別に適用し、限定状態で独立計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150403.params[0..9][0,2,3];character_skills.json:150404.params[0..9][3];character_skill_trees.json:1504101.params[0];character_skill_trees.json:1504102.params[0..2]",
+        "verifiedAt": "2026-11-07",
+        "scope": "E0・Lv80・敵1体・撃破なし・攻撃前から餌食・強化天賦最初のダメージ時点で暴食2～12層を明示。撃破後標的変更を含まない。",
+        "verification": "tests/hsr/hsrFudieRound25.test.cjs",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc840/src/lib/conditionals/character/1500/Ashveil.ts"
+      },
+      "requiredModifierIds": [
+        "traceNode:1504:150402:prey-defense-reduction"
+      ]
+    },
+    {
+      "id": "1504033",
+      "characterId": "1504",
+      "sourceSkillId": "150403",
+      "name": "饗宴の幕、開けば閉じず（内部・暴食消費追加攻撃）",
+      "element": "Thunder",
+      "type": "followUp",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "componentSequence内の暴食消費成分",
+      "canCrit": true,
+      "multipliers": [100, 110, 120, 130, 140, 150, 162.5, 175, 187.5, 200],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": { "minimum": 1, "maximum": 10 }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "fudie-gluttony-stacks",
+          "label": "追加攻撃ダメージ時点の暴食層",
+          "minimum": 0,
+          "maximum": 8,
+          "integer": true
+        }
+      ],
+      "comparisonModifierInputs": {
+        "fudie-prey-active": true
+      },
+      "hidden": true,
+      "conditionText": "内部成分。親の必殺合計150403でのみ使用し、暴食層を4消費した後の追加攻撃1回を表します。単独表示しません。",
+      "calculationScope": "internal-fudie-ultimate-gluttony-spend-component",
+      "calculationNote": "係数は固定版150403.params[0..9][3]。親成分列が明示した消費後の暴食層を追撃DMG補正に渡します。単独計算・候補表示はしません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版必殺技の4層消費後追加ダメージ成分として内部使用。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150403.params[0..9][3]",
+        "verifiedAt": "2026-11-07",
+        "scope": "親必殺合計の内部成分。撃破なし・敵1体・暴食消費後0～8層を明示。",
+        "verification": "tests/hsr/hsrFudieRound25.test.cjs"
+      },
+      "requiredModifierIds": [
+        "traceNode:1504:150402:prey-defense-reduction",
+        "traceNode:1504:1504102:follow-up-base",
+        "traceNode:1504:1504102:follow-up-stacks"
+      ]
+    }
+  ]
+}

@@ -445,6 +445,10 @@
         "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
         "sourceFile": "character_skill_trees.json:1317103",
         "verifiedAt": "2026-10-27"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "rappa-prior-break-vulnerability-in-final",
+        "inputLabel": "枯葉の効果を敵の被ダメージ増加へ反映済み"
       }
     }
   ]

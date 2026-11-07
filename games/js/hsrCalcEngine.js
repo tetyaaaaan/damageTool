@@ -104,23 +104,26 @@
 
     // Fixed-source CB riders reuse the Elation equation, with an owner-specific snapshot.
     function certifiedBangerCurve(attack) {
+        if(attack.id==='1501041')return [24,26.4,28.8,31.2,33.6,36,39,42,45,48];
+        if(attack.id==='1501042'){const n=attack.sparxieTrapCount;return Number.isInteger(n)&&n>=1&&n<=20?[20,22,24,26,28,30,32.5,35,37.5,40].map((v,i)=>v+n*[10,11,12,13,14,15,16.25,17.5,18.75,20][i]):[];}
         return ({'1513041':[20,22,24,26,28,30,32.5,35,37.5,40], '1513042':[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72],
             '1505041':[8,8.8,9.6,10.4,11.2,12,13,14,15,16], '1505042':[138,151.8,165.6,179.4,193.2,207,224.25,241.5,258.75,276], '1505043':[12.5,13.75,15,16.25,17.5,18.75,20.31,21.88,23.44,25], '8009041':[15,16.5,18,19.5,21,22.5,24.37,26.25,28.12,30], '8010041':[15,16.5,18,19.5,21,22.5,24.37,26.25,28.12,30]})[attack.id] || [];
     }
 
     function supportedElationAttack(attack) {
         if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
+        if(attack.characterId==='1501'&&attack.element==='Fire'&&attack.sourceSkillId===(attack.id==='150120'?'150120':'150104'))return (['1501041','1501042'].includes(attack.id)&&attack.elationContext==='certifiedBanger'&&attack.hitCount===1&&attack.target==='single')||(attack.id==='150120'&&attack.elationContext==='ahaInstant'&&attack.hitCount===21&&attack.target==='single');
         return (["1505041","1505042","1505043"].includes(attack.id) && attack.characterId==='1505' && attack.sourceSkillId==='150504' && attack.elationContext==='certifiedBanger' && attack.hitCount===(attack.id==='1505042'?10:1) && attack.target==='aoe' && attack.requiresFinalCritDamageConversion===true && attack.minimumCertifiedBanger===(attack.id==='1505042'?480:undefined)) || (["1513041","1513042"].includes(attack.id) && attack.characterId==='1513' && attack.sourceSkillId==='151304' && attack.elationContext==='certifiedBanger' && attack.hitCount===1 && attack.target==='aoe') || (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
             || (attack.id === "150220" && attack.elationContext === "firstAhaInstant" && attack.target === "single" && attack.hitCount === 6)
             || (attack.id === "151320" && attack.elationContext === "fervor10Auto" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === 20)
             || (attack.id === "151321" && attack.elationContext === "fervorEnhancedAha" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === undefined)
-            || (["800920","801020"].includes(attack.id) && attack.characterId === attack.id.slice(0,4) && attack.sourceSkillId === attack.id && attack.elationContext === "ahaInstant" && attack.target === "single" && attack.hitCount === 9 && attack.certifiedBangerScope === undefined)
+            || (["800920","801020","150120","1501042"].includes(attack.id) && attack.characterId === attack.id.slice(0,4) && attack.sourceSkillId === attack.id && attack.elationContext === "ahaInstant" && attack.target === "single" && attack.hitCount === 9 && attack.certifiedBangerScope === undefined)
             || (["8009041","8010041"].includes(attack.id) && attack.characterId === attack.id.slice(0,4) && attack.sourceSkillId === (attack.characterId === "8009" ? "800904" : "801004") && attack.elationContext === "certifiedBanger" && attack.certifiedBangerScope === "selfIsPartyMaximum" && attack.target === "aoe" && attack.hitCount === 1);
     }
 
     function elationComponents(attack, fervor) {
         return (Array.isArray(attack.elationComponents) ? attack.elationComponents : []).map((component) => ({
-            name: component?.name, count: attack.id === "151321" && component?.countFrom === "fervor" ? fervor : component?.count, multiplierPercent: component?.multipliers?.[attack.traceLevel - 1]
+            name: component?.name, count: attack.id === "151321" && component?.countFrom === "fervor" ? fervor : attack.id === "1501042" && component?.countFrom === "sparxieTraps" ? attack.sparxieTrapCount : component?.count, multiplierPercent: component?.multipliers?.[attack.traceLevel - 1]
         }));
     }
 
@@ -130,7 +133,10 @@
         const values = input.elation || {};
         const warnings = [];
         if (!ELATION_LEVEL_BASE[character.level] || (character.eidolon ?? 0) !== 0) warnings.push("この愉悦攻撃はLv80・星魂0のみ計算対応です。");
-        if (["800920","801020"].includes(input.attack?.id)) {
+        if(input.attack?.id==='150120'){
+            const a=input.attack,parts=elationComponents(a),per=[12.5,13.75,15,16.25,17.5,18.75,20.31,21.88,23.44,25],aoe=[25,27.5,30,32.5,35,37.5,40.62,43.75,46.88,50],i=a.traceLevel-1;
+            if(input.enemy?.count!==1||values.context!=='ahaInstant'||parts.length!==2||parts[0].count!==1||parts[1].count!==20||parts[0].multiplierPercent!==aoe[i]||parts[1].multiplierPercent!==per[i]||Math.abs(a.multiplier-(aoe[i]+20*per[i]))>1e-8)warnings.push('火花の愉悦スキルは敵1体への全体1回＋ランダム20回・状態一定の想定のみ対応です。');
+        } else if (["800920","801020"].includes(input.attack?.id)) {
             const a=input.attack,owner=a.id.slice(0,4),random=[10,11,12,13,14,15,16.25,17.5,18.75,20],last=[30,33,36,39,42,45,48.75,52.5,56.25,60];
             const parts=elationComponents(a),expected=8*random[a.traceLevel-1]+last[a.traceLevel-1];
             if(a.characterId!==owner||a.sourceSkillId!==a.id||a.target!=="single"||a.hitCount!==9||values.context!=="ahaInstant"||input.enemy?.count!==1||a.certifiedBangerScope!==undefined||parts.length!==2||parts[0].count!==8||parts[1].count!==1||parts[0].multiplierPercent!==random[a.traceLevel-1]||parts[1].multiplierPercent!==last[a.traceLevel-1]||a.multiplier!==expected||a.multipliers?.[a.traceLevel-1]!==expected)warnings.push("愉悦開拓者の愉悦スキルは固定版のランダム8回＋最後の全体1回・敵1体の想定状態のみです。");
@@ -139,6 +145,7 @@
             if(["8009041","8010041"].includes(a.id)&&(a.certifiedBangerScope!=="selfIsPartyMaximum"||a.characterId!==a.id.slice(0,4)))warnings.push("開拓者の追加愉悦は本人の爆笑の褒美が味方内最大の比較状態のみ計算対応です。");
             if(values.context!=='certifiedBanger'||!Number.isInteger(values.certifiedBanger)||values.certifiedBanger<1||values.certifiedBanger>10000)warnings.push('攻撃時点の爆笑の褒美に1～10000の整数を入力してください。爆笑ネタは使用しません。');
             if(input.enemy?.count!==1||a.multiplier!==curve[a.traceLevel-1])warnings.push('追加愉悦の天賦倍率・敵1体の条件を確認してください。');
+            if(a.id==='1501042'){const parts=elationComponents(a);if(parts.length!==2||parts[0].count!==1||parts[1].count!==a.sparxieTrapCount||Math.abs(parts.reduce((n,p)=>n+p.count*p.multiplierPercent,0)-a.multiplier)>1e-8)warnings.push('火花の本人CB・主対象とトラップ回数の成分を確認してください。');}
             if(a.id==='1505042'){const parts=elationComponents(a);if(parts.length!==2||parts[0].count!==1||parts[1].count!==9||parts.some(p=>!Number.isFinite(p.multiplierPercent))||Math.abs(parts.reduce((n,p)=>n+p.count*p.multiplierPercent,0)-a.multiplier)>1e-8)warnings.push('緋英の全体1回・9バウンドの追加愉悦成分を確認してください。');}
         } else if (input.attack?.id === "151321") {
             if (values.context !== "fervorEnhancedAha" || values.stableEnemy !== true) warnings.push("熱気10到達の通常版発動後、次のアッハタイムの強化版で全ヒット中に撃破・敵条件変化がないことを確認してください。");
@@ -245,6 +252,8 @@
     };
 
     const bangerActionSequences = {
+        "1501082": {owner:"1501",body:"150108",rider:"1501042",riderSource:"150104",type:"enhancedNormal",element:"Fire"},
+        "1501032": {owner:"1501",body:"150103",rider:"1501041",riderSource:"150104",type:"ultimate",element:"Fire"},
         "1505022": {owner:"1505",body:"150502",rider:"1505041",type:"skill",element:"Physical"},
         "1505032": {owner:"1505",body:"150503",rider:"1505042",type:"ultimate",element:"Physical"},
         "1505044": {owner:"1505",body:"150504",rider:"1505043",type:"followUp",element:"Physical"},
@@ -259,6 +268,7 @@
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
         if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
         if(attack.id === "1321042" && attack.characterId === "1321" && attack.sourceSkillId === "132104" && attack.type === "superBreak" && attack.damageFormula === "dahliaSuperBreak" && attack.element === "Fire") return "";
+        if (attack.id === "131718" && attack.characterId === "1317" && attack.sourceSkillId === "131718" && attack.damageFormula === "nativeBreakSequence" && attack.nativeBreakKind === "rappa" && attack.type === "enhancedNormal" && attack.element === "Imaginary") return "";
         if (["131008","131009","1131008","1131009"].includes(attack.id) && attack.characterId === "1310" && attack.damageFormula === "nativeBreakSequence") return "";
         if (attack.id === "131508" && attack.damageFormula === "normalAndBreak" && attack.type === "enhancedNormal") return "";
         if (attack.damageFormula === "componentSequence") {
@@ -273,6 +283,7 @@
                 && attack.type === welt.type && attack.element === "Imaginary" && components?.length === welt.parts.length
                 && welt.parts.every((p,i) => components[i]?.key === p.key && components[i]?.attackId === p.id);
             if (attack.id === "150905" && attack.characterId === "1509" && attack.sourceSkillId === "150905" && attack.type === "followUp" && attack.element === "Thunder" && components?.length === 2 && components[0]?.key === "lightning" && components[0]?.attackId === "1509051" && components[1]?.key === "wind" && components[1]?.attackId === "supplemental:trace:1509:150905:saber-wind-followup") return "";
+            if (attack.id === "150403" && attack.characterId === "1504" && attack.sourceSkillId === "150403" && attack.type === "ultimate" && attack.element === "Thunder" && components?.length>=2 && components.length<=5 && components.every((d,i)=>d.key===["direct","freeTalent","gluttonyBite1","gluttonyBite2","gluttonyBite3"][i] && d.attackId===["1504031","1504032","1504033","1504033","1504033"][i])) return "";
             const mixed = bangerActionSequences[attack.id];
             const validBangerAction = mixed && attack.characterId === mixed.owner && attack.sourceSkillId === mixed.body && attack.type === mixed.type && attack.element === mixed.element
                 && (mixed.scope === undefined || attack.certifiedBangerScope === mixed.scope)
@@ -417,7 +428,7 @@ function calculateFanning(input) {
             if(attack.requiresBrokenTarget && enemy.toughnessActive!==false) return fail("この比較は攻撃前から撃破状態の敵を想定します。靭性状態を撃破済みにしてください。");
             if(attack.requiredWeaknessCount && enemy.weaknessCount!==attack.requiredWeaknessCount) return fail("攻撃前から7弱点・本質暴露が成立した比較のみ対応です。");
             for(const spec of attack.numericModifierInputs||[]){const values=input.modifierInputs||{},v=Object.hasOwn(values,spec.inputKey)?values[spec.inputKey]:spec.default;if(!Number.isFinite(v)||v<spec.minimum||v>spec.maximum||(spec.integer&&!Number.isInteger(v)))return fail(spec.label+"に"+spec.minimum+"～"+spec.maximum+"の"+(spec.integer?"整数":"数値")+"を入力してください。");}
-            for(const id of attack.requiredModifierIds||[]){const mods=(input.modifiers||[]).filter(m=>m.id===id&&((m.enabled!==false&&m.applicable!==false)||(["150402","1504031","1504032","150404"].includes(attack.id)&&m.includedInFinalStats===true))&&m.calculable!==false&&Number.isFinite(m.value)&&!(m.inputWarnings||[]).length&&modifierAppliesToAttack(m,attack));if(mods.length!==1)return fail("必要な補正が不足しています："+id);}
+            for(const id of attack.requiredModifierIds||[]){const mods=(input.modifiers||[]).filter(m=>m.id===id&&((m.enabled!==false&&m.applicable!==false)||(["150402","150403","1504031","1504032","1504033","150404"].includes(attack.id)&&m.includedInFinalStats===true)||(["1504032","1504033","150404"].includes(attack.id)&&m.id==="traceNode:1504:1504102:follow-up-stacks"&&m.value===0&&input.modifierInputs?.["fudie-gluttony-stacks"]===0))&&m.calculable!==false&&Number.isFinite(m.value)&&!(m.inputWarnings||[]).length&&modifierAppliesToAttack(m,attack));if(mods.length!==1)return fail("必要な補正が不足しています："+id);}
         }
         if (attack.rejectNormalOnlyModifiers && attack.damageFormula !== "componentSequence") { const reason = normalOnlyModifierReason(input.modifiers || []); if (reason) return { supported: false, reason }; }
         if (attack.damageFormula === "resolvedDamageMultiplier") return calculateSerinResolvedDoT(input);
@@ -466,7 +477,20 @@ function calculateFanning(input) {
         };
 
         const scalingStat = attack.scalingStat || "atk";
-        const multiplierAddition = applied.filter((item) => item.category === "multiplierAddition").reduce((sum, item) => sum + item.value, 0) * number(attack.multiplierAdditionScale, 1);
+        let nativeMultiplierAddition=0;
+        if(attack.characterId==='1501'&&['150103','150108'].includes(attack.id)){
+            if(attack.id==='150103'){
+                if(attack.sparxieElationScaling!==true||attack.elationMultiplierScale!==0.6||!Number.isFinite(stats.elation)||stats.elation<0)return {supported:false,reason:'火花の必殺はATK係数と最終愉悦度の参照を確認してください。'};
+                if(applied.some(m=>['statPercent','statFlat'].includes(m.category)&&m.stat==='atk'))return {supported:false,reason:'ATKからの愉悦再換算は、ATKと愉悦の両方を最終入力へ反映してください。'};
+                nativeMultiplierAddition=0.6*effectiveStats.elation;
+            }else{
+                const n=attack.sparxieTrapCount,l=attack.sparxieSkillLevel;
+                if(attack.sparxieTrapScaling!==true||!Number.isInteger(n)||n<1||n>20||!Number.isInteger(l)||l<1||l>10)return {supported:false,reason:'強化通常はトラップ回数1～20とスキルLv1～10を指定してください。'};
+                if(applied.some(m=>m.category==='progressiveTakenDamage'))return {supported:false,reason:'この強化通常は途中で補正が変化しない想定です。'};
+                nativeMultiplierAddition=n*[10,11,12,13,14,15,16.25,17.5,18.75,20][l-1];
+            }
+        }
+        const multiplierAddition = nativeMultiplierAddition + applied.filter((item) => item.category === "multiplierAddition").reduce((sum, item) => sum + item.value, 0) * number(attack.multiplierAdditionScale, 1);
         const scalingTerms = Array.isArray(attack.scalingTerms) && attack.scalingTerms.length
             ? attack.scalingTerms.map((term) => ({ stat: term.stat || "atk", referenceValue: number(effectiveStats[term.stat || "atk"]), multiplierPercent: number(term.multiplier) + (term.receivesMultiplierAddition ? multiplierAddition : 0) }))
             : [{ stat: scalingStat, referenceValue: number(effectiveStats[scalingStat]), multiplierPercent: number(attack.multiplier) + multiplierAddition }];
@@ -532,6 +556,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if (input.attack?.id === "150403") return calculateFudieUltimateSnapshot(input);
         if (input.attack?.id === "150905") return calculateGilgameshJoint(input);
         if (bangerActionSequences[input.attack?.id]) return calculateBangerActionSnapshot(input);
         if (kafkaSequences[input.attack?.id]) return calculateKafkaSnapshot(input);
@@ -610,6 +635,21 @@ function calculateFanning(input) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
         return combineDamageComponents(attack, components, welt ? "本体＋審判/天賦付加の合計（事前無重力・懲戒10層）" : elemental ? "本体＋事前DoT状態への天賦付加1回の合計" : yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+    }
+
+    function calculateFudieUltimateSnapshot(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},values=input.modifierInputs||{},n=values['fudie-gluttony-stacks'],u=a.traceLevel,parts=input.sequenceComponents||[],fail=reason=>({supported:false,reason});
+        const ult=[200,220,240,260,280,300,325,350,375,400],fua=[100,110,120,130,140,150,162.5,175,187.5,200];
+        if(c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!Number.isInteger(u)||u<1||u>10||a.multiplier!==ult[u-1]||!Number.isInteger(n)||n<2||n>12||parts.length!==2+Math.floor(n/4))return fail('不死途の必殺合計はLv80/E0・未撃破の敵1体・暴食2～12層・全成分で敵が生存する想定です。');
+        if(['fudie-a4-base-in-final','fudie-a4-stack-in-final','fudie-a6-follow-up-crit-damage-in-final'].some(k=>values[k]===true))return fail('この合計では追加攻撃限定DMG/CDを共有の最終入力から外し、補正条件で成分別に加算してください。一般CDと餌食DEFの算入済みは使用できます。');
+        for(let i=0;i<parts.length;i++){
+            const p=parts[i],q=p?.input||{},b=q.attack||{},effective=n-4*Math.max(0,i-1),expectedInputs=i?{...values,'fudie-gluttony-stacks':effective}:values;
+            if(p.key!==['direct','freeTalent','gluttonyBite1','gluttonyBite2','gluttonyBite3'][i]||b.id!==['1504031','1504032','1504033','1504033','1504033'][i]||b.characterId!=='1504'||b.sourceSkillId!==(i===1?'150404':'150403')||b.type!==(i?'followUp':'ultimate')||b.element!=='Thunder'||b.damageFormula!=='statMultiplier'||b.hitCount!==1||!Number.isInteger(b.traceLevel)||b.traceLevel<1||b.traceLevel>10||(i!==1&&b.traceLevel!==u)||b.multiplier!==(i?fua:ult)[b.traceLevel-1]||JSON.stringify(q.character)!==JSON.stringify(c)||JSON.stringify(q.enemy)!==JSON.stringify(e)||JSON.stringify(q.modifierInputs)!==JSON.stringify(expectedInputs)||(i&&b.fudieEffectiveStacks!==effective))return fail('必殺/天賦の独立Lvと、消費前後の暴食層に対応する本人の登録成分を指定してください。');
+            const mods=q.modifiers||[];
+            for(const [id,value]of [['traceNode:1504:1504103:crit-damage:self',40],...(i?[['traceNode:1504:1504102:follow-up-base',80],['traceNode:1504:1504102:follow-up-stacks',10*effective],['traceNode:1504:1504103:follow-up-crit-damage:self',80]]:[])]){const found=mods.filter(m=>m.id===id&&m.calculable!==false&&!(m.inputWarnings||[]).length&&((m.enabled!==false&&m.applicable!==false)||m.includedInFinalStats===true||(id==='traceNode:1504:1504102:follow-up-stacks'&&effective===0&&m.value===0)));if(found.length!==1||found[0].value!==value)return fail('各成分の暴食層と追加攻撃限定補正を1回ずつ適用してください。');}
+            if(mods.some(m=>m.category==='progressiveTakenDamage'&&m.enabled!==false&&m.applicable!==false&&modifierAppliesToAttack(m,b)))return fail('この合計は暴食消費以外の段間補正更新を扱いません。');
+        }
+        return combineDamageComponents(a,parts,'必殺直撃＋無料強化天賦＋暴食消費追加攻撃（撃破なし）');
     }
 
     function calculateGilgameshJoint(input) {
@@ -866,6 +906,24 @@ function calculateFanning(input) {
     // Combines only a pre-broken snapshot; it never creates or advances a Break event.
     function calculateNativeBreakSequence(input) {
         const {attack:a,character:c={},enemy:e={}}=input,fail=reason=>({supported:false,reason});
+        if (a.id === "131718" && a.nativeBreakKind === "rappa") {
+            const level=a.traceLevel,talent=a.nativeTalentLevel,ult=a.nativeUltimateLevel,charge=input.modifierInputs?.["rappa-consumed-charge"],curve=[180,204,228,252,276,300];
+            if(a.sourceSkillId!=="131718"||a.characterId!=="1317"||a.type!=="enhancedNormal"||a.element!=="Imaginary"||a.scalingStat!=="atk"||a.hitCount!==1||!Number.isInteger(level)||level<1||level>6||a.multiplier!==curve[level-1]||!Number.isInteger(talent)||talent<1||talent>10||!Number.isInteger(ult)||ult<1||ult>10)return fail("乱破の通常/天賦/必殺Lvと登録済み成分を確認してください。");
+            if(c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==false||e.weakness!==true||!Number.isFinite(e.maxToughness)||e.maxToughness<=0||!Number.isInteger(charge)||charge<0||charge>10)return fail("この合計はLv80/E0・事前撃破済みの虚数弱点敵1体・消費チャージ0～10のみ対応です。");
+            for(const k of ['atk','critRate','critDamage','damageBonus','breakEffect'])if(!Number.isFinite(c.stats?.[k])||(k==='atk'&&c.stats[k]<=0)||(k==='breakEffect'&&c.stats[k]<0))return fail("乱破の完成済み最終ステータスと結印分を含む撃破特効を入力してください。");
+            const bm=input.breakModifiers||[],sm=input.superBreakModifiers||[],leaf='traceNode:1317:1317103:prior-break-vulnerability',eff='trace:1317:131703:sealform-super-break-efficiency';
+            for(const ms of [bm,sm]){const rows=ms.filter(m=>m.id===leaf&&m.calculable!==false&&!(m.inputWarnings||[]).length&&((m.enabled!==false&&m.applicable!==false)||m.includedInFinalStats===true));if(rows.length!==1||!Number.isFinite(rows[0].value)||rows[0].value<2||rows[0].value>10)return fail("事前成立した枯葉の2～10%を指定し、敵入力への算入済みを区別してください。");}
+            const efficiency=sm.filter(m=>m.id===eff&&m.enabled!==false&&m.applicable!==false&&m.calculable!==false&&!(m.inputWarnings||[]).length);if(efficiency.length!==1||efficiency[0].value!==50)return fail("結印中の撃破効率50%を1回だけ超撃破へ適用してください。");
+            if((input.modifiers||[]).some(m=>m.category==='progressiveTakenDamage'&&m.enabled!==false&&m.applicable!==false&&modifierAppliesToAttack(m,a)))return fail("この合計は全3段で状態一定の比較です。段間で変わる補正は扱いません。");
+            // The shared enemy field may contain the Break-only leaf; remove it from ordinary damage.
+            const includedLeaf=bm.find(m=>m.id===leaf&&m.includedInFinalStats===true);
+            const directEnemy=includedLeaf?{...e,takenDamage:(e.takenDamage||0)-includedLeaf.value}:e;
+            const direct=calculate({...input,enemy:directEnemy,attack:{...a,damageFormula:'statMultiplier',requiredModifierIds:undefined}});if(direct.supported===false)return direct;
+            const extra=calculateAdditionalBreak({...input,character:{...c,id:'1317'},attack:{id:'1317041',characterId:'1317',sourceSkillId:'131704',breakEvent:'additional',type:'break',element:'Imaginary',traceLevel:talent,multiplier:[30,33,36,39,42,45,48.75,52.5,56.25,60][talent-1]},modifiers:bm});if(extra.supported===false)return extra;
+            const sb=calculateSuperBreak({...input,attack:{...a,type:'superBreak',attackType:'superBreak',toughnessDamage:27+charge,superBreakMultiplier:60},modifiers:sm});if(sb.supported===false)return sb;
+            const wrap=(r,name,kind)=>({...r,attack:{name,canCrit:false,hitCount:1,target:'single'},nonCrit:r.value,crit:r.value,expected:r.value,breakdown:{damageFormula:'breakComponent',kind,...r,finalBreakEffect:((r.breakEffect ?? r.effect)-1)*100}});
+            return {attack:{...direct.attack,name:a.name,hitCountLabel:'直接3段＋天賦撃破＋超撃破'},nonCrit:direct.nonCrit+extra.value+sb.value,crit:direct.crit+extra.value+sb.value,expected:direct.expected+extra.value+sb.value,components:{direct,additionalBreak:wrap(extra,'天賦追加撃破','break'),superBreak:wrap(sb,'本人A4超撃破','superBreak')},applied:[...direct.applied,...extra.applied,...sb.applied],skipped:[...direct.skipped,...extra.skipped,...sb.skipped],breakdown:{damageFormula:'componentSequence',componentNames:['直接3段','天賦追加撃破','本人A4超撃破'],totalLabel:'直接＋天賦追加撃破＋本人超撃破',condition:'虚数弱点の敵1体が事前撃破済み・状態一定。結印BEは最終入力、効率は1回適用。'}};
+        }
         const enhanced=a.id.startsWith('11310'),skill=a.id.endsWith('09'),level=a.traceLevel,ult=a.nativeUltimateLevel;
         const curve=skill?[100,110,120,130,140,150,162.5,175,187.5,200]:[100,120,140,160,180,200];
         if(a.characterId!=='1310'||a.nativeBreakKind!=='firefly'||a.sourceSkillId!==a.id||a.variant!==(enhanced?'enhanced':'previous')||a.type!==(skill?'enhancedSkill':'enhancedNormal')||a.element!=='Fire'||a.scalingStat!=='atk'||a.hitCount!==1||!Number.isInteger(level)||level<1||level>curve.length||a.multiplier!==curve[level-1])return fail('ホタルの版・攻撃種別・全採用Lvの成分定義を確認してください。');
@@ -969,11 +1027,11 @@ function calculateFanning(input) {
         const { character, enemy = {}, attack, elation: values } = input;
         const stats = character.stats;
         const modifiers = (input.modifiers || []).map(normalizeModifier);
-        if (["800920","801020"].includes(attack.id)
+        if (["800920","801020","150120","1501042"].includes(attack.id)
             && (input.modifiers || []).some(m => m.enabled !== false && m.applicable !== false && m.category === "progressiveTakenDamage" && modifierAppliesToAttack(m, attack))) {
             return {supported:false,reason:"アッハタイムの段間で変化する被ダメージ補正は、この敵1体の状態一定計算では扱いません。"};
         }
-        if (["8009041","8010041","800920","801020"].includes(attack.id)
+        if (["8009041","8010041","800920","801020","1501041","1501042","150120"].includes(attack.id)
             && (input.modifiers || []).some(m => m.enabled !== false && m.applicable !== false && m.includedInFinalStats !== true && ["statPercent","statFlat"].includes(m.category) && m.stat === "atk")) {
             return {supported:false,reason:"愉悦度へのATK変換は最終入力へ算入してください。この愉悦結果ではATK支援からの再変換を扱いません。"};
         }

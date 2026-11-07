@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "rappa-round25",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定倍率と事前状態の3成分を既存式で合算し、独立値で検証。"
+  },
+  "overrides": [
+    {
+      "id": "131718",
+      "characterId": "1317",
+      "name": "忍具・降魔の花弁（直接＋天賦撃破＋超撃破・事前撃破済み）",
+      "element": "Imaginary",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        180,
+        204,
+        228,
+        252,
+        276,
+        300
+      ],
+      "sourceSkillId": "131718",
+      "displayOrder": 10,
+      "generatedFrom": "catalog.json:characters[].skills",
+      "calculationScope": "e0-one-broken-imaginary-weak-target-direct-talent-superbreak",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定倍率と事前状態の3成分を既存式で合算し、独立値で検証。"
+      },
+      "damageFormula": "nativeBreakSequence",
+      "hitCountLabel": "直撃3段合算",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "resultSummary": "直接3段＋同じ行動の天賦追加撃破＋本人60%超撃破。攻撃前から撃破済みの敵1体。",
+      "calculationNote": "直接3段、同じ第三段の天賦追加撃破、本人A4の超撃破を各式で分けて合算します。超撃破の効率前基礎削靭は25＋天賦基礎2＋消費チャージ。結印の効率50%を1回適用。必殺Lvに対応するBE10～30%は完成済み最終BEへ含めて入力してください。枯葉の効果量は付与時点の既存入力を使い、現在ATKから再計算しません。途中撃破/新規チャージ・複数敵/他者超撃破は対象外。単独天賦撃破行をこの合計へ重ねないでください。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "scope": "既撃破の敵1体でチャージ更新なし。Fribbels固定版は超撃破参照削靭25+2+chargeと直接/追加撃破/超撃破の3成分を定義。",
+        "verification": "tests/hsr/hsrRappaRound25.test.cjs",
+        "sourceFile": "character_skills.json:131718/131704/131703; character_skill_trees.json:1317102/1317103",
+        "verifiedAt": "2026-11-07",
+        "corroboratingSource": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1300/Rappa.ts"
+      },
+      "nativeBreakKind": "rappa",
+      "enforceSnapshotContract": true,
+      "requiredWeakTarget": true,
+      "requiresBrokenTarget": true,
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "rappa-consumed-charge",
+          "label": "第三段で消費する事前チャージ",
+          "minimum": 0,
+          "maximum": 10,
+          "integer": true
+        }
+      ],
+      "comparisonModifierInputs": {
+        "rappa-prior-withered-leaf": true,
+        "rappa-sealform-super-break-efficiency": true
+      },
+      "requiredModifierIds": [
+        "traceNode:1317:1317103:prior-break-vulnerability",
+        "trace:1317:131703:sealform-super-break-efficiency"
+      ],
+      "conditionText": "Lv80/E0・攻撃前から虚数弱点かつ撃破済みの敵1体。結印中・枯葉が事前成立し、全3段で最終ATK/BEと敵状態が一定の想定です。チャージ0～10は第三段で消費する値を指定。",
+      "adjacentMultipliers": [
+        120,
+        136,
+        152,
+        168,
+        184,
+        200
+      ]
+    }
+  ]
+}
