@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "gilgamesh-joint-round24",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版150905の雷/風倍率を既存の所有者別成分から再利用し独立値と合算を検証。"
+  },
+  "overrides": [
+    {
+      "id": "150905",
+      "characterId": "1509",
+      "name": "「攻撃を許す」（本人雷＋セイバー風の連携合計）",
+      "element": "Thunder",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        200,
+        220,
+        240,
+        260,
+        280,
+        300,
+        325,
+        350,
+        375,
+        400
+      ],
+      "sourceSkillId": "150905",
+      "displayOrder": 40,
+      "generatedFrom": "catalog.json:characters[].skills",
+      "calculationScope": "two-owner-gilgamesh-saber-coordinated-snapshot",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版150905の雷/風倍率を既存の所有者別成分から再利用し独立値と合算を検証。"
+      },
+      "damageFormula": "componentSequence",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "damageComponents": [
+        {
+          "key": "lightning",
+          "attackId": "1509051",
+          "name": "ギルガメッシュの雷属性成分"
+        },
+        {
+          "key": "wind",
+          "attackId": "supplemental:trace:1509:150905:saber-wind-followup",
+          "name": "セイバーの風属性成分"
+        }
+      ],
+      "conditionText": "Lv80/E0・敵1体・状態一定。攻撃8回で連携が成立した1回を想定。本人の雷成分と編成内セイバーの独立した完成済みATK/会心/風DMG/防御無視/耐性貫通を各別に入力します。",
+      "calculationNote": "連携の2所有者成分を別々に計算し、非会心/会心/期待値を合算。セイバーへの支援は本人の完成済み戦闘値へ含め、この成分へ再加算しません。敵の雷/風耐性を分離。回数履歴・興/EP獲得・途中状態変化・複数敵の分配は再現しません。単独の雷/風行をこの合計へ再加算しないでください。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceFile": "character_skills.json:150905.params[0..9][0,1,4]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrToolInputs.test.cjs"
+      }
+    }
+  ]
+}

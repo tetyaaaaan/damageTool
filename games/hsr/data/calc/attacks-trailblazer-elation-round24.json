@@ -1,0 +1,445 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "trailblazer-elation-round24",
+  "overrides": [
+    {
+      "id": "800920",
+      "characterId": "8009",
+      "sourceSkillId": "800920",
+      "name": "愉悦スキル（敵1体・通常アッハタイム）",
+      "element": "Thunder",
+      "type": "elation",
+      "traceKey": "elation",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "ahaInstant",
+      "hitCount": 9,
+      "hitCountLabel": "ランダム単体8回＋最後の全体1回（敵1体）",
+      "canCrit": true,
+      "multipliers": [
+        110,
+        121,
+        132,
+        143,
+        154,
+        165,
+        178.75,
+        192.5,
+        206.25,
+        220
+      ],
+      "elationComponents": [
+        {
+          "name": "ランダム単体攻撃8回",
+          "count": 8,
+          "multipliers": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16.25,
+            17.5,
+            18.75,
+            20
+          ]
+        },
+        {
+          "name": "最後の全体攻撃（敵1体）",
+          "count": 1,
+          "multipliers": [
+            30,
+            33,
+            36,
+            39,
+            42,
+            45,
+            48.75,
+            52.5,
+            56.25,
+            60
+          ]
+        }
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "conditionText": "Lv80/E0・愉悦スキルLv1～10・敵1体。通常のアッハタイム1回で全9ヒット中に敵条件が変わらない想定。",
+      "calculationNote": "固定版の愉悦スキルはランダム単体攻撃8回と最後の全体攻撃1回。敵1体のため全成分が同じ対象へ命中する安定状態のみ合算。必殺技の即時発動、爆笑の褒美を参照する天賦追加分、複数敵への分配は含めない。A2のATK変換による愉悦度・A4会心率は計算時点の最終ステータスへ含める。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の全E0愉悦Lv配列を検証し、敵1体の状態一定時にのみ全9ヒットを合算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800920.params[0..9][0,1,2]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerElationRound24.test.cjs"
+      }
+    },
+    {
+      "id": "8009041",
+      "characterId": "8009",
+      "sourceSkillId": "800904",
+      "name": "戦闘スキル後の愉悦追加（本人の爆笑の褒美が味方内最大）",
+      "element": "Thunder",
+      "type": "elation",
+      "traceKey": "talent",
+      "target": "aoe",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "certifiedBangerScope": "selfIsPartyMaximum",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        15,
+        16.5,
+        18,
+        19.5,
+        21,
+        22.5,
+        24.37,
+        26.25,
+        28.12,
+        30
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人が味方内で最大の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "敵1体・E0。追加時点で本人の爆笑の褒美が味方内最大（同値可）。入力は本人の値であり、他キャラの値を最大値として流用しません。",
+      "calculationNote": "本人の愉悦基礎値/最終愉悦度/会心と天賦Lv1～10を使用。本人の値が味方内最大であると確認した限定状態。最大所有者は自動探索しない。A2由来愉悦度/A4会心率は最終値に含める。褒美/ネタの自動更新、別所有者への一般化、必殺による味方の即時愉悦行動は含まない。",
+      "resultSummary": "本人が味方内最大の爆笑の褒美を持つ場合の天賦追加愉悦1回。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版天賦曲線と、本人が味方内最大と明示した単一参照状態を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800904.params[0..9][2]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerElationRound24.test.cjs"
+      }
+    },
+    {
+      "id": "8009022",
+      "characterId": "8009",
+      "sourceSkillId": "800902",
+      "name": "風が騒がしい（通常＋天賦愉悦追加・本人褒美が味方内最大）",
+      "element": "Thunder",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "戦闘スキル直接攻撃＋天賦愉悦追加",
+      "canCrit": true,
+      "multipliers": [
+        30,
+        33,
+        36,
+        39,
+        42,
+        45,
+        48.75,
+        52.5,
+        56.25,
+        60
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人が味方内で最大の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "800902",
+          "name": "通常のATK参照スキル成分"
+        },
+        {
+          "key": "banger",
+          "attackId": "8009041",
+          "name": "本人の天賦追加愉悦成分"
+        }
+      ],
+      "conditionText": "Lv80/E0・敵1体。攻撃前から本人が爆笑の褒美を所持し、追加ダメージ参照時点で本人値が味方内最大（同値可）。A2愉悦度/A4会心率は最終ステータスに含めます。",
+      "calculationNote": "通常スキル直撃と天賦追加愉悦を別式・別Lvで計算しNC/C/期待値と内訳を合算。本人の褒美が味方内最大の状態のみ。褒美/ネタの更新、スキル初回付与順、敵複数・途中撃破、必殺技の味方即時愉悦スキルは含まない。単独成分行を合計へ重複加算しない。",
+      "calculationScope": "same-action-direct-skill-and-self-maximum-banger-snapshot",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のスキル/天賦曲線、敵1体・本人褒美が味方内最大の状態を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800902.params[0..9][0];800904.params[0..9][2]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerElationRound24.test.cjs"
+      },
+      "certifiedBangerScope": "selfIsPartyMaximum"
+    },
+    {
+      "id": "801020",
+      "characterId": "8010",
+      "sourceSkillId": "801020",
+      "name": "愉悦スキル（敵1体・通常アッハタイム）",
+      "element": "Thunder",
+      "type": "elation",
+      "traceKey": "elation",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "ahaInstant",
+      "hitCount": 9,
+      "hitCountLabel": "ランダム単体8回＋最後の全体1回（敵1体）",
+      "canCrit": true,
+      "multipliers": [
+        110,
+        121,
+        132,
+        143,
+        154,
+        165,
+        178.75,
+        192.5,
+        206.25,
+        220
+      ],
+      "elationComponents": [
+        {
+          "name": "ランダム単体攻撃8回",
+          "count": 8,
+          "multipliers": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16.25,
+            17.5,
+            18.75,
+            20
+          ]
+        },
+        {
+          "name": "最後の全体攻撃（敵1体）",
+          "count": 1,
+          "multipliers": [
+            30,
+            33,
+            36,
+            39,
+            42,
+            45,
+            48.75,
+            52.5,
+            56.25,
+            60
+          ]
+        }
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "conditionText": "Lv80/E0・愉悦スキルLv1～10・敵1体。通常のアッハタイム1回で全9ヒット中に敵条件が変わらない想定。",
+      "calculationNote": "固定版の愉悦スキルはランダム単体攻撃8回と最後の全体攻撃1回。敵1体のため全成分が同じ対象へ命中する安定状態のみ合算。必殺技の即時発動、爆笑の褒美を参照する天賦追加分、複数敵への分配は含めない。A2のATK変換による愉悦度・A4会心率は計算時点の最終ステータスへ含める。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の全E0愉悦Lv配列を検証し、敵1体の状態一定時にのみ全9ヒットを合算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:801020.params[0..9][0,1,2]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerElationRound24.test.cjs"
+      }
+    },
+    {
+      "id": "8010041",
+      "characterId": "8010",
+      "sourceSkillId": "801004",
+      "name": "戦闘スキル後の愉悦追加（本人の爆笑の褒美が味方内最大）",
+      "element": "Thunder",
+      "type": "elation",
+      "traceKey": "talent",
+      "target": "aoe",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "certifiedBangerScope": "selfIsPartyMaximum",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        15,
+        16.5,
+        18,
+        19.5,
+        21,
+        22.5,
+        24.37,
+        26.25,
+        28.12,
+        30
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人が味方内で最大の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "敵1体・E0。追加時点で本人の爆笑の褒美が味方内最大（同値可）。入力は本人の値であり、他キャラの値を最大値として流用しません。",
+      "calculationNote": "本人の愉悦基礎値/最終愉悦度/会心と天賦Lv1～10を使用。本人の値が味方内最大であると確認した限定状態。最大所有者は自動探索しない。A2由来愉悦度/A4会心率は最終値に含める。褒美/ネタの自動更新、別所有者への一般化、必殺による味方の即時愉悦行動は含まない。",
+      "resultSummary": "本人が味方内最大の爆笑の褒美を持つ場合の天賦追加愉悦1回。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版天賦曲線と、本人が味方内最大と明示した単一参照状態を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:801004.params[0..9][2]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerElationRound24.test.cjs"
+      }
+    },
+    {
+      "id": "8010022",
+      "characterId": "8010",
+      "sourceSkillId": "801002",
+      "name": "風が騒がしい（通常＋天賦愉悦追加・本人褒美が味方内最大）",
+      "element": "Thunder",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "hitCountLabel": "戦闘スキル直接攻撃＋天賦愉悦追加",
+      "canCrit": true,
+      "multipliers": [
+        30,
+        33,
+        36,
+        39,
+        42,
+        45,
+        48.75,
+        52.5,
+        56.25,
+        60
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人が味方内で最大の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "801002",
+          "name": "通常のATK参照スキル成分"
+        },
+        {
+          "key": "banger",
+          "attackId": "8010041",
+          "name": "本人の天賦追加愉悦成分"
+        }
+      ],
+      "conditionText": "Lv80/E0・敵1体。攻撃前から本人が爆笑の褒美を所持し、追加ダメージ参照時点で本人値が味方内最大（同値可）。A2愉悦度/A4会心率は最終ステータスに含めます。",
+      "calculationNote": "通常スキル直撃と天賦追加愉悦を別式・別Lvで計算しNC/C/期待値と内訳を合算。本人の褒美が味方内最大の状態のみ。褒美/ネタの更新、スキル初回付与順、敵複数・途中撃破、必殺技の味方即時愉悦スキルは含まない。単独成分行を合計へ重複加算しない。",
+      "calculationScope": "same-action-direct-skill-and-self-maximum-banger-snapshot",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のスキル/天賦曲線、敵1体・本人褒美が味方内最大の状態を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:801002.params[0..9][0];801004.params[0..9][2]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerElationRound24.test.cjs"
+      },
+      "certifiedBangerScope": "selfIsPartyMaximum"
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版の既存愉悦式へ、本人褒美が味方最大・敵1体の限定成分を接続して独立検証。"
+  }
+}

@@ -44,7 +44,10 @@
     "attacks-native-round22.json",
     "attacks-phainon-round22.json",
     "attacks-hiyu-round23.json",
-    "attacks-native-round23.json"
+    "attacks-native-round23.json",
+    "attacks-fudie-round24.json",
+    "attacks-gilgamesh-round24.json",
+    "attacks-trailblazer-elation-round24.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -138,6 +141,9 @@
     "modifiers-native-round18.json",
     "modifiers-tribbie-round18.json",
     "modifiers-black-swan-round19.json",
-    "modifiers-gilgamesh-round23.json"
+    "modifiers-gilgamesh-round23.json",
+    "modifiers-fudie-round24.json",
+    "modifiers-gilgamesh-round24.json",
+    "modifiers-trailblazer-elation-round24.json"
   ]
 }

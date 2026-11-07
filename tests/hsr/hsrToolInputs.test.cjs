@@ -4172,3 +4172,47 @@ test("Round23 Gilgamesh party support uses the active recipient's max Energy and
  app.node("hsrStat-atk").value=String(3000+base*.6);app.node("hsrStat-critDamage").value="160";near(row().expected,r.expected);
  app.state.party=[];for(const m of data.structuredModifiers.filter(m=>m.source.traceId==="1509103"))app.state.modifierInputs[m.finalStatsInclusion.inputKey]=false;app.node("hsrStat-atk").value="3000";app.node("hsrStat-critDamage").value="100";near(row().expected,1620);
 });
+
+
+test('Round24 Gilgamesh joint total keeps two owners, defenses and elemental resistance separate',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1509',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ for(const m of data.structuredModifiers.filter(m=>m.source.traceId==='1509103'))app.state.modifierInputs[m.finalStatsInclusion.inputKey]=true;
+ app.state.party[0]={characterId:'1014',eidolon:0,traceLevels:{talent:10}};
+ for(const[k,v]of Object.entries({atk:4321,critRate:37,critDamage:123,Wind:29,defenseIgnore:17,resistancePenetration:11}))app.state.modifierInputs['party-reference:1014:'+k]=v;
+ app.state.modifierInputs['enemy-resistance:Wind']=31;
+ const find=x=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='150905').name);
+ const thunder=3000*4*.36,wind=4321*6*1.29*(100/183)*.8*.9,ev=thunder*1.5+wind*(1+.37*1.23);let r=find(app);assert.ok(r,app.node('hsrCalculationFeedback').innerHTML);
+ near(r.components.lightning.nonCrit,thunder);near(r.components.wind.nonCrit,wind);near(r.expected,ev);
+ app.node('hsrStat-atk').value='6000';r=find(app);near(r.components.wind.nonCrit,wind);near(r.components.lightning.nonCrit,2*thunder);
+ app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);near(find(restored).expected,r.expected);
+ restored.state.party=[];assert.equal(find(restored),undefined);assert.ok(restored.calculate().some(x=>x.attack?.name===data.attacks.find(a=>a.id==='1509051').name));
+});
+
+
+test('Round24 both Elation Trailblazers expose separate CB and Aha formulas through existing inputs',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const id of ['8009','8010']){
+ app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,elation:100}});
+ assert.equal(app.node('hsrElationSettings').hidden,false,'existing Aha controls are visible for this owner');
+ app.node('hsrStat-elation').value='100';app.node('hsrMerrymake').value='0';app.node('hsrElationTrace').value='10';app.node('hsrPunchline').value='20';app.state.elationInputs.context='ahaInstant';app.state.modifierInputs['elation-certified-banger']=40;
+ const find=suffix=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id+suffix).name),total=find('022'),rider=7535.107*.3*2*(1+200/280)*.36;
+ assert.ok(total,app.node('hsrCalculationFeedback').innerHTML);near(total.components.direct.nonCrit,648);near(total.components.banger.nonCrit,rider);near(total.expected,(648+rider)*1.5);
+ const aha=find('20');assert.ok(aha,app.node('hsrCalculationFeedback').innerHTML);near(aha.nonCrit,7535.107*2.2*2*(1+100/260)*.36);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/本人が味方内で最大/);app.node('hsrConditionDialog').close();
+ app.state.party[0]={characterId:'1101',eidolon:0};app.state.modifierInputs['bronya-technique-active']=true;app.state.modifierInputs['trace:1101:110107:party-atk-in-final-stats']=false;assert.ok(!find('022'),'ATK conversion cannot silently use stale final Elation');assert.equal(find('20'),undefined);assert.ok(find('02'));
+ app.state.modifierInputs['trace:1101:110107:party-atk-in-final-stats']=true;assert.ok(find('022'));assert.ok(find('20'));app.state.party=[];app.state.modifierInputs['bronya-technique-active']=false;
+ delete app.state.modifierInputs['elation-certified-banger'];assert.equal(find('022'),undefined);assert.ok(find('02'),'missing CB only stops rider/total');
+ }
+});
+
+
+test('Round24 Fudie inputs reach the promoted Talent and preserve already-included native effects',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1504',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ app.state.modifierInputs['fudie-gluttony-stacks']=2;
+ const row=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='150404').name);let r=row();assert.ok(r,app.node('hsrCalculationFeedback').innerHTML);near(r.nonCrit,5400);near(r.crit,17280);near(r.expected,11340);
+ for(const m of data.structuredModifiers.filter(m=>m.source.id==='1504'))if(m.finalStatsInclusion)app.state.modifierInputs[m.finalStatsInclusion.inputKey]=true;
+ app.node('hsrEnemyDefenseReduction').value='40';app.node('hsrStat-damageBonus').value='100';app.node('hsrStat-critDamage').value='220';r=row();assert.ok(r,app.node('hsrCalculationFeedback').innerHTML);near(r.expected,11340);
+ delete app.state.modifierInputs['fudie-gluttony-stacks'];assert.ok(!row());assert.ok(app.calculate().some(x=>x.attack?.name===data.attacks.find(a=>a.id==='1504031').name));
+});

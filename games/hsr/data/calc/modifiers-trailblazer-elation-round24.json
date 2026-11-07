@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "trailblazer-elation-support-round24",
+  "modifiers": [
+    {
+      "id": "trace:8009:800903:ultimate-cd-self",
+      "source": {
+        "kind": "trace",
+        "id": "8009",
+        "skillId": "800903"
+      },
+      "providerScope": "self",
+      "name": "愉悦開拓者の必殺・指定対象の会心ダメージ",
+      "description": "このキャラクターが必殺技の指定対象となり、会心ダメージ支援が有効な状態だけを指定します。即時発動する対象自身の愉悦スキルは、対象の戦闘値と固定爆笑ネタ20で別に計算します。褒美/行動順を自動更新しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42.5,
+          45,
+          47.5,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trailblazer-elation-ultimate-8009-active",
+        "inputLabel": "計算対象が愉悦開拓者の必殺対象で支援が有効",
+        "default": false,
+        "conditionText": "計算対象が必殺技で選ばれた味方で、3ターンの会心ダメージ支援が有効な状態"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trailblazer-elation-ultimate-8009-in-final",
+        "inputLabel": "この必殺支援を最終会心ダメージへ反映済み"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "stacking": {
+        "group": "trailblazer-elation-ultimate-8009-cd",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の指定対象CD30～50%を既存の本人/味方支援経路で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceFile": "character_skills.json:800903.params[0..9][0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerSupportRound24.test.cjs"
+      }
+    },
+    {
+      "id": "trace:8009:800903:ultimate-cd-party",
+      "source": {
+        "kind": "trace",
+        "id": "8009",
+        "skillId": "800903"
+      },
+      "providerScope": "party",
+      "name": "愉悦開拓者の必殺・指定対象の会心ダメージ",
+      "description": "このキャラクターが必殺技の指定対象となり、会心ダメージ支援が有効な状態だけを指定します。即時発動する対象自身の愉悦スキルは、対象の戦闘値と固定爆笑ネタ20で別に計算します。褒美/行動順を自動更新しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42.5,
+          45,
+          47.5,
+          50
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trailblazer-elation-ultimate-8009-active",
+        "inputLabel": "計算対象が愉悦開拓者の必殺対象で支援が有効",
+        "default": false,
+        "conditionText": "計算対象が必殺技で選ばれた味方で、3ターンの会心ダメージ支援が有効な状態"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trailblazer-elation-ultimate-8009-in-final",
+        "inputLabel": "この必殺支援を最終会心ダメージへ反映済み"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "stacking": {
+        "group": "trailblazer-elation-ultimate-8009-cd",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の指定対象CD30～50%を既存の本人/味方支援経路で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceFile": "character_skills.json:800903.params[0..9][0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerSupportRound24.test.cjs"
+      }
+    },
+    {
+      "id": "trace:8010:801003:ultimate-cd-self",
+      "source": {
+        "kind": "trace",
+        "id": "8010",
+        "skillId": "801003"
+      },
+      "providerScope": "self",
+      "name": "愉悦開拓者の必殺・指定対象の会心ダメージ",
+      "description": "このキャラクターが必殺技の指定対象となり、会心ダメージ支援が有効な状態だけを指定します。即時発動する対象自身の愉悦スキルは、対象の戦闘値と固定爆笑ネタ20で別に計算します。褒美/行動順を自動更新しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42.5,
+          45,
+          47.5,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trailblazer-elation-ultimate-8010-active",
+        "inputLabel": "計算対象が愉悦開拓者の必殺対象で支援が有効",
+        "default": false,
+        "conditionText": "計算対象が必殺技で選ばれた味方で、3ターンの会心ダメージ支援が有効な状態"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trailblazer-elation-ultimate-8010-in-final",
+        "inputLabel": "この必殺支援を最終会心ダメージへ反映済み"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "stacking": {
+        "group": "trailblazer-elation-ultimate-8010-cd",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の指定対象CD30～50%を既存の本人/味方支援経路で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceFile": "character_skills.json:801003.params[0..9][0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerSupportRound24.test.cjs"
+      }
+    },
+    {
+      "id": "trace:8010:801003:ultimate-cd-party",
+      "source": {
+        "kind": "trace",
+        "id": "8010",
+        "skillId": "801003"
+      },
+      "providerScope": "party",
+      "name": "愉悦開拓者の必殺・指定対象の会心ダメージ",
+      "description": "このキャラクターが必殺技の指定対象となり、会心ダメージ支援が有効な状態だけを指定します。即時発動する対象自身の愉悦スキルは、対象の戦闘値と固定爆笑ネタ20で別に計算します。褒美/行動順を自動更新しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42.5,
+          45,
+          47.5,
+          50
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trailblazer-elation-ultimate-8010-active",
+        "inputLabel": "計算対象が愉悦開拓者の必殺対象で支援が有効",
+        "default": false,
+        "conditionText": "計算対象が必殺技で選ばれた味方で、3ターンの会心ダメージ支援が有効な状態"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trailblazer-elation-ultimate-8010-in-final",
+        "inputLabel": "この必殺支援を最終会心ダメージへ反映済み"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "stacking": {
+        "group": "trailblazer-elation-ultimate-8010-cd",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の指定対象CD30～50%を既存の本人/味方支援経路で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceFile": "character_skills.json:801003.params[0..9][0]",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrTrailblazerSupportRound24.test.cjs"
+      }
+    }
+  ]
+}

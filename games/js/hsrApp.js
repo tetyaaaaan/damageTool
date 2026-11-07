@@ -175,7 +175,7 @@
     $("hsrElationInputHelp").hidden = char?.path !== "Elation";
     $("hsrTrueDamageSettings").hidden = char?.id !== "1415";
     $("hsrSongbirdSettings").hidden = char?.id !== "1512";
-    $("hsrElationSettings").hidden = !["1505", "1502", "1513"].includes(char?.id);
+    $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010"].includes(char?.id);
     $("hsrElationContextField").hidden = char?.id !== "1502";
     $("hsrElationScope").textContent = char?.id === "1502" ? "爻光Lv80・星魂0・敵1体、初回の通常アッハタイムの全6ヒットです。" : "緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。";
     $("hsrPunchlineField").hidden = false;
@@ -184,6 +184,10 @@
     if (char?.id === "1513") {
       $("hsrElationScope").textContent = "夏アベンチュリンLv80・星魂0・敵1体。通常版151320と、次のアッハタイムの強化版151321を条件別に計算します。";
       $("hsrPunchlineHelp").textContent = "通常版は熱気10到達の自動発動、強化版は他の愉悦キャラ編成時の次のアッハタイムを想定します。全ヒット中の敵条件変化なし。通常版の爆笑ネタは固定20、強化版は下の爆笑ネタと消費熱気10～30を参照します。上笑なしは0。通常与ダメージ補正、複数敵分配、熱気の自動管理は対象外です。";
+    }
+    if (["8009","8010"].includes(char?.id)) {
+      $("hsrElationScope").textContent="愉悦開拓者Lv80・星魂0・未撃破の敵1体。通常アッハタイムの8段＋最後撃と、本人が味方最大の褒美を持つスキル追加を別に比較します。";
+      $("hsrPunchlineHelp").textContent="この爆笑ネタはアッハタイムだけに使用。スキル追加は補正条件の本人の爆笑の褒美を参照します。A2のATK由来愉悦度とA4会心率を最終値へ1回含めてください。ATK支援を追加計算する場合、この愉悦結果は再換算せず除外します。上笑なしは0。";
     }
     $("hsrEnhancementField").hidden = !state.data.attacks.some(item => item.characterId === char?.id && item.variant);
     $("hsrEnhancementState").value = state.enhancementState;
@@ -301,7 +305,7 @@
       if (!Number.isFinite(value) || value < input.minimum || value > input.maximum || (input.integer && !Number.isInteger(value))) issue(`${input.label}に${input.minimum}～${input.maximum}の数値を入力してください。`, "hsrConditionDialogOpen");
     }
     for (const id of (attack.damageFormula === "nativeBreakSequence" && attack.type !== "superBreak" ? [] : attack.requiredModifierIds || [])) {
-      const required = modifiers(attack).filter(item => item.id === id && (item.enabled && item.matchesAttack || ["140803","140809","140811"].includes(attack.id) && item.includedInFinalStats));
+      const required = modifiers(attack).filter(item => item.id === id && (item.enabled && item.matchesAttack || ["140803","140809","140811","150402","1504031","1504032","150404"].includes(attack.id) && item.includedInFinalStats));
       if (required.length !== 1 || (!required[0].inputWarnings?.length && (!required[0].includedInFinalStats && (!required[0].applicable || !Number.isFinite(required[0].value))))) issue(`${attack.name}の固有補正を読み込めませんでした。ページを再読み込みしてください。`);
     }
     const conditions = [...(attack.modifierConditions || [])];
@@ -985,7 +989,7 @@
       const present=state.party.some(m=>String(m.characterId)==='1014'),id=present?'1014':'';
       const fields=present && id==='1014' ? [['atk','セイバーの最終ATK'],['critRate','セイバーの最終会心率（%）'],['critDamage','セイバーの最終会心ダメージ（%）'],['Wind','セイバーの最終風属性与ダメージ（%）'],['defenseIgnore','セイバーの防御無視（%）'],['resistancePenetration','セイバーの風耐性貫通（%）']].map(([k,label])=>{const key='party-reference:1014:'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input class="input_num" type="number" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" step="0.1"></label>';}).join('') : '';
       const res=state.modifierInputs['enemy-resistance:Wind'];
-      return '<section class="hsr-condition-purpose"><h5>セイバー本人の連携・風属性成分</h5><p class="genshin-help">パーティ内のLv80・星魂0セイバーの完成済み戦闘値を指定します。支援・装備補正を含めた値を使い、ギルガメッシュ本人のATKや会心を流用しません。敵1体への成立済み連携1回。雷成分とは別結果で、自動合算しません。</p><p>'+ (present?'連携の風属性攻撃者：セイバー（編成から自動判定）':'風属性成分を計算するには、セイバーを編成してください。')+'</p>'+fields+(present && !conditionReferenceInputs.has('enemy-resistance:Wind') ? '<label class="genshin-condition-control"><span>敵の風属性耐性（%）</span><input class="input_num" type="number" data-structured-input="enemy-resistance:Wind" data-structured-strict="true" value="'+(Number.isFinite(res)?res:'')+'" step="0.1"></label>' : '')+'</section>';
+      return '<section class="hsr-condition-purpose"><h5>セイバー本人の連携・風属性成分</h5><p class="genshin-help">パーティ内のLv80・星魂0セイバーの完成済み戦闘値を指定します。支援・装備補正を含めた値を使い、ギルガメッシュ本人のATKや会心を流用しません。敵1体への成立済み連携1回。雷/風の単独結果と、同一連携の合計を別行で表示します。合計へ単独行を再加算しないでください。</p><p>'+ (present?'連携の風属性攻撃者：セイバー（編成から自動判定）':'風属性成分を計算するには、セイバーを編成してください。')+'</p>'+fields+(present && !conditionReferenceInputs.has('enemy-resistance:Wind') ? '<label class="genshin-condition-control"><span>敵の風属性耐性（%）</span><input class="input_num" type="number" data-structured-input="enemy-resistance:Wind" data-structured-strict="true" value="'+(Number.isFinite(res)?res:'')+'" step="0.1"></label>' : '')+'</section>';
     }
     if(state.characterId!=='1202'||state.conditionTab!=='軌跡') return '';
     const id=String(state.modifierInputs['party-reference-owner:1202']||''),member=state.party.find(m=>String(m.characterId)===id);
@@ -993,7 +997,7 @@
     return '<section class="hsr-condition-purpose" data-hsr-condition-ids="party-reference:1202"><h5>停雲本人の攻撃後に発生する賜福対象の付加</h5><p class="genshin-help">Lv80・星魂0の賜福対象の戦闘中の最終値を入力します。賜福・他の支援・装備の効果を含めた値を使い、この付加行には攻撃者側の支援を再加算しません。停雲本人の通常とは別の1回分です。</p><label class="genshin-condition-control"><span>賜福対象</span><select data-comparison-choice="party-reference-owner:1202"><option value="">パーティから選択</option>'+state.party.filter(m=>m.characterId).map(m=>'<option value="'+m.characterId+'"'+(String(m.characterId)===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
   }
   function comparisonReferenceControls() {
-    if (["1408","1406","1321","1410","1314"].includes(state.characterId) && state.conditionTab === "軌跡") {
+    if (["1408","1406","1321","1410","1314","1504","8009","8010"].includes(state.characterId) && state.conditionTab === "軌跡") {
       const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
       return (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
     }
@@ -1108,6 +1112,7 @@
     if (item.structured && !window.HsrModifierRuntime.applicableToAttack(item, attack)) return false;
     if (attack.id === "1151201") return ["trace:1512:151204:fever-defense-ignore", "trace:1512:1151203:songbirds-vulnerability"].includes(item.id);
     // Match the existing engines' accepted categories; this only scopes validation/application.
+    if (["8009041","8010041","800920","801020"].includes(attack.id) && ((["statPercent","statFlat"].includes(item.category) && item.stat === "atk") || item.category === "progressiveTakenDamage")) return true;
     if (attack.damageFormula === "elation") return ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"].includes(item.category);
     if (["break", "superBreak"].includes(attack.type)) return ["breakEffect", "breakDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage", ...(attack.type === "superBreak" ? ["breakEfficiency", "superBreakDamage"] : [])].includes(item.category);
     if ((attack.canCrit === false || attack.type === "dot") && ["critRate", "critRateOverride", "critDamage", "critTakenDamage"].includes(item.category)) return false;
@@ -1224,7 +1229,11 @@
       const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), damageFormula:"statMultiplier", hitCount:i === 2 ? 2 : 1, comparisonModifierInputs:assumptions, modifierInputKey:undefined, modifierConditions:undefined})) : [];
       return {...selected, traceLevel:state.traceLevels.skill, multiplier:sequenceAttacks[0]?.multiplier, traceLevelLabel:`スキルLv${state.traceLevels.skill}＋必殺Lv${state.traceLevels.ultimate}`, attackType:"skill", sequenceAttacks};
     }
-    if (["1505022","1505032","1505044","1513022","1513032"].includes(selected.id) && selected.damageFormula === "componentSequence") {
+    if (selected.id === "150905" && selected.damageFormula === "componentSequence") {
+      const body=state.data.attacks.find(a=>a.id==="1509051"),wind=supplementalAttacks().find(a=>a.sourceModifierId==="trace:1509:150905:saber-wind-followup"),level=state.traceLevels.talent;
+      return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:"followUp",sequenceAttacks:body&&wind?[resolvedAttack(body),{...wind,characterId:"1014",sourceSkillId:"150905",damageFormula:"statMultiplier"}]:[],referenceIssue:wind?.referenceIssue || (!wind?"セイバーを編成し、独立した完成済み戦闘値と敵の風耐性を入力してください。":""),referenceCondition:wind?.referenceCondition || {id:"party-reference:1014",tab:"軌跡"}};
+    }
+    if (["1505022","1505032","1505044","1513022","1513032","8009022","8010022"].includes(selected.id) && selected.damageFormula === "componentSequence") {
       const prior=state.modifierInputs["hiyu-prior-vulnerability"]===true || state.modifierInputs["hiyu-prior-fox-vulnerability"]===true;
       const sequenceAttacks=selected.damageComponents.map(d=>{
         const source=state.data.attacks.find(a=>a.id===d.attackId && a.characterId===selected.characterId);
@@ -1815,7 +1824,7 @@
     let results = attacks.map((selected) => {
       const attackEnemy=selected.requiredWeaknessCount?{...baseRequest.enemy,weakness:true,weaknessCount:selected.requiredWeaknessCount}:baseRequest.enemy;
       const request = { ...baseRequest, modifierInputs:state.modifierInputs, character:selected.referenceCharacter || (selected.referenceStats ? {...baseRequest.character,stats:selected.referenceStats}:baseRequest.character), enemy:selected.referenceEnemy || attackEnemy, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected), breakModifiers: selected.damageFormula === "nativeBreakSequence" ? modifiers({...selected,type:"superBreak",attackType:"superBreak"}) : selected.damageFormula === "normalAndBreak" ? modifiers({...selected,type:"break",attackType:"break"}) : undefined, breakBaseDamage: state.data.breakBaseDamage };
-      if (selected.damageFormula === "componentSequence") request.sequenceComponents = (selected.sequenceAttacks || []).map((component, index) => ({ key: selected.damageComponents[index].key, name: selected.damageComponents[index].name, input: { ...baseRequest, enemy:attackEnemy, modifierInputs:state.modifierInputs, attack: component, trueDamage: selected.id === "140603" && component.damageFormula === "trueDamage" ? {active:true,sourceKind:"cipherRecord",originalDamage:state.modifierInputs[component.recordInputKey]} : baseRequest.trueDamage, modifiers: modifiers(component), songbird: songbirdSnapshot(), elation: attackElationInputs(component), breakBaseDamage: state.data.breakBaseDamage } }));
+      if (selected.damageFormula === "componentSequence") request.sequenceComponents = (selected.sequenceAttacks || []).map((component, index) => ({ key: selected.damageComponents[index].key, name: selected.damageComponents[index].name, input: { ...baseRequest, character:component.referenceCharacter || baseRequest.character, enemy:component.referenceEnemy || attackEnemy, modifierInputs:state.modifierInputs, attack: component, trueDamage: selected.id === "140603" && component.damageFormula === "trueDamage" ? {active:true,sourceKind:"cipherRecord",originalDamage:state.modifierInputs[component.recordInputKey]} : baseRequest.trueDamage, modifiers: modifiers(component), songbird: songbirdSnapshot(), elation: attackElationInputs(component), breakBaseDamage: state.data.breakBaseDamage } }));
       if (selected.sequenceTemplates) request.attack = {...request.attack, damageComponents:selected.sequenceTemplates};
       const result = window.HsrCalcEngine.calculate(request);
       const adjacentAttack = selected.adjacentMultiplier && !(selected.suppressAdjacentWithSingleEnemy && state.enemy.count === 1) ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;

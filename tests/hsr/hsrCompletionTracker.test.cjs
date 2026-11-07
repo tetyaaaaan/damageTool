@@ -45,6 +45,7 @@ test('candidate audit keeps missing damage components distinct from registered s
  assert.equal(e0CandidateAudit['1308'].status,'confirmed','Round22 explicit prior Thunder Core3/Crimson0-9 major composition');
  for(const id of ['1315','1014'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round22 explicit stable main-composition acceptance');
  for(const id of ['1005','1410','1401'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round21 explicit own-DoT/damage-time snapshot major composition');
+ for(const id of ['8009','8010'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round24 explicit CB and independent-owner major composition');
  for(const id of ['1505','1513'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round23 bounded same-action ordinary and Elation totals');
  for(const id of ['1507','1225'])assert.equal(e0CandidateAudit[id].status,'confirmed');
  for(const id of ['8007','8008'])assert.equal(e0CandidateAudit[id].workClass,'D');

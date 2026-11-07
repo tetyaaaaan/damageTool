@@ -61,7 +61,8 @@ test("the five earlier direct single-target Basic promotions retain fixed-source
 
     assert.equal(attackOf(data, "140602").support.status, "calculable", "the separately verified one-enemy direct skill promotion is calculable");
     assert.equal(attackOf(data, "140603").support.status, "calculable", "the separately verified one-enemy snapshot Ultimate promotion is calculable");
-    assert.equal(attackOf(data, "150905").support.status, "review", "the original mixed-owner joint attack remains unverified");
+    assert.equal(attackOf(data, "150905").support.status, "calculable", "Round24 independent-owner joint snapshot is verified");
+    assert.equal(attackOf(data, "150905").calculationScope, "two-owner-gilgamesh-saber-coordinated-snapshot");
     assert.equal(data.attacks.length, data.attackCoverage.total, "loader totals remain derived from the actual attack list");
 });
 

@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "fudie-round24-dbe8cdf",
+  "modifiers": [
+    {
+      "id": "traceNode:1504:150402:prey-defense-reduction",
+      "source": {
+        "kind": "trace",
+        "id": "1504",
+        "skillId": "150402",
+        "traceId": "150402"
+      },
+      "name": "戦闘スキル「鞭と笛よ、悪獣を退けよ」・餌食の防御低下",
+      "description": "不死途が攻撃前から餌食にしている敵の防御力を戦闘スキルLvに応じて低下。餌食を初めて付与した攻撃の同撃順は含まない。",
+      "category": "defenseReduction",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32.5,
+          35,
+          37.5,
+          40
+        ],
+        "levelInputLabel": "不死途の戦闘スキルLv"
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [
+          "Thunder"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "fudie-prey-active",
+        "inputLabel": "対象が攻撃前から餌食",
+        "default": false,
+        "conditionText": "攻撃前から餌食状態の敵1体"
+      },
+      "stacking": {
+        "group": "traceNode:1504:150402:prey-defense-reduction",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版150402.params[0..9][3]の防御低下を既存の敵防御計算へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150402.params[0..9][3]",
+        "verifiedAt": "2026-11-07",
+        "scope": "星魂0・不死途のスキルLv1～10・攻撃前から餌食状態の敵1体。",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "fudie-prey-defense-in-final",
+        "inputLabel": "餌食の防御低下を敵の手動入力へ反映済み"
+      }
+    },
+    {
+      "id": "traceNode:1504:1504102:follow-up-base",
+      "source": {
+        "kind": "trace",
+        "id": "1504",
+        "traceId": "1504102"
+      },
+      "name": "追加能力「影の腕」・追加攻撃ダメージ",
+      "description": "天賦追加能力の常時追加攻撃ダメージ+80%。暴食層の追加分は別入力。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 80
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "attackIds": [
+          "1504032",
+          "150404"
+        ],
+        "elements": [
+          "Thunder"
+        ]
+      },
+      "providerScope": "self",
+      "activation": {
+        "mode": "always",
+        "conditionText": "不死途の追加能力が有効"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "fudie-a4-base-in-final",
+        "inputLabel": "追加攻撃ダメージへ算入済み"
+      },
+      "stacking": {
+        "group": "traceNode:1504:1504102:follow-up-base",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "StarRailRes固定版のE0追加能力。既存の戦闘時Modifier/最終値算入除外を使用。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1504102",
+        "verifiedAt": "2026-11-07",
+        "scope": "不死途本人への効果",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1504:1504102:follow-up-stacks",
+      "source": {
+        "kind": "trace",
+        "id": "1504",
+        "traceId": "1504102"
+      },
+      "name": "追加能力「影の腕」・暴食層による追加攻撃ダメージ",
+      "description": "攻撃時点の暴食n層につき追加攻撃ダメージ+10%。E0上限12層。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 10
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "attackIds": [
+          "1504032",
+          "150404"
+        ],
+        "elements": [
+          "Thunder"
+        ]
+      },
+      "providerScope": "self",
+      "activation": {
+        "mode": "stack",
+        "inputKey": "fudie-gluttony-stacks",
+        "inputLabel": "追加攻撃時点の暴食層",
+        "minimum": 0,
+        "maximum": 12,
+        "default": 0,
+        "conditionText": "ダメージ参照時点の暴食層数"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "fudie-a4-stack-in-final",
+        "inputLabel": "追加攻撃ダメージへ算入済み"
+      },
+      "stacking": {
+        "group": "traceNode:1504:1504102:follow-up-stacks",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "StarRailRes固定版のE0追加能力。既存の戦闘時Modifier/最終値算入除外を使用。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1504102",
+        "verifiedAt": "2026-11-07",
+        "scope": "不死途本人への効果",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1504:1504103:crit-damage:self",
+      "source": {
+        "kind": "trace",
+        "id": "1504",
+        "traceId": "1504103"
+      },
+      "name": "追加能力「長の狼」・味方会心ダメージ",
+      "description": "不死途がフィールドにいる間、味方の会心ダメージ+40%。本人または対象者の最終会心ダメージに含む場合は除外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 40
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "providerScope": "self",
+      "activation": {
+        "mode": "always",
+        "conditionText": "不死途の追加能力が有効"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "fudie-a6-crit-damage-in-final",
+        "inputLabel": "受益者の会心ダメージへ算入済み"
+      },
+      "stacking": {
+        "group": "traceNode:1504:1504103:crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "StarRailRes固定版のE0追加能力。既存の戦闘時Modifier/最終値算入除外を使用。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1504103",
+        "verifiedAt": "2026-11-07",
+        "scope": "不死途本人への効果",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1504:1504103:follow-up-crit-damage:self",
+      "source": {
+        "kind": "trace",
+        "id": "1504",
+        "traceId": "1504103"
+      },
+      "name": "追加能力「長の狼」・追加攻撃会心ダメージ",
+      "description": "不死途がいる間、味方の追加攻撃会心ダメージにさらに+80%。対象者の最終値に含む場合は除外.",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 80
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "providerScope": "self",
+      "activation": {
+        "mode": "always",
+        "conditionText": "不死途の追加能力が有効"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "fudie-a6-follow-up-crit-damage-in-final",
+        "inputLabel": "受益者の会心ダメージへ算入済み"
+      },
+      "stacking": {
+        "group": "traceNode:1504:1504103:follow-up-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "StarRailRes固定版のE0追加能力。既存の戦闘時Modifier/最終値算入除外を使用。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1504103",
+        "verifiedAt": "2026-11-07",
+        "scope": "不死途本人への効果",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1504:1504103:crit-damage:party",
+      "source": {
+        "kind": "trace",
+        "id": "1504",
+        "traceId": "1504103"
+      },
+      "name": "追加能力「長の狼」・味方会心ダメージ",
+      "description": "不死途がフィールドにいる間、味方の会心ダメージ+40%。本人または対象者の最終会心ダメージに含む場合は除外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 40
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "providerScope": "party",
+      "activation": {
+        "mode": "always",
+        "conditionText": "不死途の追加能力が有効"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "fudie-a6-crit-damage-in-final",
+        "inputLabel": "受益者の会心ダメージへ算入済み"
+      },
+      "stacking": {
+        "group": "traceNode:1504:1504103:crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "StarRailRes固定版のE0追加能力。既存の戦闘時Modifier/最終値算入除外を使用。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1504103",
+        "verifiedAt": "2026-11-07",
+        "scope": "不死途を編成した対象者への味方支援",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1504:1504103:follow-up-crit-damage:party",
+      "source": {
+        "kind": "trace",
+        "id": "1504",
+        "traceId": "1504103"
+      },
+      "name": "追加能力「長の狼」・追加攻撃会心ダメージ",
+      "description": "不死途がいる間、味方の追加攻撃会心ダメージにさらに+80%。対象者の最終値に含む場合は除外.",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 80
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "providerScope": "party",
+      "activation": {
+        "mode": "always",
+        "conditionText": "不死途の追加能力が有効"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "fudie-a6-follow-up-crit-damage-in-final",
+        "inputLabel": "受益者の会心ダメージへ算入済み"
+      },
+      "stacking": {
+        "group": "traceNode:1504:1504103:follow-up-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "StarRailRes固定版のE0追加能力。既存の戦闘時Modifier/最終値算入除外を使用。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1504103",
+        "verifiedAt": "2026-11-07",
+        "scope": "不死途を編成した対象者への味方支援",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      }
+    }
+  ]
+}

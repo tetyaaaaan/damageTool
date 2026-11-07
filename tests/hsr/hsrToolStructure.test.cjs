@@ -104,15 +104,16 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
         effectiveCounts[effective]++;
     });
     assert.deepEqual(effectiveCounts, registeredCounts, "registration must agree with the engine's static damage-kind gate");
-    for (const id of ["150120", "150621", "800920", "801020"]) {
+    for (const id of ["150120", "150621"]) {
         assert.equal(data.attacks.find((attack) => attack.id === id).support.status, "displayOnly", id);
     }
-    for (const id of ["140603", "150902"]) {
+    for (const id of ["140603", "150902", "800920", "801020"]) {
         const promoted = data.attacks.find((attack) => attack.id === id);
         assert.equal(promoted.support.status, "calculable", id);
         assert.equal(promoted.support.verified, true, id);
     }
-    assert.equal(data.attacks.find((attack) => attack.id === "150905").support.status, "review", "the original mixed-owner joint damage remains unverified");
+    assert.equal(data.attacks.find(attack => attack.id === "150905").support.status, "calculable", "Round24 independent-owner joint snapshot is verified");
+    assert.equal(data.attacks.find(attack => attack.id === "150905").calculationScope, "two-owner-gilgamesh-saber-coordinated-snapshot");
     const fox = data.attacks.find(attack => attack.id === "150504");
     assert.equal(fox.support.status, "calculable");
     assert.equal(fox.calculationScope, "independently-checked-ordinary-component-only");

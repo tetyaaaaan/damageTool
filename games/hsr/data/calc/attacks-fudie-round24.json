@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "fudie-round24-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "不死途E0の成立済み単発攻撃を既存ATK式で限定対応。"
+  },
+  "overrides": [
+    {
+      "characterId": "1504",
+      "element": "Thunder",
+      "scalingStat": "atk",
+      "canCrit": true,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "requiredToughnessActive": true,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "maximumTraceLevel": 10,
+      "comparisonModifierInputs": {
+        "fudie-prey-active": true
+      },
+      "id": "150402",
+      "sourceSkillId": "150402",
+      "name": "鞭と笛よ、悪獣を退けよ（攻撃前から餌食の敵）",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "本体＋餌食追加成分合計",
+      "multipliers": [
+        150,
+        165,
+        180,
+        195,
+        210,
+        225,
+        243.75,
+        262.5,
+        281.25,
+        300
+      ],
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "星魂0・スキルLv1～10・未撃破の敵1体。攻撃前から餌食状態の敵への本体と追加成分を合算。新規付与順、SP回復、複数敵への標的変更は含みません。",
+      "calculationScope": "e0-explicit-prey-and-established-single-hit",
+      "calculationNote": "固定版params[0]+params[2]を合算し、Lv1～10の150～300%を独立確認。餌食由来の防御低下は事前状態としてスキルLvで適用。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数と事前状態を限定し、独立式と既存ATK参照経路で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150402.params[0..9][0,2]",
+        "verifiedAt": "2026-11-07",
+        "scope": "星魂0・スキルLv1～10・未撃破の敵1体。攻撃前から餌食状態の敵への本体と追加成分を合算。新規付与順、SP回復、複数敵への標的変更は含みません。",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      },
+      "requiredModifierIds": [
+        "traceNode:1504:150402:prey-defense-reduction"
+      ]
+    },
+    {
+      "characterId": "1504",
+      "element": "Thunder",
+      "scalingStat": "atk",
+      "canCrit": true,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "requiredToughnessActive": true,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "maximumTraceLevel": 10,
+      "comparisonModifierInputs": {
+        "fudie-prey-active": true
+      },
+      "id": "1504031",
+      "sourceSkillId": "150403",
+      "name": "饗宴の幕、開けば閉じず（必殺技の直撃のみ）",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "必殺技直撃1回のみ",
+      "multipliers": [
+        200,
+        220,
+        240,
+        260,
+        280,
+        300,
+        325,
+        350,
+        375,
+        400
+      ],
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "星魂0・必殺技Lv1～10・未撃破の敵1体。必殺技の直接攻撃のみ。後続の強化天賦・暴食消費分を含みません。",
+      "calculationScope": "e0-explicit-prey-and-established-single-hit",
+      "calculationNote": "固定版150403.params[0]。後続成分、暴食の消費/返還、敵撃破後の標的変更は合算しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数と事前状態を限定し、独立式と既存ATK参照経路で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150403.params[0..9][0]",
+        "verifiedAt": "2026-11-07",
+        "scope": "星魂0・必殺技Lv1～10・未撃破の敵1体。必殺技の直接攻撃のみ。後続の強化天賦・暴食消費分を含みません。",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      },
+      "requiredModifierIds": [
+        "traceNode:1504:150402:prey-defense-reduction"
+      ]
+    },
+    {
+      "characterId": "1504",
+      "element": "Thunder",
+      "scalingStat": "atk",
+      "canCrit": true,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "requiredToughnessActive": true,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "maximumTraceLevel": 10,
+      "comparisonModifierInputs": {
+        "fudie-prey-active": true
+      },
+      "id": "1504032",
+      "sourceSkillId": "150404",
+      "name": "饗宴の幕、開けば閉じず（成立済み強化天賦の追加攻撃1回）",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "成立済み強化天賦1回",
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "fudie-gluttony-stacks",
+          "label": "追加攻撃ダメージ時点の暴食層数",
+          "minimum": 0,
+          "maximum": 12,
+          "integer": true
+        }
+      ],
+      "conditionText": "星魂0・天賦Lv1～10・必殺後に成立した強化天賦追加攻撃1回。攻撃時点の暴食0～12層を指定。",
+      "calculationScope": "e0-explicit-prey-and-established-single-hit",
+      "calculationNote": "必殺が行う強化天賦の係数はE0の固定版で天賦Lv1～10の曲線と一致。必殺直撃Lvと分けた天賦Lv指定で単発を計算します。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数と事前状態を限定し、独立式と既存ATK参照経路で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150403.params[0..9][3];character_skills.json:150404.params[0..9][3]",
+        "verifiedAt": "2026-11-07",
+        "scope": "星魂0・天賦Lv1～10・必殺後に成立した強化天賦追加攻撃1回。攻撃時点の暴食0～12層を指定。",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      },
+      "requiredModifierIds": [
+        "traceNode:1504:150402:prey-defense-reduction",
+        "traceNode:1504:1504102:follow-up-base",
+        "traceNode:1504:1504102:follow-up-stacks"
+      ]
+    },
+    {
+      "characterId": "1504",
+      "element": "Thunder",
+      "scalingStat": "atk",
+      "canCrit": true,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "requiredToughnessActive": true,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "maximumTraceLevel": 10,
+      "comparisonModifierInputs": {
+        "fudie-prey-active": true
+      },
+      "id": "150404",
+      "sourceSkillId": "150404",
+      "name": "深き怨み、牙で晴らそう（成立済み天賦追加攻撃1回）",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "成立済み天賦追加攻撃1回",
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "fudie-gluttony-stacks",
+          "label": "追加攻撃ダメージ時点の暴食層数",
+          "minimum": 0,
+          "maximum": 12,
+          "integer": true
+        }
+      ],
+      "conditionText": "星魂0・天賦Lv1～10・餌食への天賦追加攻撃が成立済みの1回。攻撃時点の暴食0～12層を指定。",
+      "calculationScope": "e0-explicit-prey-and-established-single-hit",
+      "calculationNote": "固定版150404.params[0..9][3]の天賦倍率を成立済み1回として計算。チャージ、味方行動履歴、暴食更新や連鎖を再現しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の係数と事前状態を限定し、独立式と既存ATK参照経路で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150404.params[0..9][3]",
+        "verifiedAt": "2026-11-07",
+        "scope": "星魂0・天賦Lv1～10・餌食への天賦追加攻撃が成立済みの1回。攻撃時点の暴食0～12層を指定。",
+        "verification": "tests/hsr/hsrFudieRound24.test.cjs"
+      },
+      "requiredModifierIds": [
+        "traceNode:1504:150402:prey-defense-reduction",
+        "traceNode:1504:1504102:follow-up-base",
+        "traceNode:1504:1504102:follow-up-stacks"
+      ]
+    }
+  ]
+}

@@ -105,7 +105,7 @@
     // Fixed-source CB riders reuse the Elation equation, with an owner-specific snapshot.
     function certifiedBangerCurve(attack) {
         return ({'1513041':[20,22,24,26,28,30,32.5,35,37.5,40], '1513042':[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72],
-            '1505041':[8,8.8,9.6,10.4,11.2,12,13,14,15,16], '1505042':[138,151.8,165.6,179.4,193.2,207,224.25,241.5,258.75,276], '1505043':[12.5,13.75,15,16.25,17.5,18.75,20.31,21.88,23.44,25]})[attack.id] || [];
+            '1505041':[8,8.8,9.6,10.4,11.2,12,13,14,15,16], '1505042':[138,151.8,165.6,179.4,193.2,207,224.25,241.5,258.75,276], '1505043':[12.5,13.75,15,16.25,17.5,18.75,20.31,21.88,23.44,25], '8009041':[15,16.5,18,19.5,21,22.5,24.37,26.25,28.12,30], '8010041':[15,16.5,18,19.5,21,22.5,24.37,26.25,28.12,30]})[attack.id] || [];
     }
 
     function supportedElationAttack(attack) {
@@ -113,7 +113,9 @@
         return (["1505041","1505042","1505043"].includes(attack.id) && attack.characterId==='1505' && attack.sourceSkillId==='150504' && attack.elationContext==='certifiedBanger' && attack.hitCount===(attack.id==='1505042'?10:1) && attack.target==='aoe' && attack.requiresFinalCritDamageConversion===true && attack.minimumCertifiedBanger===(attack.id==='1505042'?480:undefined)) || (["1513041","1513042"].includes(attack.id) && attack.characterId==='1513' && attack.sourceSkillId==='151304' && attack.elationContext==='certifiedBanger' && attack.hitCount===1 && attack.target==='aoe') || (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
             || (attack.id === "150220" && attack.elationContext === "firstAhaInstant" && attack.target === "single" && attack.hitCount === 6)
             || (attack.id === "151320" && attack.elationContext === "fervor10Auto" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === 20)
-            || (attack.id === "151321" && attack.elationContext === "fervorEnhancedAha" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === undefined);
+            || (attack.id === "151321" && attack.elationContext === "fervorEnhancedAha" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === undefined)
+            || (["800920","801020"].includes(attack.id) && attack.characterId === attack.id.slice(0,4) && attack.sourceSkillId === attack.id && attack.elationContext === "ahaInstant" && attack.target === "single" && attack.hitCount === 9 && attack.certifiedBangerScope === undefined)
+            || (["8009041","8010041"].includes(attack.id) && attack.characterId === attack.id.slice(0,4) && attack.sourceSkillId === (attack.characterId === "8009" ? "800904" : "801004") && attack.elationContext === "certifiedBanger" && attack.certifiedBangerScope === "selfIsPartyMaximum" && attack.target === "aoe" && attack.hitCount === 1);
     }
 
     function elationComponents(attack, fervor) {
@@ -128,8 +130,13 @@
         const values = input.elation || {};
         const warnings = [];
         if (!ELATION_LEVEL_BASE[character.level] || (character.eidolon ?? 0) !== 0) warnings.push("この愉悦攻撃はLv80・星魂0のみ計算対応です。");
-        if (input.attack?.elationContext === "certifiedBanger") {
+        if (["800920","801020"].includes(input.attack?.id)) {
+            const a=input.attack,owner=a.id.slice(0,4),random=[10,11,12,13,14,15,16.25,17.5,18.75,20],last=[30,33,36,39,42,45,48.75,52.5,56.25,60];
+            const parts=elationComponents(a),expected=8*random[a.traceLevel-1]+last[a.traceLevel-1];
+            if(a.characterId!==owner||a.sourceSkillId!==a.id||a.target!=="single"||a.hitCount!==9||values.context!=="ahaInstant"||input.enemy?.count!==1||a.certifiedBangerScope!==undefined||parts.length!==2||parts[0].count!==8||parts[1].count!==1||parts[0].multiplierPercent!==random[a.traceLevel-1]||parts[1].multiplierPercent!==last[a.traceLevel-1]||a.multiplier!==expected||a.multipliers?.[a.traceLevel-1]!==expected)warnings.push("愉悦開拓者の愉悦スキルは固定版のランダム8回＋最後の全体1回・敵1体の想定状態のみです。");
+        } else if (input.attack?.elationContext === "certifiedBanger") {
             const a=input.attack,curve=certifiedBangerCurve(a);
+            if(["8009041","8010041"].includes(a.id)&&(a.certifiedBangerScope!=="selfIsPartyMaximum"||a.characterId!==a.id.slice(0,4)))warnings.push("開拓者の追加愉悦は本人の爆笑の褒美が味方内最大の比較状態のみ計算対応です。");
             if(values.context!=='certifiedBanger'||!Number.isInteger(values.certifiedBanger)||values.certifiedBanger<1||values.certifiedBanger>10000)warnings.push('攻撃時点の爆笑の褒美に1～10000の整数を入力してください。爆笑ネタは使用しません。');
             if(input.enemy?.count!==1||a.multiplier!==curve[a.traceLevel-1])warnings.push('追加愉悦の天賦倍率・敵1体の条件を確認してください。');
             if(a.id==='1505042'){const parts=elationComponents(a);if(parts.length!==2||parts[0].count!==1||parts[1].count!==9||parts.some(p=>!Number.isFinite(p.multiplierPercent))||Math.abs(parts.reduce((n,p)=>n+p.count*p.multiplierPercent,0)-a.multiplier)>1e-8)warnings.push('緋英の全体1回・9バウンドの追加愉悦成分を確認してください。');}
@@ -242,7 +249,9 @@
         "1505032": {owner:"1505",body:"150503",rider:"1505042",type:"ultimate",element:"Physical"},
         "1505044": {owner:"1505",body:"150504",rider:"1505043",type:"followUp",element:"Physical"},
         "1513022": {owner:"1513",body:"151302",rider:"1513041",type:"skill",element:"Quantum"},
-        "1513032": {owner:"1513",body:"151303",rider:"1513042",type:"ultimate",element:"Quantum"}
+        "1513032": {owner:"1513",body:"151303",rider:"1513042",type:"ultimate",element:"Quantum"},
+        "8009022": {owner:"8009",body:"800902",rider:"8009041",riderSource:"800904",type:"skill",element:"Thunder",scope:"selfIsPartyMaximum"},
+        "8010022": {owner:"8010",body:"801002",rider:"8010041",riderSource:"801004",type:"skill",element:"Thunder",scope:"selfIsPartyMaximum"}
     };
 
     function unsupportedAttackReason(attack = {}) {
@@ -263,8 +272,10 @@
             const validWeltDefinition = welt && attack.characterId === "1004" && attack.variant === "enhanced" && attack.sourceSkillId === welt.body
                 && attack.type === welt.type && attack.element === "Imaginary" && components?.length === welt.parts.length
                 && welt.parts.every((p,i) => components[i]?.key === p.key && components[i]?.attackId === p.id);
+            if (attack.id === "150905" && attack.characterId === "1509" && attack.sourceSkillId === "150905" && attack.type === "followUp" && attack.element === "Thunder" && components?.length === 2 && components[0]?.key === "lightning" && components[0]?.attackId === "1509051" && components[1]?.key === "wind" && components[1]?.attackId === "supplemental:trace:1509:150905:saber-wind-followup") return "";
             const mixed = bangerActionSequences[attack.id];
             const validBangerAction = mixed && attack.characterId === mixed.owner && attack.sourceSkillId === mixed.body && attack.type === mixed.type && attack.element === mixed.element
+                && (mixed.scope === undefined || attack.certifiedBangerScope === mixed.scope)
                 && components?.length === 2 && components[0]?.key === "direct" && components[0]?.attackId === mixed.body && components[1]?.key === "banger" && components[1]?.attackId === mixed.rider;
             const kafka = kafkaSequences[attack.id];
             const validKafkaDefinition = kafka && attack.characterId === "1005" && attack.sourceSkillId === kafka.body && attack.type === kafka.type && attack.variant === kafka.variant && attack.element === "Thunder"
@@ -375,6 +386,7 @@ function calculateFanning(input) {
         const attack = input?.attack || {};
         const unsupportedReason = unsupportedAttackReason(attack);
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
+        if (attack.id === "150402" && attack.enforceSnapshotContract && (input.modifiers || []).some(m=>m.category==="progressiveTakenDamage"&&m.enabled!==false&&m.applicable!==false&&modifierAppliesToAttack(m,attack))) return {supported:false,reason:"餌食の本体＋追加成分は状態一定の比較です。段間で更新する被ダメージ補正は扱いません。"};
         if (attack.id === "1014032" && (input.modifiers || []).some(m => m.category === "progressiveTakenDamage" && m.enabled !== false && m.applicable !== false && modifierAppliesToAttack(m, attack))) return {supported:false,reason:"この必殺合計は全11段で補正が一定の状態です。段間で更新する被ダメージ補正は合算できません。"};
         if (attack.id === "1206031" && attack.requiresValidHitCount && attack.hitCount > 1 && input.modifierInputs?.["sushang-sword-stance-stacks"] !== 10) return {supported:false,reason:"複数の追加剣勢は逐寇が事前10層で飽和した状態のみ計算対応です。"};
         if (attack.id === "122204" && (character.eidolon < 3 && attack.traceLevel > 10 || attack.traceLevel > 12)) return {supported:false,reason:"浮元は星魂0～2で天賦Lv1～10、星魂3以上でLv1～12に対応します。"};
@@ -405,7 +417,7 @@ function calculateFanning(input) {
             if(attack.requiresBrokenTarget && enemy.toughnessActive!==false) return fail("この比較は攻撃前から撃破状態の敵を想定します。靭性状態を撃破済みにしてください。");
             if(attack.requiredWeaknessCount && enemy.weaknessCount!==attack.requiredWeaknessCount) return fail("攻撃前から7弱点・本質暴露が成立した比較のみ対応です。");
             for(const spec of attack.numericModifierInputs||[]){const values=input.modifierInputs||{},v=Object.hasOwn(values,spec.inputKey)?values[spec.inputKey]:spec.default;if(!Number.isFinite(v)||v<spec.minimum||v>spec.maximum||(spec.integer&&!Number.isInteger(v)))return fail(spec.label+"に"+spec.minimum+"～"+spec.maximum+"の"+(spec.integer?"整数":"数値")+"を入力してください。");}
-            for(const id of attack.requiredModifierIds||[]){const mods=(input.modifiers||[]).filter(m=>m.id===id&&m.enabled!==false&&m.applicable!==false&&m.calculable!==false&&Number.isFinite(m.value)&&!(m.inputWarnings||[]).length&&modifierAppliesToAttack(m,attack));if(mods.length!==1)return fail("必要な補正が不足しています："+id);}
+            for(const id of attack.requiredModifierIds||[]){const mods=(input.modifiers||[]).filter(m=>m.id===id&&((m.enabled!==false&&m.applicable!==false)||(["150402","1504031","1504032","150404"].includes(attack.id)&&m.includedInFinalStats===true))&&m.calculable!==false&&Number.isFinite(m.value)&&!(m.inputWarnings||[]).length&&modifierAppliesToAttack(m,attack));if(mods.length!==1)return fail("必要な補正が不足しています："+id);}
         }
         if (attack.rejectNormalOnlyModifiers && attack.damageFormula !== "componentSequence") { const reason = normalOnlyModifierReason(input.modifiers || []); if (reason) return { supported: false, reason }; }
         if (attack.damageFormula === "resolvedDamageMultiplier") return calculateSerinResolvedDoT(input);
@@ -520,6 +532,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if (input.attack?.id === "150905") return calculateGilgameshJoint(input);
         if (bangerActionSequences[input.attack?.id]) return calculateBangerActionSnapshot(input);
         if (kafkaSequences[input.attack?.id]) return calculateKafkaSnapshot(input);
         if (input.attack?.id === "1210032") return calculateGuinaifenSnapshot(input);
@@ -599,11 +612,28 @@ function calculateFanning(input) {
         return combineDamageComponents(attack, components, welt ? "本体＋審判/天賦付加の合計（事前無重力・懲戒10層）" : elemental ? "本体＋事前DoT状態への天賦付加1回の合計" : yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
     }
 
+    function calculateGilgameshJoint(input) {
+        const a=input.attack||{},parts=input.sequenceComponents||[],c=input.character||{},e=input.enemy||{},fail=reason=>({supported:false,reason}),level=a.traceLevel;
+        const thunder=[200,220,240,260,280,300,325,350,375,400],wind=[300,330,360,390,420,450,487.5,525,562.5,600];
+        if(c.level!==80||c.eidolon!==0||e.count!==1||parts.length!==2||!Number.isInteger(level)||level<1||level>10||a.multiplier!==thunder[level-1])return fail("連携合計はLv80/E0・敵1体・天賦Lv1～10の成立済み1回です。");
+        for(let i=0;i<2;i++){
+            const p=parts[i],q=p?.input||{},b=q.attack||{},roles=b.referenceRoles;
+            if(p?.key!==["lightning","wind"][i]||b.id!==["1509051","supplemental:trace:1509:150905:saber-wind-followup"][i]||b.sourceSkillId!=="150905"||b.characterId!==["1509","1014"][i]||b.type!=="followUp"||b.element!==["Thunder","Wind"][i]||b.hitCount!==1||b.traceLevel!==level||b.multiplier!==(i?wind:thunder)[level-1]||JSON.stringify(q.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail("雷はギルガメッシュ、風はセイバーの登録済み連携成分を指定してください。");
+            if(i===0 && (JSON.stringify(q.character)!==JSON.stringify(c)||JSON.stringify(q.enemy)!==JSON.stringify(e)))return fail("雷成分は本人の戦闘値と敵状態を参照してください。");
+            if(i===1 && (b.referenceIssue||!b.completedReferenceSnapshot||roles?.damageOwnerId!=="1014"||roles?.statReferenceId!=="1014"||roles?.sourceCharacterId!=="1509"||roles?.traceOwnerId!=="1509"||q.character?.level!==80||q.character?.eidolon!==0||["count","level","defenseReduction","takenDamage","toughnessActive"].some(k=>q.enemy?.[k]!==e[k])))return fail("編成内セイバーの独立した完成済み戦闘値と同じ敵の風耐性を指定してください。");
+            if((q.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&modifierAppliesToAttack(m,b)&&(m.category==="progressiveTakenDamage"||i===1&&!['enemySingle','enemyAll'].includes(m.target?.owner))))return fail("連携の途中更新や、完成済みセイバー値への本人支援の再加算は扱いません。");
+        }
+        const result=combineDamageComponents(a,parts,"本人雷＋セイバー風の同一連携合計（所有者別の完成値）");
+        if(result.breakdown)result.breakdown.condition="同じ敵の雷/風耐性を分離し、各所有者の独立した戦闘値と補正を参照";
+        return result;
+    }
+
     function calculateBangerActionSnapshot(input) {
         const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],spec=bangerActionSequences[a.id],values=input.modifierInputs||{};
         const fail=reason=>({supported:false,reason});
         if(c.level!==80 || c.eidolon!==0 || e.count!==1 || e.toughnessActive!==true || parts.length!==2 || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10)return fail("通常＋追加愉悦の合計はLv80/E0・未撃破の敵1体・状態一定の単発計算です。");
         if(spec.owner==="1513" && (a.hasOtherElation!==true || a.startingFervor!==0))return fail("この合計は他の愉悦キャラを編成し、攻撃前の熱気0を想定した行です。");
+        if(spec.scope && (a.certifiedBangerScope!==spec.scope || a.characterId!==spec.owner))return fail("この合計は本人の爆笑の褒美が味方内最大の限定状態です。");
         const key=spec.owner==="1505"?"hiyu-certified-banger":"elation-certified-banger",cb=values[key];
         if(!Number.isInteger(cb)||cb<1||cb>10000)return fail("本人の追加愉悦が参照する爆笑の褒美1～10000を入力してください。");
         const prior=values["hiyu-prior-vulnerability"]===true || values["hiyu-prior-fox-vulnerability"]===true;
@@ -611,7 +641,7 @@ function calculateFanning(input) {
             const p=parts[i],b=p?.input?.attack||{},d=a.damageComponents?.[i],mods=p?.input?.modifiers||[];
             if(p?.key!==["direct","banger"][i] || b.id!==[spec.body,spec.rider][i] || d?.attackId!==b.id || b.characterId!==spec.owner || b.element!==spec.element || b.canCrit!==true || b.damageFormula!==(i===0?"statMultiplier":"elation") || b.type!==(i===0?spec.type:"elation") || b.attackType!==b.type || b.hitCount!==(i===1&&spec.rider==="1505042"?10:1) || !Number.isInteger(b.traceLevel) || b.traceLevel<1 || b.traceLevel>10 || b.multiplier!==b.multipliers?.[b.traceLevel-1] || JSON.stringify(p.input.character)!==JSON.stringify(c) || JSON.stringify(p.input.enemy)!==JSON.stringify(e) || JSON.stringify(p.input.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail("同じ本人・敵・状態と、行動Lv/天賦Lvに対応する登録済み2成分を指定してください。");
             if(i===0 && (b.sourceSkillId!==spec.body || b.traceLevel!==a.traceLevel || b.multiplier!==a.multipliers?.[a.traceLevel-1]))return fail("通常成分の行動Lvと倍率を確認してください。");
-            if(i===1 && (b.sourceSkillId!==(spec.owner==="1505"?"150504":"151304") || b.elationContext!=="certifiedBanger" || p.input.elation?.context!=="certifiedBanger" || p.input.elation?.certifiedBanger!==cb))return fail("追加愉悦は本人の天賦Lvと本人の爆笑の褒美を参照します。");
+            if(i===1 && (b.sourceSkillId!==(spec.riderSource || (spec.owner==="1505"?"150504":"151304")) || b.elationContext!=="certifiedBanger" || p.input.elation?.context!=="certifiedBanger" || p.input.elation?.certifiedBanger!==cb || (spec.scope && b.certifiedBangerScope!==spec.scope)))return fail("追加愉悦の所有者・天賦Lv・本人の爆笑の褒美条件を確認してください。");
             if(mods.some(m=>m.category==="progressiveTakenDamage"&&m.enabled!==false&&m.applicable!==false&&modifierAppliesToAttack(m,b)))return fail("この合計は段間で更新する被ダメージ補正を扱いません。");
             if(spec.owner==="1505" && (spec.type==="followUp" || spec.type==="ultimate" || prior)){
                 const id=spec.type==="followUp" ? (i===0?"traceNode:1505:1505102:fox-prior-vulnerability":"traceNode:1505:1505102:fox-cb-prior-vulnerability") : (i===0?"traceNode:1505:1505102:prior-vulnerability":"traceNode:1505:1505102:cb-prior-vulnerability");
@@ -939,6 +969,14 @@ function calculateFanning(input) {
         const { character, enemy = {}, attack, elation: values } = input;
         const stats = character.stats;
         const modifiers = (input.modifiers || []).map(normalizeModifier);
+        if (["800920","801020"].includes(attack.id)
+            && (input.modifiers || []).some(m => m.enabled !== false && m.applicable !== false && m.category === "progressiveTakenDamage" && modifierAppliesToAttack(m, attack))) {
+            return {supported:false,reason:"アッハタイムの段間で変化する被ダメージ補正は、この敵1体の状態一定計算では扱いません。"};
+        }
+        if (["8009041","8010041","800920","801020"].includes(attack.id)
+            && (input.modifiers || []).some(m => m.enabled !== false && m.applicable !== false && m.includedInFinalStats !== true && ["statPercent","statFlat"].includes(m.category) && m.stat === "atk")) {
+            return {supported:false,reason:"愉悦度へのATK変換は最終入力へ算入してください。この愉悦結果ではATK支援からの再変換を扱いません。"};
+        }
         if (attack.id === "150220") modifiers.push(normalizeModifier({
             id: "yaoguang-woes-whisper", name: "爻光・被ダメージ増加（攻撃前に付与）", source: "愉悦スキル150220",
             category: "takenDamage", value: attack.intrinsicTakenDamage, conditionText: "初回の通常アッハタイム・敵1体",
@@ -992,7 +1030,7 @@ function calculateFanning(input) {
             attack: { name: attack.name, hitCount, hitCountLabel:attack.hitCountLabel, target: attack.target, canCrit: true, scalingStat: "elation" },
             nonCrit, crit, expected, perHit: { nonCrit: nonCrit / hitCount, crit: crit / hitCount, expected: expected / hitCount }, applied, skipped,
             breakdown: {
-                ...(["150220", "151320", "151321", "1505042"].includes(attack.id) ? { elationComponents: components.map((component) => {
+                ...(["150220", "151320", "151321", "1505042", "800920", "801020"].includes(attack.id) ? { elationComponents: components.map((component) => {
                     const perHitNonCrit = levelBase * component.multiplierPercent / 100 * commonMultiplier;
                     return { ...component, perHitNonCrit, nonCrit: perHitNonCrit * component.count,
                         crit: perHitNonCrit * component.count * critMultiplier, expected: perHitNonCrit * component.count * expectedCritMultiplier };
