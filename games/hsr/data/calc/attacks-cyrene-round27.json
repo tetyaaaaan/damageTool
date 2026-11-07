@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-round27-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "精霊の独立した完成済み最終値と、E0で既発動の攻撃1回を敵1体・状態一定に限定して計算。"
+  },
+  "overrides": [
+    {
+      "id": "1141501",
+      "characterId": "1415",
+      "sourceSkillId": "1141501",
+      "name": "花と矢の舞曲（デミウルゴス独立HP・敵1体）",
+      "element": "Ice",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        30,
+        36,
+        42,
+        48,
+        54,
+        60
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-demiugeorgos-independent-hp-one-hit-one-enemy",
+      "conditionText": "キュレネLv80/E0・敵1体。発動済みのデミウルゴス精霊スキル1ヒットを指定します。デミウルゴスの最終HP・会心率・会心ダメージ・氷与ダメージを独立入力します。",
+      "calculationNote": "固定版character_skills.json:1141501.params[0..5][0]は最大HP30～60%。生配列のLv7～10はE0では使いません。params[1]=12の意味はこの限定計算で解釈しません。E0上限Lv6はcharacter_skill_trees.json:1415301.max_level。召喚・精霊行動・同一敵への反復を自動生成しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版E0精霊スキルLv1～6の最大HP倍率を既発動1ヒットとして計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141501.params[0..5][0]; character_skill_trees.json:1415301.max_level",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrCyreneRound27.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "requiresIndependentDemiurge": true
+    },
+    {
+      "id": "1141526",
+      "characterId": "1415",
+      "sourceSkillId": "1141526",
+      "name": "「真我」に捧ぐ詩（既発動追加ヒット成分のみ）",
+      "element": "Ice",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        30,
+        36,
+        42,
+        48,
+        54,
+        60
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-pretriggered-recollection-extra-hit-component-independent-hp",
+      "conditionText": "キュレネLv80/E0・敵1体。味方3人までから追憶を獲得し、デミウルゴスの花と矢の舞曲に追加発動済みの1ヒットを指定します。デミウルゴスの完成済み最終値を独立入力します。",
+      "calculationNote": "固定版character_skills.json:1141526.params[0..5][0]は最大HP30～60%。params[1]=3の意味はこの限定計算で解釈しません。E0上限Lv6はcharacter_skill_trees.json:1415301.max_level。味方からの追憶獲得、物語層、召喚、追加ターンをシミュレートせず、発動済みの追加ヒットだけを計算します。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版E0の発動済み精霊追加ヒットを独立1回として計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141526.params[0..5][0]; character_skill_trees.json:1415301.max_level",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrCyreneRound27.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "requiresIndependentDemiurge": true
+    },
+    {
+      "id": "11415012",
+      "characterId": "1415",
+      "sourceSkillId": "1141501",
+      "name": "花と矢の舞曲（本体＋既発動の追憶追加ヒット・他の精霊なし）",
+      "element": "Ice",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        30,
+        36,
+        42,
+        48,
+        54,
+        60
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "e0-one-base-plus-pretriggered-recollection-hits-single-enemy",
+      "conditionText": "キュレネLv80/E0・敵1体・他の精霊なし。花と矢の舞曲1回と、他の味方3人までから追憶を獲得して既に発動した追加ヒット0～3回を、同じデミウルゴス最終値で計算します。",
+      "calculationNote": "追加回数は攻撃時点で成立済みの状態を0～3で指定し、獲得イベントや精霊の追加ターンを再現しません。スキルparams[1]の意味はこの限定計算で解釈しません。各成分のHP・会心・氷与ダメージは同じ独立スナップショットを参照します。1141501/1141526の単独結果との重複加算に注意してください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "E0の本体1回と既発動追加ヒットを成分別に同じ独立HP最終値で合算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141501.params[0][0]; 1141526.params[0][0]; character_skill_trees.json:1415301.max_level",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrCyreneRound27.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "requiresIndependentDemiurge": true,
+      "numericModifierInputs": [
+        {
+          "inputKey": "cyrene-recollection-allies",
+          "label": "他の味方から追憶を獲得済み・追加発動ヒット数",
+          "minimum": 0,
+          "maximum": 3,
+          "integer": true
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "body",
+          "name": "花と矢の舞曲・基本1ヒット",
+          "attackId": "1141501"
+        },
+        {
+          "key": "recollection",
+          "name": "追憶獲得で既発動の追加ヒット",
+          "attackId": "1141526",
+          "countFromInput": "cyrene-recollection-allies"
+        }
+      ]
+    }
+  ]
+}

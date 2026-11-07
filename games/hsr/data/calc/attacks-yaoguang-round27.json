@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "yaoguang-round27",
+  "overrides": [
+    {
+      "id": "150201",
+      "characterId": "1502",
+      "sourceSkillId": "150201",
+      "name": "孔雀の矢羽根、幸いを招く嚆矢（敵1体）",
+      "element": "Physical",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        45,
+        54,
+        63,
+        72,
+        81,
+        90
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "yaoguang-own-normal-one-enemy",
+      "conditionText": "Lv80/E0・通常攻撃Lv1～6・敵1体。主対象への物理ダメージのみ。",
+      "calculationNote": "固定版150201.params[0..5][0]を使用。隣接対象への第2成分は敵1体では命中しないため含めません。愉悦度変換は最終ステータスに含めてください。天賦の大吉大利追加成分は1502012の合算行でのみ加算します。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版E0通常攻撃上限6の主対象倍率を検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150201.params[0..5][0]; character_skill_trees.json:1502001(max_level=6)",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrYaoguangRound27.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    },
+    {
+      "id": "1502041",
+      "characterId": "1502",
+      "sourceSkillId": "150204",
+      "name": "大吉大利（爻光本人の通常攻撃後・愉悦追加）",
+      "element": "Physical",
+      "type": "elation",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16.25,
+        17.5,
+        18.75,
+        20
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "攻撃時点で爻光本人が爆笑の褒美を所持",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "Lv80/E0・天賦Lv1～10・敵1体。爻光本人が爆笑の褒美を事前所持し、本人の通常攻撃後に大吉大利が1回発動。",
+      "calculationNote": "固定版150204.params[0..9][0]を使用。本人が攻撃者かつ褒美の提供者で、愉悦度参照先は爻光本人と確定する状態に限定します。爆笑の褒美入力は発動条件の確認で、愉悦度・会心率・愉悦ダメージ補正は最終ステータスに一度だけ含めます。通常攻撃後は追加1回。通常攻撃1回を複数回発動した扱いにはせず、SPを消費する他の味方攻撃による追加発動、他の味方攻撃、褒美/爆笑ネタ更新は含みません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版天賦の倍率と本人が攻撃者/提供者である単一参照状態を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150204.params[0..9][0]; character_skill_trees.json:1502004(max_level=10)",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrYaoguangRound27.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    },
+    {
+      "maximumTraceLevel": 6,
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "yaoguang-own-normal-and-own-certified-banger",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "攻撃時点で爻光本人が爆笑の褒美を所持",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "Lv80/E0・通常攻撃Lv1～6・天賦Lv1～10・敵1体。褒美を事前所持し、爻光本人の通常攻撃後に大吉大利が1回発動。",
+      "calculationNote": "通常攻撃の主対象物理成分と爻光本人の大吉大利愉悦成分を別式で一度ずつ計算し、NC/C/期待値と内訳を合算します。天賦は通常攻撃後に1回のみ。隣接攻撃、SP消費時の2回目、他者の攻撃、褒美/爆笑ネタ/速度/会心状態の更新は対象外です。速度由来愉悦度・A4会心ダメージなどの確定済み最終値を入力し、再加算しません。単独成分行を合計へ重複加算しないでください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版通常/天賦曲線、Lv80/E0敵1体での本人追加1回を別式で独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150201.params[0..5][0];150204.params[0..9][0]; character_skill_trees.json:1502001(max_level=6),1502004(max_level=10)",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrYaoguangRound27.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "爻光本人の通常攻撃",
+          "attackId": "150201"
+        },
+        {
+          "key": "banger",
+          "name": "本人通常攻撃後の大吉大利",
+          "attackId": "1502041"
+        }
+      ],
+      "id": "1502012",
+      "characterId": "1502",
+      "sourceSkillId": "150201",
+      "name": "孔雀の矢羽根（本人通常＋大吉の合計）",
+      "element": "Physical",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 2,
+      "canCrit": true,
+      "multipliers": [
+        45,
+        54,
+        63,
+        72,
+        81,
+        90
+      ],
+      "maximumEidolon": 0,
+      "requiredToughnessActive": true
+    },
+    {
+      "id": "150221",
+      "characterId": "1502",
+      "sourceSkillId": "150220",
+      "name": "君に卦を贈る（必殺技の固定20爆笑ネタ・本人追加Aha）",
+      "element": "Physical",
+      "type": "elation",
+      "traceKey": "elation",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "ultimateAha",
+      "hitCount": 6,
+      "hitCountLabel": "全体愉悦攻撃1回＋ランダム単体愉悦攻撃5回（敵1体）",
+      "canCrit": true,
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "elationComponents": [
+        {
+          "name": "敵全体愉悦攻撃（敵1体）",
+          "count": 1,
+          "multipliers": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75,
+            81.25,
+            87.5,
+            93.75,
+            100
+          ]
+        },
+        {
+          "name": "ランダム単体愉悦攻撃",
+          "count": 5,
+          "multipliers": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16.25,
+            17.5,
+            18.75,
+            20
+          ]
+        }
+      ],
+      "fixedPunchline": 20,
+      "intrinsicTakenDamage": 16,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "yaoguang-own-ultimate-fixed-20-punchline-aha",
+      "conditionText": "Lv80/E0・愉悦スキルLv1～10・敵1体。必殺技により追加されたAhaの行動で、爻光本人の愉悦スキルを固定爆笑ネタ20で計算。",
+      "calculationNote": "150220.params[0..9][1,2,4,5]と必殺技params[0..14][3]=20を参照。固定20ネタの追加Ahaでは全体分1回と単体分5回が同じ敵へ命中する状態だけを合算します。通常の手動爆笑ネタ値で置き換えません。敵1体、Lv80/E0、同一条件が全6ヒット中に変化しない想定。必殺技の全属性耐性貫通は別入力に含め、再適用しません。既存150220通常Aha行とは異なる発動条件です。 必殺の全属性耐性貫通10～20%が成立した想定なら、敵条件の耐性貫通へ一度だけ含めてください。単独行と合計行は比較用で重複加算しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版愉悦攻撃係数と必殺技の固定20ネタを分離し、単体敵で独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150220.params[0..9][1,2,4,5]; character_skill_trees.json:1502420(max_level=10); character_skills.json:150203.params[0..14][3]; character_skill_trees.json:1502003(max_level=10; fixed #4 parameter only)",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrYaoguangRound27.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版の本人通常・大吉1回・必殺追加アッハを既存の式へ接続する限定計算。"
+  }
+}

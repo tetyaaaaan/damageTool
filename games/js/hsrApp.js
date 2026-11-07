@@ -177,10 +177,10 @@
     $("hsrSongbirdSettings").hidden = char?.id !== "1512";
     $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010", "1501", "1506"].includes(char?.id);
     $("hsrElationContextField").hidden = char?.id !== "1502";
-    $("hsrElationScope").textContent = char?.id === "1502" ? "爻光Lv80・星魂0・敵1体、初回の通常アッハタイムの全6ヒットです。" : "緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。";
+    $("hsrElationScope").textContent = char?.id === "1502" ? "爻光Lv80・星魂0・敵1体。初回通常アッハと、必殺による固定20の追加アッハを別行で比較します。" : "緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。";
     $("hsrPunchlineField").hidden = false;
     $("hsrFervorField").hidden = char?.id !== "1513";
-    $("hsrPunchlineHelp").textContent = char?.id === "1502" ? "消費済み爆笑ネタが0の初回通常発動だけに対応します。2回目以降・必殺技による追加発動は対象外です。被ダメージ増加16%は自動適用するため重複入力しないでください。愉悦度・会心等は適用対象の常時効果を含む最終値を入力してください。上笑なしは0。通常の与ダメージ補正は適用しません。" : "Lv80・星魂0・アッハタイム中の敵1体あたり1回分です。爆笑ネタと爆笑の褒美は別の値です。この攻撃では攻撃時点の爆笑ネタだけを使い、攻撃後の爆笑の褒美+5は加算しません。上笑がない場合は0を入力してください。通常の与ダメージ補正は適用しません。";
+    $("hsrPunchlineHelp").textContent = char?.id === "1502" ? "通常発動は消費済み爆笑ネタ0の初回のみ。必殺追加行は固定20で計算し、この爆笑ネタ入力を使いません。本人の大吉は補正条件の爆笑の褒美を参照します。結界・SPD由来愉悦度とA4会心ダメージは最終入力へ一度含めてください。被ダメージ増加16%は自動適用するため重複入力しないでください。愉悦度・会心等は適用対象の常時効果を含む最終値を入力してください。上笑なしは0。通常の与ダメージ補正は適用しません。" : "Lv80・星魂0・アッハタイム中の敵1体あたり1回分です。爆笑ネタと爆笑の褒美は別の値です。この攻撃では攻撃時点の爆笑ネタだけを使い、攻撃後の爆笑の褒美+5は加算しません。上笑がない場合は0を入力してください。通常の与ダメージ補正は適用しません。";
     if (char?.id === "1513") {
       $("hsrElationScope").textContent = "夏アベンチュリンLv80・星魂0・敵1体。通常版151320と、次のアッハタイムの強化版151321を条件別に計算します。";
       $("hsrPunchlineHelp").textContent = "通常版は熱気10到達の自動発動、強化版は他の愉悦キャラ編成時の次のアッハタイムを想定します。全ヒット中の敵条件変化なし。通常版の爆笑ネタは固定20、強化版は下の爆笑ネタと消費熱気10～30を参照します。上笑なしは0。通常与ダメージ補正、複数敵分配、熱気の自動管理は対象外です。";
@@ -998,7 +998,16 @@
     const stats=Object.fromEntries(['atk','critRate','critDamage','damageBonus'].map(k=>[k,get(k)]));
     return {referenceCharacter:{id:'11402',level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},requiresIndependentLaftra:true,completedReferenceSnapshot:valid,damageOwnerId:'11402',referenceIssue:valid?'':'ラフトラの最終ATK・会心・雷与ダメージ・防御無視・耐性貫通を入力してください。補正なしは0です。',referenceCondition:{id:'memosprite:1402',tab:'軌跡'}};
   }
+  function round27MemospriteSnapshot(id) {
+    const cyrene=id==='1415',owner=cyrene?'11415':'11409',keys=[...(cyrene?['hp']:[]),'critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'],get=k=>state.modifierInputs['memosprite:'+id+':'+k];
+    const valid=keys.every(k=>Number.isFinite(get(k))&&(k==='hp'?get(k)>0:get(k)>=0)),stats=Object.fromEntries(keys.filter(k=>!['defenseIgnore','resistancePenetration'].includes(k)).map(k=>[k,get(k)]));
+    return {referenceCharacter:{id:owner,level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},completedReferenceSnapshot:valid,damageOwnerId:owner,referenceIssue:valid?'':(cyrene?'デミウルゴス':'イカルン')+'の独立した最終値を補正条件で入力してください。補正なしは0です。',referenceCondition:{id:'memosprite:'+id,tab:'軌跡'}};
+  }
   function partyReferenceControls() {
+    if(['1409','1415'].includes(state.characterId)&&state.conditionTab==='軌跡'){
+      const id=state.characterId,cyrene=id==='1415',name=cyrene?'デミウルゴス':'イカルン',pairs=[...(cyrene?[['hp','精霊の最終HP']]:[]),['critRate','精霊の最終会心率（%）'],['critDamage','精霊の最終会心ダメージ（%）'],['damageBonus','精霊の最終'+(cyrene?'氷':'風')+'与ダメージ（%）'],['defenseIgnore','精霊の防御無視（%）'],['resistancePenetration','精霊の属性耐性貫通（%）']];
+      return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:'+id+'"><h5>'+name+'の独立した戦闘中の最終値</h5><p class="genshin-help">本人の値は継承しません。装備・支援・固有補正を各自の最終値へ一度含めます。'+(cyrene?'必殺の会心、天賦DMG・A6のSPD由来氷貫通も含めてください。追憶の追加は他精霊なしの味方0～3名です。特殊な祝福は未対応です。':'微笑む暗雲の会心率+100%、治癒後の天賦DMG最大3層も含めてください。累計治癒量は攻撃直前の記録値です。HPや与ダメージ結果ではありません。記録の蓄積・50%消去は自動追跡しません。')+'</p>'+pairs.map(([k,label])=>{const key='memosprite:'+id+':'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
+    }
     if(state.characterId==='1402'&&state.conditionTab==='軌跡')return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:1402"><h5>ラフトラの独立した戦闘中の最終値</h5><p class="genshin-help">本人と精霊のATK・会心・雷与ダメージを分けます。至高の姿の速度由来ATK・保持速度層・装備・支援は各自の最終値に一度含めてください。本人の値を精霊へ自動継承しません。敵1体・事前の糸・状態一定の単発比較です。</p>'+[['atk','ラフトラの最終ATK'],['critRate','ラフトラの最終会心率（%）'],['critDamage','ラフトラの最終会心ダメージ（%）'],['damageBonus','ラフトラの最終雷与ダメージ（%）'],['defenseIgnore','ラフトラの防御無視（%）'],['resistancePenetration','ラフトラの雷耐性貫通（%）']].map(([k,label])=>{const key='memosprite:1402:'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
 
     if (state.characterId === '1509' && state.conditionTab === '軌跡') {
@@ -1013,7 +1022,7 @@
     return '<section class="hsr-condition-purpose" data-hsr-condition-ids="party-reference:1202"><h5>停雲本人の攻撃後に発生する賜福対象の付加</h5><p class="genshin-help">Lv80・星魂0の賜福対象の戦闘中の最終値を入力します。賜福・他の支援・装備の効果を含めた値を使い、この付加行には攻撃者側の支援を再加算しません。停雲本人の通常とは別の1回分です。</p><label class="genshin-condition-control"><span>賜福対象</span><select data-comparison-choice="party-reference-owner:1202"><option value="">パーティから選択</option>'+state.party.filter(m=>m.characterId).map(m=>'<option value="'+m.characterId+'"'+(String(m.characterId)===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
   }
   function comparisonReferenceControls() {
-    if (["1408","1406","1321","1410","1314","1504","8009","8010","1317","1501"].includes(state.characterId) && state.conditionTab === "軌跡") {
+    if (["1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415"].includes(state.characterId) && state.conditionTab === "軌跡") {
       const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => spec.inputKey !== 'rappa-consumed-charge' && !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
       return (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
     }
@@ -1157,6 +1166,11 @@
   }
 
   function resolvedAttack(selected) {
+    if(['1140901','1141501','1141526'].includes(selected.id))return {...selected,traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:selected.type,...round27MemospriteSnapshot(selected.characterId)};
+    if(selected.id==='11415012'){
+      const ref=round27MemospriteSnapshot('1415'),level=state.traceLevels.memSkill,sequenceAttacks=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);
+      return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks,...ref};
+    }
     if(selected.id==='1140201')return {...selected,traceKey:'memSkill',traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:'memospriteSkill',...laftraSnapshot()};
     if(['1402012','140208'].includes(selected.id)&&selected.damageFormula==='componentSequence'){
       const joint=selected.id==='140208',level=state.traceLevels.normal,talent=state.data.attacks.find(a=>a.id==='140204'),ref=joint?laftraSnapshot():null;
@@ -1268,7 +1282,7 @@
       const body=state.data.attacks.find(a=>a.id==="1509051"),wind=supplementalAttacks().find(a=>a.sourceModifierId==="trace:1509:150905:saber-wind-followup"),level=state.traceLevels.talent;
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:"followUp",sequenceAttacks:body&&wind?[resolvedAttack(body),{...wind,characterId:"1014",sourceSkillId:"150905",damageFormula:"statMultiplier"}]:[],referenceIssue:wind?.referenceIssue || (!wind?"セイバーを編成し、独立した完成済み戦闘値と敵の風耐性を入力してください。":""),referenceCondition:wind?.referenceCondition || {id:"party-reference:1014",tab:"軌跡"}};
     }
-    if (["1505022","1505032","1505044","1513022","1513032","8009022","8010022","1501082","1501032"].includes(selected.id) && selected.damageFormula === "componentSequence") {
+    if (["1505022","1505032","1505044","1513022","1513032","8009022","8010022","1501082","1501032","1502012"].includes(selected.id) && selected.damageFormula === "componentSequence") {
       const prior=state.modifierInputs["hiyu-prior-vulnerability"]===true || state.modifierInputs["hiyu-prior-fox-vulnerability"]===true;
       const sequenceAttacks=selected.damageComponents.map(d=>{
         const source=state.data.attacks.find(a=>a.id===d.attackId && a.characterId===selected.characterId);
@@ -1523,7 +1537,7 @@
   }
 
   const detailNumber = (value) => Number(value).toLocaleString("ja-JP", { maximumFractionDigits: 6 });
-  const SCALING_LABELS = { atk: "攻撃力", hp: "HP", def: "防御力", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度" };
+  const SCALING_LABELS = { atk: "攻撃力", hp: "HP", def: "防御力", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度", healingRecord: "攻撃直前の累計治癒量" };
 
   function damageBreakdown(result, targetLabel) {
     const b = result.breakdown;
@@ -1716,6 +1730,7 @@
 
   function attackElationInputs(attack) {
     if (attack.elationContext === "certifiedBanger") return {...state.elationInputs,context:"certifiedBanger",certifiedBanger:state.modifierInputs[attack.certifiedBangerInputKey || "elation-certified-banger"]};
+    if (attack.id === "150221") return {...state.elationInputs,context:"ultimateAha",punchline:20};
     if (attack.id === "151321") return { ...state.elationInputs, context: "fervorEnhancedAha", stableEnemy: true, hasOtherElation: true };
     if (attack.id === "151320") return { ...state.elationInputs, context: "fervor10Auto", stableEnemy: true };
     return state.elationInputs;
@@ -1763,7 +1778,7 @@
     }
     if (attacks.length && attacks.every(a => a.damageFormula === "resolvedDamageMultiplier")) return [];
     const warnings = new Set();
-    const labels = { hp: "HP", atk: "攻撃力", def: "防御力", speed: "速度", critRate: "会心率", critDamage: "会心ダメージ", damageBonus: "属性ダメージ", breakEffect: "撃破特効", effectHitRate: "効果命中", effectRes: "効果抵抗", energyRegen: "EP回復効率", hpPercent: "現在HP割合", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度" };
+    const labels = { hp: "HP", atk: "攻撃力", def: "防御力", speed: "速度", critRate: "会心率", critDamage: "会心ダメージ", damageBonus: "属性ダメージ", breakEffect: "撃破特効", effectHitRate: "効果命中", effectRes: "効果抵抗", energyRegen: "EP回復効率", hpPercent: "現在HP割合", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度", healingRecord: "攻撃直前の累計治癒量" };
     const requiredStats = new Set();
     const requiredBonuses = new Set();
     const fieldWarning = (message, id) => { warnings.add(message); if (id) fields.set(id,message); };

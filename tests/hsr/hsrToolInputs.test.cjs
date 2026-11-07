@@ -4258,3 +4258,31 @@ test('Round26 Silver Wolf LV.999 uses the shared Punchline field only for the ex
  app.window.HsrTool.applyProfileCharacter({id:'1506',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,elation:100}});app.node('hsrStat-elation').value='100';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';app.node('hsrElationTrace').value='10';
  const row=()=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='150621').name);assert.equal(app.node('hsrElationSettings').hidden,false);let r=row();assert.ok(r,app.node('hsrCalculationFeedback').innerHTML);near(r.nonCrit,7535.107*5.4*2*(1+100/260)*.36);assert.equal(r.attack.hitCount,6);app.node('hsrPunchline').value='40';near(row().expected,7535.107*5.4*2*(1+200/280)*.36*1.5);app.node('hsrPunchline').value='';assert.ok(!row());assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='150601').name));
 });
+
+
+test('Round27 independent spirits reach results, keep missing inputs local and restore final snapshots',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const id of ['1409','1415']){
+  const app=await tool(undefined,data),cyrene=id==='1415',attackId=cyrene?'11415012':'1140901';
+  app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6}],stats:{atk:3100,hp:6200,def:2100,critRate:100,critDamage:143,damageBonus:0}});
+  const row=(x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===attackId).name);
+  assert.ok(!row());assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id===id+'01').name),'owner remains calculable');
+  for(const[k,v]of Object.entries({...(cyrene?{hp:8432}:{}),critRate:100,critDamage:143,damageBonus:175,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:'+id+':'+k]=v;
+  app.state.modifierInputs[cyrene?'cyrene-recollection-allies':'hyacine-recorded-healing']=cyrene?2:12345;
+  const expected=(cyrene?8432*.6*3:12345*.2)*2.75*.36*2.43,r=row();assert.ok(r,app.node('hsrResults').innerHTML.replace(/<[^>]*>/g,' ').slice(-1500));near(r.expected,expected);
+  app.node('hsrStat-hp').value='9300';app.node('hsrStat-critDamage').value='299';near(row().expected,expected,'owner edits do not change spirit');
+  app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/data-structured-input="memosprite:/);assert.doesNotMatch(app.node('hsrConditionList').innerHTML,/undefined/);
+  app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);near(row(restored).expected,expected);
+  if(cyrene){restored.state.modifierInputs['cyrene-recollection-allies']=0;near(row(restored).expected,expected/3);}else{restored.state.modifierInputs['hyacine-recorded-healing']=0;near(row(restored).expected,0);}
+  delete restored.state.modifierInputs['memosprite:'+id+':critDamage'];assert.ok(!row(restored));assert.ok(restored.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id===id+'01').name));
+ }
+});
+
+test('Round27 Yaoguang normal CB and fixed20 Ultimate Aha stay separate from manual Punchline',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1502',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:160,damageBonus:19,elation:130}});
+ app.node('hsrStat-elation').value='130';app.node('hsrMerrymake').value='0';app.node('hsrElationTrace').value='10';app.node('hsrPunchline').value='999';app.state.modifierInputs['elation-certified-banger']=40;
+ const row=id=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name),cb=7535.107*.2*2.3*(1+200/280)*.36,total=row('1502012');assert.ok(total,app.node('hsrResults').innerHTML.replace(/<[^>]*>/g,' ').slice(-1600));near(total.components.direct.nonCrit,3000*.9*1.19*.36);near(total.components.banger.nonCrit,cb);
+ const aha=row('150221');assert.ok(aha);near(aha.nonCrit,7535.107*2*2.3*(1+100/260)*.36*1.16);app.node('hsrPunchline').value='0';near(row('150221').expected,aha.expected);
+ delete app.state.modifierInputs['elation-certified-banger'];assert.ok(!row('1502012'));assert.ok(row('150201'));assert.ok(row('150221'));
+});

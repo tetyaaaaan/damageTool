@@ -12,7 +12,7 @@
     "element": { "enum": ["Physical", "Fire", "Ice", "Thunder", "Wind", "Quantum", "Imaginary", "None"] },
     "type": { "enum": ["normal", "enhancedNormal", "skill", "enhancedSkill", "ultimate", "talent", "followUp", "additional", "dot", "memospriteSkill", "memospriteTalent", "elation", "assist", "trueDamage", "superBreak"] },
     "target": { "enum": ["single", "blast", "aoe", "bounce", "adjacent"] },
-    "scalingStat": { "enum": ["hp", "atk", "def", "dotBaseDamage", "elation", "originalDamage"] },
+    "scalingStat": { "enum": ["hp", "atk", "def", "dotBaseDamage", "elation", "originalDamage", "healingRecord"] },
     "multipliers": { "type": "array", "minItems": 1, "items": { "type": "number", "minimum": 0 } },
     "hitCount": { "type": "integer", "minimum": 0 },
     "hitCountReference": { "enum": ["enemy.debuffCount"] },

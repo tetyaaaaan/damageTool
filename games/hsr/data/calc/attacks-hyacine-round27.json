@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "hyacine-round27-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "事前に記録された累計治癒量を明示入力し、イカルン固有の最終戦闘値でE0精霊スキル1回を計算。"
+  },
+  "overrides": [
+    {
+      "id": "1140901",
+      "characterId": "1409",
+      "sourceSkillId": "1140901",
+      "name": "黒雲退散！（イカルン精霊スキル・累計治癒量記録）",
+      "element": "Wind",
+      "type": "memospriteSkill",
+      "traceKey": "memSkill",
+      "target": "aoe",
+      "scalingStat": "healingRecord",
+      "damageFormula": "recordedHealing",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        10,
+        12,
+        14,
+        16,
+        18,
+        20
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "calculationScope": "e0-independent-ica-recorded-healing-one-cast",
+      "conditionText": "ヒアンシーLv80・星魂0・未撃破の敵1体。イカルンの精霊スキルLv1～6を1回計算します。スキル発動前の本戦闘におけるヒアンシーとイカルンの累計治癒量を明示入力し、イカルン固有の最終会心率・会心ダメージ・風与ダメージを指定してください。",
+      "calculationNote": "固定版1140901.params[0..5][0]の累計治癒量10～20%参照。これはHP参照攻撃ではありません。累計治癒量は入力値をそのまま一度だけ使い、治癒履歴・治癒イベント・精霊スキル後の50%クリアを再現しません。イカルンの最終値には凪いだ暴風の最大HP/治癒量、微笑む暗雲の会心率+100%、治癒由来の天賦DMG層等、適用済みの補正を一度だけ含めてください。ヒアンシー本人のステータスや補正を継承せず、一般の精霊補正継承・召喚・自動治癒・行動順も扱いません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の累計治癒量比率を明示入力し、イカルン所有の会心・風与ダメージと通常防御/耐性式へ接続する限定単発計算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1140901.params[0..9][0]; character_skill_trees.json:1409301",
+        "verifiedAt": "2026-11-07",
+        "verification": "tests/hsr/hsrHyacineRound27.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "requiresIndependentHyacine": true,
+      "damageOwnerId": "11409",
+      "recordInputKey": "hyacine-recorded-healing",
+      "numericModifierInputs": [
+        {
+          "inputKey": "hyacine-recorded-healing",
+          "label": "イカルンのスキル発動前に記録された累計治癒量",
+          "minimum": 0,
+          "maximum": 1000000000000,
+          "integer": false
+        }
+      ],
+      "enemyCountExact": 1
+    }
+  ]
+}
