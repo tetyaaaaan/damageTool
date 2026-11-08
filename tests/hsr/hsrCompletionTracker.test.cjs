@@ -35,7 +35,7 @@ test('the three E0 composition-confirmed supports independently verify their sol
 test('candidate audit keeps missing damage components distinct from registered source skills',async()=>{
  const {e0CandidateAudit}=require('../../scripts/reportHsrCompletion.cjs');
  const audits=Object.values(e0CandidateAudit);
- assert.equal(audits.length,93);
+ assert.equal(audits.length,94);
  assert.equal(e0CandidateAudit["1406"].status,"confirmed","Round12 explicit-record major composition acceptance");
  assert.equal(e0CandidateAudit["1215"].status,"confirmed","Round11 stable native-support acceptance");
  for(const id of ["1206","1312"])assert.equal(e0CandidateAudit[id].status,"confirmed","Round10 stable-state major composition");

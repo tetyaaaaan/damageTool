@@ -175,12 +175,14 @@
     $("hsrElationInputHelp").hidden = char?.path !== "Elation";
     $("hsrTrueDamageSettings").hidden = char?.id !== "1415";
     $("hsrSongbirdSettings").hidden = char?.id !== "1512";
-    $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010", "1501", "1506"].includes(char?.id);
+    $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010", "1501", "1506", "1503"].includes(char?.id);
     $("hsrElationContextField").hidden = char?.id !== "1502";
     $("hsrElationScope").textContent = char?.id === "1502" ? "爻光Lv80・星魂0・敵1体。初回通常アッハと、必殺による固定20の追加アッハを別行で比較します。" : "緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。";
     $("hsrPunchlineField").hidden = false;
     $("hsrFervorField").hidden = char?.id !== "1513";
+    if(char?.id==='1503'){$("hsrPunchlineField").hidden=true;$("hsrElationScope").textContent='パールLv80・星魂0・未撃破の敵1体。星月の幻造に含まれる本人の愉悦成分だけを計算します。深層学習先の別所有者成分と150320は対象外です。';}
     $("hsrPunchlineHelp").textContent = char?.id === "1502" ? "通常発動は消費済み爆笑ネタ0の初回のみ。必殺追加行は固定20で計算し、この爆笑ネタ入力を使いません。本人の大吉は補正条件の爆笑の褒美を参照します。結界・SPD由来愉悦度とA4会心ダメージは最終入力へ一度含めてください。被ダメージ増加16%は自動適用するため重複入力しないでください。愉悦度・会心等は適用対象の常時効果を含む最終値を入力してください。上笑なしは0。通常の与ダメージ補正は適用しません。" : "Lv80・星魂0・アッハタイム中の敵1体あたり1回分です。爆笑ネタと爆笑の褒美は別の値です。この攻撃では攻撃時点の爆笑ネタだけを使い、攻撃後の爆笑の褒美+5は加算しません。上笑がない場合は0を入力してください。通常の与ダメージ補正は適用しません。";
+    if(char?.id==='1503')$("hsrPunchlineHelp").textContent='補正条件で本人の爆笑の褒美1～50を指定します。A2のDEF由来愉悦度・装備/支援は最終愉悦度へ一度含め、未算入のDEF支援がある場合はこの成分を停止します。上笑なしは0です。';
     if (char?.id === "1513") {
       $("hsrElationScope").textContent = "夏アベンチュリンLv80・星魂0・敵1体。通常版151320と、次のアッハタイムの強化版151321を条件別に計算します。";
       $("hsrPunchlineHelp").textContent = "通常版は熱気10到達の自動発動、強化版は他の愉悦キャラ編成時の次のアッハタイムを想定します。全ヒット中の敵条件変化なし。通常版の爆笑ネタは固定20、強化版は下の爆笑ネタと消費熱気10～30を参照します。上笑なしは0。通常与ダメージ補正、複数敵分配、熱気の自動管理は対象外です。";
@@ -277,7 +279,7 @@
   function attackStateIssues(attack, issue) {
     if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
-    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : attack.id === "140208" ? 3 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "150403" ? 2+Math.floor(state.modifierInputs["fudie-gluttony-stacks"]/4) : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : ["140208","1414039"].includes(attack.id) ? 3 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "150403" ? 2+Math.floor(state.modifierInputs["fudie-gluttony-stacks"]/4) : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (["1224011","1224081"].includes(attack.id)) {
       if(!['Erudition','Destruction','Hunt','Remembrance','Elation'].includes(attack.shifuPath) || !Object.keys(ELEMENT_KEYS).includes(attack.shifuElement)) issue('攻撃型師匠の運命と属性を補正条件で指定してください。従来の支援型師匠の比較はそのまま計算できます。','hsrConditionDialogOpen');
       if(attack.shifuElement && attack.shifuElement!=='Imaginary') for(const [key,label] of [['element-damage:1224:'+attack.shifuElement,'なのかの師匠属性与ダメージ'],['enemy-resistance:'+attack.shifuElement,'敵の師匠属性耐性']]) if(!Number.isFinite(state.modifierInputs[key])) issue(label+'を入力してください。補正なしは0です。','hsrConditionDialogOpen');
@@ -464,7 +466,7 @@
 
   function supportTraceKey(source) {
     if(['8007','8008'].includes(source.id)&&['1800701','1800703','1800707'].includes(source.skillId))return source.skillId==='1800703'?'memTalent':'memSkill';
-    if(source.id==='1415'&&['1141515','1141520'].includes(source.skillId))return 'memSkill';
+    if(source.id==='1415'&&['1141514','1141515','1141520','1141522'].includes(source.skillId))return 'memSkill';
     const skill = find("characters", String(source.id))?.skills?.find(item => String(item.id) === String(source.skillId));
     return Object.entries(TRACE_FIELDS).find(([, [type]]) => type === skill?.type)?.[0];
   }
@@ -664,7 +666,7 @@
     if (!window.HsrModifierRuntime) return [];
     const brokenSwordStance = state.characterId === "1206" && state.enemy.toughnessActive === false;
     const effectiveInputs = brokenSwordStance ? {...inputs, "sushang-post-ultimate-sword-stance-hits": 2} : inputs;
-    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>(item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId))&&(item.id!=='trace:1415:1141520:cipher-damage'||state.characterId==='1406')&&(item.id!=='trace:1415:1141515:tribbie-defense-ignore'||state.characterId==='1403'));
+    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>(item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId))&&(item.id!=='trace:1415:1141520:cipher-damage'||state.characterId==='1406')&&(item.id!=='trace:1415:1141515:tribbie-defense-ignore'||state.characterId==='1403')&&(!item.id.startsWith('trace:1415:1141514:')||state.characterId==='1402')&&(item.id!=='trace:1415:1141522:serin-damage'||state.characterId==='1410'));
     for(const item of candidates){
       if(!['trace:8007:1800703:mem-crit-damage','trace:8008:1800703:mem-crit-damage'].includes(item.id))continue;
       if(item.providerId===state.characterId&&item.valueInput)item.valueInput={...item.valueInput,shared:true};
@@ -1011,7 +1013,13 @@
     const valid=keys.every(k=>Number.isFinite(get(k))&&(['hp','atk'].includes(k)?get(k)>0:get(k)>=0))&&(id!=='1407'||Number.isFinite(state.stats.hp)&&state.stats.hp>0),stats={...Object.fromEntries(keys.filter(k=>!['defenseIgnore','resistancePenetration'].includes(k)).map(k=>[k,get(k)])),...(id==='1407'?{hp:state.stats.hp}:{})};
     return {referenceCharacter:{id:owner,level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},completedReferenceSnapshot:valid,damageOwnerId:owner,referenceIssue:valid?'':({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜','8007':'ミュリオン','8008':'ミュリオン','1508':'アーチャー'})[id]+'の独立した最終値を補正条件で入力してください。補正なしは0です。',referenceCondition:{id:'memosprite:'+id,tab:'軌跡'}};
   }
+  function dragonActionSnapshot(profile) {
+    const get=k=>state.modifierInputs['dragon:1414:'+profile+':'+k],keys=['critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'],valid=keys.every(k=>Number.isFinite(get(k))&&get(k)>=0)&&Number.isFinite(state.stats.atk)&&state.stats.atk>0,stats={atk:state.stats.atk,...Object.fromEntries(keys.slice(0,3).map(k=>[k,get(k)]))};
+    return {referenceCharacter:{id:'1414',level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},completedReferenceSnapshot:valid,statReferenceId:'1414',effectiveProfile:profile,referenceIssue:valid?'':'強化龍霊の物理/付加それぞれに有効な最終会心・物理DMG・防御無視・耐性貫通を入力してください。',referenceCondition:{id:'dragon:1414:'+profile,tab:'軌跡'}};
+  }
   function partyReferenceControls() {
+    if(state.characterId==='1414'&&state.conditionTab==='軌跡')return '<section class="hsr-condition-purpose"><h5>本人を同袍にした強化龍霊1行動</h5><p class="genshin-help">ATKは画面の丹恒・騰荒本人の完成済み最終値です。物理攻撃と付加ダメージそれぞれに、攻撃時点で有効な最終会心/物理DMG/防御無視/貫通を指定してください。本人の会心や与ダメージを自動継承しません。偉観のATK支援・装備・支援も各入力へ一度含めます。必殺技の直撃とは別イベントで、他の同袍・属性・行動順の自動再現は対象外です。</p>'+['dragon','additional'].map(profile=>'<h6>'+ (profile==='dragon'?'龍霊の物理攻撃':'同袍付加と昇格6の付加')+'</h6>'+[['critRate','有効な最終会心率（%）'],['critDamage','有効な最終会心ダメージ（%）'],['damageBonus','有効な最終物理与ダメージ（%）'],['defenseIgnore','防御無視（%）'],['resistancePenetration','物理耐性貫通（%）']].map(([k,label])=>{const key='dragon:1414:'+profile+':'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')).join('')+'</section>';
+
     if(['8007','8008','1508'].includes(state.characterId)&&state.conditionTab==='軌跡'){
       const id=state.characterId,rin=id==='1508',name=rin?'アーチャー':'ミュリオン',pairs=[['atk','最終ATK'],['critRate','最終会心率（%）'],['critDamage','最終会心ダメージ（%）'],['damageBonus','最終'+(rin?'量子':'氷')+'与ダメージ（%）'],['defenseIgnore','防御無視（%）'],['resistancePenetration','属性耐性貫通（%）']];
       return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:'+id+'"><h5>'+name+'の独立した戦闘中の最終値</h5><p class="genshin-help">Lv80・星魂0・未撃破の敵1体・全段で状態一定。本人の値を流用しません。'+(rin?'連携にはアーチャーの編成が必要です。凛とアーチャーのA2 ATK/量子貫通、天賦のSP消費/回復後CDは、各攻撃時点の最終値へ一度含めます。必殺の被ダメージ上昇は事前成立分だけ敵入力へ含めてください。':'ミュリオンの天賦CD支援は、本人・ミュリオン・応援対象の攻撃時点の最終会心ダメージへ一度含めます。必殺専用補正の精霊への未確認継承は対象外。連携は叙事詩と在場、精霊スキルはチャージ100%未満の想定です。応援の確定成分は指定した味方の元ダメージから別行に表示し、元ダメージを再加算しません。')+'</p>'+pairs.map(([k,label])=>{const key='memosprite:'+id+':'+k;return '<label class="genshin-condition-control"><span>'+name+'の'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
@@ -1035,7 +1043,7 @@
     return '<section class="hsr-condition-purpose" data-hsr-condition-ids="party-reference:1202"><h5>停雲本人の攻撃後に発生する賜福対象の付加</h5><p class="genshin-help">Lv80・星魂0の賜福対象の戦闘中の最終値を入力します。賜福・他の支援・装備の効果を含めた値を使い、この付加行には攻撃者側の支援を再加算しません。停雲本人の通常とは別の1回分です。</p><label class="genshin-condition-control"><span>賜福対象</span><select data-comparison-choice="party-reference-owner:1202"><option value="">パーティから選択</option>'+state.party.filter(m=>m.characterId).map(m=>'<option value="'+m.characterId+'"'+(String(m.characterId)===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
   }
   function comparisonReferenceControls() {
-    if (["1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415","1413","1407","8007","8008","1508"].includes(state.characterId) && state.conditionTab === "軌跡") {
+    if (["1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415","1413","1407","8007","8008","1508","1510","1503"].includes(state.characterId) && state.conditionTab === "軌跡") {
       const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => spec.inputKey !== 'rappa-consumed-charge' && !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
       return (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
     }
@@ -1143,6 +1151,7 @@
   }
 
   function modifierTargetsCalculation(item, attack) {
+    if(attack.id==='1503081'&&(item.category==='progressiveTakenDamage'||['statPercent','statFlat'].includes(item.category)&&item.stat==='def'))return true;
     if(state.characterId==='1402'&&!attack.requiresIndependentLaftra&&['statFlat','statPercent'].includes(item.category)&&item.stat==='speed')return true;
     if(attack.id==='150621'&&(item.category==='progressiveTakenDamage'||['critRate','critRateOverride'].includes(item.category)||['statFlat','statPercent'].includes(item.category)&&item.stat==='speed'))return true;
     if (attack.fixedCritStats && ["critRate","critRateOverride","critDamage"].includes(item.category)) return false;
@@ -1179,6 +1188,15 @@
   }
 
   function resolvedAttack(selected) {
+    if(['1414031','1414032','14141031'].includes(selected.id)){
+      const l=selected.id==='14141031'?1:state.traceLevels.ultimate;
+      return {...selected,traceLevel:l,multiplier:selected.multipliers[l-1],attackType:selected.type,...dragonActionSnapshot(selected.effectiveProfile)};
+    }
+    if(selected.id==='1414039'&&selected.damageFormula==='componentSequence'){
+      const parts=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack),issue=parts.find(p=>p.referenceIssue),l=state.traceLevels.ultimate;
+      return {...selected,traceLevel:l,multiplier:selected.multipliers[l-1],attackType:selected.type,sequenceAttacks:parts,referenceIssue:issue?.referenceIssue||'',referenceCondition:issue?.referenceCondition||{id:'dragon:1414:dragon',tab:'軌跡'}};
+    }
+
     if(['800703','800803','1800701','1800801'].includes(selected.id)){
       const level=state.traceLevels[selected.traceKey];
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,...(['1800701','1800801'].includes(selected.id)?{scalingTerms:[{stat:'atk',multiplier:[18,21.6,25.2,28.8,32.4,36][level-1]*4},{stat:'atk',multiplier:[45,54,63,72,81,90][level-1]}]}:{}),...independentMemospriteSnapshot(selected.characterId)};
@@ -1856,7 +1874,7 @@
       if (attack.sequenceAttacks?.length) attackStateIssues(attack, fieldWarning);
       attackScopes.forEach(scope => attackStateIssues(scope, fieldWarning));
       if (attack.damageFormula === "normalAndBreak") inputWarningsForFanning(attack).forEach(warning => warnings.add(warning));
-      if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: { level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, enemy: state.enemy, elation: attackElationInputs(attack) }).forEach(warning => {
+      if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: { id:state.characterId,level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, enemy: state.enemy, elation: attackElationInputs(attack) }).forEach(warning => {
         const field = warning.includes("爆笑の褒美") ? "hsrConditionDialogOpen" : warning.includes("消費する熱気") ? "hsrFervor" : warning.includes("爆笑ネタに") ? "hsrPunchline" : warning.includes("上笑に") ? "hsrMerrymake" : "hsrElationSettings";
         fieldWarning(warning, field);
       });

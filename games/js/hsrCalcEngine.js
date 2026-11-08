@@ -104,6 +104,7 @@
 
     // Fixed-source CB riders reuse the Elation equation, with an owner-specific snapshot.
     function certifiedBangerCurve(attack) {
+        if(attack.id==='1503081')return [10,11,12,13,14,15];
         if(attack.id==='1501041')return [24,26.4,28.8,31.2,33.6,36,39,42,45,48];
         if(attack.id==='1501042'){const n=attack.sparxieTrapCount;return Number.isInteger(n)&&n>=1&&n<=20?[20,22,24,26,28,30,32.5,35,37.5,40].map((v,i)=>v+n*[10,11,12,13,14,15,16.25,17.5,18.75,20][i]):[];}
         return ({'1502041':[10,11,12,13,14,15,16.25,17.5,18.75,20], '1513041':[20,22,24,26,28,30,32.5,35,37.5,40], '1513042':[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72],
@@ -111,6 +112,7 @@
     }
 
     function supportedElationAttack(attack) {
+        if(attack.id==='1503081'&&attack.characterId==='1503'&&attack.sourceSkillId==='150308'&&attack.element==='Ice'&&attack.damageFormula==='elation'&&attack.type==='elation'&&attack.elationContext==='certifiedBanger'&&attack.hitCount===1&&attack.target==='single')return true;
         if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
         if(attack.id==='1502041'&&attack.characterId==='1502'&&attack.sourceSkillId==='150204'&&attack.element==='Physical'&&attack.elationContext==='certifiedBanger'&&attack.hitCount===1&&attack.target==='single')return true;
         if(attack.id==='150221'&&attack.characterId==='1502'&&attack.sourceSkillId==='150220'&&attack.element==='Physical'&&attack.elationContext==='ultimateAha'&&attack.fixedPunchline===20&&attack.target==='single'&&attack.hitCount===6)return true;
@@ -135,6 +137,7 @@
         const stats = character.stats || {};
         const values = input.elation || {};
         const warnings = [];
+        if(input.attack?.id==='1503081'&&(character.id!=='1503'||input.enemy?.toughnessActive!==true||input.attack.traceLevel>6||values.certifiedBanger>50||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(m.category==='progressiveTakenDamage'||['statPercent','statFlat'].includes(m.category)&&m.stat==='def'))))warnings.push('パール本人の最終愉悦度へDEF変換を一度含め、爆笑の褒美1～50を指定してください。未撃破の敵1体・通常Lv1～6のみ対応です。');
         if(input.attack?.id==='150621'){
             const a=input.attack,curve=[270,297,324,351,378,405,438.72,472.5,506.28,540];
             if(input.enemy?.count!==1||input.enemy?.toughnessActive!==true||values.context!=='ahaInstant'||a.secretScoreSnapshot!==240||a.multiplier!==curve[a.traceLevel-1])warnings.push('銀狼LV.999は事前無敵/スコア240・未撃破の敵1体・状態一定の6段のみ対応です。');
@@ -281,6 +284,8 @@
     };
 
     function unsupportedAttackReason(attack = {}) {
+        if(attack.id==='1414039'&&attack.characterId==='1414'&&attack.sourceSkillId==='141403'&&attack.damageFormula==='componentSequence'&&attack.type==='followUp'&&attack.element==='Physical')return '';
+
         if(['800708','800808','150805'].includes(attack.id)&&attack.damageFormula==='componentSequence'&&attack.sourceSkillId===attack.id&&attack.characterId===(attack.id==='150805'?'1508':attack.id.slice(0,4)))return '';
 
         if(attack.id==='140709'&&attack.characterId==='1407'&&attack.sourceSkillId==='140709'&&attack.type==='enhancedSkill'&&attack.element==='Quantum'&&attack.damageFormula==='componentSequence')return '';
@@ -413,6 +418,15 @@ function calculateFanning(input) {
     }
 
     function calculate(input) {
+        if(['1414031','1414032','14141031'].includes(input.attack?.id)){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,extra=a.id==='14141031',profile=a.id==='1414031'?'dragon':'additional',curve=extra?[40]:[40,44,48,52,56,60,65,70,75,80];
+            if(c.id!=='1414'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||a.characterId!=='1414'||a.statReferenceId!=='1414'||a.effectiveProfile!==profile||!a.completedReferenceSnapshot||a.damageFormula!=='statMultiplier'||a.scalingStat!=='atk'||a.element!=='Physical'||a.type!==(profile==='dragon'?'followUp':'additional')||a.sourceSkillId!==(extra?'1414103':'141403')||a.hitCount!==1||a.scalingTerms?.length||!Number.isInteger(l)||l<1||l>curve.length||a.multiplier!==curve[l-1]||!['atk','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&(k==='atk'?c.stats[k]>0:c.stats[k]>=0))||!['defenseIgnore','resistancePenetration'].every(k=>Number.isFinite(e[k]))||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(!['enemyAll','enemySingle'].includes(m.target?.owner)||m.category==='progressiveTakenDamage')))return {supported:false,reason:'本人を同袍にした強化龍霊の各成分に有効な最終値を指定してください。Lv80/E0・未撃破の敵1体・U Lv1～10・追加能力は固定40%のみ対応です。'};
+        }
+        if(['151001','151003','151009','151022'].includes(input.attack?.id)){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,curve=({'151001':[50,60,70,80,90,100],'151003':[120,132,144,156,168,180,195,210,225,240],'151009':[10,11,12,13,14,15,16.25,17.5,18.75,20],'151022':[172,187.6,203.2,218.8,234.4,250,269.5,289,308.5,328]})[a.id];
+            if(c.level!==80||c.eidolon!==0||e.count!==1||!Number.isInteger(l)||l<1||l>curve.length||a.multiplier!==curve[l-1]||a.damageFormula!=='statMultiplier'||a.scalingStat!=='atk'||a.characterId!=='1510'||c.id&&c.id!=='1510'||a.scalingTerms?.length||a.hitCount!==1||(a.id==='151009'&&input.modifierInputs?.['himeko-departure-drive']!==1))return {supported:false,reason:'姫子・旅立ちはLv80/E0・敵1体の指定した単発成分のみ対応です。パルス砲は攻撃前の原動力1だけを明示してください。'};
+        }
+
         const round29Attack=input.attack||{};
         if(['800703','800803','1800701','1800801','150803','150809'].includes(round29Attack.id)){
             const a=round29Attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,memo=['800703','800803','1800701','1800801'].includes(a.id),u=['800703','800803'].includes(a.id),n=input.modifierInputs?.['rin-repeat-count'];
@@ -612,6 +626,18 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(input.attack?.id==='1414039'){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],l=a.traceLevel,curve=[40,44,48,52,56,60,65,70,75,80],ids=['1414031','1414032','14141031'];
+            const fail=()=>({supported:false,reason:'強化龍霊の物理・本人同袍付加・昇格6付加の3成分と、有効な最終値を指定してください。ATK支援は画面の最終ATKへ一度含めて反映済みを指定してください。必殺技本体は合算しません。'});
+            if((input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&['statPercent','statFlat'].includes(m.category)&&m.stat==='atk')||c.id!=='1414'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||a.characterId!=='1414'||a.bondmateCharacterIdExact!=='1414'||parts.length!==3||!Number.isInteger(l)||l<1||l>10||a.multiplier!==2*curve[l-1]+40)return fail();
+            for(let i=0;i<3;i++){
+                const p=parts[i],q=p?.input||{},b=q.attack||{};
+                if(p.key!==['dragon','bondmate','a6'][i]||b.id!==ids[i]||a.damageComponents?.[i]?.attackId!==ids[i]||b.multiplier!==(i===2?40:curve[l-1])||b.traceLevel!==(i===2?1:l)||b.effectiveProfile!==(i?'additional':'dragon')||q.character?.stats?.atk!==c.stats?.atk||['count','level','resistance','defenseReduction','takenDamage','toughnessActive'].some(k=>q.enemy?.[k]!==e[k])||JSON.stringify(q.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail();
+            }
+            if(JSON.stringify(parts[1].input.character)!==JSON.stringify(parts[2].input.character)||JSON.stringify(parts[1].input.enemy)!==JSON.stringify(parts[2].input.enemy))return fail();
+            return combineDamageComponents(a,parts,'強化龍霊1行動（物理＋本人同袍付加＋昇格6付加）');
+        }
+
         if(['800708','800808','150805'].includes(input.attack?.id)){
             const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],l=a.traceLevel,rin=a.id==='150805',owner=rin?'1508':a.id.slice(0,4),partner=rin?'1015':'18007',curve=rin?[150,165,180,195,210,225,243.75,262.5,281.25,300]:[60,72,84,96,108,120];
             const fail=()=>({supported:false,reason:'成立済み連携1回の2所有者の最終値を指定してください。Lv80/E0・未撃破の敵1体・全段で状態一定のみ対応です。'});

@@ -1,0 +1,457 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "characters-round30",
+  "modifiers": [
+    {
+      "id": "trace:1510:151002:party-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1510",
+        "skillId": "151002"
+      },
+      "name": "導く旗印・味方与ダメージ",
+      "description": "導く旗印・味方与ダメージが攻撃前から有効な状態。最終入力への既算入分は再加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16.25,
+          17.5,
+          18.75,
+          20
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1510:151002:party-damage-active",
+        "inputLabel": "導く旗印・味方与ダメージが攻撃前から有効",
+        "conditionText": "導く旗印・味方与ダメージが攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1510:151002:party-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の効果量と条件を既存Modifierで評価する当該補正成分のみ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151002.params",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0上限は1510002/4の10、1415301の6。祝福全体や初回付与順を完成認定しない。",
+        "verification": "tests/hsr/hsrModifiersRound30.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1510:151002:party-damage-in-final-stats",
+        "inputLabel": "導く旗印・味方与ダメージを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1510:151004:crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1510",
+        "skillId": "151004"
+      },
+      "name": "支援スキル使用後・本人会心DMG",
+      "description": "支援スキル使用後・本人会心DMGが攻撃前から有効な状態。最終入力への既算入分は再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          40,
+          44,
+          48,
+          52,
+          56,
+          60,
+          65,
+          70,
+          75,
+          80
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "himeko-departure-prior-assist-buff",
+        "inputLabel": "前回の支援スキル使用による補正が攻撃前から有効",
+        "conditionText": "前回の支援スキル使用による補正が攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1510:151004:crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の効果量と条件を既存Modifierで評価する当該補正成分のみ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151004.params",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0上限は1510002/4の10、1415301の6。祝福全体や初回付与順を完成認定しない。",
+        "verification": "tests/hsr/hsrModifiersRound30.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1510:151004:crit-damage-in-final-stats",
+        "inputLabel": "支援スキル使用後・本人会心DMGを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1510:151004:res-pen",
+      "source": {
+        "kind": "trace",
+        "id": "1510",
+        "skillId": "151004"
+      },
+      "name": "支援スキル使用後・本人全属性耐性貫通",
+      "description": "支援スキル使用後・本人全属性耐性貫通が攻撃前から有効な状態。最終入力への既算入分は再加算しません。",
+      "category": "resistancePenetration",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16.25,
+          17.5,
+          18.75,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "himeko-departure-prior-assist-buff",
+        "inputLabel": "前回の支援スキル使用による補正が攻撃前から有効",
+        "conditionText": "前回の支援スキル使用による補正が攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1510:151004:res-pen",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "resistancePenetration",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の効果量と条件を既存Modifierで評価する当該補正成分のみ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151004.params",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0上限は1510002/4の10、1415301の6。祝福全体や初回付与順を完成認定しない。",
+        "verification": "tests/hsr/hsrModifiersRound30.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1510:151004:res-pen-in-final-stats",
+        "inputLabel": "支援スキル使用後・本人全属性耐性貫通を最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1415:1141514:aglaea-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141514"
+      },
+      "name": "浪漫の祝福・アグライア本人与DMG",
+      "description": "アグライア本人の成分への補正。ラフトラの対応分と速度層由来ATKは、独立した完成済み最終値へ一度含めます。祝福全体の状態遷移やEP回復は再現しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          36,
+          43.2,
+          50.4,
+          57.6,
+          64.8,
+          72
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "140201",
+          "140204",
+          "1402012",
+          "140208",
+          "140208:aglaea"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-aglaea-blessing-active",
+        "inputLabel": "浪漫の祝福が攻撃前から有効（至高の姿の解除前）",
+        "conditionText": "浪漫の祝福が攻撃前から有効（至高の姿の解除前）",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141514:aglaea-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の効果量と条件を既存Modifierで評価する当該補正成分のみ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141514.params",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0上限は1510002/4の10、1415301の6。祝福全体や初回付与順を完成認定しない。",
+        "verification": "tests/hsr/hsrModifiersRound30.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141514:aglaea-damage-in-final-stats",
+        "inputLabel": "浪漫の祝福・アグライア本人与DMGを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1415:1141514:aglaea-defense-ignore",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141514"
+      },
+      "name": "浪漫の祝福・アグライア本人防御無視",
+      "description": "アグライア本人の成分への補正。ラフトラの対応分と速度層由来ATKは、独立した完成済み最終値へ一度含めます。祝福全体の状態遷移やEP回復は再現しません。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          18,
+          21.6,
+          25.2,
+          28.8,
+          32.4,
+          36
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "140201",
+          "140204",
+          "1402012",
+          "140208",
+          "140208:aglaea"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-aglaea-blessing-active",
+        "inputLabel": "浪漫の祝福が攻撃前から有効（至高の姿の解除前）",
+        "conditionText": "浪漫の祝福が攻撃前から有効（至高の姿の解除前）",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141514:aglaea-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の効果量と条件を既存Modifierで評価する当該補正成分のみ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141514.params",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0上限は1510002/4の10、1415301の6。祝福全体や初回付与順を完成認定しない。",
+        "verification": "tests/hsr/hsrModifiersRound30.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141514:aglaea-defense-ignore-in-final-stats",
+        "inputLabel": "浪漫の祝福・アグライア本人防御無視を最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1415:1141522:serin-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141522"
+      },
+      "name": "海洋の祝福・セイレンス与ダメージ",
+      "description": "セイレンス自身の直接成分と自然DoTへの与DMGだけを計算。入力済み補正後DoTを参照する起爆成分へは再加算せず、祝福固有の通常/スキル後の追加起爆は未接続です。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          60,
+          72,
+          84,
+          96,
+          108,
+          120
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "141001",
+          "141002",
+          "141003",
+          "1410031",
+          "1410032",
+          "1410041",
+          "1410042",
+          "1410043",
+          "1410044"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1415:1141522:serin-damage-active",
+        "inputLabel": "海洋の祝福・セイレンス与ダメージが攻撃前から有効",
+        "conditionText": "海洋の祝福・セイレンス与ダメージが攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141522:serin-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の効果量と条件を既存Modifierで評価する当該補正成分のみ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0上限は1510002/4の10、1415301の6。祝福全体や初回付与順を完成認定しない。",
+        "verification": "tests/hsr/hsrModifiersRound30.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141522:serin-damage-in-final-stats",
+        "inputLabel": "海洋の祝福・セイレンス与ダメージを最終値へ反映済み"
+      }
+    }
+  ]
+}

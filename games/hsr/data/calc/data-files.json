@@ -59,7 +59,10 @@
     "attacks-evernight-round28.json",
     "attacks-castorice-round28.json",
     "attacks-trailblazer-round29.json",
-    "attacks-rin-round29.json"
+    "attacks-rin-round29.json",
+    "attacks-danheng-terrae-round30.json",
+    "attacks-himeko-departure-round30.json",
+    "attacks-pearl-round30.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -158,6 +161,7 @@
     "modifiers-gilgamesh-round24.json",
     "modifiers-trailblazer-elation-round24.json",
     "modifiers-cyrene-round28.json",
-    "modifiers-characters-round29.json"
+    "modifiers-characters-round29.json",
+    "modifiers-characters-round30.json"
   ]
 }

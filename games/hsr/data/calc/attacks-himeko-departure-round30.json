@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "himeko-departure-round30",
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json and character_skill_trees.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "Lv80・星魂0・敵1体の単発直接成分に限定。固定版から確定できる倍率だけを登録し、必殺技の自動連続使用・原動力の攻撃中更新・味方別効果は再現しない。"
+  },
+  "overrides": [
+    {
+      "id": "151001",
+      "characterId": "1510",
+      "sourceSkillId": "151001",
+      "name": "はじまりの航路標識を灯して（星魂0）",
+      "element": "Fire",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "通常攻撃の直接ダメージ1回",
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-attack",
+      "conditionText": "Lv80・星魂0・通常攻撃Lv1～6・敵1体。",
+      "calculationNote": "固定版151001.params[0..5][0]のATK倍率による通常攻撃の直接成分です。強化・支援状態や、攻撃後の状態更新は含みません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版通常攻撃Lv1～6と星魂0軌跡ツリー1510001(max_level=6)を照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151001.params[0..5][0]; character_skill_trees.json:1510001(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrHimekoDepartureRound30.test.cjs"
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "151003",
+      "characterId": "1510",
+      "sourceSkillId": "151003",
+      "name": "我ら、星を追う巨人（ラストアタック3ヒット・敵1体）",
+      "element": "Fire",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "敵1体にランダム3ヒットしたラストアタックの合計",
+      "canCrit": true,
+      "multipliers": [
+        120,
+        132,
+        144,
+        156,
+        168,
+        180,
+        195,
+        210,
+        225,
+        240
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-attack",
+      "conditionText": "Lv80・星魂0・必殺技Lv1～10・敵1体。必殺技中に発生するラストアタックの3ヒットだけを合算した直接成分。",
+      "calculationNote": "固定版151003.params[5]=3ヒット、params[6]が1ヒットあたり40～80%（E0必殺技Lv1～10）であることを使用し、敵1体に限定して3ヒット分を合算します。151003.params[8..9]の最大必殺技総倍率は使用しません。ビーム・パルス砲の使用回数、原動力の獲得・消費、必殺技全体の自動進行、敵複数へのランダム分配は再現しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..9][5..6]と151014.params[0..9][0..1]の3ヒット・単発係数を照合。E0必殺技Lv1～10のみ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151003.params[0..9][5..6],151014.params[0..9][0..1]; character_skill_trees.json:1510003(max_level=10)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrHimekoDepartureRound30.test.cjs"
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "151009",
+      "characterId": "1510",
+      "sourceSkillId": "151009",
+      "name": "軌道殲滅パルス砲（事前原動力1・追加弾なし）",
+      "element": "Fire",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "敵全体への基本パルス1回（ランダム追加弾を含まない）",
+      "canCrit": true,
+      "multipliers": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16.25,
+        17.5,
+        18.75,
+        20
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-attack",
+      "conditionText": "Lv80・星魂0・必殺技Lv1～10・攻撃前に原動力を1所持し、基本パルスを1回発動・敵1体。追加弾は含まない。",
+      "calculationNote": "固定版151009.params[0..9][0]による基本パルスの敵全体ATK倍率だけを計算します。攻撃前に原動力1を所持している想定です。原動力の消費・追加弾の条件、パルス連続発動、攻撃による状態更新は再現しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..9][0]の基本全体倍率をE0必殺技Lv1～10で照合。追加弾条件はこの行の計算範囲外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151009.params[0..9][0]; character_skill_trees.json:1510003(max_level=10)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrHimekoDepartureRound30.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "numericModifierInputs": [
+        {
+          "inputKey": "himeko-departure-drive",
+          "label": "パルス砲の攻撃前の原動力（現在は1のみ対応）",
+          "minimum": 1,
+          "maximum": 3,
+          "integer": true
+        }
+      ]
+    },
+    {
+      "id": "151022",
+      "characterId": "1510",
+      "sourceSkillId": "151022",
+      "name": "開拓が共にあらんことを（姫子自身が使用・敵1体）",
+      "element": "Fire",
+      "type": "assist",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "全体1ヒット＋ランダム単体4ヒットの合計（敵1体）",
+      "canCrit": true,
+      "multipliers": [
+        172,
+        187.6,
+        203.2,
+        218.8,
+        234.4,
+        250,
+        269.5,
+        289,
+        308.5,
+        328
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-attack",
+      "conditionText": "Lv80・星魂0・姫子本人が支援スキルを使用・天賦Lv1～10・敵1体。1回の支援スキルの直接成分のみ。",
+      "calculationNote": "固定版151022.params[0..7]の姫子本人使用分を計算します。E0天賦Lv1～10では全体攻撃#4[i]とランダム単体#5[i]ヒットの各#6[i]倍率です。敵1体に限定して全体係数と4ヒットを合算します。他の味方が使用した場合の効果、追加の使用者別効果、使用可能回数、追撃トリガーは含みません。支援スキル使用は固定版151004の記述上、姫子の戦闘スキル使用として扱われます。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版151022.params[0..7]から本人使用の全体係数＋4回の単体係数を敵1体へ合算。E0天賦Lv1～10のみ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151022.params[0..7]; character_skill_trees.json:1510004(max_level=10)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrHimekoDepartureRound30.test.cjs"
+      },
+      "enforceSnapshotContract": true
+    }
+  ]
+}

@@ -1450,7 +1450,7 @@ test("Pearl's unenhanced DEF Basic ATK matches independently calculated single-t
         assert.equal(result.breakdown.defense, 0.5);
         assert.equal(result.breakdown.toughness, 0.9);
     }
-    assert.deepEqual(attacks.filter(item => item.characterId === '1503' && item.support?.status === 'calculable' && !item.modifierInputKey).map(item => item.id), ['150301']);
+    assert.deepEqual(attacks.filter(item => item.characterId === '1503' && item.support?.status === 'calculable' && !item.modifierInputKey && !item.numericModifierInputs?.length).map(item => item.id), ['150301']);
 });
 
 

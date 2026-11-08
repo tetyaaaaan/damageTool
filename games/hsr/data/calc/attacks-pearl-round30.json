@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "pearl-round30-dbe8cdf",
+  "overrides": [
+    {
+      "id": "1503081",
+      "characterId": "1503",
+      "sourceSkillId": "150308",
+      "name": "筆運び・星月の幻造後の本人愉悦ダメージ（爆笑の褒美所持）",
+      "element": "Ice",
+      "type": "elation",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "certifiedBangerInputKey": "elation-certified-banger",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "pearl-own-150308-banger-one-enemy",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "パールの攻撃時点の爆笑の褒美（1～50）",
+          "minimum": 1,
+          "maximum": 50,
+          "integer": true
+        }
+      ],
+      "conditionText": "パールLv80・星魂0・敵1体。通常攻撃Lv1～6の筆運び・星月の幻造で、攻撃前にパール本人が爆笑の褒美を1以上所持している時の本人愉悦ダメージ1回。",
+      "calculationNote": "固定版character_skills.json:150308.params[0..5][4]は10/11/12/13/14/15%。1503001.max_level=6。これは150308固有の本人愉悦成分だけを独立計算します。150303で深層学習した別の愉悦キャラを参照する30～60%の愉悦成分、150320の味方全体の次回攻撃後効果、150308の直接DEFダメージ、回復、状態遷移は含みません。愉悦度・会心・爆笑の褒美・その他最終戦闘値は入力済みのパール本人値を一度だけ使い、別キャラクターのステータスを継承しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版150308の本人愉悦成分params[4]とE0通常Lv上限6を独立検証。単一敵・本人の完成済み愉悦最終値に限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150308.params[0..5][4]; character_skill_trees.json:1503001(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrPearlRound30.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版のパール本人の爆笑の褒美由来成分だけを独立計算。"
+  }
+}
