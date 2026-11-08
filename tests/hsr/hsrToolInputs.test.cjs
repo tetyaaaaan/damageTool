@@ -4407,3 +4407,34 @@ test('Round31 Cyrene Military Merit requires both providers, bound recipient and
  app.state.modifierInputs[key+'-in-final-stats']=true;near(row().expected,base);app.state.modifierInputs[key+'-in-final-stats']=false;
  app.state.party[1].characterId='';near(row().expected,base);app.state.party[1].characterId='1412';app.state.party[0].characterId='';near(row().expected,base);
 });
+
+
+test('Round32 Ocean uses the provider Mem Skill level, existing own-DoT inputs, local failures and saved restoration',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1410',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ app.state.party[0]={...app.state.party[0],characterId:'1415',eidolon:0,traceLevels:{memSkill:6}};
+ const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name),key='trace:1415:1141522:serin-damage-active';assert.ok(!row('1410012'));assert.ok(row('141001'));
+ app.state.modifierInputs[key]=true;[111,222,0,444].forEach((v,i)=>app.state.modifierInputs['serin-detonation-original:141004'+(i+1)]=v);
+ const normal=row('1410012'),skill=row('1410022');assert.ok(normal,app.node('hsrResults').innerHTML.slice(-1600));assert.ok(skill,app.node('hsrResults').innerHTML.slice(-1600));
+ near(normal.components['ocean-1'].expected,66.6);near(skill.components['ocean-1'].expected,88.8);near(normal.expected,3000*.36*2.2*1.5+777*.6);
+ near(skill.expected,3000*1.4*.36*2.2*1.2*1.5+777*.8);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row('1410012',saved).expected,normal.expected);
+ delete saved.state.modifierInputs['serin-detonation-original:1410041'];assert.ok(!row('1410012',saved));assert.ok(row('141001',saved));
+ app.state.party[0].traceLevels.memSkill=1;near(row('1410012').components['ocean-1'].expected,33.3);
+ app.state.party[0].characterId='';assert.ok(!row('1410012'));assert.ok(row('141001'));
+});
+
+test('Round32 Fire add-on and True Knowledge apply to the actual recipient and restore without double counting',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1408',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:4317,hp:6000,def:2000,critRate:37,critDamage:143,damageBonus:123}});
+ app.state.party[0]={...app.state.party[0],characterId:'1415',eidolon:0,traceLevels:{memSkill:6}};
+ const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);app.state.modifierInputs['cyrene-phainon-blessing-active']=true;app.state.modifierInputs['phainon-kaslana-form']=true;app.state.modifierInputs['phainon-kaslana-atk-in-final-stats']=true;app.state.modifierInputs['phainon-a6-atk-in-final-stats']=true;
+ app.state.modifierInputs['element-damage:1408:Fire']=31;app.state.modifierInputs['enemy-resistance:Fire']=33;
+ const fire=row('11415211');assert.ok(fire,app.node('hsrResults').innerHTML.slice(-1800));near(fire.expected,4317*.1*5*1.31*.5*.67*.9*(1+.53*1.43));app.state.modifierInputs['phainon-a6-atk-in-final-stats']=false;app.state.modifierInputs['phainon-a6-atk-stacks']=1;const ownBaseAtk=app.state.data.characters.find(c=>c.id==='1408').base.atk;near(row('11415211').expected,fire.expected*(4317+ownBaseAtk*.5)/4317);app.state.modifierInputs['phainon-a6-atk-in-final-stats']=true;
+ app.state.modifierInputs['trace:1415:1141521:kaslana-immortal-flame-crit-rate-in-final-stats']=true;app.node('hsrStat-critRate').value='53';near(row('11415211').expected,fire.expected);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row('11415211',saved).expected,fire.expected);saved.state.modifierInputs['phainon-kaslana-form']=false;assert.ok(!row('11415211',saved));assert.ok(row('140801',saved),saved.node('hsrResults').innerHTML.slice(-2000));
+ app.state.party[0].characterId='';assert.ok(!row('11415211'));assert.ok(row('140801'));
+ app.window.HsrTool.applyProfileCharacter({id:'1405',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:4317,hp:6000,def:2000,critRate:37,critDamage:143,damageBonus:23}});app.node('hsrToughnessState').value='broken';
+ app.state.party[0]={...app.state.party[0],characterId:'1415',eidolon:0,traceLevels:{memSkill:6}};
+ const before=row('140501').expected,baseAtk=app.state.data.characters.find(c=>c.id==='1405').base.atk;app.state.modifierInputs['trace:1415:1141518:true-knowledge-active']=true;
+ near(row('140501').expected,before*(4317+baseAtk*.6)/4317);app.state.party[0].characterId='';near(row('140501').expected,before);
+});

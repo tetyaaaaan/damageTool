@@ -298,6 +298,8 @@
         if(attack.id==='11407022'&&attack.characterId==='1407'&&attack.sourceSkillId==='1140702'&&attack.damageFormula==='componentSequence'&&attack.type==='memospriteSkill'&&attack.element==='Quantum')return '';
         if(attack.id==='1140901'&&attack.characterId==='1409'&&attack.sourceSkillId==='1140901'&&attack.type==='memospriteSkill'&&attack.damageFormula==='recordedHealing'&&attack.scalingStat==='healingRecord'&&attack.element==='Wind')return '';
         if(attack.id==='11415012'&&attack.characterId==='1415'&&attack.sourceSkillId==='1141501'&&attack.damageFormula==='componentSequence'&&attack.type==='memospriteSkill'&&attack.element==='Ice')return '';
+        if (['1410012','1410022'].includes(attack.id) && attack.characterId==='1410' && attack.damageFormula==='componentSequence' && attack.sourceSkillId===(attack.id==='1410012'?'141001':'141002') && attack.element==='Physical' && attack.type===(attack.id==='1410012'?'normal':'skill')) return '';
+        if (/^1141522[1-8]$/.test(attack.id) && attack.characterId==='1410' && attack.sourceSkillId==='1141522' && attack.damageFormula==='resolvedDamageMultiplier' && attack.dataOwnerId==='1410' && attack.type==='dot') return '';
         if (attack.damageFormula === "resolvedDamageMultiplier" && ["14101021","14101022","14101023","14101024"].includes(attack.id) && attack.characterId === "1410" && attack.dataOwnerId === "1410" && attack.type === "dot") return "";
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
         if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
@@ -431,6 +433,11 @@ function calculateFanning(input) {
         if(['151001','151003','151009','151022'].includes(input.attack?.id)){
             const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,curve=({'151001':[50,60,70,80,90,100],'151003':[120,132,144,156,168,180,195,210,225,240],'151009':[10,11,12,13,14,15,16.25,17.5,18.75,20],'151022':[172,187.6,203.2,218.8,234.4,250,269.5,289,308.5,328]})[a.id];
             if(c.level!==80||c.eidolon!==0||e.count!==1||!Number.isInteger(l)||l<1||l>curve.length||a.multiplier!==curve[l-1]||a.damageFormula!=='statMultiplier'||a.scalingStat!=='atk'||a.characterId!=='1510'||c.id&&c.id!=='1510'||a.scalingTerms?.length||a.hitCount!==1||(a.id==='151009'&&input.modifierInputs?.['himeko-departure-drive']!==1))return {supported:false,reason:'姫子・旅立ちはLv80/E0・敵1体の指定した単発成分のみ対応です。パルス砲は攻撃前の原動力1だけを明示してください。'};
+        }
+
+        if(input.attack?.id==='11415211'){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},v=input.modifierInputs||{},curve=[5,6,7,8,9,10];
+            if(c.id!=='1408'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||a.cyreneBlessingActive!==true||v['cyrene-phainon-blessing-active']!==true||v['phainon-kaslana-form']!==true||a.characterId!=='1408'||a.statReferenceId!=='1408'||a.sourceSkillId!=='1141521'||a.damageFormula!=='statMultiplier'||a.scalingStat!=='atk'||a.type!=='additional'||a.element!=='Fire'||a.hitCount!==5||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||a.multiplier!==curve[a.traceLevel-1]||c.stats?.damageBonus!==v['element-damage:1408:Fire']||e.resistance!==v['enemy-resistance:Fire']||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.category==='progressiveTakenDamage'))return {supported:false,reason:'世負い祝福が事前成立したカスライナ本人の炎付加5段のみ。キュレネ精霊スキルLv1～6・独立した炎与ダメージ/敵炎耐性・未撃破の敵1体を指定してください。'};
         }
 
         const round29Attack=input.attack||{};
@@ -632,6 +639,18 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(['1410012','1410022'].includes(input.attack?.id)){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],normal=a.id==='1410012',first=normal?'141001':'141002',level=a.cyreneSupportLevel,offset=normal?1:5;
+            const fail=()=>({supported:false,reason:'事前成立した海洋祝福・キュレネ精霊スキルLv1～6と、本人4種DoTの補正済み1回分を指定してください。他所有者/新規付与・領域発生回数はこの合計に含みません。'});
+            if(c.id!=='1410'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||a.cyreneBlessingActive!==true||!Number.isInteger(level)||level<1||level>6||input.modifierInputs?.['trace:1415:1141522:serin-damage-active']!==true||parts.length!==5||a.damageComponents?.length!==5)return fail();
+            for(let i=0;i<5;i++){
+                const q=parts[i]?.input,b=q?.attack||{},id=i?'1141522'+(offset+i-1):first;
+                if(b.id!==id||a.damageComponents[i].attackId!==id||parts[i].key!==(i?'ocean-'+i:'direct')||JSON.stringify(q?.character)!==JSON.stringify(c)||JSON.stringify(q?.enemy)!==JSON.stringify(e)||JSON.stringify(q?.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail();
+                if(i?(b.traceLevel!==level||b.cyreneBlessingActive!==true):(b.traceLevel!==a.traceLevel||b.multiplier!==a.multiplier||b.sourceSkillId!==first||b.type!==(normal?'normal':'skill')||b.element!=='Physical'||b.damageFormula!=='statMultiplier'||b.scalingStat!=='atk'||b.hitCount!==1))return fail();
+            }
+            return combineDamageComponents(a,parts,'本人直撃＋海洋の本人4種DoT起爆（他所有者・領域の追加発生は未合算）');
+        }
+
         if(input.attack?.id==='150308'){
             const a=input.attack,c=input.character||{},e=input.enemy||{},p=input.sequenceComponents||[],n=input.modifierInputs?.['pearl-next-proc-count'],l=a.traceLevel,normal=[50,60,70,80,90,100];
             const fail=()=>({supported:false,reason:'星月の幻造の本人DEF・本人CB・底本の氷愉悦と、事前の次回付加0/1を指定してください。パール＋爻光のLv80/E0・未撃破の敵1体・状態一定のみ対応です。'});
@@ -900,12 +919,14 @@ function calculateFanning(input) {
     // This narrow A4 path only scales that explicit snapshot, and never attributes it to another owner.
     function calculateSerinResolvedDoT(input) {
         const a=input.attack||{},c=input.character||{},e=input.enemy||{};
-        const index=["14101021","14101022","14101023","14101024"].indexOf(a.id);
+        const ocean=/^1141522[1-8]$/.test(a.id),number=ocean?Number(a.id.slice(-1)):0;
+        const index=ocean?(number-1)%4:["14101021","14101022","14101023","14101024"].indexOf(a.id);
         const sourceId=["1410041","1410042","1410043","1410044"][index];
         const key="serin-detonation-original:"+sourceId, original=input.modifierInputs?.[key];
-        if(index<0 || c.level!==80 || c.eidolon!==0 || e.count!==1 || a.dataOwnerId!=="1410" || a.sourceDoTId!==sourceId || a.originalDamageInputKey!==key || a.multiplier!==150 || a.canCrit!==false || !Number.isFinite(original) || original<0 || original>1e12) return {supported:false,reason:"セイレンス本人の事前DoT1回分（補正済み非会心値）を明示してください。他所有者のDoT・未指定値は代用しません。"};
-        const value=original*1.5;
-        return {attack:{name:a.name,canCrit:false,hitCount:1,target:"single"},nonCrit:value,crit:value,expected:value,applied:[],skipped:(input.modifiers||[]).map(m=>({...m,applicable:false,reason:"元のDoT1回分へ算入済みのため、起爆へ補正を再適用しません。"})),breakdown:{damageFormula:"resolvedDamageMultiplier",referenceValue:original,multiplier:150,sourceDoTId:sourceId,dataOwnerId:"1410",condition:"本人所有の成立済みDoTのみ。元の非会心値へ倍率150%だけを適用"}};
+        const curve=number<=4?[30,36,42,48,54,60]:[40,48,56,64,72,80],ratio=ocean?curve[a.traceLevel-1]:150;
+        if(index<0 || c.level!==80 || c.eidolon!==0 || e.count!==1 || a.characterId!=='1410' || a.dataOwnerId!=="1410" || a.sourceDoTId!==sourceId || a.originalDamageInputKey!==key || a.multiplier!==ratio || !Number.isFinite(ratio) || a.canCrit!==false || !Number.isFinite(original) || original<0 || original>1e12 || (ocean&&(c.id!=='1410'||a.sourceSkillId!=='1141522'||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||e.toughnessActive!==true||a.cyreneBlessingActive!==true||input.modifierInputs?.['trace:1415:1141522:serin-damage-active']!==true))) return {supported:false,reason:"セイレンス本人の事前DoT1回分（補正済み非会心値）と成立済み祝福を明示してください。他所有者のDoT・未指定値は代用しません。"};
+        const value=original*(ratio/100);
+        return {attack:{name:a.name,canCrit:false,hitCount:1,target:"single"},nonCrit:value,crit:value,expected:value,applied:[],skipped:(input.modifiers||[]).map(m=>({...m,applicable:false,reason:"元のDoT1回分へ算入済みのため、起爆へ補正を再適用しません。"})),breakdown:{damageFormula:"resolvedDamageMultiplier",referenceValue:original,multiplier:ratio,sourceDoTId:sourceId,dataOwnerId:"1410",condition:"本人所有の成立済みDoTのみ。元の非会心値へ起爆率"+ratio+"%だけを適用"}};
     }
 
     function calculateSerinSnapshot(input) {

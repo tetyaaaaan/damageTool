@@ -100,7 +100,7 @@
       "stat": "atk",
       "unit": "percent",
       "value": { "kind": "perStack", "perStack": 50 },
-      "target": { "owner": "self", "attackTypes": ["all"], "elements": [], "attackIds": ["140801", "140802", "140803", "140808", "140809", "140811"] },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [], "attackIds": ["140801", "140802", "140803", "140808", "140809", "140811", "11415211"] },
       "activation": {
         "mode": "stack",
         "inputKey": "phainon-a6-atk-stacks",
@@ -128,7 +128,7 @@
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
         "sourceFile": "character_skill_trees.json:1408103.params[0][0..1]",
         "verifiedAt": "2026-11-07",
-        "scope": "ファイノン本人の攻撃140801/140802/140803/140808/140809/140811。戦闘開始/変身終了で成立したATK+50%の現在層数1～2を明示指定。",
+        "scope": "ファイノン本人の攻撃140801/140802/140803/140808/140809/140811/11415211。戦闘開始/変身終了で成立したATK+50%の現在層数1～2を明示指定。",
         "verification": "tests/hsr/hsrPhainonRound22.test.cjs"
       }
     }

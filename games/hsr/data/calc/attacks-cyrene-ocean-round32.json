@@ -1,0 +1,591 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-ocean-round32-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+  },
+  "overrides": [
+    {
+      "id": "11415221",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "name": "海洋・通常後の本人風化起爆",
+      "element": "Wind",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        30.0,
+        36.0,
+        42.0,
+        48.0,
+        54.0,
+        60.0
+      ],
+      "dataOwnerId": "1410",
+      "sourceDoTId": "1410041",
+      "originalDamageInputKey": "serin-detonation-original:1410041",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      },
+      "calculationNote": "本人が所有し既に成立した風化DoTの最終非会心1回分に祝福の起爆率だけを掛ける。他所有者・撃破DoT・領域DoTは対象外。会心/防御/耐性/与ダメージを再適用しない。"
+    },
+    {
+      "id": "11415222",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "name": "海洋・通常後の本人裂創起爆",
+      "element": "Physical",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        30.0,
+        36.0,
+        42.0,
+        48.0,
+        54.0,
+        60.0
+      ],
+      "dataOwnerId": "1410",
+      "sourceDoTId": "1410042",
+      "originalDamageInputKey": "serin-detonation-original:1410042",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      },
+      "calculationNote": "本人が所有し既に成立した裂創DoTの最終非会心1回分に祝福の起爆率だけを掛ける。他所有者・撃破DoT・領域DoTは対象外。会心/防御/耐性/与ダメージを再適用しない。"
+    },
+    {
+      "id": "11415223",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "name": "海洋・通常後の本人燃焼起爆",
+      "element": "Fire",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        30.0,
+        36.0,
+        42.0,
+        48.0,
+        54.0,
+        60.0
+      ],
+      "dataOwnerId": "1410",
+      "sourceDoTId": "1410043",
+      "originalDamageInputKey": "serin-detonation-original:1410043",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      },
+      "calculationNote": "本人が所有し既に成立した燃焼DoTの最終非会心1回分に祝福の起爆率だけを掛ける。他所有者・撃破DoT・領域DoTは対象外。会心/防御/耐性/与ダメージを再適用しない。"
+    },
+    {
+      "id": "11415224",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "name": "海洋・通常後の本人感電起爆",
+      "element": "Thunder",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        30.0,
+        36.0,
+        42.0,
+        48.0,
+        54.0,
+        60.0
+      ],
+      "dataOwnerId": "1410",
+      "sourceDoTId": "1410044",
+      "originalDamageInputKey": "serin-detonation-original:1410044",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      },
+      "calculationNote": "本人が所有し既に成立した感電DoTの最終非会心1回分に祝福の起爆率だけを掛ける。他所有者・撃破DoT・領域DoTは対象外。会心/防御/耐性/与ダメージを再適用しない。"
+    },
+    {
+      "id": "1410012",
+      "characterId": "1410",
+      "sourceSkillId": "141001",
+      "triggerSkillId": "1141522",
+      "name": "短調、止水に響く＋海洋の本人4種DoT起爆",
+      "element": "Physical",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "hitCountLabel": "直撃1回＋本人4種DoT起爆",
+      "canCrit": true,
+      "multipliers": [
+        50.0,
+        60.0,
+        70.0,
+        80.0,
+        90.0,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "セイレンス本人の直接攻撃",
+          "attackId": "141001"
+        },
+        {
+          "key": "ocean-1",
+          "name": "海洋・通常後の本人風化起爆",
+          "attackId": "11415221"
+        },
+        {
+          "key": "ocean-2",
+          "name": "海洋・通常後の本人裂創起爆",
+          "attackId": "11415222"
+        },
+        {
+          "key": "ocean-3",
+          "name": "海洋・通常後の本人燃焼起爆",
+          "attackId": "11415223"
+        },
+        {
+          "key": "ocean-4",
+          "name": "海洋・通常後の本人感電起爆",
+          "attackId": "11415224"
+        }
+      ],
+      "numericModifierInputs": [
+        {
+          "inputKey": "serin-detonation-original:1410041",
+          "label": "本人の風化DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410042",
+          "label": "本人の裂創DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410043",
+          "label": "本人の燃焼DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410044",
+          "label": "本人の感電DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        }
+      ],
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。キュレネE0の海洋祝福が事前成立。本人が所有する4種DoTの最終非会心1回分を明示（未付与は0）。",
+      "calculationNote": "直接成分は本人の通常/スキルLv、起爆率は提供者キュレネの精霊スキルLv1～6。本人4種の自然DoTだけを各1回起爆。初回DoT付与・他所有者DoT・撃破DoT・領域追撃の新規発生は合算しない。スキルは既存同Lvの被ダメージ上昇が事前成立した直接行を維持する。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      }
+    },
+    {
+      "id": "11415225",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "name": "海洋・スキル後の本人風化起爆",
+      "element": "Wind",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        40.0,
+        48.0,
+        56.0,
+        64.0,
+        72.0,
+        80.0
+      ],
+      "dataOwnerId": "1410",
+      "sourceDoTId": "1410041",
+      "originalDamageInputKey": "serin-detonation-original:1410041",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      },
+      "calculationNote": "本人が所有し既に成立した風化DoTの最終非会心1回分に祝福の起爆率だけを掛ける。他所有者・撃破DoT・領域DoTは対象外。会心/防御/耐性/与ダメージを再適用しない。"
+    },
+    {
+      "id": "11415226",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "name": "海洋・スキル後の本人裂創起爆",
+      "element": "Physical",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        40.0,
+        48.0,
+        56.0,
+        64.0,
+        72.0,
+        80.0
+      ],
+      "dataOwnerId": "1410",
+      "sourceDoTId": "1410042",
+      "originalDamageInputKey": "serin-detonation-original:1410042",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      },
+      "calculationNote": "本人が所有し既に成立した裂創DoTの最終非会心1回分に祝福の起爆率だけを掛ける。他所有者・撃破DoT・領域DoTは対象外。会心/防御/耐性/与ダメージを再適用しない。"
+    },
+    {
+      "id": "11415227",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "name": "海洋・スキル後の本人燃焼起爆",
+      "element": "Fire",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        40.0,
+        48.0,
+        56.0,
+        64.0,
+        72.0,
+        80.0
+      ],
+      "dataOwnerId": "1410",
+      "sourceDoTId": "1410043",
+      "originalDamageInputKey": "serin-detonation-original:1410043",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      },
+      "calculationNote": "本人が所有し既に成立した燃焼DoTの最終非会心1回分に祝福の起爆率だけを掛ける。他所有者・撃破DoT・領域DoTは対象外。会心/防御/耐性/与ダメージを再適用しない。"
+    },
+    {
+      "id": "11415228",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "name": "海洋・スキル後の本人感電起爆",
+      "element": "Thunder",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        40.0,
+        48.0,
+        56.0,
+        64.0,
+        72.0,
+        80.0
+      ],
+      "dataOwnerId": "1410",
+      "sourceDoTId": "1410044",
+      "originalDamageInputKey": "serin-detonation-original:1410044",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      },
+      "calculationNote": "本人が所有し既に成立した感電DoTの最終非会心1回分に祝福の起爆率だけを掛ける。他所有者・撃破DoT・領域DoTは対象外。会心/防御/耐性/与ダメージを再適用しない。"
+    },
+    {
+      "id": "1410022",
+      "characterId": "1410",
+      "sourceSkillId": "141002",
+      "triggerSkillId": "1141522",
+      "name": "倍音、暗流の先の斉唱＋海洋の本人4種DoT起爆",
+      "element": "Physical",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "hitCountLabel": "直撃1回＋本人4種DoT起爆",
+      "canCrit": true,
+      "multipliers": [
+        70.0,
+        77.0,
+        84.0,
+        91.0,
+        98.0,
+        105.0,
+        113.75,
+        122.5,
+        131.25,
+        140.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "セイレンス本人の直接攻撃",
+          "attackId": "141002"
+        },
+        {
+          "key": "ocean-1",
+          "name": "海洋・スキル後の本人風化起爆",
+          "attackId": "11415225"
+        },
+        {
+          "key": "ocean-2",
+          "name": "海洋・スキル後の本人裂創起爆",
+          "attackId": "11415226"
+        },
+        {
+          "key": "ocean-3",
+          "name": "海洋・スキル後の本人燃焼起爆",
+          "attackId": "11415227"
+        },
+        {
+          "key": "ocean-4",
+          "name": "海洋・スキル後の本人感電起爆",
+          "attackId": "11415228"
+        }
+      ],
+      "numericModifierInputs": [
+        {
+          "inputKey": "serin-detonation-original:1410041",
+          "label": "本人の風化DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410042",
+          "label": "本人の裂創DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410043",
+          "label": "本人の燃焼DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410044",
+          "label": "本人の感電DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        }
+      ],
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。キュレネE0の海洋祝福が事前成立。本人が所有する4種DoTの最終非会心1回分を明示（未付与は0）。",
+      "calculationNote": "直接成分は本人の通常/スキルLv、起爆率は提供者キュレネの精霊スキルLv1～6。本人4種の自然DoTだけを各1回起爆。初回DoT付与・他所有者DoT・撃破DoT・領域追撃の新規発生は合算しない。スキルは既存同Lvの被ダメージ上昇が事前成立した直接行を維持する。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      }
+    }
+  ]
+}

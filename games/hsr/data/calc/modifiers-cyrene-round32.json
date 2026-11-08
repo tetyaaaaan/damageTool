@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": 1,
+  "modifiers": [
+    {
+      "id": "trace:1415:1141518:anaxa-true-knowledge-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141518"
+      },
+      "name": "『理性』に捧ぐ詩：アナイクスの攻撃力",
+      "description": "『真知』状態中、アナイクス本人の攻撃力を上昇させます。現在の計算経路ではアナイクスの通常・戦闘スキル・必殺技の直接攻撃に限定します。他の知恵キャラとミュリオンへの効果は未接続です。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          36,
+          42,
+          48,
+          54,
+          60
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "140501",
+          "140502",
+          "140503"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1415:1141518:true-knowledge-active",
+        "inputLabel": "『理性』に捧ぐ詩の『真知』状態中（アナイクス）",
+        "conditionText": "『理性』に捧ぐ詩をアナイクスに発動し、アナイクスが次に通常攻撃または戦闘スキルを発動した後の『真知』状態を指定します。次のアナイクスのターンまで有効です。",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141518:true-knowledge-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のE0効果を、現行計算経路にあるアナイクスの直接攻撃へ限定して適用します。他の知恵キャラとミュリオンは未接続です。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141518",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0 special blessing uses tree 1415301 Lv1-6. Source #3 values .30-.60 are 30%-60%. This row models only Anaxa's existing direct attack entries; other Erudition recipients and memosprites are excluded.",
+        "verification": "tests/hsr/hsrCyreneRound32.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141518:anaxa-true-knowledge-atk-in-final-stats",
+        "inputLabel": "アナイクスの『真知』ATKを最終入力に算入済み"
+      }
+    },
+    {
+      "id": "trace:1415:1141518:anaxa-true-knowledge-skill-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141518"
+      },
+      "name": "『理性』に捧ぐ詩：アナイクスの戦闘スキル与ダメージ",
+      "description": "『真知』状態中、アナイクス本人の戦闘スキル与ダメージを上昇させます。アナイクスの現行戦闘スキル攻撃140502に限定します。他の知恵キャラとミュリオンへの効果は未接続です。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          20,
+          24,
+          28,
+          32,
+          36,
+          40
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "skill"
+        ],
+        "elements": [],
+        "attackIds": [
+          "140502"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1415:1141518:true-knowledge-active",
+        "inputLabel": "『理性』に捧ぐ詩の『真知』状態中（アナイクス）",
+        "conditionText": "『理性』に捧ぐ詩をアナイクスに発動し、アナイクスが次に通常攻撃または戦闘スキルを発動した後の『真知』状態を指定します。次のアナイクスのターンまで有効です。",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141518:true-knowledge-skill-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のE0効果を、アナイクスの既存戦闘スキル140502だけに限定して適用します。他の知恵キャラとミュリオンは未接続です。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141518",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0 special blessing uses tree 1415301 Lv1-6. Source #2 values .20-.40 are 20%-40%. This row models only Anaxa skill attack 140502; other Erudition recipients and memosprites are excluded.",
+        "verification": "tests/hsr/hsrCyreneRound32.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141518:anaxa-true-knowledge-skill-damage-in-final-stats",
+        "inputLabel": "アナイクスの戦闘スキル与ダメージに算入済み"
+      }
+    },
+    {
+      "id": "trace:1415:1141521:kaslana-immortal-flame-crit-rate",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141521"
+      },
+      "name": "『世負い』に捧ぐ詩：カスライナの会心率",
+      "description": "『不滅の炎』を持つ間、カスライナの会心率が上昇します。現行計算経路では変身中のファイノン（カスライナ）の攻撃140808・140809・140811と炎付加攻撃11415211に限定します。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          8,
+          9.6,
+          11.2,
+          12.8,
+          14.4,
+          16
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "140808",
+          "140809",
+          "140811",
+          "11415211"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-phainon-blessing-active",
+        "requiredToggleKey": "phainon-kaslana-form",
+        "inputLabel": "カスライナ変身中（不滅の炎）",
+        "conditionText": "『世負い』に捧ぐ詩をファイノンに発動し、変身後の『不滅の炎』を持つカスライナ状態を指定します。",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141521:kaslana-immortal-flame-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の不滅の炎中会心率を、既存のカスライナ攻撃行だけに適用します。超過火種による会心ダメージ変換や追加行動は対象外です。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141521",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0 special blessing uses tree 1415301 Lv1-6. Source #1[f1] values .08-.16 correspond to +8%-16% CRIT Rate. Shares the existing phainon-kaslana-form state with Phainon modifiers; it does not affect base-form attacks.",
+        "verification": "tests/hsr/hsrCyreneRound32.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141521:kaslana-immortal-flame-crit-rate-in-final-stats",
+        "inputLabel": "不滅の炎中のカスライナ会心率を最終入力に算入済み"
+      }
+    }
+  ]
+}

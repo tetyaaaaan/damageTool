@@ -120,7 +120,7 @@ test("Round22 Phainon battle-entry ATK applies once to base and transformed atta
   const formAtk = data.structuredModifiers.find((modifier) => modifier.id === "trace:1408:140805:kaslana-atk");
   assert.ok(a6);
   assert.ok(formAtk);
-  assert.deepEqual(a6.target.attackIds, ["140801", "140802", "140803", "140808", "140809", "140811"]);
+  assert.deepEqual(a6.target.attackIds, ["140801", "140802", "140803", "140808", "140809", "140811", "11415211"]);
 
   const states = [
     { label: "A6 off", inputs: { "phainon-kaslana-form": true }, finalAtk: baseProfile.atk, expectedPercent: 80, a6Enabled: false },

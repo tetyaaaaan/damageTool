@@ -1331,6 +1331,12 @@ Object.assign(e0CandidateAudit['1503'],{
  remaining:'Lv80/E0・未撃破の敵1体・全成分で状態一定。新しい別所有者/次回付加はパール＋爻光のみの2人編成に限定。通常1～6/U1～10/愉悦1～10、深層学習チャージが残り、本人CB1～50を持つ想定。底本の愉悦/CR/CD/上笑/防御無視/属性別貫通は独立最終入力、A2 DEF変換や爻光SPD由来愉悦/装備支援も一度算入。パール側の有効な爆笑ネタを底本氷付加/次回付加ごとに指定し、次回付加0/1のみ同一攻撃へ加算。別所有者不足時は合計を停止し、本人直接/CB単独行は維持。他編成/底本/人数、初回獲得順・チャージ/CB/HP/行動順更新、複数敵/E1以上・一般継承は認定外。既存非愉悦底本の本人DEF行は従来範囲を維持。'
 });
 Object.assign(e0CandidateAudit['1415'],{evidence:e0CandidateAudit['1415'].evidence+' 第31回は1141523軍功所持者CD15～30%（姫子/ゼーレ）と1141516で誘発された140411だけのCD100～200%を追加。hsrCyreneRound31/ToolInputsでMemSkill Lv1～6、両提供者/明示受益者、対象ID、既算入/OFF/解除/保存を検証。',remaining:e0CandidateAudit['1415'].remaining+' 軍功支援はキュレネ＋ケリュドラ編成と明示した所持者に限定。モーディスは血の報復中に祝福で誘発された神を殺め神となる1回のみ。他の特殊祝福/他所有者成分が残るためE0未認定を維持。'});
+// Round32 extends support-triggered components without certifying unresolved major structures.
+Object.assign(e0CandidateAudit['1415'],{
+ missingComponents:['特殊祝福の未接続成分（結界追加/他所有者DoT起爆/精霊・バリア参照など）'],
+ evidence:e0CandidateAudit['1415'].evidence+' 第32回は1141518の真知ATK30～60%/SkillDMG20～40%をアナイクスへ限定接続。1141521のカスライナCR8～16%と本人ATK5～10%×5の炎付加、1141522の通常後30～60%/Skill後40～80%の本人4種DoT起爆を追加。hsrCyreneRound32/OceanRound32/PhainonRound32/ToolInputsで独立値・所有者・source Lv・状態/解除・最終算入・保存を確認。',
+ remaining:e0CandidateAudit['1415'].remaining+' 第32回追加範囲はLv80/E0/未撃破の敵1体・祝福事前成立・状態一定。起爆は本人4種自然DoTの補正済み1回分だけで、他所有者・撃破/領域DoT・新規付与後の連鎖は未合算。世負い炎付加は変身中の本人・炎最終DMG/敵炎RESを指定し、超過火種CDは最終CDへ含める。真知は既存7弱点/撃破済みのアナイクス本人攻撃だけ。+3ヒット、他知恵受益者、結界追加1回、その他精霊/バリア参照の特殊成分が残るため未認定を維持。'
+});
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={
  '1220':'スキル+雷狩は限定対応。必殺技の分岐と途中撃破/成分間変化が不足。',

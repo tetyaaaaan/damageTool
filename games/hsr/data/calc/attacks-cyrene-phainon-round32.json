@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-phainon-round32-dbe8cdf",
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json and character_skill_trees.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "カスライナ攻撃後に成立するキュレネ祝福の炎付加5段を、ファイノンのATK参照の独立追加成分として敵1体・Lv80/E0・未撃破・形態中に限定して計算します。"
+  },
+  "overrides": [
+    {
+      "id": "11415211",
+      "characterId": "1408",
+      "statReferenceId": "1408",
+      "sourceCharacterId": "1415",
+      "sourceSkillId": "1141521",
+      "name": "「世負い」に捧ぐ詩・カスライナ炎付加5段",
+      "element": "Fire",
+      "type": "additional",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 5,
+      "canCrit": true,
+      "multipliers": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "numericModifierInputs": [
+        {
+          "inputKey": "element-damage:1408:Fire",
+          "label": "ファイノンの炎属性与ダメージ",
+          "minimum": -100,
+          "maximum": 500
+        },
+        {
+          "inputKey": "enemy-resistance:Fire",
+          "label": "敵の炎属性耐性",
+          "minimum": -100,
+          "maximum": 90
+        }
+      ],
+      "calculationScope": "cyrene-blessing-phainon-kaslana-fire-additional-five-hits-single-unbroken-enemy",
+      "conditionText": "ファイノンLv80/E0・敵1体・未撃破・カスライナ形態中。キュレネが編成され、精霊スキル「世負い」に捧ぐ詩の祝福が発動中の想定で、攻撃後の炎付加ダメージ5段を攻撃本体と別に計算します。キュレネの精霊スキルLv1～6を指定してください。",
+      "calculationNote": "固定版character_skills.json:1141521.params[0..5][2]は各攻撃後の付加回数5、[3]は1回ごとのカスライナATK5～10%。multipliersは1ヒット分の係数であり、hitCount=5が5段の合計を計算します。攻撃行の参照ステータスはファイノン1408、効果提供者はキュレネ1415です。ランダムな敵単体への付加は敵1体に限定するため対象が一意です。炎属性DMG/敵炎耐性を使い、ファイノンの通常物理攻撃値を流用しません。祝福の発動とカスライナ形態はユーザー指定状態で、追加攻撃本体へ統合しません。 超過火種由来の会心ダメージは現在の最終CDへ一度含めてください。カスライナ形態ATKとA6の現在のATK層は既存補正・算入済み指定を使います。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のE0キュレネ精霊スキルLv1～6にある、攻撃後のATK参照炎付加5段を敵1体への独立成分として計算します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141521.params[0..5][2..3]; character_skill_trees.json:1415301.max_level",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyrenePhainonRound32.test.cjs"
+      },
+      "modifierConditions": [
+        {
+          "inputKey": "cyrene-phainon-blessing-active",
+          "minimum": 1
+        },
+        {
+          "inputKey": "phainon-kaslana-form",
+          "minimum": 1
+        }
+      ],
+      "enforceSnapshotContract": true
+    }
+  ]
+}

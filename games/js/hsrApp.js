@@ -279,7 +279,7 @@
   function attackStateIssues(attack, issue) {
     if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
-    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "150308" ? (state.modifierInputs["pearl-next-proc-count"]===1?4:3) : attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : ["140208","1414039"].includes(attack.id) ? 3 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "150403" ? 2+Math.floor(state.modifierInputs["fudie-gluttony-stacks"]/4) : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (["1410012","1410022"].includes(attack.id) ? 5 : attack.id === "150308" ? (state.modifierInputs["pearl-next-proc-count"]===1?4:3) : attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : ["140208","1414039"].includes(attack.id) ? 3 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "150403" ? 2+Math.floor(state.modifierInputs["fudie-gluttony-stacks"]/4) : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (["1224011","1224081"].includes(attack.id)) {
       if(!['Erudition','Destruction','Hunt','Remembrance','Elation'].includes(attack.shifuPath) || !Object.keys(ELEMENT_KEYS).includes(attack.shifuElement)) issue('攻撃型師匠の運命と属性を補正条件で指定してください。従来の支援型師匠の比較はそのまま計算できます。','hsrConditionDialogOpen');
       if(attack.shifuElement && attack.shifuElement!=='Imaginary') for(const [key,label] of [['element-damage:1224:'+attack.shifuElement,'なのかの師匠属性与ダメージ'],['enemy-resistance:'+attack.shifuElement,'敵の師匠属性耐性']]) if(!Number.isFinite(state.modifierInputs[key])) issue(label+'を入力してください。補正なしは0です。','hsrConditionDialogOpen');
@@ -466,7 +466,7 @@
 
   function supportTraceKey(source) {
     if(['8007','8008'].includes(source.id)&&['1800701','1800703','1800707'].includes(source.skillId))return source.skillId==='1800703'?'memTalent':'memSkill';
-    if(source.id==='1415'&&['1141514','1141515','1141516','1141520','1141522','1141523'].includes(source.skillId))return 'memSkill';
+    if(source.id==='1415'&&['1141514','1141515','1141516','1141518','1141520','1141521','1141522','1141523'].includes(source.skillId))return 'memSkill';
     const skill = find("characters", String(source.id))?.skills?.find(item => String(item.id) === String(source.skillId));
     return Object.entries(TRACE_FIELDS).find(([, [type]]) => type === skill?.type)?.[0];
   }
@@ -666,7 +666,7 @@
     if (!window.HsrModifierRuntime) return [];
     const brokenSwordStance = state.characterId === "1206" && state.enemy.toughnessActive === false;
     const effectiveInputs = brokenSwordStance ? {...inputs, "sushang-post-ultimate-sword-stance-hits": 2} : inputs;
-    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>(item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId))&&(item.id!=='trace:1415:1141520:cipher-damage'||state.characterId==='1406')&&(item.id!=='trace:1415:1141515:tribbie-defense-ignore'||state.characterId==='1403')&&(!item.id.startsWith('trace:1415:1141514:')||state.characterId==='1402')&&(item.id!=='trace:1415:1141522:serin-damage'||state.characterId==='1410')&&(item.id!=='trace:1415:1141516:mydei-godslayer-crit-damage'||state.characterId==='1404')&&(item.id!=='trace:1415:1141523:military-merit-crit-damage'||['1003','1102'].includes(state.characterId)&&state.party.some(m=>m.characterId==='1412')&&String(state.modifierInputs['cyrene-merit-recipient'])===state.characterId));
+    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>(item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId))&&(item.id!=='trace:1415:1141520:cipher-damage'||state.characterId==='1406')&&(item.id!=='trace:1415:1141515:tribbie-defense-ignore'||state.characterId==='1403')&&(!item.id.startsWith('trace:1415:1141514:')||state.characterId==='1402')&&(item.id!=='trace:1415:1141522:serin-damage'||state.characterId==='1410')&&(!item.id.startsWith('trace:1415:1141518:')||state.characterId==='1405')&&(!item.id.startsWith('trace:1415:1141521:')||state.characterId==='1408')&&(item.id!=='trace:1415:1141516:mydei-godslayer-crit-damage'||state.characterId==='1404')&&(item.id!=='trace:1415:1141523:military-merit-crit-damage'||['1003','1102'].includes(state.characterId)&&state.party.some(m=>m.characterId==='1412')&&String(state.modifierInputs['cyrene-merit-recipient'])===state.characterId));
     for(const item of candidates){
       if(!['trace:8007:1800703:mem-crit-damage','trace:8008:1800703:mem-crit-damage'].includes(item.id))continue;
       if(item.providerId===state.characterId&&item.valueInput)item.valueInput={...item.valueInput,shared:true};
@@ -1055,7 +1055,7 @@
   function comparisonReferenceControls() {
     if (["1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415","1413","1407","8007","8008","1508","1510","1503"].includes(state.characterId) && state.conditionTab === "軌跡") {
       const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => spec.inputKey !== 'rappa-consumed-charge' && !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
-      return (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
+      return (state.characterId === '1408' ? '<p class="genshin-help">世負いの炎付加は物理攻撃と別に炎与ダメージ・敵炎耐性を指定します。超過火種の会心ダメージを最終CDへ一度含め、形態ATKとA6は既存の算入済み指定で重複を避けてください。</p>' : '') + (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
     }
     if (state.characterId === "1308" && state.conditionTab === "軌跡" && availableAttacks().some(a => a.numericModifierInputs?.some(x => x.inputKey === "acheron-initial-knots"))) {
       const value=state.modifierInputs["acheron-initial-knots"];
@@ -1197,7 +1197,26 @@
     });
   }
 
+  function cyreneBlessingSnapshot(skillId,inputKey) {
+    const member=state.party.find(m=>m.characterId==='1415'),level=member?structuredModifierContext().traceLevelFor({id:'1415',skillId}):NaN;
+    const active=!!member&&member.eidolon===0&&state.modifierInputs[inputKey]===true;
+    return {cyreneSupportLevel:level,cyreneBlessingActive:active,referenceIssue:active&&Number.isInteger(level)&&level>=1&&level<=6?'':'キュレネE0の編成、精霊スキルLv1～6と、該当祝福が事前成立した状態を指定してください。',referenceCondition:{id:inputKey,tab:'パーティ'}};
+  }
+
   function resolvedAttack(selected) {
+    if(selected.id==='11415211'){
+      const ref=cyreneBlessingSnapshot('1141521','cyrene-phainon-blessing-active'),level=ref.cyreneSupportLevel,fire=state.modifierInputs['element-damage:1408:Fire'],resistance=state.modifierInputs['enemy-resistance:Fire'];
+      return {...selected,...ref,traceKey:'cyreneMemSkill',traceLevel:level,traceLevelLabel:'キュレネ精霊スキルLv'+level,multiplier:selected.multipliers[level-1],attackType:selected.type,referenceStats:{...state.stats,damageBonus:fire},referenceEnemy:{...componentSnapshots().enemy,resistance},numericModifierInputs:selected.numericModifierInputs};
+    }
+    if(/^1141522[1-8]$/.test(selected.id)){
+      const ref=cyreneBlessingSnapshot('1141522','trace:1415:1141522:serin-damage-active'),level=ref.cyreneSupportLevel;
+      return {...selected,...ref,traceKey:'cyreneMemSkill',traceLevel:level,traceLevelLabel:'キュレネ精霊スキルLv'+level,multiplier:selected.multipliers[level-1],attackType:'dot'};
+    }
+    if(['1410012','1410022'].includes(selected.id)){
+      const ref=cyreneBlessingSnapshot('1141522','trace:1415:1141522:serin-damage-active'),parts=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack),level=state.traceLevels[selected.traceKey];
+      return {...selected,...ref,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks:parts};
+    }
+
     if(selected.id==='1503080'){
       const l=state.traceLevels.normal;return {...selected,traceLevel:l,multiplier:selected.multipliers[l-1],attackType:selected.type};
     }
@@ -1643,7 +1662,7 @@
 
     if (b.damageFormula === "breakComponent" && b.kind === "break") return '<section class="hsr-target-breakdown"><h4>天賦追加撃破・会心不可</h4><dl>'+[['最終戦闘撃破特効（%）',b.finalBreakEffect],['消費チャージ',b.charge],['天賦追加撃破倍率（%）',b.coefficient],['撃破基礎値',b.base],['属性・攻撃倍率',b.multiplier],['撃破特効倍率',b.effect],['撃破与ダメージ倍率',b.breakDamageMultiplier],['最大靭性倍率',b.toughnessScale],['防御倍率',b.defense],['耐性倍率',b.resistance],['被ダメージ倍率',b.vulnerability],['追加撃破ダメージ',b.value]].map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+detailNumber(v)+'</dd></div>').join('')+'</dl>'+damageValues(result)+'</section>';
     if (b.damageFormula === "breakComponent") return '<section class="hsr-target-breakdown"><h4>本人の超撃破・会心不可</h4><dl>'+[['最終戦闘撃破特効（%）',b.finalBreakEffect],['発生倍率',b.conversionMultiplier],['基礎削靭（通常攻撃10の単位）',b.toughnessDamage],['撃破効率倍率',b.breakEfficiency],['有効削靭',b.effectiveToughnessDamage],['防御倍率',b.defense],['耐性倍率',b.resistance],['被ダメージ倍率',b.vulnerability],['超撃破ダメージ',b.value]].map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+detailNumber(v)+'</dd></div>').join('')+'</dl>'+damageValues(result)+'</section>';
-    if (b.damageFormula === "resolvedDamageMultiplier") return '<section class="hsr-target-breakdown"><h4>本人の事前DoT起爆</h4><p>'+esc(b.condition)+'</p><dl><div><dt>所有DoTの補正済み1回分</dt><dd>'+detailNumber(b.referenceValue)+'</dd></div><div><dt>起爆倍率</dt><dd>150%</dd></div></dl>'+damageValues(result)+'</section>';
+    if (b.damageFormula === "resolvedDamageMultiplier") return '<section class="hsr-target-breakdown"><h4>本人の事前DoT起爆</h4><p>'+esc(b.condition)+'</p><dl><div><dt>所有DoTの補正済み1回分</dt><dd>'+detailNumber(b.referenceValue)+'</dd></div><div><dt>起爆倍率</dt><dd>'+detailNumber(b.multiplier)+'%</dd></div></dl>'+damageValues(result)+'</section>';
     if (b.damageFormula === "trueDamage") return `<section class="hsr-target-breakdown"><h4>敵1体・追加確定ダメージ1回分</h4><dl><div><dt>${b.sourceKind === "cipherRecord" ? "この成分が参照する記録値" : "参照元ダメージ（補正適用後）"}</dt><dd>${detailNumber(b.originalDamage)}</dd></div><div><dt>確定ダメージ倍率</dt><dd>${detailNumber(b.multiplierPercent)}%</dd></div><div><dt>追加確定ダメージ</dt><dd>${detailNumber(result.nonCrit)}</dd></div><div><dt>適用条件</dt><dd>${esc(b.condition)}</dd></div></dl><p>${b.sourceKind === "cipherRecord" ? "記録値 × 確定ダメージ倍率。会心・防御・耐性・与ダメージ等は再適用せず、記録値自体を合計へ足しません。" : "元ダメージ × 確定ダメージ倍率。会心・防御・耐性・与ダメージ・靭性等は再適用しません。元ダメージとの合算は行いません。"}</p>${damageValues(result)}</section>`;
     const row = (label, value) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`;
     const nativeCrit = result.applied.find(item => item.id === "trace:1221:122103:slash-critical-damage");
