@@ -1,0 +1,436 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "pearl-round31-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版パール強化通常のDEF直接攻撃・本人愉悦・指定した別愉悦キャラ参照成分を、別所有者最終値で分離して計算。"
+  },
+  "overrides": [
+    {
+      "id": "1503080",
+      "characterId": "1503",
+      "sourceSkillId": "150308",
+      "name": "筆運び・星月の幻造（敵1体分のDEF直接攻撃）",
+      "element": "Ice",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "def",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "pearl-150308-enhanced-normal-one-enemy-direct-def",
+      "conditionText": "パールLv80・星魂0・敵1体。深層学習中の強化通常攻撃の、指定敵1体へのDEF直接成分。通常Lv1～6。",
+      "calculationNote": "固定版character_skills.json:150308.params[0..5][0]のDEF 50/60/70/80/90/100%。AoE技の敵1体分のみを計算します。回復と150308内の本人/底本愉悦ダメージは別成分として集計し、状態遷移や複数敵合算は扱いません。 独立した直接成分の行としても表示します。全成分合計へこの単独行を再加算しないでください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の直接DEF係数とE0通常Lv上限6を確認。敵1体分に限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150308.params[0..5][0]; character_skill_trees.json:1503001(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrPearlRound31.test.cjs"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true
+    },
+    {
+      "id": "1503031",
+      "characterId": "1503",
+      "sourceSkillId": "150303",
+      "name": "深層学習した愉悦キャラを参照する氷愉悦追加成分",
+      "element": "Ice",
+      "type": "elation",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "pearlLearnedSnapshot",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        30,
+        33,
+        36,
+        39,
+        42,
+        45,
+        48.75,
+        52.5,
+        56.25,
+        60
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "statReferenceId": "1502",
+      "effectiveProfile": "learnedOwner",
+      "requiresLearnedOwnerSnapshot": true,
+      "referenceOwnerId": "1502",
+      "calculationScope": "pearl-150303-learned-elation-owner-yaoguang-one-enemy",
+      "numericModifierInputs": [
+        {
+          "inputKey": "pearl-learned-punchline",
+          "label": "パール本人の攻撃時点の爆笑ネタ",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "パールLv80・星魂0・必殺技Lv1～10・敵1体。150303で指定した本人以外の愉悦キャラ（現行対応はパーティ内の爻光・1502）を美学の底本にし、強化通常後に発生する氷愉悦ダメージ1回。パール本人の爆笑ネタを指定。",
+      "calculationNote": "固定版character_skills.json:150303.params[0..9][1]の30/33/36/39/42/45/48.75/52.5/56.25/60%。深層学習した底本自身のATK等ではなく、指定した底本の愉悦度・会心・防御無視・氷耐性貫通を参照します。爆笑ネタはFribbels固定版Pearl.ts:402-416によりパール本人のpunchlineStacksを使い、底本の値ではありません。現行安全範囲はパーティ内の爻光(1502)1名を別所有者として明示指定する場合のみ。所有者の戦闘最終値が不足すればこの成分を除外し、パールの値を代用しません。150320の次回攻撃効果は含みません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の底本参照倍率をE0必殺Lv1～10で確認。Fribbels固定版ではCB/punchlineはパール自身値を使い、底本は独立した攻撃ステータスの所有者。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150303.params[0..9][1]; character_skill_trees.json:1503003(max_level=10); Fribbels Pearl.ts:402-416",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrPearlRound31.test.cjs",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1500/Pearl.ts",
+        "referenceFile": "Pearl.ts@90bc8401408b17dba0a6743d882eb096ee236816:402-416"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "damageOwnerId": "1502",
+      "punchlineInputKey": "pearl-learned-punchline"
+    },
+    {
+      "id": "150308",
+      "characterId": "1503",
+      "sourceSkillId": "150308",
+      "name": "筆運び・星月の幻造（敵1体・全ダメージ成分）",
+      "element": "Ice",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "def",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "hitCountLabel": "DEF直接攻撃＋本人愉悦＋底本愉悦＋指定時のみ次回付加",
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "パール本人の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 50,
+          "integer": true
+        },
+        {
+          "inputKey": "pearl-learned-punchline",
+          "label": "パール本人の攻撃時点の爆笑ネタ",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        },
+        {
+          "inputKey": "pearl-next-proc-count",
+          "label": "この攻撃に150320の次回攻撃付加が成立する回数（0または1）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        },
+        {
+          "inputKey": "pearl-next-punchline",
+          "label": "次回攻撃付加が参照するパール側の爆笑ネタ",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "calculationScope": "pearl-150308-enhanced-normal-plus-learned-owner-elation-one-enemy",
+      "conditionText": "パール＋爻光のみのLv80・星魂0編成、未撃破の敵1体。深層学習の残りチャージがある強化通常Lv1～6、パール必殺技Lv1～10。本人CB1～50とパール側の爆笑ネタ、次回攻撃付加0/1、底本の独立最終値を指定。",
+      "calculationNote": "直接DEF成分、150308本人の10～15%愉悦成分、150303底本参照30～60%愉悦成分を独立成分として合算します。直接攻撃はnormal Lv、底本成分はultimate Lvを使用。回復、複数敵合算、深層学習チャージ遷移、150320の次回攻撃付加は0/1を指定し、1の時だけ4番目の本人氷愉悦成分として加算します（愉悦スキルLv1～10）。各愉悦成分はそれぞれの所有者の明示最終戦闘値を使い、爆笑の褒美/爆笑ネタはパール本人の値です。底本キャラから値を継承するのは150303に明記された攻撃ステータス参照だけです。",
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "パールのDEF直接攻撃",
+          "attackId": "1503080",
+          "type": "enhancedNormal",
+          "element": "Ice",
+          "target": "single",
+          "scalingStat": "def",
+          "statReferenceId": "1503",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100
+          ]
+        },
+        {
+          "key": "own",
+          "name": "パール本人の爆笑の褒美による愉悦成分",
+          "attackId": "1503081",
+          "type": "elation",
+          "element": "Ice",
+          "target": "single",
+          "scalingStat": "elation",
+          "statReferenceId": "1503",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ]
+        },
+        {
+          "key": "learned",
+          "name": "底本の愉悦ステータスを参照する追加愉悦成分",
+          "attackId": "1503031",
+          "type": "elation",
+          "element": "Ice",
+          "target": "single",
+          "scalingStat": "elation",
+          "statReferenceId": "1502",
+          "effectiveProfile": "learnedOwner",
+          "referenceOwnerId": "1502",
+          "requiresLearnedOwnerSnapshot": true,
+          "hitCount": 1,
+          "canCrit": true,
+          "traceKey": "ultimate",
+          "multipliers": [
+            30,
+            33,
+            36,
+            39,
+            42,
+            45,
+            48.75,
+            52.5,
+            56.25,
+            60
+          ],
+          "damageOwnerId": "1502",
+          "elationContext": "pearlLearnedSnapshot",
+          "punchlineInputKey": "pearl-learned-punchline"
+        },
+        {
+          "key": "next",
+          "name": "パール本人の次回攻撃付加",
+          "attackId": "150320",
+          "type": "elation",
+          "element": "Ice",
+          "target": "single",
+          "scalingStat": "elation",
+          "statReferenceId": "1503",
+          "hitCount": 1,
+          "canCrit": true,
+          "traceKey": "elation",
+          "multipliers": [
+            7.5,
+            8.25,
+            9,
+            9.75,
+            10.5,
+            11.25,
+            12.19,
+            13.13,
+            14.06,
+            15
+          ]
+        }
+      ],
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "各成分の係数・参照者・レベル軸を固定版から分離し、限定条件で独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150308.params[0..5][0,4]; 150303.params[0..9][1]; character_skill_trees.json:1503001(max_level=6),1503003(max_level=10)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrPearlRound31.test.cjs",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1500/Pearl.ts",
+        "referenceFile": "Pearl.ts@90bc8401408b17dba0a6743d882eb096ee236816:402-416"
+      },
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "learnedOwnerId": "1502",
+      "requiresLearnedOwnerSnapshot": true,
+      "triggerSkillId": "150303"
+    },
+    {
+      "id": "150320",
+      "characterId": "1503",
+      "sourceSkillId": "150320",
+      "name": "理性の描画、愉悦の脱構築（パール本人の氷付加1回）",
+      "element": "Ice",
+      "type": "elation",
+      "traceKey": "elation",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "pearlNextAttack",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        7.5,
+        8.25,
+        9,
+        9.75,
+        10.5,
+        11.25,
+        12.19,
+        13.13,
+        14.06,
+        15
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "calculationScope": "pearl-count2-next-attack-extra-1503",
+      "numericModifierInputs": [
+        {
+          "inputKey": "pearl-next-punchline",
+          "label": "次回攻撃付加が参照するパール側の爆笑ネタ",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "パール＋爻光のみのLv80・E0編成、未撃破の敵1体。150320の次回攻撃効果が成立済みの1回分。パール愉悦スキルLv1～10、参照するパール側の有効な爆笑ネタを明示。",
+      "calculationNote": "固定版150320.params[0..9][1]（愉悦2人）：7.5/8.25/9/9.75/10.5/11.25/12.19/13.13/14.06/15%。発動するキャラ本人の愉悦・会心と攻撃属性を参照し、爆笑ネタはパール側の指定値です。爻光では独立した最終値と物理耐性を使います。元の攻撃本体はこの単独付加行へ合算しません。別人数・他所有者・攻撃間の資源更新は対象外。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "愉悦2人列の係数・次回攻撃者の属性/最終値とパール側資源を分離して限定検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150320.params[0..9][1]; character_skill_trees.json:1503420(max_level=10)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrPearlRound31.test.cjs",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1500/Pearl.ts",
+        "referenceFile": "Pearl.ts@90bc8401408b17dba0a6743d882eb096ee236816:360-397",
+        "notes": "150320 Lv6の2人列は固定StarRailResの0.1125を採用。外部実装の11への丸めは係数根拠として採用しない。"
+      }
+    },
+    {
+      "id": "1503201",
+      "characterId": "1503",
+      "sourceSkillId": "150320",
+      "name": "理性の描画、愉悦の脱構築（爻光本人の物理付加1回）",
+      "element": "Physical",
+      "type": "elation",
+      "traceKey": "elation",
+      "target": "single",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "pearlNextAttack",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        7.5,
+        8.25,
+        9,
+        9.75,
+        10.5,
+        11.25,
+        12.19,
+        13.13,
+        14.06,
+        15
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "calculationScope": "pearl-count2-next-attack-extra-1502",
+      "numericModifierInputs": [
+        {
+          "inputKey": "pearl-next-punchline",
+          "label": "次回攻撃付加が参照するパール側の爆笑ネタ",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "パール＋爻光のみのLv80・E0編成、未撃破の敵1体。150320の次回攻撃効果が成立済みの1回分。パール愉悦スキルLv1～10、参照するパール側の有効な爆笑ネタを明示。",
+      "calculationNote": "固定版150320.params[0..9][1]（愉悦2人）：7.5/8.25/9/9.75/10.5/11.25/12.19/13.13/14.06/15%。発動するキャラ本人の愉悦・会心と攻撃属性を参照し、爆笑ネタはパール側の指定値です。爻光では独立した最終値と物理耐性を使います。元の攻撃本体はこの単独付加行へ合算しません。別人数・他所有者・攻撃間の資源更新は対象外。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "愉悦2人列の係数・次回攻撃者の属性/最終値とパール側資源を分離して限定検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150320.params[0..9][1]; character_skill_trees.json:1503420(max_level=10)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrPearlRound31.test.cjs",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/blob/90bc8401408b17dba0a6743d882eb096ee236816/src/lib/conditionals/character/1500/Pearl.ts",
+        "referenceFile": "Pearl.ts@90bc8401408b17dba0a6743d882eb096ee236816:360-397",
+        "notes": "150320 Lv6の2人列は固定StarRailResの0.1125を採用。外部実装の11への丸めは係数根拠として採用しない。"
+      },
+      "damageOwnerId": "1502",
+      "statReferenceId": "1502",
+      "referenceOwnerId": "1502",
+      "requiresLearnedOwnerSnapshot": true
+    }
+  ]
+}

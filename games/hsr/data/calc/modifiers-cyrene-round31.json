@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": 1,
+  "modifiers": [
+    {
+      "id": "trace:1415:1141523:military-merit-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141523"
+      },
+      "name": "『法』に捧ぐ詩：軍功所持者の会心ダメージ",
+      "description": "ケリュドラに発動した後、軍功を持つキャラの会心ダメージが上昇する。計算対象キャラが軍功を所持し、この効果が有効な状態を選択した場合に適用する。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [15, 18, 21, 24, 27, 30]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": ["all"],
+        "elements": [],
+        "attackIds": ["100301", "100302", "100303", "100304", "110201", "110202", "110203", "110204"]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1415:1141523:military-merit-crit-damage-active",
+        "inputLabel": "『法』に捧ぐ詩が有効で、計算対象キャラが軍功を所持",
+        "conditionText": "ケリュドラに『法』に捧ぐ詩を発動済みで、計算対象キャラが軍功を所持する状態を指定します。編成だけでは自動発動しません。",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141523:military-merit-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "『法』に捧ぐ詩のE0効果を、軍功所持キャラを明示した単発攻撃へ限定して会心ダメージへ加算する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141523",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0 special blessing uses trace tree 1415301 Lv1-6; require Cyrene and Cerydra availability plus explicit activation/selected Military Merit holder. No battle state is inferred.",
+        "verification": "tests/hsr/hsrCyreneRound31.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141523:military-merit-crit-damage-in-final-stats",
+        "inputLabel": "軍功所持者の会心ダメージに算入済み"
+      }
+    },
+    {
+      "id": "trace:1415:1141516:mydei-godslayer-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141516"
+      },
+      "name": "『紛争』に捧ぐ詩：神を殺め神となるの会心ダメージ",
+      "description": "『血の報復』状態のモーディスへ『紛争』に捧ぐ詩を発動した際、その発動で誘発される『神を殺め神となる』（140411）だけに適用する。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [100, 120, 140, 160, 180, 200]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": ["skill"],
+        "elements": [],
+        "attackIds": ["140411"]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1415:1141516:mydei-godslayer-crit-damage-active",
+        "inputLabel": "『紛争』に捧ぐ詩が『血の報復』中のモーディスへ発動し、誘発された神を殺め神となるを計算",
+        "conditionText": "1回有効の『紛争』に捧ぐ詩が『血の報復』中のモーディスへ発動した状態を指定します。追加の行動順短縮や状態遷移は再現しません。",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141516:mydei-godslayer-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版のE0効果量を、誘発対象のMydei attack 140411だけに加算する。通常の必殺技や他の攻撃には適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141516",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "E0 special blessing uses trace tree 1415301 Lv1-6; source params #1 are fractions rendered as percentages (1.0-2.0 = 100%-200%). One-use state is user-selected.",
+        "verification": "tests/hsr/hsrCyreneRound31.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141516:mydei-godslayer-crit-damage-in-final-stats",
+        "inputLabel": "誘発した神を殺め神となるの会心ダメージに算入済み"
+      }
+    }
+  ]
+}

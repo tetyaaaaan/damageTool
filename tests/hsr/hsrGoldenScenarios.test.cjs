@@ -1450,7 +1450,7 @@ test("Pearl's unenhanced DEF Basic ATK matches independently calculated single-t
         assert.equal(result.breakdown.defense, 0.5);
         assert.equal(result.breakdown.toughness, 0.9);
     }
-    assert.deepEqual(attacks.filter(item => item.characterId === '1503' && item.support?.status === 'calculable' && !item.modifierInputKey && !item.numericModifierInputs?.length).map(item => item.id), ['150301']);
+    assert.deepEqual(attacks.filter(item => item.characterId === '1503' && item.support?.status === 'calculable' && !item.modifierInputKey && !item.numericModifierInputs?.length).map(item => item.id), ['150301', '1503080']);
 });
 
 
@@ -1515,7 +1515,9 @@ test("Pearl non-Elation enhanced Basic uses complete scoped DEF damage at Lv1-6"
       const r=engine.calculate(input);[r.nonCrit,r.crit,r.expected].forEach((v,i)=>assert.ok(Math.abs(v-[nc,crit,expected][i])<1e-9));
       assert.equal(r.breakdown.referenceValue,def);assert.equal(r.breakdown.multiplierPercent,attack.multipliers[lv-1]);assert.equal(r.attack.hitCount,1);
     }
-    assert.equal(attacks.some(a=>a.id==="150308"),false,"mixed Elation version must remain unregistered");
+    const combined=attacks.find(a=>a.id==='150308');
+    assert.equal(combined.damageFormula,'componentSequence','Round31 mixed version has explicit independent-owner components');
+    assert.deepEqual(combined.damageComponents.map(c=>c.attackId),['1503080','1503081','1503031','150320']);
 });
 
 

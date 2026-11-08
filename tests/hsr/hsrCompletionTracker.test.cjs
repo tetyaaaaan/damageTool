@@ -50,6 +50,7 @@ test('candidate audit keeps missing damage components distinct from registered s
  for(const id of ['8009','8010'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round24 explicit CB and independent-owner major composition');
  for(const id of ['1505','1513'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round23 bounded same-action ordinary and Elation totals');
  for(const id of ['1507','1225'])assert.equal(e0CandidateAudit[id].status,'confirmed');
+ assert.equal(e0CandidateAudit['1503'].status,'confirmed','Round31 exact Pearl/Yaoguang independent-owner composition');
  for(const id of ['8007','8008','1508'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round29 independent-owner major composition');
  for(const id of ['1013','1108','1222','1101','1217','1306'])assert.equal(e0CandidateAudit[id].status,'confirmed');
  for(const id of ['1106','1405','1006','1210'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round20 bounded pre-existing major composition');

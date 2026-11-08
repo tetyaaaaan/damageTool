@@ -762,7 +762,10 @@ test("Pearl compares registered normal and enhanced Basic ATKs as separate assum
     const results = app.calculate();
     const normal = results.find(result => result.attack.name.includes("断流臨模"));
     const enhanced = results.find(result => result.attack.name.includes("波頭描き"));
-    assert.equal(results.length, 2);
+    assert.equal(results.length, 3);
+    const learnedDirect=results.find(result=>result.attack.name.includes('DEF直接攻撃'));
+    for(const [metric,value]of Object.entries({nonCrit:1080,crit:2160,expected:1620})) assert.ok(Math.abs(learnedDirect[metric]-value)<1e-9);
+    assert.ok(!results.some(result=>result.attack.name.includes('全ダメージ成分')),'unknown learned-owner values must not produce a complete total');
     assert.ok(Math.abs(normal.nonCrit - 972) < 1e-9);
     assert.ok(Math.abs(normal.crit - 1944) < 1e-9);
     assert.ok(Math.abs(normal.expected - 1458) < 1e-9);
@@ -4367,4 +4370,40 @@ test('Round30 Pearl exposes only her own CB rider and preserves direct attacks w
  const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
  app.window.HsrTool.applyProfileCharacter({id:'1503',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'Elation',level:10}],stats:{atk:3000,hp:6000,def:3100,critRate:50,critDamage:160,damageBonus:0,elation:130}});app.node('hsrStat-elation').value='130';app.node('hsrMerrymake').value='0';
  const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);assert.ok(!row('1503081'));assert.ok(row('150301'));app.state.modifierInputs['elation-certified-banger']=40;const r=row('1503081');assert.ok(r,app.node('hsrResults').innerHTML.slice(-1200));near(r.expected,7535.107*.15*2.3*(1+200/280)*.36*1.8);app.state.conditions.push({id:'pending-def',name:'未算入のDEF支援',category:'statFlat',stat:'def',value:1000,enabled:true});assert.ok(!row('1503081'));assert.ok(row('150301'));app.state.conditions=[];app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row('1503081',saved).expected,r.expected);saved.state.modifierInputs['elation-certified-banger']=51;assert.ok(!row('1503081',saved));assert.ok(row('150301',saved));assert.equal(app.node('hsrPunchlineField').hidden,true);
+});
+
+
+test('Round31 Pearl independent owner inputs, optional next proc and exact pair survive save and local exclusions',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1503',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:3100,critRate:50,critDamage:160,damageBonus:0,elation:130}});
+ app.node('hsrStat-elation').value='130';app.node('hsrMerrymake').value='0';
+ const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ app.state.modifierInputs['elation-certified-banger']=40;assert.ok(row('1503081'));assert.ok(!row('150308'));
+ app.state.party[0]={...app.state.party[0],characterId:'1502',eidolon:0};
+ for(const[k,v]of Object.entries({elation:207.5,critRate:63,critDamage:188.25,merrymake:0,defenseIgnore:17,icePen:19,physicalPen:13,physicalResistance:41}))app.state.modifierInputs['pearl-learned:1502:'+k]=v;
+ app.state.modifierInputs['pearl-learned-punchline']=27;app.state.modifierInputs['pearl-next-proc-count']=0;
+ const r=row('150308');assert.ok(r,app.node('hsrResults').innerHTML.slice(-2000));assert.equal(Object.keys(r.components).length,3);
+ near(r.components.direct.expected,3100*.36*1.8);near(r.components.own.expected,7535.107*.15*2.3*(1+200/280)*.36*1.8);
+ near(r.components.learned.expected,7535.107*.6*3.075*(1+135/267)*(100/183)*.99*.9*(1+.63*1.8825));
+ app.state.modifierInputs['pearl-next-proc-count']=1;assert.ok(!row('150308'));assert.ok(row('1503081'));
+ app.state.modifierInputs['pearl-next-punchline']=0;const four=row('150308');assert.ok(four,app.node('hsrResults').innerHTML.slice(-2000));assert.equal(Object.keys(four.components).length,4);near(four.expected,r.expected+7535.107*.15*2.3*.36*1.8);
+ const other=row('1503201');assert.ok(other,app.node('hsrResults').innerHTML.slice(-1200));near(other.expected,7535.107*.15*3.075*(100/183)*.72*.9*(1+.63*1.8825));
+ for(const key of ['elation','damageBonus','critRate'])app.node('hsrStat-'+key).value='';near(row('1503201').expected,other.expected);assert.ok(!row('150308'));for(const[key,value]of Object.entries({elation:130,damageBonus:0,critRate:50}))app.node('hsrStat-'+key).value=String(value);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row('150308',saved).expected,four.expected);near(row('1503201',saved).expected,other.expected);
+ delete saved.state.modifierInputs['pearl-learned:1502:critRate'];assert.ok(!row('150308',saved));assert.ok(row('1503080',saved));assert.ok(!row('1503201',saved));assert.ok(row('1503081',saved));assert.ok(row('150301',saved));
+ app.state.party=[];assert.ok(!row('150308'));assert.ok(!row('150320'));assert.ok(row('1503081'));
+});
+
+test('Round31 Cyrene Military Merit requires both providers, bound recipient and explicit activation',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1003',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:4317,hp:6000,def:2000,critRate:37,critDamage:147,damageBonus:23}});
+ app.state.party[0]={...app.state.party[0],characterId:'1415',eidolon:0,level:6,traceLevels:{memSkill:6}};
+ app.state.party[1]={...app.state.party[1],characterId:'1412',eidolon:0};
+ const row=(x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='100301').name),base=row().expected;
+ const key='trace:1415:1141523:military-merit-crit-damage';app.state.modifierInputs[key+'-active']=true;near(row().expected,base);
+ app.state.modifierInputs['cyrene-merit-recipient']=1003;near(row().expected,4317*.36*1.23*(1+.37*1.77));
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row(saved).expected,row().expected);
+ saved.state.modifierInputs['cyrene-merit-recipient']=1102;near(row(saved).expected,base);
+ app.state.modifierInputs[key+'-in-final-stats']=true;near(row().expected,base);app.state.modifierInputs[key+'-in-final-stats']=false;
+ app.state.party[1].characterId='';near(row().expected,base);app.state.party[1].characterId='1412';app.state.party[0].characterId='';near(row().expected,base);
 });

@@ -1322,6 +1322,15 @@ Object.assign(e0CandidateAudit['1510'],{status:'missing',workClass:'D',requiredA
 e0CandidateAudit['1503'] ||= {evidence:'既存150301/150310の本人DEF範囲を維持。'};
 Object.assign(e0CandidateAudit['1503'],{status:'missing',workClass:'D',missingComponents:['150303の深層学習先の別所有者愉悦成分・150320各味方の次回攻撃成分'],summary:'既存本人通常/非愉悦強化を維持し、150308の本人CB由来の氷愉悦10～15%だけを独立計算へ接続。',evidence:e0CandidateAudit['1503'].evidence+' 固定150308.params[0..5][4]・1503001(max6)/150304のCB上限50。hsrPearlRound30/ToolInputsで独立愉悦式、本人CB1/40/51・不足局所停止・保存を検証。',remaining:'Lv80/E0・未撃破の敵1体・通常1～6・本人の事前CB1～50・完成済み最終愉悦/会心。A2 DEF変換を一度含め、未算入DEF支援がある当該成分は停止。150303は自分以外の指定キャラを参照するので本人値を代用せず、150308全体の合計は未対応。150320はtree1503420の上限10で、全味方の所有者/対応属性/参照値を個別接続できる根拠が得られた時に再着手。'});
 Object.assign(e0CandidateAudit['1415'],{evidence:e0CandidateAudit['1415'].evidence+' 第30回は1141514のアグライア本人DMG/DEF無視、1141522のセイレンスDMGだけを既存Modifierで追加。',remaining:e0CandidateAudit['1415'].remaining+' ラフトラ対応分/速度層由来ATKは独立最終値へ一度含める。海洋の祝福固有の通常/Skill後起爆、他所有者成分は未接続のまま。'});
+// Round31: exact Pearl + Yaoguang pair; each damage owner keeps an independent final snapshot.
+Object.assign(e0CandidateAudit['1503'],{
+ status:'confirmed',workClass:'済',majorSourceIds:['150301','150303','150308','150310','150320'],
+ requiredAttackIds:['150301','150310','1503080','1503081','150308','150320','1503201'],missingComponents:[],
+ summary:'本人DEF直接攻撃・本人CB追加愉悦・別所有者の底本氷付加と、150320の本人/爻光の次回攻撃付加を限定接続。',
+ evidence:e0CandidateAudit['1503'].evidence+' 第31回は固定150303/150308/150320とtrees1503001/1503003/1503420、Fribbels固定90bc840のPearl.tsによる資源/所有者分離。hsrPearlRound31/ToolInputsでN/U代表両端・150320 Lv1/6/10・0/27資源・非対称所有者・3/4成分合計・解除/不足局所停止・保存を独立検証。150320 Lv6は固定版11.25%を採用。',
+ remaining:'Lv80/E0・未撃破の敵1体・全成分で状態一定。新しい別所有者/次回付加はパール＋爻光のみの2人編成に限定。通常1～6/U1～10/愉悦1～10、深層学習チャージが残り、本人CB1～50を持つ想定。底本の愉悦/CR/CD/上笑/防御無視/属性別貫通は独立最終入力、A2 DEF変換や爻光SPD由来愉悦/装備支援も一度算入。パール側の有効な爆笑ネタを底本氷付加/次回付加ごとに指定し、次回付加0/1のみ同一攻撃へ加算。別所有者不足時は合計を停止し、本人直接/CB単独行は維持。他編成/底本/人数、初回獲得順・チャージ/CB/HP/行動順更新、複数敵/E1以上・一般継承は認定外。既存非愉悦底本の本人DEF行は従来範囲を維持。'
+});
+Object.assign(e0CandidateAudit['1415'],{evidence:e0CandidateAudit['1415'].evidence+' 第31回は1141523軍功所持者CD15～30%（姫子/ゼーレ）と1141516で誘発された140411だけのCD100～200%を追加。hsrCyreneRound31/ToolInputsでMemSkill Lv1～6、両提供者/明示受益者、対象ID、既算入/OFF/解除/保存を検証。',remaining:e0CandidateAudit['1415'].remaining+' 軍功支援はキュレネ＋ケリュドラ編成と明示した所持者に限定。モーディスは血の報復中に祝福で誘発された神を殺め神となる1回のみ。他の特殊祝福/他所有者成分が残るためE0未認定を維持。'});
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={
  '1220':'スキル+雷狩は限定対応。必殺技の分岐と途中撃破/成分間変化が不足。',

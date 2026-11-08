@@ -112,6 +112,7 @@
     }
 
     function supportedElationAttack(attack) {
+        if(['1503031','150320','1503201'].includes(attack.id)&&attack.characterId==='1503'&&attack.sourceSkillId===(attack.id==='1503031'?'150303':'150320')&&attack.damageFormula==='elation'&&attack.type==='elation'&&attack.elationContext===(attack.id==='1503031'?'pearlLearnedSnapshot':'pearlNextAttack')&&attack.element===(attack.id==='1503201'?'Physical':'Ice')&&attack.hitCount===1&&attack.target==='single')return true;
         if(attack.id==='1503081'&&attack.characterId==='1503'&&attack.sourceSkillId==='150308'&&attack.element==='Ice'&&attack.damageFormula==='elation'&&attack.type==='elation'&&attack.elationContext==='certifiedBanger'&&attack.hitCount===1&&attack.target==='single')return true;
         if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
         if(attack.id==='1502041'&&attack.characterId==='1502'&&attack.sourceSkillId==='150204'&&attack.element==='Physical'&&attack.elationContext==='certifiedBanger'&&attack.hitCount===1&&attack.target==='single')return true;
@@ -150,6 +151,9 @@
             const a=input.attack,owner=a.id.slice(0,4),random=[10,11,12,13,14,15,16.25,17.5,18.75,20],last=[30,33,36,39,42,45,48.75,52.5,56.25,60];
             const parts=elationComponents(a),expected=8*random[a.traceLevel-1]+last[a.traceLevel-1];
             if(a.characterId!==owner||a.sourceSkillId!==a.id||a.target!=="single"||a.hitCount!==9||values.context!=="ahaInstant"||input.enemy?.count!==1||a.certifiedBangerScope!==undefined||parts.length!==2||parts[0].count!==8||parts[1].count!==1||parts[0].multiplierPercent!==random[a.traceLevel-1]||parts[1].multiplierPercent!==last[a.traceLevel-1]||a.multiplier!==expected||a.multipliers?.[a.traceLevel-1]!==expected)warnings.push("愉悦開拓者の愉悦スキルは固定版のランダム8回＋最後の全体1回・敵1体の想定状態のみです。");
+        } else if (['1503031','150320','1503201'].includes(input.attack?.id)) {
+            const a=input.attack,l=a.traceLevel,other=a.id!=='150320',learned=a.id==='1503031',curve=learned?[30,33,36,39,42,45,48.75,52.5,56.25,60]:[7.5,8.25,9,9.75,10.5,11.25,12.19,13.13,14.06,15];
+            if(a.pearlPairActive!==true||character.id!==(other?'1502':'1503')||input.enemy?.toughnessActive!==true||input.enemy?.count!==1||a.multiplier!==curve[l-1]||values.context!==(learned?'pearlLearnedSnapshot':'pearlNextAttack')||!Number.isInteger(values.punchline)||values.punchline<0||values.punchline>10000||(other&&(!a.completedReferenceSnapshot||a.damageOwnerId!=='1502'||a.statReferenceId!=='1502'||a.referenceOwnerId!=='1502'||a.learnedOwnerId!=='1502'))||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(m.category==='progressiveTakenDamage'||other&&!['enemyAll','enemySingle'].includes(m.target?.owner)||!other&&['statFlat','statPercent'].includes(m.category)&&m.stat==='def')))warnings.push('パール＋爻光のLv80/E0・未撃破の敵1体・完成済みの別所有者最終値と、各付加が参照するパール側の爆笑ネタを指定してください。');
         } else if (input.attack?.elationContext === "certifiedBanger") {
             const a=input.attack,curve=certifiedBangerCurve(a);
             if(["8009041","8010041"].includes(a.id)&&(a.certifiedBangerScope!=="selfIsPartyMaximum"||a.characterId!==a.id.slice(0,4)))warnings.push("開拓者の追加愉悦は本人の爆笑の褒美が味方内最大の比較状態のみ計算対応です。");
@@ -284,6 +288,8 @@
     };
 
     function unsupportedAttackReason(attack = {}) {
+        if(attack.id==='150308'&&attack.characterId==='1503'&&attack.sourceSkillId==='150308'&&attack.damageFormula==='componentSequence'&&attack.type==='enhancedNormal'&&attack.element==='Ice')return '';
+
         if(attack.id==='1414039'&&attack.characterId==='1414'&&attack.sourceSkillId==='141403'&&attack.damageFormula==='componentSequence'&&attack.type==='followUp'&&attack.element==='Physical')return '';
 
         if(['800708','800808','150805'].includes(attack.id)&&attack.damageFormula==='componentSequence'&&attack.sourceSkillId===attack.id&&attack.characterId===(attack.id==='150805'?'1508':attack.id.slice(0,4)))return '';
@@ -497,7 +503,7 @@ function calculateFanning(input) {
             if(attack.requiredToughnessActive && enemy.toughnessActive!==true) return fail("この比較は未撃破で途中撃破しない敵を想定します。");
             if(attack.requiresBrokenTarget && enemy.toughnessActive!==false) return fail("この比較は攻撃前から撃破状態の敵を想定します。靭性状態を撃破済みにしてください。");
             if(attack.requiredWeaknessCount && enemy.weaknessCount!==attack.requiredWeaknessCount) return fail("攻撃前から7弱点・本質暴露が成立した比較のみ対応です。");
-            for(const spec of attack.numericModifierInputs||[]){const values=input.modifierInputs||{},v=Object.hasOwn(values,spec.inputKey)?values[spec.inputKey]:spec.default;if(!Number.isFinite(v)||v<spec.minimum||v>spec.maximum||(spec.integer&&!Number.isInteger(v)))return fail(spec.label+"に"+spec.minimum+"～"+spec.maximum+"の"+(spec.integer?"整数":"数値")+"を入力してください。");}
+            for(const spec of attack.numericModifierInputs||[]){if(attack.id==='150308'&&spec.inputKey==='pearl-next-punchline'&&input.modifierInputs?.['pearl-next-proc-count']===0)continue;const values=input.modifierInputs||{},v=Object.hasOwn(values,spec.inputKey)?values[spec.inputKey]:spec.default;if(!Number.isFinite(v)||v<spec.minimum||v>spec.maximum||(spec.integer&&!Number.isInteger(v)))return fail(spec.label+"に"+spec.minimum+"～"+spec.maximum+"の"+(spec.integer?"整数":"数値")+"を入力してください。");}
             for(const id of attack.requiredModifierIds||[]){const mods=(input.modifiers||[]).filter(m=>m.id===id&&((m.enabled!==false&&m.applicable!==false)||(["150402","150403","1504031","1504032","1504033","150404"].includes(attack.id)&&m.includedInFinalStats===true)||(["1504032","1504033","150404"].includes(attack.id)&&m.id==="traceNode:1504:1504102:follow-up-stacks"&&m.value===0&&input.modifierInputs?.["fudie-gluttony-stacks"]===0))&&m.calculable!==false&&Number.isFinite(m.value)&&!(m.inputWarnings||[]).length&&modifierAppliesToAttack(m,attack));if(mods.length!==1)return fail("必要な補正が不足しています："+id);}
         }
         if (attack.rejectNormalOnlyModifiers && attack.damageFormula !== "componentSequence") { const reason = normalOnlyModifierReason(input.modifiers || []); if (reason) return { supported: false, reason }; }
@@ -626,6 +632,20 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(input.attack?.id==='150308'){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},p=input.sequenceComponents||[],n=input.modifierInputs?.['pearl-next-proc-count'],l=a.traceLevel,normal=[50,60,70,80,90,100];
+            const fail=()=>({supported:false,reason:'星月の幻造の本人DEF・本人CB・底本の氷愉悦と、事前の次回付加0/1を指定してください。パール＋爻光のLv80/E0・未撃破の敵1体・状態一定のみ対応です。'});
+            if(c.id!=='1503'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!a.pearlPairActive||a.learnedOwnerId!=='1502'||![0,1].includes(n)||p.length!==3+n||!Number.isInteger(l)||l<1||l>6||a.multiplier!==normal[l-1]||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(['statPercent','statFlat'].includes(m.category)&&m.stat==='def'||m.category==='progressiveTakenDamage')))return fail();
+            for(let i=0;i<p.length;i++){
+                const q=p[i]?.input,b=q?.attack||{},id=['1503080','1503081','1503031','150320'][i];
+                if(p[i].key!==['direct','own','learned','next'][i]||b.id!==id||a.damageComponents?.[i]?.attackId!==id||b.traceLevel!==(i===2?a.pearlUltimateLevel:i===3?a.pearlElationLevel:l)||JSON.stringify(q.modifierInputs)!==JSON.stringify(input.modifierInputs)||['count','level','resistance','defenseReduction','takenDamage','toughnessActive'].some(k=>q.enemy?.[k]!==e[k]))return fail();
+                if(i!==2&&(JSON.stringify(q.character)!==JSON.stringify(c)||JSON.stringify(q.enemy)!==JSON.stringify(e)))return fail();
+                if(i===0&&(b.damageFormula!=='statMultiplier'||b.scalingStat!=='def'||b.type!=='enhancedNormal'||b.characterId!=='1503'||b.sourceSkillId!=='150308'||b.multiplier!==normal[l-1]||b.hitCount!==1||b.scalingTerms?.length))return fail();
+                if((i>1&&q.elation?.punchline!==input.modifierInputs?.[i===2?'pearl-learned-punchline':'pearl-next-punchline'])||(i===1&&q.elation?.certifiedBanger!==input.modifierInputs?.['elation-certified-banger']))return fail();
+            }
+            return combineDamageComponents(a,p,'本人DEF＋本人CB＋底本の氷愉悦'+(n?'＋本人の次回攻撃付加':''));
+        }
+
         if(input.attack?.id==='1414039'){
             const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],l=a.traceLevel,curve=[40,44,48,52,56,60,65,70,75,80],ids=['1414031','1414032','14141031'];
             const fail=()=>({supported:false,reason:'強化龍霊の物理・本人同袍付加・昇格6付加の3成分と、有効な最終値を指定してください。ATK支援は画面の最終ATKへ一度含めて反映済みを指定してください。必殺技本体は合算しません。'});
@@ -1020,7 +1040,7 @@ function calculateFanning(input) {
             crit: total("crit"),
             expected: total("expected"),
             components: Object.fromEntries(resolved.map(component => [component.key, { ...component.result, componentName: component.name }])),
-            breakdown: { damageFormula: "componentSequence", totalLabel: totalLabel, componentNames: resolved.map(component => component.name), condition: "同じ敵・最終ステータスを参照し、各成分の固有補正は別々に適用" },
+            breakdown: { damageFormula: "componentSequence", totalLabel: totalLabel, componentNames: resolved.map(component => component.name), condition: attack.id === "150308" ? "同じ敵に対し、パール本人と底本の独立した最終ステータスを成分ごとに参照。単独行を合計へ再加算しないでください。" : "同じ敵・最終ステータスを参照し、各成分の固有補正は別々に適用" },
             applied,
             skipped
         };
@@ -1227,6 +1247,7 @@ function calculateFanning(input) {
                 multiplierAddition: 0, scalingTerms: [], flatDamage: 0, baseDamage,
                 elationPercent, elationMultiplier, punchline, punchlineMultiplier,
                 ...(attack.elationContext === "certifiedBanger" ? {certifiedBanger:punchline,inputCertifiedBanger:values.certifiedBanger,minimumCertifiedBanger:attack.minimumCertifiedBanger || 0,punchlineSource:"certifiedBanger",elationScopeNote:attack.characterId==='1505'?"緋英本人の爆笑の褒美による追加愉悦成分のみ。必殺技は固定版の最大EP480を参照下限に使用。9バウンドと全体分は状態一定で合算し、通常ダメージ・キツネ先生・他の追加愉悦を自動合算しません。":"爆笑の褒美を使う独立した天賦追加愉悦。爆笑ネタ/熱気は参照せず、直撃と自動合算しません。"} : {}),
+                ...(['1503081','1503031','150320','1503201'].includes(attack.id) ? {elationScopeNote: attack.id==='1503081' ? 'パール本人の爆笑の褒美による追加愉悦1回。複合行では直接攻撃と同じ合計に含めます。単独行と合計を重複加算しないでください。' : attack.id==='1503031' ? '深層学習中の強化通常後に発生する氷付加1回。底本の最終愉悦・会心と、パール側の爆笑ネタを参照します。' : '150320成立後の次回攻撃に付く愉悦1回。攻撃者本人の最終値・攻撃属性と、パール側の爆笑ネタを参照します。アッハ自体の直接ダメージではありません。'} : {}),
                 ...(attack.id === "150221" ? {punchlineSource:'fixedUltimate',elationScopeNote:'必殺技が追加したアッハの本人6段。固定爆笑ネタ20を使い、通常アッハの手動入力や消費履歴を参照しません。全体1回＋ランダム5回・敵1体・状態一定。'} : {}),
                 ...(attack.id === "151320" ? { punchlineSource: "fixedTalent", elationScopeNote: "熱気10到達の通常版自動発動・敵1体・全体1ヒット＋追加10ヒット。爆笑ネタは天賦固定20。全ヒット中の撃破・敵条件変化なし。" } : {}),
                 ...(attack.id === "151321" ? { fervor: values.fervor, punchlineSource: "ahaInput", elationScopeNote: "熱気10到達の通常版発動後、次のアッハタイムの強化版・敵1体。全体1＋固定10＋消費熱気分の追加ヒット。全ヒット中の撃破・敵条件変化なし。爆笑ネタは入力値を使用し、固定20は使いません。" } : {}),
