@@ -31,11 +31,7 @@
           "all"
         ],
         "elements": [],
-        "attackIds": [
-          "140501",
-          "140502",
-          "140503"
-        ]
+        "attackIds": ["140501", "140502", "140503", "1405023", "11415181"]
       },
       "activation": {
         "mode": "toggle",
@@ -105,9 +101,7 @@
           "skill"
         ],
         "elements": [],
-        "attackIds": [
-          "140502"
-        ]
+        "attackIds": ["140502", "1405023", "11415181"]
       },
       "activation": {
         "mode": "toggle",

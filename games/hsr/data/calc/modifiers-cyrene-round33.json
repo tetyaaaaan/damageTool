@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": 1,
+  "modifiers": [
+    {
+      "id": "trace:1415:1141518:anaxa-extra-hits",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141518"
+      },
+      "name": "理性・アナイクスのスキル追加3ヒット",
+      "description": "理性で与えられたスキル+3ヒットが有効な1ターンを指定する。真知のATK/SkillDMGとは別の持続状態。",
+      "category": "attackState",
+      "unit": "flat",
+      "value": {
+        "kind": "fixed",
+        "fixed": 3
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "skill",
+          "normal"
+        ],
+        "elements": [],
+        "attackIds": [
+          "11415181",
+          "1405023",
+          "1405013",
+          "1405024"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-anaxa-extra-hits-active",
+        "inputLabel": "理性のスキル+3ヒットが有効",
+        "conditionText": "キュレネから理性を受けたアナイクスのスキル+3ヒットが有効なターン",
+        "default": false
+      },
+      "stacking": {
+        "group": "cyrene-anaxa-extra-hits",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "attackState",
+        "operation": "set"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存の本人ステータス・通常式・成分合算に固定回数だけを接続。状態遷移は生成しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141518.params[0..5][0]=3",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneRound33.test.cjs",
+        "gameVersion": "fixed dbe8cdf"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0
+      }
+    },
+    {
+      "id": "trace:1415:1141515:barrier-extra-instance",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141515"
+      },
+      "name": "門と道・本人追撃による結界追加1回",
+      "description": "本人追撃で結界を発動する時に付加を1回追加する。未撃破の敵1体・事前A2が3層で飽和した比較だけを合算する。",
+      "category": "attackState",
+      "unit": "flat",
+      "value": {
+        "kind": "fixed",
+        "fixed": 1
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1403033",
+          "11415151"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1415:1141515:tribbie-defense-ignore-active",
+        "inputLabel": "門と道の祝福が事前成立",
+        "conditionText": "門の祝福・トリビーの防御無視が攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "cyrene-tribbie-extra-barrier",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "attackState",
+        "operation": "set"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存の本人ステータス・通常式・成分合算に固定回数だけを接続。状態遷移は生成しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141515.params[0..5][0]=1",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneRound33.test.cjs",
+        "gameVersion": "fixed dbe8cdf"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0
+      }
+    }
+  ]
+}

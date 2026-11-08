@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-round33-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "既存の本人ステータス・通常式・成分合算に固定回数だけを接続。状態遷移は生成しない。"
+  },
+  "overrides": [
+    {
+      "id": "11415181",
+      "characterId": "1405",
+      "sourceSkillId": "1141518",
+      "triggerSkillId": "1141518",
+      "sourceCharacterId": "1415",
+      "name": "理性の追加3ヒットのみ（アナイクス本人）",
+      "element": "Wind",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 3,
+      "hitCountLabel": "3段（1段係数×実段数）",
+      "canCrit": true,
+      "multipliers": [
+        35.0,
+        38.5,
+        42.0,
+        45.5,
+        49.0,
+        52.5,
+        56.87,
+        61.25,
+        65.62,
+        70.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiredWeaknessCount": 7,
+      "enforceSnapshotContract": true,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "requiredModifierIds": [
+        "trace:1405:140504:qualitative-disclosure",
+        "traceNode:1405:1405103:seven-weakness-defense-ignore",
+        "trace:1405:140502:single-enemy-damage"
+      ],
+      "modifierConditions": [
+        {
+          "inputKey": "cyrene-anaxa-extra-hits-active",
+          "minimum": 1
+        }
+      ],
+      "qualitativeDisclosureActive": true,
+      "conditionText": "Lv80/E0・7弱点/本質暴露が事前成立し、撃破済みの敵1体。キュレネの理性による+3ヒットが有効な1ターン。",
+      "calculationNote": "1141518の+3は各Lv固定3回。各ヒットは140502の同じSkill LvのATK係数35～70%。8段行は基本5段を含み、基本5段と追加3段を再加算しない。追加スキルの再帰発動/弱点付与順・途中状態更新は生成しない。真知のATK/SkillDMGは既存の別状態入力で管理する。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存の本人ステータス・通常式・成分合算に固定回数だけを接続。状態遷移は生成しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141518/140502,1141515/140303; character_skill_trees.json:1415301",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneRound33.test.cjs"
+      }
+    },
+    {
+      "id": "1405023",
+      "characterId": "1405",
+      "sourceSkillId": "140502",
+      "triggerSkillId": "1141518",
+      "sourceCharacterId": "1415",
+      "name": "分形、誤謬の駆逐（理性の基本5＋追加3＝8段）",
+      "element": "Wind",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 8,
+      "hitCountLabel": "8段（1段係数×実段数）",
+      "canCrit": true,
+      "multipliers": [
+        35.0,
+        38.5,
+        42.0,
+        45.5,
+        49.0,
+        52.5,
+        56.87,
+        61.25,
+        65.62,
+        70.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiredWeaknessCount": 7,
+      "enforceSnapshotContract": true,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "requiredModifierIds": [
+        "trace:1405:140504:qualitative-disclosure",
+        "traceNode:1405:1405103:seven-weakness-defense-ignore",
+        "trace:1405:140502:single-enemy-damage"
+      ],
+      "modifierConditions": [
+        {
+          "inputKey": "cyrene-anaxa-extra-hits-active",
+          "minimum": 1
+        }
+      ],
+      "qualitativeDisclosureActive": true,
+      "conditionText": "Lv80/E0・7弱点/本質暴露が事前成立し、撃破済みの敵1体。キュレネの理性による+3ヒットが有効な1ターン。",
+      "calculationNote": "1141518の+3は各Lv固定3回。各ヒットは140502の同じSkill LvのATK係数35～70%。8段行は基本5段を含み、基本5段と追加3段を再加算しない。追加スキルの再帰発動/弱点付与順・途中状態更新は生成しない。真知のATK/SkillDMGは既存の別状態入力で管理する。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存の本人ステータス・通常式・成分合算に固定回数だけを接続。状態遷移は生成しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141518/140502,1141515/140303; character_skill_trees.json:1415301",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneRound33.test.cjs"
+      }
+    },
+    {
+      "id": "1405013",
+      "characterId": "1405",
+      "sourceSkillId": "140501",
+      "triggerSkillId": "1141518",
+      "name": "通常＋理性8段の追加スキル（1行動）",
+      "element": "Wind",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiredWeaknessCount": 7,
+      "enforceSnapshotContract": true,
+      "qualitativeDisclosureActive": true,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "modifierConditions": [
+        {
+          "inputKey": "cyrene-anaxa-extra-hits-active",
+          "minimum": 1
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "normal",
+          "attackId": "140501",
+          "name": "通常本体"
+        },
+        {
+          "key": "extraSkill",
+          "attackId": "1405023",
+          "name": "本質暴露の非再帰追加スキル8段"
+        }
+      ],
+      "conditionText": "理性+3ヒット・7弱点/本質暴露・撃破済みの敵1体・全成分で状態一定。",
+      "calculationNote": "基本5段＋理性3段を8段として各スキル1回へ一度適用する。通常の段数は増やさない。本質暴露の追加スキルは1回だけで再帰しない。単独行を合計へ再加算しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存の本人ステータス・通常式・成分合算に固定回数だけを接続。状態遷移は生成しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141518/140502,1141515/140303; character_skill_trees.json:1415301",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneRound33.test.cjs"
+      },
+      "hitCountLabel": "通常1回＋スキル8段"
+    },
+    {
+      "id": "1405024",
+      "characterId": "1405",
+      "sourceSkillId": "140502",
+      "triggerSkillId": "1141518",
+      "name": "理性8段スキル＋追加8段スキル（1行動）",
+      "element": "Wind",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        35.0,
+        38.5,
+        42.0,
+        45.5,
+        49.0,
+        52.5,
+        56.87,
+        61.25,
+        65.62,
+        70.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiredWeaknessCount": 7,
+      "enforceSnapshotContract": true,
+      "qualitativeDisclosureActive": true,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "modifierConditions": [
+        {
+          "inputKey": "cyrene-anaxa-extra-hits-active",
+          "minimum": 1
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "skill",
+          "attackId": "1405023",
+          "name": "スキル本体8段"
+        },
+        {
+          "key": "extraSkill",
+          "attackId": "1405023",
+          "name": "本質暴露の非再帰追加スキル8段"
+        }
+      ],
+      "conditionText": "理性+3ヒット・7弱点/本質暴露・撃破済みの敵1体・全成分で状態一定。",
+      "calculationNote": "基本5段＋理性3段を8段として各スキル1回へ一度適用する。通常の段数は増やさない。本質暴露の追加スキルは1回だけで再帰しない。単独行を合計へ再加算しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存の本人ステータス・通常式・成分合算に固定回数だけを接続。状態遷移は生成しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141518/140502,1141515/140303; character_skill_trees.json:1415301",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneRound33.test.cjs"
+      },
+      "hitCountLabel": "スキル8段×2回（合計16段）"
+    },
+    {
+      "id": "11415151",
+      "characterId": "1403",
+      "sourceSkillId": "1141515",
+      "triggerSkillId": "140303",
+      "sourceCharacterId": "1415",
+      "name": "門と道・追撃後の結界追加1回（トリビー本人HP）",
+      "element": "Quantum",
+      "type": "additional",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        6.0,
+        6.6,
+        7.2,
+        7.8,
+        8.4,
+        9.0,
+        9.75,
+        10.5,
+        11.25,
+        12.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "hidden": true,
+      "conditionText": "結界中・キュレネ門と道成立後の本人追撃が結界を発動した1回。事前A2が3層で飽和、敵1体・Lv80/E0。",
+      "calculationNote": "倍率はトリビー必殺技Lvの既存結界付加と同じHP6～12%。提供者のMemSkill Lvを倍率へ使わない。追撃本体は別イベント、対象は敵1体に限定。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存の本人ステータス・通常式・成分合算に固定回数だけを接続。状態遷移は生成しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141518/140502,1141515/140303; character_skill_trees.json:1415301",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneRound33.test.cjs"
+      }
+    },
+    {
+      "id": "1403033",
+      "characterId": "1403",
+      "sourceSkillId": "140303",
+      "triggerSkillId": "1141515",
+      "name": "追撃後の結界付加（基本1回＋門と道の追加）",
+      "element": "Quantum",
+      "type": "additional",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        6.0,
+        6.6,
+        7.2,
+        7.8,
+        8.4,
+        9.0,
+        9.75,
+        10.5,
+        11.25,
+        12.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "modifierConditions": [
+        {
+          "inputKey": "tribbie-zone-active",
+          "minimum": 1
+        }
+      ],
+      "damageComponents": [
+        {
+          "key": "barrier",
+          "attackId": "1403031",
+          "name": "結界の基本付加1回"
+        },
+        {
+          "key": "blessing",
+          "attackId": "11415151",
+          "name": "門と道の追加付加1回"
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・結界中。門と道ONでは本人追撃後の付加2回、OFF/提供者離脱は基本1回。ONの比較は事前A2=3層で飽和した状態のみ。",
+      "calculationNote": "同じ付加イベントの基本1回と祝福追加1回だけを合算する。A2新規付与順を推測しないため、ON時は追撃前から3層を持ち、両付加でHP/会心/補正が一定の状態に限定する。最終HPには結界A4を一度含める。追撃本体・必殺直撃はこの合計へ加えない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存の本人ステータス・通常式・成分合算に固定回数だけを接続。状態遷移は生成しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141518/140502,1141515/140303; character_skill_trees.json:1415301",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneRound33.test.cjs"
+      },
+      "hitCountLabel": "基本1回＋祝福ON時のみ追加1回"
+    }
+  ]
+}

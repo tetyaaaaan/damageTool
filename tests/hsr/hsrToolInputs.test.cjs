@@ -4438,3 +4438,33 @@ test('Round32 Fire add-on and True Knowledge apply to the actual recipient and r
  const before=row('140501').expected,baseAtk=app.state.data.characters.find(c=>c.id==='1405').base.atk;app.state.modifierInputs['trace:1415:1141518:true-knowledge-active']=true;
  near(row('140501').expected,before*(4317+baseAtk*.6)/4317);app.state.party[0].characterId='';near(row('140501').expected,before);
 });
+
+
+test('Round33 Phainon closes the accepted scope while only Ruin4 Skill7-9 are rejected and all major actions remain available',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data);
+ app.window.HsrTool.applyProfileCharacter({id:'1408',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:4317,hp:7711,def:1937,critRate:37,critDamage:143,damageBonus:23}});
+ Object.assign(app.state.modifierInputs,{'phainon-kaslana-form':true,'phainon-kaslana-atk-in-final-stats':true,'phainon-a6-atk-in-final-stats':true,'phainon-counter-flame-stacks':1,'phainon-ruin-stacks':4});
+ const row=(id,x=app)=>x.calculate().find(q=>q.attack?.name===data.attacks.find(a=>a.id===id).name);
+ for(const id of ['140801','140802','140803','140808','140809','140811'])assert.ok(row(id),id+' '+app.node('hsrResults').innerHTML.slice(-700));
+ for(const level of [7,8,9]){app.node('hsrSkillTrace').value=String(level);assert.ok(!row('140811'));assert.ok(row('140802'));assert.ok(row('140809'));assert.match(app.node('hsrResults').innerHTML,/壊傷4層はスキルLv1～6・10/);}
+ app.state.modifierInputs['phainon-ruin-stacks']=3;assert.ok(row('140811'));app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.ok(row('140811',saved));saved.state.modifierInputs['phainon-ruin-stacks']=4;assert.ok(!row('140811',saved));assert.ok(row('140801',saved));
+});
+
+test('Round33 Wisdom reuses Anaxa native modifiers, separates 3/8/16-hit results and restores the explicit extra-hit state',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1405',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:4317,hp:7711,def:1937,critRate:37,critDamage:143,damageBonus:23}});app.node('hsrToughnessState').value='broken';
+ app.state.party[0]={...app.state.party[0],characterId:'1415',eidolon:0,traceLevels:{memSkill:6}};
+ const row=(id,x=app)=>x.calculate().find(q=>q.attack?.name===data.attacks.find(a=>a.id===id).name);assert.ok(!row('1405023'));const base=row('140502');assert.ok(base);
+ app.state.modifierInputs['cyrene-anaxa-extra-hits-active']=true;const eight=row('1405023');assert.ok(eight,app.node('hsrResults').innerHTML.slice(-1800));near(eight.expected,base.expected*8/5);near(row('11415181').expected,base.expected*3/5);near(row('1405024').expected,eight.expected*2);near(row('1405013').expected,row('140501').expected+eight.expected);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row('1405023',saved).expected,eight.expected);saved.state.modifierInputs['cyrene-anaxa-extra-hits-active']=false;assert.ok(!row('1405023',saved));assert.ok(row('140502',saved));app.state.party[0].characterId='';assert.ok(!row('1405023'));assert.ok(row('140502'));
+});
+
+test('Round33 Passage uses one or two barrier components, requires a saturated pre-FUA A2 snapshot and saves its existing toggle',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1403',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:4317,hp:11037,def:1937,critRate:37,critDamage:143,damageBonus:23}});
+ app.state.party[0]={...app.state.party[0],characterId:'1415',eidolon:0,traceLevels:{memSkill:6}};
+ Object.assign(app.state.modifierInputs,{'tribbie-zone-active':true,'tribbie-followup-damage-stacks':3,'traceNode:1403:1403102:party-hp-snapshot-in-final':true});
+ const row=(id,x=app)=>x.calculate().find(q=>q.attack?.name===data.attacks.find(a=>a.id===id).name);const one=row('1403033');assert.ok(one,app.node('hsrResults').innerHTML.slice(-1200));assert.equal(Object.keys(one.components).length,1);
+ app.state.modifierInputs['trace:1415:1141515:tribbie-defense-ignore-active']=true;const two=row('1403033');assert.ok(two,app.node('hsrResults').innerHTML.slice(-1800));assert.equal(Object.keys(two.components).length,2);near(two.expected,one.expected*2/0.94);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row('1403033',saved).expected,two.expected);saved.state.modifierInputs['tribbie-followup-damage-stacks']=2;assert.ok(!row('1403033',saved));assert.ok(row('1403031',saved));app.state.party[0].characterId='';assert.equal(Object.keys(row('1403033').components).length,1);
+});

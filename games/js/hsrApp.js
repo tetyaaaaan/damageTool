@@ -277,9 +277,12 @@
   }
 
   function attackStateIssues(attack, issue) {
+    if(attack.id==='140811'&&state.modifierInputs['phainon-ruin-stacks']===4&&[7,8,9].includes(attack.traceLevel))issue('壊傷4層はスキルLv1～6・10のみ対応です。Lv7～9の4層は根拠待ちで計算対象外です。壊傷1～3層はLv1～10に対応します。','hsrSkillTrace');
+    if(attack.id==='1403033'&&attack.cyreneBarrierActive&&state.modifierInputs['tribbie-followup-damage-stacks']!==3)issue('門と道の追加比較は追撃前からA2が3層で飽和した状態のみ対応です。追撃本体の新規層は自動加算しません。','hsrConditionDialogOpen');
+
     if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
-    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (["1410012","1410022"].includes(attack.id) ? 5 : attack.id === "150308" ? (state.modifierInputs["pearl-next-proc-count"]===1?4:3) : attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : ["140208","1414039"].includes(attack.id) ? 3 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "150403" ? 2+Math.floor(state.modifierInputs["fudie-gluttony-stacks"]/4) : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id==='1403033' ? (attack.cyreneBarrierActive?2:1) : ["1410012","1410022"].includes(attack.id) ? 5 : attack.id === "150308" ? (state.modifierInputs["pearl-next-proc-count"]===1?4:3) : attack.id === "1410032" ? 6 : ["140109","140603"].includes(attack.id) ? 4 : ["140208","1414039"].includes(attack.id) ? 3 : ["1206022","11004012","11004022"].includes(attack.id) ? 3 : attack.id === "150403" ? 2+Math.floor(state.modifierInputs["fudie-gluttony-stacks"]/4) : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (["1224011","1224081"].includes(attack.id)) {
       if(!['Erudition','Destruction','Hunt','Remembrance','Elation'].includes(attack.shifuPath) || !Object.keys(ELEMENT_KEYS).includes(attack.shifuElement)) issue('攻撃型師匠の運命と属性を補正条件で指定してください。従来の支援型師匠の比較はそのまま計算できます。','hsrConditionDialogOpen');
       if(attack.shifuElement && attack.shifuElement!=='Imaginary') for(const [key,label] of [['element-damage:1224:'+attack.shifuElement,'なのかの師匠属性与ダメージ'],['enemy-resistance:'+attack.shifuElement,'敵の師匠属性耐性']]) if(!Number.isFinite(state.modifierInputs[key])) issue(label+'を入力してください。補正なしは0です。','hsrConditionDialogOpen');
@@ -666,7 +669,7 @@
     if (!window.HsrModifierRuntime) return [];
     const brokenSwordStance = state.characterId === "1206" && state.enemy.toughnessActive === false;
     const effectiveInputs = brokenSwordStance ? {...inputs, "sushang-post-ultimate-sword-stance-hits": 2} : inputs;
-    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>(item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId))&&(item.id!=='trace:1415:1141520:cipher-damage'||state.characterId==='1406')&&(item.id!=='trace:1415:1141515:tribbie-defense-ignore'||state.characterId==='1403')&&(!item.id.startsWith('trace:1415:1141514:')||state.characterId==='1402')&&(item.id!=='trace:1415:1141522:serin-damage'||state.characterId==='1410')&&(!item.id.startsWith('trace:1415:1141518:')||state.characterId==='1405')&&(!item.id.startsWith('trace:1415:1141521:')||state.characterId==='1408')&&(item.id!=='trace:1415:1141516:mydei-godslayer-crit-damage'||state.characterId==='1404')&&(item.id!=='trace:1415:1141523:military-merit-crit-damage'||['1003','1102'].includes(state.characterId)&&state.party.some(m=>m.characterId==='1412')&&String(state.modifierInputs['cyrene-merit-recipient'])===state.characterId));
+    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>(item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId))&&(item.id!=='trace:1415:1141520:cipher-damage'||state.characterId==='1406')&&(!item.id.startsWith('trace:1415:1141515:')||state.characterId==='1403')&&(!item.id.startsWith('trace:1415:1141514:')||state.characterId==='1402')&&(item.id!=='trace:1415:1141522:serin-damage'||state.characterId==='1410')&&(!item.id.startsWith('trace:1415:1141518:')||state.characterId==='1405')&&(!item.id.startsWith('trace:1415:1141521:')||state.characterId==='1408')&&(item.id!=='trace:1415:1141516:mydei-godslayer-crit-damage'||state.characterId==='1404')&&(item.id!=='trace:1415:1141523:military-merit-crit-damage'||['1003','1102'].includes(state.characterId)&&state.party.some(m=>m.characterId==='1412')&&String(state.modifierInputs['cyrene-merit-recipient'])===state.characterId));
     for(const item of candidates){
       if(!['trace:8007:1800703:mem-crit-damage','trace:8008:1800703:mem-crit-damage'].includes(item.id))continue;
       if(item.providerId===state.characterId&&item.valueInput)item.valueInput={...item.valueInput,shared:true};
@@ -1055,7 +1058,7 @@
   function comparisonReferenceControls() {
     if (["1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415","1413","1407","8007","8008","1508","1510","1503"].includes(state.characterId) && state.conditionTab === "軌跡") {
       const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => spec.inputKey !== 'rappa-consumed-charge' && !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
-      return (state.characterId === '1408' ? '<p class="genshin-help">世負いの炎付加は物理攻撃と別に炎与ダメージ・敵炎耐性を指定します。超過火種の会心ダメージを最終CDへ一度含め、形態ATKとA6は既存の算入済み指定で重複を避けてください。</p>' : '') + (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
+      return (state.characterId === '1408' ? '<p class="genshin-help">壊傷1～3層はスキルLv1～10、4層はLv1～6・10のみ対応します。4層×Lv7～9だけを対象外とし、他の攻撃は計算できます。世負いの炎付加は物理攻撃と別に炎与ダメージ・敵炎耐性を指定します。超過火種の会心ダメージを最終CDへ一度含め、形態ATKとA6は既存の算入済み指定で重複を避けてください。</p>' : '') + (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
     }
     if (state.characterId === "1308" && state.conditionTab === "軌跡" && availableAttacks().some(a => a.numericModifierInputs?.some(x => x.inputKey === "acheron-initial-knots"))) {
       const value=state.modifierInputs["acheron-initial-knots"];
@@ -1203,7 +1206,23 @@
     return {cyreneSupportLevel:level,cyreneBlessingActive:active,referenceIssue:active&&Number.isInteger(level)&&level>=1&&level<=6?'':'キュレネE0の編成、精霊スキルLv1～6と、該当祝福が事前成立した状態を指定してください。',referenceCondition:{id:inputKey,tab:'パーティ'}};
   }
 
+  function cyreneFixedState(key) {
+    return state.modifierInputs[key]===true&&state.party.some(m=>m.characterId==='1415'&&m.eidolon===0);
+  }
+
   function resolvedAttack(selected) {
+    if(['11415181','1405023'].includes(selected.id)){
+      const l=state.traceLevels.skill,active=cyreneFixedState('cyrene-anaxa-extra-hits-active');
+      return {...selected,traceLevel:l,multiplier:selected.multipliers[l-1],attackType:'skill',cyreneExtraHitsActive:active,referenceIssue:active?'':'キュレネE0を編成し、理性のスキル+3ヒットが有効な状態を指定してください。',referenceCondition:{id:'cyrene-anaxa-extra-hits-active',tab:'パーティ'}};
+    }
+    if(selected.id==='11415151'){
+      const l=state.traceLevels.ultimate;return {...selected,traceLevel:l,multiplier:selected.multipliers[l-1],attackType:'additional',cyreneBarrierActive:cyreneFixedState('trace:1415:1141515:tribbie-defense-ignore-active')};
+    }
+    if(selected.id==='1403033'){
+      const active=cyreneFixedState('trace:1415:1141515:tribbie-defense-ignore-active'),l=state.traceLevels.ultimate,parts=selected.damageComponents.slice(0,active?2:1).map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);
+      return {...selected,traceLevel:l,multiplier:selected.multipliers[l-1],attackType:'additional',hitCountLabel:active?'結界付加2回（基本1＋祝福1）':'結界付加1回',cyreneBarrierActive:active,sequenceAttacks:parts};
+    }
+
     if(selected.id==='11415211'){
       const ref=cyreneBlessingSnapshot('1141521','cyrene-phainon-blessing-active'),level=ref.cyreneSupportLevel,fire=state.modifierInputs['element-damage:1408:Fire'],resistance=state.modifierInputs['enemy-resistance:Fire'];
       return {...selected,...ref,traceKey:'cyreneMemSkill',traceLevel:level,traceLevelLabel:'キュレネ精霊スキルLv'+level,multiplier:selected.multipliers[level-1],attackType:selected.type,referenceStats:{...state.stats,damageBonus:fire},referenceEnemy:{...componentSnapshots().enemy,resistance},numericModifierInputs:selected.numericModifierInputs};
@@ -1311,10 +1330,10 @@
       const ref=window.HsrModifierRuntime.supplementalReference({providerId:'1202',supplementalAttack:{statReference:'selectedParty',ownerInputKey:'party-reference-owner:1202',element:'Thunder',triggerActor:'provider'}},ctx,state.modifierInputs);
       return {...selected,traceLevel:state.traceLevels.talent,multiplier:selected.multipliers[state.traceLevels.talent-1],attackType:'additional',referenceCharacter:ref.character,referenceEnemy:ref.enemy,referenceStats:ref.stats,referenceRoles:ref,completedReferenceSnapshot:true,referenceIssue:ref.supported?'':ref.reason,referenceCondition:{id:'party-reference:1202',tab:'軌跡',valueInput:{key:'party-reference-owner:1202',shared:true}},calculationNote:selected.calculationNote+' 数値/帰属：'+(find('characters',ref.statReferenceId)?.name||'賜福対象未選択')+'。発生元/軌跡/発動者：停雲。'};
     }
-    if (["1405011","1405021"].includes(selected.id)) {
+    if (["1405011","1405021","1405013","1405024"].includes(selected.id)) {
       const parts=selected.damageComponents.map(c=>state.data.attacks.find(a=>a.id===c.attackId&&a.characterId==='1405'));
       const sequenceAttacks=parts.every(Boolean)?parts.map(a=>resolvedAttack(a)):[];
-      return {...selected,traceLevel:state.traceLevels[selected.traceKey],multiplier:sequenceAttacks[0]?.multiplier,traceLevelLabel:(selected.id==='1405011'?'通常Lv'+state.traceLevels.normal+'＋':'')+'スキルLv'+state.traceLevels.skill+'＋天賦Lv'+state.traceLevels.talent,attackType:selected.type,sequenceAttacks};
+      return {...selected,cyreneExtraHitsActive:cyreneFixedState('cyrene-anaxa-extra-hits-active'),traceLevel:state.traceLevels[selected.traceKey],multiplier:sequenceAttacks[0]?.multiplier,traceLevelLabel:(["1405011","1405013"].includes(selected.id)?'通常Lv'+state.traceLevels.normal+'＋':'')+'スキルLv'+state.traceLevels.skill+'＋天賦Lv'+state.traceLevels.talent,attackType:selected.type,sequenceAttacks};
     }
     if (selected.damageFormula === "nativeBreakSequence") return {...selected,traceLevel:state.traceLevels[selected.traceKey],multiplier:selected.multipliers[state.traceLevels[selected.traceKey]-1],nativeUltimateLevel:state.traceLevels.ultimate,...(selected.id==="131718"?{nativeTalentLevel:state.traceLevels.talent}:{}),attackType:selected.type};
     if (selected.id === "131508") { const level=state.traceLevels.normal; return { ...selected, traceLevel:level, multiplier:selected.multipliers[level-1], attackType:selected.type, fanningInputs:{allowZeroStacks:selected.allowZeroStacks===true,confirmed:selected.comparisonModifierInputs?.["boothill-fanning-broken"]===true || state.modifierInputs["boothill-fanning-broken"]===true,stacks:state.modifierInputs["boothill-pocket-stacks"]===undefined?3:state.modifierInputs["boothill-pocket-stacks"],talentLevel:state.traceLevels.talent} }; }

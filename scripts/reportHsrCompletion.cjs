@@ -1337,6 +1337,15 @@ Object.assign(e0CandidateAudit['1415'],{
  evidence:e0CandidateAudit['1415'].evidence+' 第32回は1141518の真知ATK30～60%/SkillDMG20～40%をアナイクスへ限定接続。1141521のカスライナCR8～16%と本人ATK5～10%×5の炎付加、1141522の通常後30～60%/Skill後40～80%の本人4種DoT起爆を追加。hsrCyreneRound32/OceanRound32/PhainonRound32/ToolInputsで独立値・所有者・source Lv・状態/解除・最終算入・保存を確認。',
  remaining:e0CandidateAudit['1415'].remaining+' 第32回追加範囲はLv80/E0/未撃破の敵1体・祝福事前成立・状態一定。起爆は本人4種自然DoTの補正済み1回分だけで、他所有者・撃破/領域DoT・新規付与後の連鎖は未合算。世負い炎付加は変身中の本人・炎最終DMG/敵炎RESを指定し、超過火種CDは最終CDへ含める。真知は既存7弱点/撃破済みのアナイクス本人攻撃だけ。+3ヒット、他知恵受益者、結界追加1回、その他精霊/バリア参照の特殊成分が残るため未認定を維持。'
 });
+// Round33 closes a bounded E0 contract; the three unresolved Ruin4 combinations remain rejected.
+Object.assign(e0CandidateAudit['1408'],{
+ status:'confirmed',workClass:'済',majorSourceIds:['140801','140802','140803','140808','140809','140811'],requiredAttackIds:['140801','140802','140803','140808','140809','140811'],missingComponents:[],
+ sourceRoleOverrides:{'140804':'支援/火種・味方対象時の会心DMG（独立した攻撃ではない）','140805':'支援/変身・ATK/HP・状態更新（攻撃は140808/809/811と140803へ分離）'},
+ summary:'通常/スキル・強化通常・状態指定カウンター/壊傷/通常変身終了の主要攻撃を、実装済みのLv/層だけへ閉じた限定E0構成として確認。',
+ evidence:e0CandidateAudit['1408'].evidence+' 第33回は既存hsrPhainonRound12の全Lv×層の独立値と4層Lv7～9拒否を維持し、条件文・画面・入力警告を同じ許容範囲へ整合。hsrToolInputsで6主要行のLv上限・拒否3組の局所停止・1～3層の復帰/保存を検証。係数不一致を解決した認定ではなく、以前の広すぎた条件表示を実装と一致させた範囲受入。',
+ remaining:'Lv80/E0・敵1体・攻撃中の状態一定。Normal/強化Normal Lv1～6、Skill/Counter/通常終了Last/Talent Lv1～10。140811は壊傷1～3層×Skill Lv1～10、4層×Lv1～6・10だけを採用し、4層×Lv7～9は依然根拠待ちで計算対象外。カウンター熾炎1～99と消費壊傷を事前指定。最終ATK/HP/CR/CD/物理DMGは選択した状態の値を使い、火種由来CD・装備/支援と既存A2/形態/A6の算入済みを一度管理。140803は最後の追加ターンで通常終了するLastだけ。HP0強制終了の残ターン減衰、変身/段間の層更新、複数敵配分、E1以上は認定外。キュレネ由来の炎付加は外部祝福の別成分であり本人E0の必須攻撃へ数えない。'
+});
+Object.assign(e0CandidateAudit['1415'],{evidence:e0CandidateAudit['1415'].evidence+' 第33回は理性の追加3段・基本込み8段・非再帰Skill16段/通常+8段と、門と道の基本結界1回+追加1回を既存通常式/合算へ接続。',missingComponents:['特殊祝福の未接続成分（他所有者DoT起爆/精霊・バリア参照/他受益者など）'],remaining:'Lv80/E0・敵1体・事前成立の状態一定。本人/精霊の最終値を分離し、各祝福の算入済みを一度管理する。理性の+3段は真知とは別の1ターン状態入力、8段は基本5段を含む。アナイクスは7弱点/本質暴露・事前撃破済みに限定。門と道の2回比較は追撃前A2=3層で飽和・未撃破の敵1体・全成分の最終HP/会心/補正一定に限定し、追撃本体と合算しない。海洋はセイレンス本人4種自然DoTの補正済み1回分だけ、世負い炎付加は変身した本人と独立炎DMG/敵炎RESを使う。一般祝福の他受益者、他所有者/撃破/領域DoT・新規連鎖、その他精霊/バリア参照・未接続の対象別特殊成分が残るため全体未認定。資源/行動順/段間更新、複数敵、一般継承は自動生成しない。'});
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={
  '1220':'スキル+雷狩は限定対応。必殺技の分岐と途中撃破/成分間変化が不足。',

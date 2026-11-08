@@ -300,6 +300,7 @@
         if(attack.id==='11415012'&&attack.characterId==='1415'&&attack.sourceSkillId==='1141501'&&attack.damageFormula==='componentSequence'&&attack.type==='memospriteSkill'&&attack.element==='Ice')return '';
         if (['1410012','1410022'].includes(attack.id) && attack.characterId==='1410' && attack.damageFormula==='componentSequence' && attack.sourceSkillId===(attack.id==='1410012'?'141001':'141002') && attack.element==='Physical' && attack.type===(attack.id==='1410012'?'normal':'skill')) return '';
         if (/^1141522[1-8]$/.test(attack.id) && attack.characterId==='1410' && attack.sourceSkillId==='1141522' && attack.damageFormula==='resolvedDamageMultiplier' && attack.dataOwnerId==='1410' && attack.type==='dot') return '';
+        if(attack.id==='1403033'&&attack.characterId==='1403'&&attack.damageFormula==='componentSequence'&&attack.type==='additional'&&attack.element==='Quantum')return '';
         if (attack.damageFormula === "resolvedDamageMultiplier" && ["14101021","14101022","14101023","14101024"].includes(attack.id) && attack.characterId === "1410" && attack.dataOwnerId === "1410" && attack.type === "dot") return "";
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
         if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
@@ -353,7 +354,7 @@
             const validSushangDefinition = attack.id === "1206022" && attack.characterId === "1206" && attack.sourceSkillId === "120602" && attack.type === "skill" && attack.element === "Physical" && attack.target === "single" && components?.length === 3;
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validElementalDefinition || validWeltDefinition || validGuinaifenDefinition || validKafkaDefinition || validBangerAction || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validSerinDefinition || validDahliaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
+            return ( ["1405011","1405021","1405013","1405024"].includes(attack.id) && attack.characterId==="1405" && attack.type===(["1405011","1405013"].includes(attack.id)?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validElementalDefinition || validWeltDefinition || validGuinaifenDefinition || validKafkaDefinition || validBangerAction || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validSerinDefinition || validDahliaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -438,6 +439,15 @@ function calculateFanning(input) {
         if(input.attack?.id==='11415211'){
             const a=input.attack,c=input.character||{},e=input.enemy||{},v=input.modifierInputs||{},curve=[5,6,7,8,9,10];
             if(c.id!=='1408'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||a.cyreneBlessingActive!==true||v['cyrene-phainon-blessing-active']!==true||v['phainon-kaslana-form']!==true||a.characterId!=='1408'||a.statReferenceId!=='1408'||a.sourceSkillId!=='1141521'||a.damageFormula!=='statMultiplier'||a.scalingStat!=='atk'||a.type!=='additional'||a.element!=='Fire'||a.hitCount!==5||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||a.multiplier!==curve[a.traceLevel-1]||c.stats?.damageBonus!==v['element-damage:1408:Fire']||e.resistance!==v['enemy-resistance:Fire']||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.category==='progressiveTakenDamage'))return {supported:false,reason:'世負い祝福が事前成立したカスライナ本人の炎付加5段のみ。キュレネ精霊スキルLv1～6・独立した炎与ダメージ/敵炎耐性・未撃破の敵1体を指定してください。'};
+        }
+
+        if(['11415181','1405023'].includes(input.attack?.id)){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},curve=[35,38.5,42,45.5,49,52.5,56.87,61.25,65.62,70];
+            if(c.id!=='1405'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==false||e.weaknessCount!==7||a.cyreneExtraHitsActive!==true||input.modifierInputs?.['cyrene-anaxa-extra-hits-active']!==true||a.characterId!=='1405'||a.sourceSkillId!==(a.id==='1405023'?'140502':'1141518')||a.type!=='skill'||a.element!=='Wind'||a.scalingStat!=='atk'||a.damageFormula!=='statMultiplier'||a.hitCount!==(a.id==='1405023'?8:3)||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>10||a.multiplier!==curve[a.traceLevel-1]||a.scalingTerms?.length)return {supported:false,reason:'理性+3ヒットが有効なアナイクス本人・7弱点/本質暴露・事前撃破済みの敵1体・Skill Lv1～10のみ対応です。8段には基本5段を含みます。'};
+        }
+        if(input.attack?.id==='11415151'){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},curve=[6,6.6,7.2,7.8,8.4,9,9.75,10.5,11.25,12];
+            if(c.id!=='1403'||a.characterId!=='1403'||a.sourceSkillId!=='1141515'||a.type!=='additional'||a.element!=='Quantum'||a.scalingStat!=='hp'||a.hitCount!==1||a.multiplier!==curve[a.traceLevel-1]||a.cyreneBarrierActive!==true||input.modifierInputs?.['tribbie-zone-active']!==true||input.modifierInputs?.['trace:1415:1141515:tribbie-defense-ignore-active']!==true||input.modifierInputs?.['tribbie-followup-damage-stacks']!==3||a.scalingTerms?.length)return {supported:false,reason:'門と道が事前成立した追撃後の結界付加のみ。未撃破の敵1体・事前A2が3層で飽和した状態を指定してください。'};
         }
 
         const round29Attack=input.attack||{};
@@ -639,6 +649,17 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(input.attack?.id==='1403033'){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],n=a.cyreneBarrierActive?1:0,curve=[6,6.6,7.2,7.8,8.4,9,9.75,10.5,11.25,12];
+            const fail=()=>({supported:false,reason:'結界中・トリビーLv80/E0・未撃破の敵1体・状態一定。門と道ONの2回比較は追撃前からA2=3層の飽和状態のみ対応です。'});
+            if(c.id!=='1403'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||input.modifierInputs?.['tribbie-zone-active']!==true||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>10||a.multiplier!==curve[a.traceLevel-1]||parts.length!==1+n||(n&&(input.modifierInputs?.['tribbie-followup-damage-stacks']!==3||input.modifierInputs?.['trace:1415:1141515:tribbie-defense-ignore-active']!==true)))return fail();
+            for(let i=0;i<parts.length;i++){
+                const q=parts[i]?.input,b=q?.attack||{},id=i?'11415151':'1403031';
+                if(parts[i].key!==(i?'blessing':'barrier')||a.damageComponents?.[i]?.attackId!==id||b.id!==id||b.characterId!=='1403'||b.type!=='additional'||b.element!=='Quantum'||b.scalingStat!=='hp'||b.damageFormula!=='statMultiplier'||b.traceLevel!==a.traceLevel||b.multiplier!==curve[a.traceLevel-1]||b.hitCount!==1||JSON.stringify(q?.character)!==JSON.stringify(c)||JSON.stringify(q?.enemy)!==JSON.stringify(e)||JSON.stringify(q?.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail();
+            }
+            return combineDamageComponents(a,parts,n?'結界基本1回＋門と道追加1回（追撃本体は別）':'結界基本1回（門と道は適用なし）');
+        }
+
         if(['1410012','1410022'].includes(input.attack?.id)){
             const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],normal=a.id==='1410012',first=normal?'141001':'141002',level=a.cyreneSupportLevel,offset=normal?1:5;
             const fail=()=>({supported:false,reason:'事前成立した海洋祝福・キュレネ精霊スキルLv1～6と、本人4種DoTの補正済み1回分を指定してください。他所有者/新規付与・領域発生回数はこの合計に含みません。'});
@@ -721,7 +742,7 @@ function calculateFanning(input) {
         if (input.attack?.id === "140109") return calculateHertaSnapshot(input);
         if (input.attack?.id === "1206022") return calculateSushangSnapshot(input);
         if (input.attack?.id === "1222062") return calculateLingshaSnapshot(input);
-        if (["1405011","1405021"].includes(input.attack?.id)) return calculateAnaxaSequence(input);
+        if (["1405011","1405021","1405013","1405024"].includes(input.attack?.id)) return calculateAnaxaSequence(input);
         if (input.attack?.id === "1111083") return calculateRealizedLuka(input);
         if (input.attack?.id === "1223031") return calculateMozeUltimate(input);
         if (["1224011","1224081"].includes(input.attack?.id)) return calculateMarchSequence(input);
@@ -1113,11 +1134,13 @@ function calculateFanning(input) {
     }
 
     function calculateAnaxaSequence(input) {
-        const {attack:a,character:c={},enemy:e={}}=input,p=input.sequenceComponents||[],normal=a.id==='1405011',fail=reason=>({supported:false,reason});
+        const {attack:a,character:c={},enemy:e={}}=input,p=input.sequenceComponents||[],boosted=['1405013','1405024'].includes(a.id),normal=['1405011','1405013'].includes(a.id),fail=reason=>({supported:false,reason});
         if(c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==false||e.weaknessCount!==7||a.qualitativeDisclosureActive!==true||p.length!==2) return fail('アナイクスの合計はLv80・星魂0・7弱点/本質暴露・撃破済みの敵1体・状態一定のみ対応です。');
-        const specs=normal?[['normal','140501','normal'],['extraSkill','140502','skill']]:[['skill','140502','skill'],['extraSkill','140502','skill']];
+        if(boosted&&(a.cyreneExtraHitsActive!==true||input.modifierInputs?.['cyrene-anaxa-extra-hits-active']!==true))return fail('理性の追加3ヒットが有効な状態とキュレネE0の編成を指定してください。');
+        const skillId=boosted?'1405023':'140502';
+        const specs=normal?[['normal','140501','normal'],['extraSkill',skillId,'skill']]:[['skill',skillId,'skill'],['extraSkill',skillId,'skill']];
         for(let i=0;i<2;i++){const [key,id,type]=specs[i],r=p[i],b=r?.input?.attack||{};
-            if(r?.key!==key||a.damageComponents?.[i]?.attackId!==id||r.name!==a.damageComponents[i]?.name||b.id!==id||b.type!==type||b.attackType!==type||b.element!=='Wind'||b.scalingStat!=='atk'||b.hitCount!==1||b.damageFormula!=='statMultiplier'||!Number.isInteger(b.traceLevel)||b.traceLevel<1||b.traceLevel>(type==='normal'?6:10)||b.multiplier!==b.multipliers?.[b.traceLevel-1]) return fail('本体と非再帰の追加スキルの構成が一致しません。');
+            if(r?.key!==key||a.damageComponents?.[i]?.attackId!==id||r.name!==a.damageComponents[i]?.name||b.id!==id||b.type!==type||b.attackType!==type||b.element!=='Wind'||b.scalingStat!=='atk'||b.hitCount!==(boosted&&type==='skill'?8:1)||b.damageFormula!=='statMultiplier'||!Number.isInteger(b.traceLevel)||b.traceLevel<1||b.traceLevel>(type==='normal'?6:10)||b.multiplier!==b.multipliers?.[b.traceLevel-1]) return fail('本体と非再帰の追加スキルの構成が一致しません。');
             if(JSON.stringify(r.input.character)!==JSON.stringify(c)||JSON.stringify(r.input.enemy)!==JSON.stringify(e))return fail('全成分に同じ攻撃者/敵のスナップショットが必要です。');
             const required=['trace:1405:140504:qualitative-disclosure','traceNode:1405:1405103:seven-weakness-defense-ignore',...(type==='skill'?['trace:1405:140502:single-enemy-damage']:[])];
             for(const rid of required)if((r.input.modifiers||[]).filter(m=>m.id===rid&&m.enabled!==false&&m.applicable!==false&&m.calculable!==false&&Number.isFinite(m.value)&&modifierAppliesToAttack(m,b)).length!==1)return fail('各成分の必須補正が不足しています：'+rid);
