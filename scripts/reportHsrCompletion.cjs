@@ -1360,6 +1360,13 @@ Object.assign(e0CandidateAudit['1415'],{
  evidence:e0CandidateAudit['1415'].evidence+' 第35回で1141517の召喚時敵2体以下・超過新蕾0～100%による死竜6段倍率、1141524の1141307限定DMGと発動時点CD参照の精霊CD差分、1141520のお得意様別DEF低下を接続。固定1141503/141504は完成済みHP/DMGへ一度算入。hsrCyreneCastoriceRound35/EvernightRound35/CipherRound35/ToolInputsで独立値・所有者・ON/OFF・合計/局所停止・算入済み・保存を確認。既存Round27～34の本人/精霊/祝福の受入を維持。',
  remaining:'Lv80/E0・敵1体・事前状態一定。本人N/強化N1～6・Skill/Talent1～10、精霊Skill/Talent1～6。本人とデミウルゴスのHP/会心/氷DMG/防御・耐性補正を分離し、在場1141503のHP、141504の味方DMG、U会心/A6氷貫通等を適用先最終値へ一度含める。Demi基本+追憶合計は他精霊なし・異なる味方の追憶獲得0～3名のみ。結界は明示した元ダメージ1回に対する確定1回。各祝福は別々の既存受益者/事前状態スナップショットで比較し、同一戦闘の全行動合計ではない。生と死は召喚時敵2体以下・超過整数0～100の本人HP参照死竜6段だけ。歳月DMGは1141307だけ、CD差分はLongの3行だけ・過去のSkill発動時点の長夜月CDを明示し、憶質+1は更新後の事前値へ含める。詭術DEFはサフェル本人計算の対象状態0/1。未入力は当該結果のみ停止。一般祝福1141502の姫子/ゼーレ以外や他精霊、理性の他知恵受益者、軍功の未接続受益者、他同袍/属性、アーカナ/撃破/装備DoTなどは支援対応範囲外であり全効果完成ではない。召喚時敵3体以上の生と死、門と道A2未飽和、複数提供者、一般継承/資源・段間更新/複数敵/E1以上は対象外。追加ターン/召喚/行動順は自動生成せず、別イベントを無条件合算しない。'
 });
+// Round36 connects only the self-owned, already-broken Normal conversion; the full kit remains incomplete.
+Object.assign(e0CandidateAudit['1321'],{
+ summary:e0CandidateAudit['1321'].summary+' 本人通常の直接＋共に舞う者超撃破の限定合計1321012を追加。',
+ evidence:e0CandidateAudit['1321'].evidence+' 固定132104.desc/params[0..9][4]の本人が共に舞う者となる条件と30～60%を使用。hsrDahliaRound36/ToolInputsで通常Lvと天賦Lvの分離、独立成分/合計、効率ON/OFF、未入力局所停止・保存を確認。',
+ remaining:'本人通常の30～60%変換のみ、事前撃破済みの炎弱点敵1体・Lv80/E0・明示した効率補正前削靭で追加。未撃破時の実削靭責務、味方所有の変換、追撃100～200%と30～60%の重複/適用順、A6追加削靭が残るため全体E0は保留。',
+ missingComponents:['未撃破時/味方所有の共に舞う者変換・追撃への重複/順序・A6追加削靭']
+});
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={
  '1220':'スキル+雷狩は限定対応。必殺技の分岐と途中撃破/成分間変化が不足。',

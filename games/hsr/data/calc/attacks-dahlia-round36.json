@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json",
+  "overrides": [
+    {
+      "characterId": "1321",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiresFireWeakness": true,
+      "numericModifierInputs": [
+        {
+          "inputKey": "dahlia-normal-base-toughness",
+          "label": "通常攻撃1回の基礎削靭値（効率補正前）",
+          "minimum": 0,
+          "maximum": 99999
+        }
+      ],
+      "calculationScope": "independently-checked-own-normal-prebroken-dancer-conversion",
+      "conditionText": "Lv80・星魂0・炎弱点の敵1体が攻撃前から撃破済み。本人は天賦により「共に舞う者」。通常Lv1～6・天賦Lv1～10、効率補正前の通常攻撃1回の基礎削靭値を明示。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定132101の通常ATK倍率と132104.params[0..9][4]の本人向け30～60%変換を独立計算。未撃破時・味方攻撃・追撃への重複変換は含めない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:132101.params[0..5][0],132104.desc/params[0..9][4]",
+        "verifiedAt": "2026-11-09",
+        "verification": "tests/hsr/hsrDahliaRound36.test.cjs"
+      },
+      "id": "1321044",
+      "sourceSkillId": "132104",
+      "name": "共に舞う者（本人通常攻撃の超撃破成分）",
+      "type": "superBreak",
+      "traceKey": "talent",
+      "damageFormula": "dahliaSuperBreak",
+      "canCrit": false,
+      "maximumTraceLevel": 10,
+      "multipliers": [
+        30,
+        33,
+        36,
+        39,
+        42,
+        45,
+        48.75,
+        52.5,
+        56.25,
+        60
+      ],
+      "calculationNote": "本人の通常攻撃による30～60%超撃破成分だけ。通常の直接成分と合計する場合は専用合計行を使用し、追撃固有100～200%変換へ追加しません。",
+      "hidden": true
+    },
+    {
+      "characterId": "1321",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiresFireWeakness": true,
+      "numericModifierInputs": [
+        {
+          "inputKey": "dahlia-normal-base-toughness",
+          "label": "通常攻撃1回の基礎削靭値（効率補正前）",
+          "minimum": 0,
+          "maximum": 99999
+        }
+      ],
+      "calculationScope": "independently-checked-own-normal-prebroken-dancer-conversion",
+      "conditionText": "Lv80・星魂0・炎弱点の敵1体が攻撃前から撃破済み。本人は天賦により「共に舞う者」。通常Lv1～6・天賦Lv1～10、効率補正前の通常攻撃1回の基礎削靭値を明示。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定132101の通常ATK倍率と132104.params[0..9][4]の本人向け30～60%変換を独立計算。未撃破時・味方攻撃・追撃への重複変換は含めない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:132101.params[0..5][0],132104.desc/params[0..9][4]",
+        "verifiedAt": "2026-11-09",
+        "verification": "tests/hsr/hsrDahliaRound36.test.cjs"
+      },
+      "id": "1321012",
+      "sourceSkillId": "132101",
+      "name": "翻弄…綻びを引き裂く記憶（本人通常＋共に舞う者の超撃破）",
+      "type": "normal",
+      "traceKey": "normal",
+      "damageFormula": "componentSequence",
+      "canCrit": true,
+      "maximumTraceLevel": 6,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "displayOrder": 11,
+      "hitCountLabel": "通常直接成分＋本人の共に舞う者超撃破",
+      "damageComponents": [
+        {
+          "key": "direct",
+          "name": "通常攻撃の炎属性直接成分",
+          "attackId": "132101"
+        },
+        {
+          "key": "superBreak",
+          "name": "本人の共に舞う者超撃破",
+          "attackId": "1321044"
+        }
+      ],
+      "calculationNote": "通常の直接ATK成分と同じ攻撃による本人の天賦30～60%超撃破を合算。通常Lvと天賦Lvを別々に参照し、超撃破には会心・通常DMGを適用しません。削靭値は効率補正前の1回分を入力し、結界中の+50%効率は既存の結界状態から1回だけ適用します。本人が共に舞う者となる条件は天賦から確定するため、発動チェックは不要です。未撃破時・撃破を跨ぐ攻撃・味方所有の攻撃・A6追加削靭・追撃への30～60%変換は対象外です。通常単独行との重複加算はしないでください。",
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      }
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "本人通常の既撃破対象への30～60%超撃破成分と直接成分合計のみを独立検証。未撃破・味方攻撃・追撃への重複は含めない。"
+  }
+}

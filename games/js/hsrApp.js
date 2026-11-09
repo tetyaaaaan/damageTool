@@ -1343,14 +1343,14 @@
       const multiplier=selected.id==="140809" ? (selected.phainonCounterBaseMultipliers?.[level-1]+4*selected.phainonCounterBounceMultipliers?.[level-1])*(1+.2*n) : selected.phainonRuinMultipliers?.[String(n)]?.[level-1];
       return {...selected,traceLevel:level,multiplier:Number.isFinite(multiplier)?multiplier:NaN,traceLevelLabel:`スキルLv${level}・指定${Number.isInteger(n)?n:'未入力'}層`,attackType:selected.type};
     }
-    if(["140603","1410032","1321043"].includes(selected.id) && selected.damageFormula==="componentSequence") {
+    if(["140603","1410032","1321043","1321012"].includes(selected.id) && selected.damageFormula==="componentSequence") {
       const sequenceAttacks=(selected.damageComponents||[]).map(d=>{
         const base=state.data.attacks.find(a=>a.id===d.attackId && a.characterId===selected.characterId);
         if(!base) return null;
         const resolved=resolvedAttack(base);
         return {...resolved, ...(base.damageFormula === "resolvedDamageMultiplier" ? {traceLevel:1,multiplier:150} : {}),recordInputKey:d.recordInputKey,recordMultiplier:d.recordMultiplier};
       });
-      return {...selected,traceLevel:state.traceLevels[selected.traceKey],multiplier:selected.multipliers?.[state.traceLevels[selected.traceKey]-1],attackType:selected.type,sequenceAttacks:sequenceAttacks.filter(Boolean)};
+      return {...selected,traceLevel:state.traceLevels[selected.traceKey],multiplier:selected.multipliers?.[state.traceLevels[selected.traceKey]-1],attackType:selected.type,...(selected.id==="1321012"?{traceLevelLabel:"通常Lv"+state.traceLevels.normal+"＋天賦Lv"+state.traceLevels.talent}:{}),sequenceAttacks:sequenceAttacks.filter(Boolean)};
     }
     if (selected.id==='120204' && selected.partyReference) {
       const ctx={...structuredModifierContext(),enemy:componentSnapshots().enemy};

@@ -310,7 +310,7 @@
         if (attack.damageFormula === "resolvedDamageMultiplier" && ["14101021","14101022","14101023","14101024"].includes(attack.id) && attack.characterId === "1410" && attack.dataOwnerId === "1410" && attack.type === "dot") return "";
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
         if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
-        if(attack.id === "1321042" && attack.characterId === "1321" && attack.sourceSkillId === "132104" && attack.type === "superBreak" && attack.damageFormula === "dahliaSuperBreak" && attack.element === "Fire") return "";
+        if(["1321042","1321044"].includes(attack.id) && attack.characterId === "1321" && attack.sourceSkillId === "132104" && attack.type === "superBreak" && attack.damageFormula === "dahliaSuperBreak" && attack.element === "Fire") return "";
         if (attack.id === "131718" && attack.characterId === "1317" && attack.sourceSkillId === "131718" && attack.damageFormula === "nativeBreakSequence" && attack.nativeBreakKind === "rappa" && attack.type === "enhancedNormal" && attack.element === "Imaginary") return "";
         if (["131008","131009","1131008","1131009"].includes(attack.id) && attack.characterId === "1310" && attack.damageFormula === "nativeBreakSequence") return "";
         if (attack.id === "131508" && attack.damageFormula === "normalAndBreak" && attack.type === "enhancedNormal") return "";
@@ -353,7 +353,7 @@
                 && attack.element === "Thunder" && attack.sourceSkillId === "122302"
                 && components[0]?.key === "skill" && components[0]?.attackId === "122302"
                 && components[1]?.key === "additional" && components[1]?.attackId === "122304";
-            const validDahliaDefinition = attack.id === "1321043" && attack.characterId === "1321" && attack.sourceSkillId === "132104" && attack.type === "followUp" && attack.element === "Fire" && components?.length === 2;
+            const validDahliaDefinition = ((attack.id === "1321043" && attack.sourceSkillId === "132104" && attack.type === "followUp") || (attack.id === "1321012" && attack.sourceSkillId === "132101" && attack.type === "normal")) && attack.characterId === "1321" && attack.element === "Fire" && components?.length === 2;
             const validSerinDefinition = attack.id === "1410032" && attack.characterId === "1410" && attack.sourceSkillId === "141003" && attack.type === "ultimate" && components?.length === 6;
             const validCipherDefinition = attack.id === "140603" && attack.characterId === "1406" && attack.sourceSkillId === "140603" && attack.type === "ultimate" && components?.length === 4;
             const validLingshaDefinition = attack.id === "1222062" && attack.characterId === "1222" && attack.sourceSkillId === "122206" && attack.type === "followUp" && attack.element === "Fire" && attack.target === "single" && components?.length === 2;
@@ -494,7 +494,8 @@ function calculateFanning(input) {
             const a=input.attack,c=input.character||{},e=input.enemy||{},curve=[30,36,42,48,54,60];
             if(a.type!=='memospriteSkill'||a.characterId!=='1415'||a.sourceSkillId!==a.id||a.damageFormula!=='statMultiplier'||a.scalingStat!=='hp'||a.element!=='Ice'||c.id!=='11415'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!a.completedReferenceSnapshot||a.damageOwnerId!=='11415'||a.hitCount!==1||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||a.multiplier!==curve[a.traceLevel-1]||!['hp','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&(k==='hp'?c.stats[k]>0:c.stats[k]>=0))||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&!['enemyAll','enemySingle'].includes(m.target?.owner)))return {supported:false,reason:'デミウルゴスの独立した最終HP/会心/氷DMGを入力してください。Lv80/E0・未撃破の敵1体・精霊スキルLv1～6のみ対応です。'};
         }
-        if (input.attack?.id === "1321042" && input.attack.damageFormula === "dahliaSuperBreak") return calculateDahliaSuperBreak(input);
+        if(input.attack?.id === "1321012") return calculateDahliaNormalSnapshot(input);
+        if (input.attack?.id === "1321044" || (input.attack?.id === "1321042" && input.attack.damageFormula === "dahliaSuperBreak")) return calculateDahliaSuperBreak(input);
         if (input.attack?.damageFormula === "nativeBreakSequence" && !unsupportedAttackReason(input.attack)) return calculateNativeBreakSequence(input);
         if (input.attack?.id === "131508" && input.attack.damageFormula === "normalAndBreak" && !unsupportedAttackReason(input.attack)) return calculateFanning(input);
         const character = input?.character || {};
@@ -946,6 +947,19 @@ function calculateFanning(input) {
         return combineDamageComponents(a,parts,"必殺直撃＋自身スキル燃焼1種の起爆（事前火喰い3層）");
     }
 
+    function calculateDahliaNormalSnapshot(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[];
+        const fail=reason=>({supported:false,reason});
+        if(a.damageFormula!=="componentSequence"||a.characterId!=="1321"||a.sourceSkillId!=="132101"||a.type!=="normal"||a.element!=="Fire"||a.hitCount!==1||!Array.isArray(a.damageComponents)||a.damageComponents.length!==2||unsupportedAttackReason(a)||c.id!=="1321"||c.level!==80||c.eidolon!==0||e.count!==1||e.weakness!==true||e.toughnessActive!==false||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||a.multiplier!==[50,60,70,80,90,100][a.traceLevel-1]||parts.length!==2)return fail("本人通常の合計はLv80/E0・事前撃破済みの炎弱点敵1体・通常Lv1～6に限定します。");
+        for(let i=0;i<2;i++){
+            const p=parts[i],q=p?.input,b=q?.attack||{};
+            if(p?.key!==["direct","superBreak"][i]||b.id!==["132101","1321044"][i]||a.damageComponents[i]?.attackId!==b.id||b.characterId!=="1321"||b.sourceSkillId!==["132101","132104"][i]||b.type!==["normal","superBreak"][i]||b.element!=="Fire"||b.hitCount!==1||JSON.stringify(q.character)!==JSON.stringify(c)||JSON.stringify(q.enemy)!==JSON.stringify(e)||q.modifierInputs?.["dahlia-normal-base-toughness"]!==input.modifierInputs?.["dahlia-normal-base-toughness"])return fail("同じ本人通常の所有者・敵・基礎削靭値を使用してください。");
+            if(i===0&&(b.damageFormula!=="statMultiplier"||b.scalingStat!=="atk"||b.traceLevel!==a.traceLevel||b.multiplier!==a.multiplier))return fail("通常の直接成分と通常Lvが一致しません。");
+            if(i===1&&b.damageFormula!=="dahliaSuperBreak")return fail("天賦の超撃破成分を指定してください。");
+        }
+        return combineDamageComponents(a,parts,"本人通常の直接成分＋同じ通常の共に舞う者超撃破（攻撃前撃破済み）");
+    }
+
     function calculateDahliaSnapshot(input) {
         const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[];
         const fail=reason=>({supported:false,reason});
@@ -958,8 +972,9 @@ function calculateFanning(input) {
     }
 
     function calculateDahliaSuperBreak(input) {
-        const a=input.attack||{},c=input.character||{},e=input.enemy||{},v=input.modifierInputs?.["dahlia-fua-base-toughness"];
-        if(!Number.isFinite(c.stats?.breakEffect) || c.stats.breakEffect<0 || c.level!==80 || c.eidolon!==0 || e.count!==1 || e.weakness!==true || e.toughnessActive!==false || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10 || !Number.isFinite(v) || v<0 || v>99999 || a.multiplier!==a.multipliers?.[a.traceLevel-1]) return {supported:false,reason:"ダリアの追撃超撃破はLv80/E0/炎弱点の敵1体が事前撃破済み・天賦Lv1～10・基礎削靭値の指定が必要です。"};
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},normal=a.id==="1321044",key=normal?"dahlia-normal-base-toughness":"dahlia-fua-base-toughness",v=input.modifierInputs?.[key];
+        if(normal&&(a.damageFormula!=="dahliaSuperBreak"||unsupportedAttackReason(a)||c.id!=="1321"||a.hitCount!==1||a.canCrit!==false||a.multiplier!==[30,33,36,39,42,45,48.75,52.5,56.25,60][a.traceLevel-1]))return {supported:false,reason:"本人通常に付随する共に舞う者の天賦Lv1～10の変換率を使用してください。"};
+        if(!Number.isFinite(c.stats?.breakEffect) || c.stats.breakEffect<0 || c.level!==80 || c.eidolon!==0 || e.count!==1 || e.weakness!==true || e.toughnessActive!==false || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10 || !Number.isFinite(v) || v<0 || v>99999 || a.multiplier!==a.multipliers?.[a.traceLevel-1]) return {supported:false,reason:"ダリアの超撃破はLv80/E0/炎弱点の敵1体が事前撃破済み・天賦Lv1～10・基礎削靭値の指定が必要です。"};
         const sb=calculateSuperBreak({...input,attack:{...a,superBreakMultiplier:a.multiplier,toughnessDamage:v}});
         if(!sb.supported)return sb;
         return {attack:{name:a.name,canCrit:false,hitCount:1,target:"single"},nonCrit:sb.value,crit:sb.value,expected:sb.value,applied:sb.applied,skipped:sb.skipped,breakdown:{damageFormula:"breakComponent",kind:"superBreak",...sb,finalBreakEffect:(sb.breakEffect-1)*100}};

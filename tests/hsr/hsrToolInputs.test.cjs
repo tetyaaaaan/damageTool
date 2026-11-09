@@ -4522,3 +4522,19 @@ test('Round35 Cipher reuses its blessing state for target DEF and preserves reco
  const row=(id,x=app)=>x.calculate().find(q=>q.attack?.name===data.attacks.find(a=>a.id===id).name),nonPatron=row('140601');assert.ok(nonPatron,app.node('hsrResults').innerHTML.slice(-1200));app.state.modifierInputs['cyrene-cipher-patron-state']=1;const patron=row('140601');near(patron.expected,nonPatron.expected*.94/.9);const combined=row('140603');assert.ok(combined);near(combined.expected,(combined.nonCrit-11500)*(1+.37*1.43)+11500);
  app.state.modifierInputs['trace:1415:1141520:cipher-defense-reduction-in-final-stats']=true;app.node('hsrEnemyDefenseReduction').value='20';near(row('140601').expected,patron.expected);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row('140601',saved).expected,patron.expected);saved.state.modifierInputs['trace:1415:1141520:cipher-defense-reduction-in-final-stats']=false;saved.state.modifierInputs['cyrene-cipher-patron-state']=.5;assert.ok(!row('140601',saved));
 });
+
+
+test('round36 Dahlia normal dancer conversion uses separate N/T levels, one explicit input and save restoration',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),key='dahlia-normal-base-toughness',near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+ app.state.characterId='1321';app.node('hsrNormalTrace').value='6';app.node('hsrTalentTrace').value='10';
+ for(const[k,v]of Object.entries({atk:3000,breakEffect:200,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ app.node('hsrToughnessState').value='broken';app.node('hsrWeakness').value='true';
+ const name=data.attacks.find(a=>a.id==='1321012').name,find=x=>x.calculate().find(r=>r.attack?.name===name);
+ assert.equal(find(app),undefined);assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='132101').name));
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(new RegExp('data-structured-input="'+key+'"','g'))||[]).length,1);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:key,structuredStrict:'true'},value:'10'}});
+ const result=find(app);assert.ok(result,app.node('hsrResults').innerHTML);near(result.nonCrit,1200+3767.5533*.6*3*.4);near(result.expected,1800+3767.5533*.6*3*.4);assert.equal(Object.keys(result.components).length,2);
+ app.state.modifierInputs['dahlia-skill-field-active']=true;near(find(app).expected,1800+3767.5533*.6*3*.4*1.5);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).expected,find(app).expected);saved.node('hsrTalentTrace').value='1';near(find(saved).expected,1800+3767.5533*.3*3*.4*1.5);
+ saved.node('hsrToughnessState').value='active';assert.equal(find(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='132101').name));
+});
