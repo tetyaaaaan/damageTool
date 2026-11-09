@@ -1,0 +1,727 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-ocean-foreign-dot-round34-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "DoT所有者別に補正済み非会心1回分を明示し、セイレンス起爆者の割合だけを適用。本人4種DoTと所有者別成分を各1回合算する。"
+  },
+  "overrides": [
+    {
+      "id": "114152201",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "triggerSkillId": "1141522",
+      "triggerActorId": "1410",
+      "name": "海洋・normal後のカフカ所有感電起爆",
+      "element": "Thunder",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        30,
+        36,
+        42,
+        48,
+        54,
+        60
+      ],
+      "dataOwnerId": "1005",
+      "sourceDoTId": "100503",
+      "originalDamageInputKey": "ocean-foreign-original:1005:100503",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。所有者カフカをパーティ編成し、同キャラクターが敵に付与した感電の補正済み非会心1回分を指定（未付与は0）。キュレネE0の海洋祝福とセイレンスの通常/スキル発動後。",
+      "calculationNote": "DoT所有者はカフカ（1005）、起爆者はセイレンス（1410）。所有者の最終値で既に計算されたDoT非会心1回分に、キュレネ精霊Skill Lv1～6の起爆率だけを掛ける。会心/ATK/DMG/防御/耐性/敵被DMG/DoT補正を再適用しない。未撃破の敵1体、所有者E0かつパーティ在籍、事前DoT状態一定に限定。所有者別の入力値は一度だけ合算し、DoT更新・再起爆・範囲外DoTを生成しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "所有者の補正済み非会心DoT1回分へ海洋の起爆率のみ適用し、会心・通常ダメージ補正を再適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs"
+      }
+    },
+    {
+      "id": "114152202",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "triggerSkillId": "1141522",
+      "triggerActorId": "1410",
+      "name": "海洋・normal後のサンポ所有風化（最大5層を反映済みの1回分）起爆",
+      "element": "Wind",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        30,
+        36,
+        42,
+        48,
+        54,
+        60
+      ],
+      "dataOwnerId": "1108",
+      "sourceDoTId": "110804",
+      "originalDamageInputKey": "ocean-foreign-original:1108:110804",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。所有者サンポをパーティ編成し、同キャラクターが敵に付与した風化（最大5層を反映済みの1回分）の補正済み非会心1回分を指定（未付与は0）。キュレネE0の海洋祝福とセイレンスの通常/スキル発動後。",
+      "calculationNote": "DoT所有者はサンポ（1108）、起爆者はセイレンス（1410）。所有者の最終値で既に計算されたDoT非会心1回分に、キュレネ精霊Skill Lv1～6の起爆率だけを掛ける。会心/ATK/DMG/防御/耐性/敵被DMG/DoT補正を再適用しない。未撃破の敵1体、所有者E0かつパーティ在籍、事前DoT状態一定に限定。所有者別の入力値は一度だけ合算し、DoT更新・再起爆・範囲外DoTを生成しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "所有者の補正済み非会心DoT1回分へ海洋の起爆率のみ適用し、会心・通常ダメージ補正を再適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs"
+      }
+    },
+    {
+      "id": "114152203",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "triggerSkillId": "1141522",
+      "triggerActorId": "1410",
+      "name": "海洋・normal後のルカ所有裂創（最大HP上限を反映済みの1回分）起爆",
+      "element": "Physical",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        30,
+        36,
+        42,
+        48,
+        54,
+        60
+      ],
+      "dataOwnerId": "1111",
+      "sourceDoTId": "111102",
+      "originalDamageInputKey": "ocean-foreign-original:1111:111102",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。所有者ルカをパーティ編成し、同キャラクターが敵に付与した裂創（最大HP上限を反映済みの1回分）の補正済み非会心1回分を指定（未付与は0）。キュレネE0の海洋祝福とセイレンスの通常/スキル発動後。",
+      "calculationNote": "DoT所有者はルカ（1111）、起爆者はセイレンス（1410）。所有者の最終値で既に計算されたDoT非会心1回分に、キュレネ精霊Skill Lv1～6の起爆率だけを掛ける。会心/ATK/DMG/防御/耐性/敵被DMG/DoT補正を再適用しない。未撃破の敵1体、所有者E0かつパーティ在籍、事前DoT状態一定に限定。所有者別の入力値は一度だけ合算し、DoT更新・再起爆・範囲外DoTを生成しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "所有者の補正済み非会心DoT1回分へ海洋の起爆率のみ適用し、会心・通常ダメージ補正を再適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs"
+      }
+    },
+    {
+      "id": "114152204",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "triggerSkillId": "1141522",
+      "triggerActorId": "1410",
+      "name": "海洋・normal後の桂乃芬所有燃焼起爆",
+      "element": "Fire",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        30,
+        36,
+        42,
+        48,
+        54,
+        60
+      ],
+      "dataOwnerId": "1210",
+      "sourceDoTId": "121002",
+      "originalDamageInputKey": "ocean-foreign-original:1210:121002",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。所有者桂乃芬をパーティ編成し、同キャラクターが敵に付与した燃焼の補正済み非会心1回分を指定（未付与は0）。キュレネE0の海洋祝福とセイレンスの通常/スキル発動後。",
+      "calculationNote": "DoT所有者は桂乃芬（1210）、起爆者はセイレンス（1410）。所有者の最終値で既に計算されたDoT非会心1回分に、キュレネ精霊Skill Lv1～6の起爆率だけを掛ける。会心/ATK/DMG/防御/耐性/敵被DMG/DoT補正を再適用しない。未撃破の敵1体、所有者E0かつパーティ在籍、事前DoT状態一定に限定。所有者別の入力値は一度だけ合算し、DoT更新・再起爆・範囲外DoTを生成しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "所有者の補正済み非会心DoT1回分へ海洋の起爆率のみ適用し、会心・通常ダメージ補正を再適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs"
+      }
+    },
+    {
+      "id": "114152205",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "triggerSkillId": "1141522",
+      "triggerActorId": "1410",
+      "name": "海洋・skill後のカフカ所有感電起爆",
+      "element": "Thunder",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        40,
+        48,
+        56,
+        64,
+        72,
+        80
+      ],
+      "dataOwnerId": "1005",
+      "sourceDoTId": "100503",
+      "originalDamageInputKey": "ocean-foreign-original:1005:100503",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。所有者カフカをパーティ編成し、同キャラクターが敵に付与した感電の補正済み非会心1回分を指定（未付与は0）。キュレネE0の海洋祝福とセイレンスの通常/スキル発動後。",
+      "calculationNote": "DoT所有者はカフカ（1005）、起爆者はセイレンス（1410）。所有者の最終値で既に計算されたDoT非会心1回分に、キュレネ精霊Skill Lv1～6の起爆率だけを掛ける。会心/ATK/DMG/防御/耐性/敵被DMG/DoT補正を再適用しない。未撃破の敵1体、所有者E0かつパーティ在籍、事前DoT状態一定に限定。所有者別の入力値は一度だけ合算し、DoT更新・再起爆・範囲外DoTを生成しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "所有者の補正済み非会心DoT1回分へ海洋の起爆率のみ適用し、会心・通常ダメージ補正を再適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs"
+      }
+    },
+    {
+      "id": "114152206",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "triggerSkillId": "1141522",
+      "triggerActorId": "1410",
+      "name": "海洋・skill後のサンポ所有風化（最大5層を反映済みの1回分）起爆",
+      "element": "Wind",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        40,
+        48,
+        56,
+        64,
+        72,
+        80
+      ],
+      "dataOwnerId": "1108",
+      "sourceDoTId": "110804",
+      "originalDamageInputKey": "ocean-foreign-original:1108:110804",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。所有者サンポをパーティ編成し、同キャラクターが敵に付与した風化（最大5層を反映済みの1回分）の補正済み非会心1回分を指定（未付与は0）。キュレネE0の海洋祝福とセイレンスの通常/スキル発動後。",
+      "calculationNote": "DoT所有者はサンポ（1108）、起爆者はセイレンス（1410）。所有者の最終値で既に計算されたDoT非会心1回分に、キュレネ精霊Skill Lv1～6の起爆率だけを掛ける。会心/ATK/DMG/防御/耐性/敵被DMG/DoT補正を再適用しない。未撃破の敵1体、所有者E0かつパーティ在籍、事前DoT状態一定に限定。所有者別の入力値は一度だけ合算し、DoT更新・再起爆・範囲外DoTを生成しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "所有者の補正済み非会心DoT1回分へ海洋の起爆率のみ適用し、会心・通常ダメージ補正を再適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs"
+      }
+    },
+    {
+      "id": "114152207",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "triggerSkillId": "1141522",
+      "triggerActorId": "1410",
+      "name": "海洋・skill後のルカ所有裂創（最大HP上限を反映済みの1回分）起爆",
+      "element": "Physical",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        40,
+        48,
+        56,
+        64,
+        72,
+        80
+      ],
+      "dataOwnerId": "1111",
+      "sourceDoTId": "111102",
+      "originalDamageInputKey": "ocean-foreign-original:1111:111102",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。所有者ルカをパーティ編成し、同キャラクターが敵に付与した裂創（最大HP上限を反映済みの1回分）の補正済み非会心1回分を指定（未付与は0）。キュレネE0の海洋祝福とセイレンスの通常/スキル発動後。",
+      "calculationNote": "DoT所有者はルカ（1111）、起爆者はセイレンス（1410）。所有者の最終値で既に計算されたDoT非会心1回分に、キュレネ精霊Skill Lv1～6の起爆率だけを掛ける。会心/ATK/DMG/防御/耐性/敵被DMG/DoT補正を再適用しない。未撃破の敵1体、所有者E0かつパーティ在籍、事前DoT状態一定に限定。所有者別の入力値は一度だけ合算し、DoT更新・再起爆・範囲外DoTを生成しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "所有者の補正済み非会心DoT1回分へ海洋の起爆率のみ適用し、会心・通常ダメージ補正を再適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs"
+      }
+    },
+    {
+      "id": "114152208",
+      "characterId": "1410",
+      "sourceSkillId": "1141522",
+      "triggerSkillId": "1141522",
+      "triggerActorId": "1410",
+      "name": "海洋・skill後の桂乃芬所有燃焼起爆",
+      "element": "Fire",
+      "type": "dot",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "originalDamage",
+      "damageFormula": "resolvedDamageMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        40,
+        48,
+        56,
+        64,
+        72,
+        80
+      ],
+      "dataOwnerId": "1210",
+      "sourceDoTId": "121002",
+      "originalDamageInputKey": "ocean-foreign-original:1210:121002",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "hidden": true,
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。所有者桂乃芬をパーティ編成し、同キャラクターが敵に付与した燃焼の補正済み非会心1回分を指定（未付与は0）。キュレネE0の海洋祝福とセイレンスの通常/スキル発動後。",
+      "calculationNote": "DoT所有者は桂乃芬（1210）、起爆者はセイレンス（1410）。所有者の最終値で既に計算されたDoT非会心1回分に、キュレネ精霊Skill Lv1～6の起爆率だけを掛ける。会心/ATK/DMG/防御/耐性/敵被DMG/DoT補正を再適用しない。未撃破の敵1体、所有者E0かつパーティ在籍、事前DoT状態一定に限定。所有者別の入力値は一度だけ合算し、DoT更新・再起爆・範囲外DoTを生成しない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "所有者の補正済み非会心DoT1回分へ海洋の起爆率のみ適用し、会心・通常ダメージ補正を再適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs"
+      }
+    },
+    {
+      "id": "1410013",
+      "characterId": "1410",
+      "sourceSkillId": "141001",
+      "triggerSkillId": "1141522",
+      "name": "短調、止水に響く＋海洋の本人＋味方指定DoT起爆",
+      "element": "Physical",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "hitCountLabel": "本人の直接＋DoT4種＋パーティから選択した所有者のDoT",
+      "canCrit": true,
+      "multipliers": [
+        50.0,
+        60.0,
+        70.0,
+        80.0,
+        90.0,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "damageComponents": [
+        {
+          "key": "serin",
+          "name": "本人の直接攻撃＋本人所有4種DoT起爆",
+          "attackId": "1410012"
+        },
+        {
+          "key": "foreign-1005",
+          "name": "カフカ所有・感電DoT起爆",
+          "attackId": "114152201",
+          "dataOwnerId": "1005"
+        },
+        {
+          "key": "foreign-1108",
+          "name": "サンポ所有・風化（最大5層を反映済みの1回分）DoT起爆",
+          "attackId": "114152202",
+          "dataOwnerId": "1108"
+        },
+        {
+          "key": "foreign-1111",
+          "name": "ルカ所有・裂創（最大HP上限を反映済みの1回分）DoT起爆",
+          "attackId": "114152203",
+          "dataOwnerId": "1111"
+        },
+        {
+          "key": "foreign-1210",
+          "name": "桂乃芬所有・燃焼DoT起爆",
+          "attackId": "114152204",
+          "dataOwnerId": "1210"
+        }
+      ],
+      "numericModifierInputs": [
+        {
+          "inputKey": "serin-detonation-original:1410041",
+          "label": "本人の風化DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410042",
+          "label": "本人の裂創DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410043",
+          "label": "本人の燃焼DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410044",
+          "label": "本人の感電DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "ocean-foreign-original:1005:100503",
+          "label": "カフカ所有の感電DoT・所有者最終値で補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        },
+        {
+          "inputKey": "ocean-foreign-original:1108:110804",
+          "label": "サンポ所有の風化（最大5層を反映済みの1回分）DoT・所有者最終値で補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        },
+        {
+          "inputKey": "ocean-foreign-original:1111:111102",
+          "label": "ルカ所有の裂創（最大HP上限を反映済みの1回分）DoT・所有者最終値で補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        },
+        {
+          "inputKey": "ocean-foreign-original:1210:121002",
+          "label": "桂乃芬所有の燃焼DoT・所有者最終値で補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        }
+      ],
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。キュレネE0の海洋祝福が事前成立。セイレンス本人4種に加えて、編成中の対応DoT所有者が付与したDoTの補正済み非会心1回分を指定（未付与は0）。",
+      "calculationNote": "セイレンス本人の直接攻撃＋本人所有4種自然DoT各1回を既存合算し、入力されたパーティ内のE0対応DoT所有者について指定した同一敵への最終非会心1回分を所有者別に追加する。係数Lvはキュレネ精霊スキルLv1～6。所有者の最終値へ含まれた会心/防御/耐性/DMGとDoT専用補正を再適用しない。起爆率だけを掛ける。未撃破・敵1体・状態一定。撃破DoT/召喚DoT/領域の新規発生・所有者別DoTの層や更新は扱わない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs; tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      }
+    },
+    {
+      "id": "1410023",
+      "characterId": "1410",
+      "sourceSkillId": "141002",
+      "triggerSkillId": "1141522",
+      "name": "倍音、暗流の先の斉唱＋海洋の本人＋味方指定DoT起爆",
+      "element": "Physical",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "hitCountLabel": "本人の直接＋DoT4種＋パーティから選択した所有者のDoT",
+      "canCrit": true,
+      "multipliers": [
+        70.0,
+        77.0,
+        84.0,
+        91.0,
+        98.0,
+        105.0,
+        113.75,
+        122.5,
+        131.25,
+        140.0
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "requiredToughnessActive": true,
+      "damageComponents": [
+        {
+          "key": "serin",
+          "name": "本人の直接攻撃＋本人所有4種DoT起爆",
+          "attackId": "1410022"
+        },
+        {
+          "key": "foreign-1005",
+          "name": "カフカ所有・感電DoT起爆",
+          "attackId": "114152205",
+          "dataOwnerId": "1005"
+        },
+        {
+          "key": "foreign-1108",
+          "name": "サンポ所有・風化（最大5層を反映済みの1回分）DoT起爆",
+          "attackId": "114152206",
+          "dataOwnerId": "1108"
+        },
+        {
+          "key": "foreign-1111",
+          "name": "ルカ所有・裂創（最大HP上限を反映済みの1回分）DoT起爆",
+          "attackId": "114152207",
+          "dataOwnerId": "1111"
+        },
+        {
+          "key": "foreign-1210",
+          "name": "桂乃芬所有・燃焼DoT起爆",
+          "attackId": "114152208",
+          "dataOwnerId": "1210"
+        }
+      ],
+      "numericModifierInputs": [
+        {
+          "inputKey": "serin-detonation-original:1410041",
+          "label": "本人の風化DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410042",
+          "label": "本人の裂創DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410043",
+          "label": "本人の燃焼DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "serin-detonation-original:1410044",
+          "label": "本人の感電DoTの補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        {
+          "inputKey": "ocean-foreign-original:1005:100503",
+          "label": "カフカ所有の感電DoT・所有者最終値で補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        },
+        {
+          "inputKey": "ocean-foreign-original:1108:110804",
+          "label": "サンポ所有の風化（最大5層を反映済みの1回分）DoT・所有者最終値で補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        },
+        {
+          "inputKey": "ocean-foreign-original:1111:111102",
+          "label": "ルカ所有の裂創（最大HP上限を反映済みの1回分）DoT・所有者最終値で補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        },
+        {
+          "inputKey": "ocean-foreign-original:1210:121002",
+          "label": "桂乃芬所有の燃焼DoT・所有者最終値で補正済み非会心1回分（未付与は0）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        }
+      ],
+      "modifierConditions": [
+        {
+          "inputKey": "trace:1415:1141522:serin-damage-active",
+          "minimum": 1
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・状態一定。キュレネE0の海洋祝福が事前成立。セイレンス本人4種に加えて、編成中の対応DoT所有者が付与したDoTの補正済み非会心1回分を指定（未付与は0）。",
+      "calculationNote": "セイレンス本人の直接攻撃＋本人所有4種自然DoT各1回を既存合算し、入力されたパーティ内のE0対応DoT所有者について指定した同一敵への最終非会心1回分を所有者別に追加する。係数Lvはキュレネ精霊スキルLv1～6。所有者の最終値へ含まれた会心/防御/耐性/DMGとDoT専用補正を再適用しない。起爆率だけを掛ける。未撃破・敵1体・状態一定。撃破DoT/召喚DoT/領域の新規発生・所有者別DoTの層や更新は扱わない。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "補正済み本人DoT1回分へ祝福の起爆率だけを適用。直接成分と同一敵1回の起爆を分離して照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141522.params[0..5][1..2]; source DoT skills 100503/110804/111102/121002",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneOceanRound34.test.cjs; tests/hsr/hsrCyreneOceanRound32.test.cjs"
+      }
+    }
+  ]
+}

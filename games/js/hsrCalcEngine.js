@@ -299,6 +299,8 @@
         if(attack.id==='1140901'&&attack.characterId==='1409'&&attack.sourceSkillId==='1140901'&&attack.type==='memospriteSkill'&&attack.damageFormula==='recordedHealing'&&attack.scalingStat==='healingRecord'&&attack.element==='Wind')return '';
         if(attack.id==='11415012'&&attack.characterId==='1415'&&attack.sourceSkillId==='1141501'&&attack.damageFormula==='componentSequence'&&attack.type==='memospriteSkill'&&attack.element==='Ice')return '';
         if (['1410012','1410022'].includes(attack.id) && attack.characterId==='1410' && attack.damageFormula==='componentSequence' && attack.sourceSkillId===(attack.id==='1410012'?'141001':'141002') && attack.element==='Physical' && attack.type===(attack.id==='1410012'?'normal':'skill')) return '';
+        if (/^11415220[1-8]$/.test(attack.id) && attack.characterId==='1410' && attack.sourceSkillId==='1141522' && attack.damageFormula==='resolvedDamageMultiplier' && attack.type==='dot') return '';
+        if(['1410013','1410023'].includes(attack.id)&&attack.characterId==='1410'&&attack.damageFormula==='componentSequence')return '';
         if (/^1141522[1-8]$/.test(attack.id) && attack.characterId==='1410' && attack.sourceSkillId==='1141522' && attack.damageFormula==='resolvedDamageMultiplier' && attack.dataOwnerId==='1410' && attack.type==='dot') return '';
         if(attack.id==='1403033'&&attack.characterId==='1403'&&attack.damageFormula==='componentSequence'&&attack.type==='additional'&&attack.element==='Quantum')return '';
         if (attack.damageFormula === "resolvedDamageMultiplier" && ["14101021","14101022","14101023","14101024"].includes(attack.id) && attack.characterId === "1410" && attack.dataOwnerId === "1410" && attack.type === "dot") return "";
@@ -444,6 +446,10 @@ function calculateFanning(input) {
         if(['11415181','1405023'].includes(input.attack?.id)){
             const a=input.attack,c=input.character||{},e=input.enemy||{},curve=[35,38.5,42,45.5,49,52.5,56.87,61.25,65.62,70];
             if(c.id!=='1405'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==false||e.weaknessCount!==7||a.cyreneExtraHitsActive!==true||input.modifierInputs?.['cyrene-anaxa-extra-hits-active']!==true||a.characterId!=='1405'||a.sourceSkillId!==(a.id==='1405023'?'140502':'1141518')||a.type!=='skill'||a.element!=='Wind'||a.scalingStat!=='atk'||a.damageFormula!=='statMultiplier'||a.hitCount!==(a.id==='1405023'?8:3)||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>10||a.multiplier!==curve[a.traceLevel-1]||a.scalingTerms?.length)return {supported:false,reason:'理性+3ヒットが有効なアナイクス本人・7弱点/本質暴露・事前撃破済みの敵1体・Skill Lv1～10のみ対応です。8段には基本5段を含みます。'};
+        }
+        if(input.attack?.id==='11415251'){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},v=input.modifierInputs||{},shield=v['cyrene-earth-companion-shield'],ratio=[40,48,56,64,72,80][a.traceLevel-1];
+            if(c.id!=='1414'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||a.characterId!=='1414'||a.sourceSkillId!=='1141525'||a.statReferenceId!=='1414'||a.effectiveProfile!=='additional'||!a.completedReferenceSnapshot||!a.cyreneBlessingActive||v['cyrene-earth-active']!==true||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||!Number.isFinite(shield)||shield<0||shield>1e12||a.flatDamage!==shield*ratio/100||a.shieldRatio!==ratio||a.multiplier!==0||a.damageFormula!=='statMultiplier'||a.element!=='Physical'||a.type!=='additional'||a.hitCount!==1||a.scalingTerms?.length||!['critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&c.stats[k]>=0)||!['defenseIgnore','resistancePenetration'].every(k=>Number.isFinite(e[k]))||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(!['enemyAll','enemySingle'].includes(m.target?.owner)||m.category==='progressiveTakenDamage')))return {supported:false,reason:'大地の付加は本人を同袍にした丹恒・騰荒の指定バリア耐久と、付加に有効な最終値を使う1回比較です。Lv80/E0・未撃破の敵1体・祝福事前成立・MemSkill1～6のみ対応です。'};
         }
         if(input.attack?.id==='11415151'){
             const a=input.attack,c=input.character||{},e=input.enemy||{},curve=[6,6.6,7.2,7.8,8.4,9,9.75,10.5,11.25,12];
@@ -637,6 +643,7 @@ function calculateFanning(input) {
             expected: nonCritTotal * expectedCritMultiplier,
             perHit: { nonCrit: nonCritPerHit, crit: critPerHit, expected: expectedPerHit },
             breakdown: {
+                ...(attack.id==='11415251'?{shieldSnapshot:input.modifierInputs['cyrene-earth-companion-shield'],shieldRatio:attack.shieldRatio}:{}),
                 referenceValue, multiplierPercent: scalingTerms.reduce((sum, term) => sum + term.multiplierPercent, 0), multiplierAddition, scalingTerms, flatDamage,
                 damageFormula: attack.damageFormula || "statMultiplier", enemyHpPercent: number(attack.enemyHpPercent), atkCapPercent: number(attack.atkCapPercent), cappedEnemyHpDamage,
                 damageBonus, takenDamage, progressiveVulnerability: progressiveVulnerability.map((item) => ({ id: item.id, perHit: item.value, maximumStacks: number(item.stacking?.maximumStacks, 1) })), vulnerabilityFactors, defense, resistance, weakness, toughness, defenseReductionPercent: defenseReduction, defenseIgnorePercent: defenseIgnore,
@@ -658,6 +665,18 @@ function calculateFanning(input) {
                 if(parts[i].key!==(i?'blessing':'barrier')||a.damageComponents?.[i]?.attackId!==id||b.id!==id||b.characterId!=='1403'||b.type!=='additional'||b.element!=='Quantum'||b.scalingStat!=='hp'||b.damageFormula!=='statMultiplier'||b.traceLevel!==a.traceLevel||b.multiplier!==curve[a.traceLevel-1]||b.hitCount!==1||JSON.stringify(q?.character)!==JSON.stringify(c)||JSON.stringify(q?.enemy)!==JSON.stringify(e)||JSON.stringify(q?.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail();
             }
             return combineDamageComponents(a,parts,n?'結界基本1回＋門と道追加1回（追撃本体は別）':'結界基本1回（門と道は適用なし）');
+        }
+
+        if(['1410013','1410023'].includes(input.attack?.id)){
+            const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],normal=a.id==='1410013',owners=a.dotOwnerIds||[],ids=['1005','1108','1111','1210'],own=normal?'1410012':'1410022',level=a.cyreneSupportLevel;
+            const fail=()=>({supported:false,reason:'海洋の他所有者DoTは編成中のE0付与者ごとの補正済み非会心1回分が必要です。本人4種と別々に明示し、未付与は0を指定してください。'});
+            if(c.id!=='1410'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!a.cyreneBlessingActive||input.modifierInputs?.['trace:1415:1141522:serin-damage-active']!==true||!Number.isInteger(level)||level<1||level>6||!owners.length||owners.length>2||new Set(owners).size!==owners.length||owners.some(id=>!ids.includes(id))||parts.length!==1+owners.length)return fail();
+            for(let i=0;i<parts.length;i++){
+                const q=parts[i]?.input,b=q?.attack||{},owner=owners[i-1],id=i?'11415220'+(ids.indexOf(owner)+1+(normal?0:4)):own;
+                if(b.id!==id||parts[i].key!==(i?'foreign-'+owner:'serin')||!a.damageComponents?.some(d=>d.attackId===id&&d.key===parts[i].key)||b.cyreneSupportLevel!==level||b.cyreneBlessingActive!==true||JSON.stringify(q?.character)!==JSON.stringify(c)||JSON.stringify(q?.enemy)!==JSON.stringify(e)||JSON.stringify(q?.modifierInputs)!==JSON.stringify(input.modifierInputs))return fail();
+                if(i?(b.dataOwnerId!==owner||b.dotOwnerPresent!==true):(b.traceLevel!==a.traceLevel||b.multiplier!==a.multiplier))return fail();
+            }
+            return combineDamageComponents(a,parts,'本人直撃・本人4種DoT＋編成中の指定所有者DoT（各1回、領域追加発生は別）');
         }
 
         if(['1410012','1410022'].includes(input.attack?.id)){
@@ -940,6 +959,12 @@ function calculateFanning(input) {
     // This narrow A4 path only scales that explicit snapshot, and never attributes it to another owner.
     function calculateSerinResolvedDoT(input) {
         const a=input.attack||{},c=input.character||{},e=input.enemy||{};
+        if(/^11415220[1-8]$/.test(a.id)){
+            const n=Number(a.id.slice(-1)),index=(n-1)%4,owners=['1005','1108','1111','1210'],sources=['100503','110804','111102','121002'],elements=['Thunder','Wind','Physical','Fire'],owner=owners[index],source=sources[index],key='ocean-foreign-original:'+owner+':'+source,original=input.modifierInputs?.[key],ratio=(n<=4?[30,36,42,48,54,60]:[40,48,56,64,72,80])[a.traceLevel-1];
+            if(c.id!=='1410'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||a.dataOwnerId!==owner||a.sourceDoTId!==source||a.triggerActorId!=='1410'||a.element!==elements[index]||a.type!=='dot'||a.canCrit!==false||a.sourceSkillId!=='1141522'||a.originalDamageInputKey!==key||a.dotOwnerPresent!==true||a.cyreneBlessingActive!==true||input.modifierInputs?.['trace:1415:1141522:serin-damage-active']!==true||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||a.multiplier!==ratio||!Number.isFinite(original)||original<0||original>1e12)return {supported:false,reason:'編成中のE0付与者の事前DoT1回分を明示してください。起爆者のATK/属性や別所有者の値で代用しません。'};
+            const value=original*ratio/100;
+            return {attack:{name:a.name,canCrit:false,hitCount:1,target:'single'},nonCrit:value,crit:value,expected:value,applied:[],skipped:(input.modifiers||[]).map(m=>({...m,applicable:false,reason:'DoT所有者の補正済み1回分へ算入済みのため再適用しません。'})),breakdown:{damageFormula:'resolvedDamageMultiplier',referenceValue:original,multiplier:ratio,sourceDoTId:source,dataOwnerId:owner,triggerActorId:'1410',condition:'所有者別の成立済みDoT1回分へ起爆率だけを適用。本人の4種DoTと重複させません。'}};
+        }
         const ocean=/^1141522[1-8]$/.test(a.id),number=ocean?Number(a.id.slice(-1)):0;
         const index=ocean?(number-1)%4:["14101021","14101022","14101023","14101024"].indexOf(a.id);
         const sourceId=["1410041","1410042","1410043","1410044"][index];

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": 1,
+  "modifiers": [
+    {
+      "id": "trace:1415:1141525:earth-companion-active",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141525"
+      },
+      "name": "大地・同袍バリア由来の龍霊付加",
+      "description": "同袍=丹恒・騰荒とした龍霊の次の追加攻撃1回について、攻撃時点の同袍バリア耐久値を指定し、MemSkillLv別倍率を既存式へ接続します。バリア状態や残り攻撃回数は自動追跡しません。",
+      "category": "attackState",
+      "unit": "flat",
+      "value": {
+        "kind": "fixed",
+        "fixed": 1
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": [
+          "Physical"
+        ],
+        "attackIds": [
+          "11415251"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-earth-active",
+        "inputLabel": "大地の祝福が龍霊の次の攻撃に有効",
+        "conditionText": "キュレネの精霊スキル後、龍霊の次の行動前に大地の祝福が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "cyrene-earth-companion-extra",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "attackState",
+        "operation": "set"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版は同袍バリア耐久値×MemSkillLv別倍率の追加ダメージ1成分を明示する。状態遷移は生成せず、既存通常式へ接続する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141525.params[][3]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "verification": "tests/hsr/hsrCyreneEarthRound34.test.cjs",
+        "gameVersion": "fixed dbe8cdf"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      }
+    }
+  ]
+}

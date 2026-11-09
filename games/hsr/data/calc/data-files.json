@@ -66,7 +66,9 @@
     "attacks-pearl-round31.json",
     "attacks-cyrene-ocean-round32.json",
     "attacks-cyrene-phainon-round32.json",
-    "attacks-cyrene-round33.json"
+    "attacks-cyrene-round33.json",
+    "attacks-cyrene-ocean-round34.json",
+    "attacks-cyrene-earth-round34.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -169,6 +171,8 @@
     "modifiers-characters-round30.json",
     "modifiers-cyrene-round31.json",
     "modifiers-cyrene-round32.json",
-    "modifiers-cyrene-round33.json"
+    "modifiers-cyrene-round33.json",
+    "modifiers-cyrene-genesis-round34.json",
+    "modifiers-cyrene-earth-round34.json"
   ]
 }

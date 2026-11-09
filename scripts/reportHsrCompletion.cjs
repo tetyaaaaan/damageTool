@@ -1346,6 +1346,12 @@ Object.assign(e0CandidateAudit['1408'],{
  remaining:'Lv80/E0・敵1体・攻撃中の状態一定。Normal/強化Normal Lv1～6、Skill/Counter/通常終了Last/Talent Lv1～10。140811は壊傷1～3層×Skill Lv1～10、4層×Lv1～6・10だけを採用し、4層×Lv7～9は依然根拠待ちで計算対象外。カウンター熾炎1～99と消費壊傷を事前指定。最終ATK/HP/CR/CD/物理DMGは選択した状態の値を使い、火種由来CD・装備/支援と既存A2/形態/A6の算入済みを一度管理。140803は最後の追加ターンで通常終了するLastだけ。HP0強制終了の残ターン減衰、変身/段間の層更新、複数敵配分、E1以上は認定外。キュレネ由来の炎付加は外部祝福の別成分であり本人E0の必須攻撃へ数えない。'
 });
 Object.assign(e0CandidateAudit['1415'],{evidence:e0CandidateAudit['1415'].evidence+' 第33回は理性の追加3段・基本込み8段・非再帰Skill16段/通常+8段と、門と道の基本結界1回+追加1回を既存通常式/合算へ接続。',missingComponents:['特殊祝福の未接続成分（他所有者DoT起爆/精霊・バリア参照/他受益者など）'],remaining:'Lv80/E0・敵1体・事前成立の状態一定。本人/精霊の最終値を分離し、各祝福の算入済みを一度管理する。理性の+3段は真知とは別の1ターン状態入力、8段は基本5段を含む。アナイクスは7弱点/本質暴露・事前撃破済みに限定。門と道の2回比較は追撃前A2=3層で飽和・未撃破の敵1体・全成分の最終HP/会心/補正一定に限定し、追撃本体と合算しない。海洋はセイレンス本人4種自然DoTの補正済み1回分だけ、世負い炎付加は変身した本人と独立炎DMG/敵炎RESを使う。一般祝福の他受益者、他所有者/撃破/領域DoT・新規連鎖、その他精霊/バリア参照・未接続の対象別特殊成分が残るため全体未認定。資源/行動順/段間更新、複数敵、一般継承は自動生成しない。'});
+// Round34 expands owner snapshots without treating incomplete special blessings as a full E0 kit.
+Object.assign(e0CandidateAudit['1415'],{
+ evidence:e0CandidateAudit['1415'].evidence+' 第34回は海洋の別所有者DoT（カフカ/サンポ/ルカ/桂乃芬）を補正済み非会心1回分で分離合算。創世のデミウルゴス独立HP/CRを開拓者・記憶本人/ミュリオンへ個別算入。大地は本人同袍の指定バリア耐久由来付加1回。hsrCyreneOceanRound34/GenesisRound34/EarthRound34/ToolInputsで独立値・所有者・ON/OFF・不足/解除・既算入・保存を確認。',
+ missingComponents:['特殊祝福の残成分（歳月/生と死/他同袍・受益者/未対応DoT種/その他対象別補正）'],
+ remaining:'Lv80/E0・敵1体・事前成立・状態一定。従来の本人/精霊と特殊祝福の限定範囲を維持する。海洋は本人4種と編成中E0カフカ感電/サンポ風化/ルカ裂創/桂乃芬燃焼を各1回。各所有者の補正済み非会心1回分へ起爆率だけを適用し、ブラックスワンのアーカナ・撃破/装備DoT・領域追加発生・新規付与/段間更新は合算しない。創世はデミウルゴス最大HP/CRを明示し、開拓者男女/ミュリオンのATK/CRを個別算入済み除外。強化通常後の精霊追加ターンを自動連結せず、既存の精霊単発行で比較する。大地は本人同袍の物理付加1回だけ、バリア生成/150%強化/消費/3攻撃全体や他同袍を自動生成しない。祝福の本人DMGは完成済み最終値へ含める。生と死の超過新蕾による死竜天賦倍率・歳月の長夜固有補正・未接続受益者/対象別特殊補正等が残るため全体未認定。門と道のA2未飽和、一般継承/複数敵/E1以上は従来どおり対象外。'
+});
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={
  '1220':'スキル+雷狩は限定対応。必殺技の分岐と途中撃破/成分間変化が不足。',

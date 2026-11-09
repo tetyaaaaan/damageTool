@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-genesis-round34-dbe8cdf",
+  "modifiers": [
+    {
+      "id": "trace:1415:1141513:remembrance-trailblazer-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141513"
+      },
+      "name": "『創世』：開拓者・記憶のATK",
+      "description": "『創世』に捧ぐ詩が開拓者・記憶へ有効な間、デミウルゴスの独立した最大HPスナップショットを参照して開拓者本人またはミュリオンの攻撃力へ加算します。本人と精霊の最終入力を個別管理します。",
+      "category": "statFlat",
+      "stat": "atk",
+      "unit": "flat",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "cyrene-genesis-demi-hp",
+        "inputLabel": "デミウルゴスの完成済み最大HP",
+        "minimum": 0,
+        "inputMaximum": 100000,
+        "inputStep": 0.1,
+        "scaleValues": [
+          8,
+          9.6,
+          11.2,
+          12.8,
+          14.4,
+          16
+        ],
+        "addValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "inputUnit": ""
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "800701",
+          "800801",
+          "800708:caster",
+          "800808:caster"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-genesis-active",
+        "inputLabel": "『創世』に捧ぐ詩が有効（開拓者・記憶とミュリオン）",
+        "conditionText": "キュレネの精霊スキル『創世』に捧ぐ詩を開拓者・記憶へ発動し、攻撃時点でバフが有効な状態を指定します。編成だけでは自動発動しません。",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141513:remembrance-trailblazer-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6,
+        "minimum": 0,
+        "maximum": 100000,
+        "integer": false
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141513:trailblazer-atk-in-final-stats",
+        "inputLabel": "開拓者・記憶本人のATKへ『創世』分を算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1141513の独立ミュリオン最終値参照を既存Modifierへ接続。ATK/会心率は開拓者本人と精霊の攻撃IDを分け、完成済み最終値へ含む場合は別々の算入済み入力で除外します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141513.params[0][0..9]; character_skill_trees.json:1415301(max6)",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "#1はデミウルゴス最大HP×8～22.4%。E0のMemSkill上限6は8～16%。recipientは開拓者・記憶本人とミュリオン。HP入力は独立した精霊最終HPで、providerStatは使わない。",
+        "verification": "tests/hsr/hsrCyreneGenesisRound34.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1415:1141513:remembrance-trailblazer-crit-rate",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141513"
+      },
+      "name": "『創世』：開拓者・記憶の会心率",
+      "description": "『創世』に捧ぐ詩が開拓者・記憶へ有効な間、ミュリオンの独立した最終会心率スナップショットを参照して開拓者本人またはミュリオンの会心率へ加算します。本人と精霊の最終入力を個別管理します。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "cyrene-genesis-demi-crit-rate",
+        "inputLabel": "デミウルゴスの完成済み会心率（%）",
+        "minimum": 0,
+        "inputMaximum": 10000,
+        "inputStep": 0.1,
+        "scaleValues": [
+          36,
+          43.2,
+          50.4,
+          57.6,
+          64.8,
+          72
+        ],
+        "addValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "inputUnit": "%"
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "800701",
+          "800801",
+          "800708:caster",
+          "800808:caster"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-genesis-active",
+        "inputLabel": "『創世』に捧ぐ詩が有効（開拓者・記憶とミュリオン）",
+        "conditionText": "キュレネの精霊スキル『創世』に捧ぐ詩を開拓者・記憶へ発動し、攻撃時点でバフが有効な状態を指定します。編成だけでは自動発動しません。",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141513:remembrance-trailblazer-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6,
+        "minimum": 0,
+        "maximum": 10000,
+        "integer": false
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141513:trailblazer-crit-rate-in-final-stats",
+        "inputLabel": "開拓者・記憶本人の会心率へ『創世』分を算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1141513の独立ミュリオン最終値参照を既存Modifierへ接続。ATK/会心率は開拓者本人と精霊の攻撃IDを分け、完成済み最終値へ含む場合は別々の算入済み入力で除外します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141513.params[1][0..9]; character_skill_trees.json:1415301(max6)",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "#2はデミウルゴス会心率×36～100.8%。E0のMemSkill上限6は36～72%。recipientは開拓者・記憶本人とミュリオン。会心率入力は独立した精霊最終CRで、providerStatは使わない。",
+        "verification": "tests/hsr/hsrCyreneGenesisRound34.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1415:1141513:mem-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141513"
+      },
+      "name": "『創世』：ミュリオンのATK",
+      "description": "『創世』に捧ぐ詩が開拓者・記憶へ有効な間、デミウルゴスの独立した最大HPスナップショットを参照して開拓者本人またはミュリオンの攻撃力へ加算します。本人と精霊の最終入力を個別管理します。",
+      "category": "statFlat",
+      "stat": "atk",
+      "unit": "flat",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "cyrene-genesis-demi-hp",
+        "inputLabel": "デミウルゴスの完成済み最大HP",
+        "minimum": 0,
+        "inputMaximum": 100000,
+        "inputStep": 0.1,
+        "scaleValues": [
+          8,
+          9.6,
+          11.2,
+          12.8,
+          14.4,
+          16
+        ],
+        "addValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "inputUnit": ""
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "800703",
+          "800803",
+          "1800701",
+          "1800801"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-genesis-active",
+        "inputLabel": "『創世』に捧ぐ詩が有効（開拓者・記憶とミュリオン）",
+        "conditionText": "キュレネの精霊スキル『創世』に捧ぐ詩を開拓者・記憶へ発動し、攻撃時点でバフが有効な状態を指定します。編成だけでは自動発動しません。",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141513:mem-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6,
+        "minimum": 0,
+        "maximum": 100000,
+        "integer": false
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141513:memosprite-atk-in-final-stats",
+        "inputLabel": "ミュリオンのATKへ『創世』分を算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1141513の独立ミュリオン最終値参照を既存Modifierへ接続。ATK/会心率は開拓者本人と精霊の攻撃IDを分け、完成済み最終値へ含む場合は別々の算入済み入力で除外します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141513.params[0][0..9]; character_skill_trees.json:1415301(max6)",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "#1はデミウルゴス最大HP×8～22.4%。E0のMemSkill上限6は8～16%。recipientは開拓者・記憶本人とミュリオン。HP入力は独立した精霊最終HPで、providerStatは使わない。",
+        "verification": "tests/hsr/hsrCyreneGenesisRound34.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1415:1141513:mem-crit-rate",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141513"
+      },
+      "name": "『創世』：ミュリオンの会心率",
+      "description": "『創世』に捧ぐ詩が開拓者・記憶へ有効な間、ミュリオンの独立した最終会心率スナップショットを参照して開拓者本人またはミュリオンの会心率へ加算します。本人と精霊の最終入力を個別管理します。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "cyrene-genesis-demi-crit-rate",
+        "inputLabel": "デミウルゴスの完成済み会心率（%）",
+        "minimum": 0,
+        "inputMaximum": 10000,
+        "inputStep": 0.1,
+        "scaleValues": [
+          36,
+          43.2,
+          50.4,
+          57.6,
+          64.8,
+          72
+        ],
+        "addValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "inputUnit": "%"
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "800703",
+          "800803",
+          "1800701",
+          "1800801"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-genesis-active",
+        "inputLabel": "『創世』に捧ぐ詩が有効（開拓者・記憶とミュリオン）",
+        "conditionText": "キュレネの精霊スキル『創世』に捧ぐ詩を開拓者・記憶へ発動し、攻撃時点でバフが有効な状態を指定します。編成だけでは自動発動しません。",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141513:mem-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6,
+        "minimum": 0,
+        "maximum": 10000,
+        "integer": false
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141513:memosprite-crit-rate-in-final-stats",
+        "inputLabel": "ミュリオンの会心率へ『創世』分を算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1141513の独立ミュリオン最終値参照を既存Modifierへ接続。ATK/会心率は開拓者本人と精霊の攻撃IDを分け、完成済み最終値へ含む場合は別々の算入済み入力で除外します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141513.params[1][0..9]; character_skill_trees.json:1415301(max6)",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-08",
+        "notes": "#2はデミウルゴス会心率×36～100.8%。E0のMemSkill上限6は36～72%。recipientは開拓者・記憶本人とミュリオン。会心率入力は独立した精霊最終CRで、providerStatは使わない。",
+        "verification": "tests/hsr/hsrCyreneGenesisRound34.test.cjs"
+      }
+    }
+  ]
+}

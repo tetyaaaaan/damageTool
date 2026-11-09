@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-earth-round34-dbe8cdf",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版バリア参照量を独立した1成分として受け取り、通常の付加ダメージ式を再利用する。バリア生成/消費や後続回数は追跡しない。"
+  },
+  "overrides": [
+    {
+      "id": "11415251",
+      "characterId": "1414",
+      "sourceSkillId": "1141525",
+      "triggerSkillId": "1141525",
+      "name": "『大地』の祝福：龍霊の本人同袍バリア付加1回",
+      "element": "Physical",
+      "type": "additional",
+      "traceKey": "memSkill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        40,
+        48,
+        56,
+        64,
+        72,
+        80
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "statReferenceId": "1414",
+      "effectiveProfile": "additional",
+      "requiresDragonSnapshot": true,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "modifierConditions": [
+        {
+          "inputKey": "cyrene-earth-companion-shield",
+          "minimum": 0
+        }
+      ],
+      "numericModifierInputs": [
+        {
+          "inputKey": "cyrene-earth-companion-shield",
+          "label": "同袍バリアのダメージ参照時耐久値",
+          "minimum": 0,
+          "maximum": 1000000000
+        }
+      ],
+      "conditionText": "Lv80/E0・未撃破の敵1体・同袍=丹恒・騰荒・龍霊の次の行動時に『大地』の祝福が有効。攻撃時点の同袍バリア耐久値を入力し、龍霊の付加用最終会心/物理DMG/防御無視/耐性貫通を指定。",
+      "calculationNote": "龍霊の次の追加攻撃1回に、ダメージ参照時点で有効な同袍バリア耐久値×キュレネ精霊スキルLv1～6の40～80%を固定加算し、既存の追加ダメージ通常式を適用します。通常の龍霊ATKは係数に使いません。強化通常の物理/同袍付加やA6成分とは別イベントで、バリア生成・重複・減衰・消費、残り2回、行動前倒し、必殺強化効果は自動再現しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版character_skills.json:1141525.params[][3]と説明文が明示するバリア耐久×追加ダメージ。1回のバリア参照値を既存通常式の固定加算へ接続し、バリア状態更新は行わない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141525.params[0..9][3]; character_skill_trees.json:1415301(max_level=6)",
+        "verifiedAt": "2026-11-08",
+        "scope": "Lv80/E0・同袍=本人・敵1体・状態一定・龍霊の次の行動に含まれる単一の追加成分。",
+        "verification": "tests/hsr/hsrCyreneEarthRound34.test.cjs"
+      },
+      "shieldInputKey": "cyrene-earth-companion-shield",
+      "shieldRatioByMemSkill": [
+        40,
+        48,
+        56,
+        64,
+        72,
+        80
+      ]
+    }
+  ]
+}
