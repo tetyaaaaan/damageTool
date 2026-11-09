@@ -4,7 +4,8 @@
   "description": "ヴェルト1004の強化前・Ver.4.2強化後を切り替えて扱う構造化補正。攻撃倍率はattack-overrides.jsonに分離する。",
   "modifiers": [
     {
-      "id":"traceNode:1004:1004101:damage-taken","variant":"previous","source":{"kind":"trace","id":"1004","traceId":"1004101"},"name":"懲戒・被ダメージ増加","description":"必殺技発動時、敵の受けるダメージ+12%、2ターン継続。","category":"takenDamage","unit":"percent","value":{"kind":"fixed","fixed":12},"target":{"owner":"enemyAll","attackTypes":["all"],"elements":[]},"activation":{"mode":"toggle","conditionText":"必殺技で懲戒を付与した敵を攻撃","inputKey":"welt-punishment-active","inputLabel":"懲戒の効果中","default":false,"durationTurns":2},"stacking":{"group":"welt-previous-punishment","rule":"nonStacking"},"calculation":{"stage":"vulnerability","operation":"add"},"inputPolicy":"conditional","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes","sourceFile":"index_new/jp/character_skill_trees.json","gameVersion":"4.2 snapshot-2026-07-28","verifiedAt":"2026-07-29","notes":"trace 1004101 params 100%,12%,2 turns"}
+      "id":"traceNode:1004:1004101:damage-taken","variant":"previous","source":{"kind":"trace","id":"1004","traceId":"1004101"},"name":"懲戒・被ダメージ増加","description":"必殺技発動時、敵の受けるダメージ+12%、2ターン継続。","category":"takenDamage","unit":"percent","value":{"kind":"fixed","fixed":12},"target":{"owner":"enemyAll","attackTypes":["all"],"elements":[]},"activation":{"mode":"toggle","conditionText":"必殺技で懲戒を付与した敵を攻撃","inputKey":"welt-punishment-active","inputLabel":"懲戒の効果中","default":false,"durationTurns":2},"stacking":{"group":"welt-previous-punishment","rule":"nonStacking"},"calculation":{"stage":"vulnerability","operation":"add"},"inputPolicy":"conditional","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes","sourceFile":"index_new/jp/character_skill_trees.json","gameVersion":"4.2 snapshot-2026-07-28","verifiedAt":"2026-07-29","notes":"trace 1004101 params 100%,12%,2 turns"},
+      "finalStatsInclusion":{"inputKey":"welt-punishment-in-final-enemy-input","inputLabel":"懲戒の被ダメージ+12%を敵の被ダメージ入力へ算入済み"}
     },
     {
       "id":"traceNode:1004:1004103:broken-damage","variant":"previous","source":{"kind":"trace","id":"1004","traceId":"1004103"},"name":"裁決・弱点撃破状態への与ダメージ","description":"弱点撃破状態の敵に対して与ダメージ+20%。","category":"damageBonus","unit":"percent","value":{"kind":"fixed","fixed":20},"target":{"owner":"self","attackTypes":["all"],"elements":[]},"activation":{"mode":"toggle","conditionText":"敵が弱点撃破状態","inputKey":"enemy-weakness-broken","inputLabel":"敵が弱点撃破状態","default":false},"stacking":{"group":"welt-previous-broken-damage","rule":"nonStacking"},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"conditional","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes","sourceFile":"index_new/jp/character_skill_trees.json","gameVersion":"4.2 snapshot-2026-07-28","verifiedAt":"2026-07-29","notes":"trace 1004103 param 20%"}
@@ -21,6 +22,62 @@
     },
     {
       "id":"eidolon:1004:6:skill-extra-hit","source":{"kind":"eidolon","id":"1004","eidolonRank":6},"name":"光ある未来・戦闘スキル追加1ヒット","description":"戦闘スキルのランダム対象ダメージを1ヒット追加する。星魂6版は攻撃一覧で別項目として計算する。","category":"extraDamage","unit":"percent","value":{"kind":"fixed","fixed":0},"target":{"owner":"self","attackTypes":["skill"],"elements":["Imaginary"]},"activation":{"mode":"always","conditionText":"星魂6到達時"},"stacking":{"group":"welt-e6-skill-hit","rule":"nonStacking"},"calculation":{"stage":"extraDamage","operation":"add"},"inputPolicy":"manual","support":{"status":"displayOnly","verified":true,"reason":"通常版との二重計上を防ぐため、攻撃一覧の「虚空断界（星魂6）」で独立計算します。"},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes","sourceFile":"index_new/jp/character_ranks.json","gameVersion":"4.2 snapshot-2026-07-28","verifiedAt":"2026-07-29","notes":"eidolon 6; previous 4 hits / enhanced 6 hits"}
+    },
+    {
+      "id": "trace:1004:100404:slowed-state",
+      "variant": "previous",
+      "source": {
+        "kind": "trace",
+        "id": "1004",
+        "skillId": "100404"
+      },
+      "name": "原版天賦・攻撃前の減速状態",
+      "description": "攻撃前から対象に減速または禁錮が成立している状態。今回のスキル/必殺による新規付与を自動で事前状態へ置き換えません。",
+      "category": "attackState",
+      "unit": "boolean",
+      "value": {
+        "kind": "fixed",
+        "fixed": 1
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "攻撃対象が攻撃前から減速または禁錮状態",
+        "inputKey": "welt-enemy-slowed",
+        "inputLabel": "敵が攻撃前から減速・禁錮状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "welt-enemy-slowed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "attackState",
+        "operation": "set"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "既存attackStateで原版天賦の事前減速条件だけを共有し、ダメージ補正値は加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes + KQM original-kit mechanics",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100401/100404",
+        "referenceUrl": "https://hsr.keqingmains.com/welt/",
+        "gameVersion": "fixed StarRailRes original kit; KQM v1.5 (2023-12-03)",
+        "verifiedAt": "2026-11-09",
+        "verification": "tests/hsr/hsrWeltRound37.test.cjs",
+        "notes": "KQM original-kit endpoint multipliers agree with the pinned original records. Skill triggers Talent once per bounce (3); Ultimate has 2 Talent triggers on a pre-slowed target and applies Imprisonment after damage. A2 vulnerability applies before Ultimate damage. No new-Slow hit order or proc probability is inferred."
+      }
     }
   ]
 }

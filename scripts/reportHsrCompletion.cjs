@@ -1367,6 +1367,14 @@ Object.assign(e0CandidateAudit['1321'],{
  remaining:'本人通常の30～60%変換のみ、事前撃破済みの炎弱点敵1体・Lv80/E0・明示した効率補正前削靭で追加。未撃破時の実削靭責務、味方所有の変換、追撃100～200%と30～60%の重複/適用順、A6追加削靭が残るため全体E0は保留。',
  missingComponents:['未撃破時/味方所有の共に舞う者変換・追撃への重複/順序・A6追加削靭']
 });
+// Round37: the versioned original-kit guide resolves Talent counts for a pre-slowed target.
+Object.assign(e0CandidateAudit['1004'],{
+ status:'confirmed',workClass:'済',majorSourceIds:['100401','100402','100403','100404','1100401','1100402','1100403','1100404'],
+ requiredAttackIds:['1004012','1004022','1004032','11004012','11004022','11004032'],missingComponents:[],
+ summary:'原版の通常/スキル/必殺へ事前減速時の天賦1/3/2回を合算し、既存強化版の事前無重力/懲戒10層の主要構成と合わせて限定確認。',
+ evidence:e0CandidateAudit['1004'].evidence+' 第37回KQM Welt v1.5（2023-12-03公開）の事前減速・スキル各bounce3回/必殺2回・禁錮はダメージ後・A2はダメージ前を、固定100401/2/3/4の原版係数と照合。hsrWeltRound37/ToolInputsで独立NC/C/EV、成分回数、攻撃種別別補正、原版/強化版の分離、A2自動適用/敵入力算入済み、状態OFF・保存を確認。',
+ remaining:'Lv80/E0・非虚数弱点/未撃破の敵1体・全成分中に状態変化なし。原版は攻撃前から減速/禁錮が成立した通常1～6/スキル・必殺・天賦1～10。原版UはA2被DMG12%をダメージ前に1回適用し、敵入力へ算入済みなら再加算しない。強化版は従来どおり事前無重力・懲戒10層、審判はN/S各1回、天賦N/S/U各1/5/2回、EHR由来ATKは最終入力に一度含める。新規減速の成功/同撃判定、未減速開始スキル、懲戒0～9層の途中更新、途中撃破/死亡・複数敵・E1以上は認定外。原版Uの当該禁錮を事前減速へ置換しない。'
+});
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={
  '1220':'スキル+雷狩は限定対応。必殺技の分岐と途中撃破/成分間変化が不足。',

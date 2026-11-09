@@ -1,0 +1,395 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "welt-previous-round37",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "原版・事前減速・敵1体の通常/スキル/必殺を本体＋既存天賦へ分けて独立検証。"
+  },
+  "overrides": [
+    {
+      "id": "1004012",
+      "characterId": "1004",
+      "sourceSkillId": "100401",
+      "variant": "previous",
+      "name": "重力制圧＋天賦付加合計（原版・事前減速）",
+      "element": "Imaginary",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 2,
+      "canCrit": true,
+      "multipliers": [
+        50.0,
+        60.0,
+        70.0,
+        80.0,
+        90.0,
+        100,
+        110.0,
+        120.0,
+        130.0,
+        140.0
+      ],
+      "damageFormula": "componentSequence",
+      "hitCountLabel": "攻撃本体＋減速対象への天賦1回",
+      "displayOrder": 11,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "modifierInputKey": "welt-enemy-slowed",
+      "modifierInputMinimum": 1,
+      "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "body",
+          "attackId": "100401",
+          "name": "原版の攻撃本体",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            50.0,
+            60.0,
+            70.0,
+            80.0,
+            90.0,
+            100,
+            110.0,
+            120.0,
+            130.0,
+            140.0
+          ]
+        },
+        {
+          "key": "talent",
+          "attackId": "100404",
+          "name": "事前減速への天賦付加1回",
+          "type": "additional",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            30.0,
+            33.0,
+            36.0,
+            39.0,
+            42.0,
+            45.0,
+            48.75,
+            52.5,
+            56.25,
+            60.0,
+            63.0,
+            66.0,
+            69.0,
+            72.0,
+            75.0
+          ]
+        }
+      ],
+      "calculationScope": "previous-preexisting-slow-fixed-proc-count",
+      "conditionText": "原版・Lv80/E0・非虚数弱点/未撃破の敵1体。攻撃前から減速または禁錮が有効で、全成分中に状態変化なし。",
+      "calculationNote": "通常は天賦1回、スキル3ヒットは天賦3回、必殺は天賦2回。本体と付加は攻撃種類を分けて補正を適用し、同じ敵の最終ATK/会心/虚数DMGから合算します。スキルのランダム対象は敵1体で確定。必殺の禁錮は直接ダメージ後に付くため、今回の必殺による新規禁錮を事前減速の代わりにはしません。初回減速の成功判定・段間更新・複数敵・途中撃破・E1以上は対象外。単独の本体/天賦行をこの合計へ重ねないでください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定原版倍率とKQM v1.5の通常1/スキル3/必殺2回の天賦発生を、事前減速中の敵1体の独立値で照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes + KQM original-kit mechanics",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100401/100404",
+        "referenceUrl": "https://hsr.keqingmains.com/welt/",
+        "gameVersion": "fixed StarRailRes original kit; KQM v1.5 (2023-12-03)",
+        "verifiedAt": "2026-11-09",
+        "verification": "tests/hsr/hsrWeltRound37.test.cjs",
+        "notes": "KQM original-kit endpoint multipliers agree with the pinned original records. Skill triggers Talent once per bounce (3); Ultimate has 2 Talent triggers on a pre-slowed target and applies Imprisonment after damage. A2 vulnerability applies before Ultimate damage. No new-Slow hit order or proc probability is inferred."
+      }
+    },
+    {
+      "id": "1004022",
+      "characterId": "1004",
+      "sourceSkillId": "100402",
+      "variant": "previous",
+      "name": "虚空断界＋天賦付加合計（原版・事前減速）",
+      "element": "Imaginary",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 6,
+      "canCrit": true,
+      "multipliers": [
+        36.0,
+        39.6,
+        43.2,
+        46.8,
+        50.4,
+        54.0,
+        58.5,
+        63.0,
+        67.5,
+        72.0,
+        75.6,
+        79.2,
+        82.8,
+        86.4,
+        90.0
+      ],
+      "damageFormula": "componentSequence",
+      "hitCountLabel": "攻撃本体＋減速対象への天賦3回",
+      "displayOrder": 21,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "modifierInputKey": "welt-enemy-slowed",
+      "modifierInputMinimum": 1,
+      "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "body",
+          "attackId": "100402",
+          "name": "原版の攻撃本体",
+          "type": "skill",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 3,
+          "canCrit": true,
+          "multipliers": [
+            36.0,
+            39.6,
+            43.2,
+            46.8,
+            50.4,
+            54.0,
+            58.5,
+            63.0,
+            67.5,
+            72.0,
+            75.6,
+            79.2,
+            82.8,
+            86.4,
+            90.0
+          ]
+        },
+        {
+          "key": "talent",
+          "attackId": "100404",
+          "name": "事前減速への天賦付加3回",
+          "type": "additional",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 3,
+          "canCrit": true,
+          "multipliers": [
+            30.0,
+            33.0,
+            36.0,
+            39.0,
+            42.0,
+            45.0,
+            48.75,
+            52.5,
+            56.25,
+            60.0,
+            63.0,
+            66.0,
+            69.0,
+            72.0,
+            75.0
+          ]
+        }
+      ],
+      "calculationScope": "previous-preexisting-slow-fixed-proc-count",
+      "conditionText": "原版・Lv80/E0・非虚数弱点/未撃破の敵1体。攻撃前から減速または禁錮が有効で、全成分中に状態変化なし。",
+      "calculationNote": "通常は天賦1回、スキル3ヒットは天賦3回、必殺は天賦2回。本体と付加は攻撃種類を分けて補正を適用し、同じ敵の最終ATK/会心/虚数DMGから合算します。スキルのランダム対象は敵1体で確定。必殺の禁錮は直接ダメージ後に付くため、今回の必殺による新規禁錮を事前減速の代わりにはしません。初回減速の成功判定・段間更新・複数敵・途中撃破・E1以上は対象外。単独の本体/天賦行をこの合計へ重ねないでください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定原版倍率とKQM v1.5の通常1/スキル3/必殺2回の天賦発生を、事前減速中の敵1体の独立値で照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes + KQM original-kit mechanics",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100402/100404",
+        "referenceUrl": "https://hsr.keqingmains.com/welt/",
+        "gameVersion": "fixed StarRailRes original kit; KQM v1.5 (2023-12-03)",
+        "verifiedAt": "2026-11-09",
+        "verification": "tests/hsr/hsrWeltRound37.test.cjs",
+        "notes": "KQM original-kit endpoint multipliers agree with the pinned original records. Skill triggers Talent once per bounce (3); Ultimate has 2 Talent triggers on a pre-slowed target and applies Imprisonment after damage. A2 vulnerability applies before Ultimate damage. No new-Slow hit order or proc probability is inferred."
+      }
+    },
+    {
+      "id": "1004032",
+      "characterId": "1004",
+      "sourceSkillId": "100403",
+      "variant": "previous",
+      "name": "疑似ブラックホール＋天賦付加合計（原版・事前減速）",
+      "element": "Imaginary",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 3,
+      "canCrit": true,
+      "multipliers": [
+        90.0,
+        96.0,
+        102.0,
+        108.0,
+        114.0,
+        120.0,
+        127.5,
+        135.0,
+        142.5,
+        150.0,
+        156.0,
+        162.0,
+        168.0,
+        174.0,
+        180.0
+      ],
+      "damageFormula": "componentSequence",
+      "hitCountLabel": "必殺直接2段の合算＋事前減速への天賦2回",
+      "displayOrder": 31,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "modifierInputKey": "welt-enemy-slowed",
+      "modifierInputMinimum": 1,
+      "modifierInputDefault": 0,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "body",
+          "attackId": "100403",
+          "name": "原版必殺の直接2段合算",
+          "type": "ultimate",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            90.0,
+            96.0,
+            102.0,
+            108.0,
+            114.0,
+            120.0,
+            127.5,
+            135.0,
+            142.5,
+            150.0,
+            156.0,
+            162.0,
+            168.0,
+            174.0,
+            180.0
+          ]
+        },
+        {
+          "key": "talent",
+          "attackId": "100404",
+          "name": "事前減速への天賦付加2回",
+          "type": "additional",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 2,
+          "canCrit": true,
+          "multipliers": [
+            30.0,
+            33.0,
+            36.0,
+            39.0,
+            42.0,
+            45.0,
+            48.75,
+            52.5,
+            56.25,
+            60.0,
+            63.0,
+            66.0,
+            69.0,
+            72.0,
+            75.0
+          ]
+        }
+      ],
+      "calculationScope": "previous-preexisting-slow-fixed-proc-count",
+      "conditionText": "原版・Lv80/E0・非虚数弱点/未撃破の敵1体。攻撃前から減速または禁錮が有効で、全成分中に状態変化なし。",
+      "calculationNote": "通常は天賦1回、スキル3ヒットは天賦3回、必殺は天賦2回。本体と付加は攻撃種類を分けて補正を適用し、同じ敵の最終ATK/会心/虚数DMGから合算します。スキルのランダム対象は敵1体で確定。必殺の禁錮は直接ダメージ後に付くため、今回の必殺による新規禁錮を事前減速の代わりにはしません。初回減速の成功判定・段間更新・複数敵・途中撃破・E1以上は対象外。単独の本体/天賦行をこの合計へ重ねないでください。 A2懲戒の被ダメージ+12%はこの必殺のダメージ前に成立するため自動適用します。敵の被ダメージ入力へ含めた場合は、既存補正欄の算入済みを指定してください。 必殺本体の倍率は直接2段の総倍率です。全段で補正一定のため合算係数を使用し、各段の倍率配分は新設しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定原版倍率とKQM v1.5の通常1/スキル3/必殺2回の天賦発生を、事前減速中の敵1体の独立値で照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes + KQM original-kit mechanics",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100403/100404",
+        "referenceUrl": "https://hsr.keqingmains.com/welt/",
+        "gameVersion": "fixed StarRailRes original kit; KQM v1.5 (2023-12-03)",
+        "verifiedAt": "2026-11-09",
+        "verification": "tests/hsr/hsrWeltRound37.test.cjs",
+        "notes": "KQM original-kit endpoint multipliers agree with the pinned original records. Skill triggers Talent once per bounce (3); Ultimate has 2 Talent triggers on a pre-slowed target and applies Imprisonment after damage. A2 vulnerability applies before Ultimate damage. No new-Slow hit order or proc probability is inferred."
+      },
+      "comparisonModifierInputs": {
+        "welt-punishment-active": true
+      },
+      "enforceSnapshotContract": true
+    }
+  ]
+}

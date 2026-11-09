@@ -264,6 +264,9 @@
     ].map(([id,owner,body,type,element,talent,talentType,stateKey]) => [id,{owner,body,type,element,talent,talentType,stateKey}]));
 
     const weltSequences = {
+        "1004012": {body:"100401",variant:"previous",stateKey:"welt-enemy-slowed",type:"normal",parts:[{key:"body",id:"100401",type:"normal"},{key:"talent",id:"100404",type:"additional"}]},
+        "1004022": {body:"100402",variant:"previous",stateKey:"welt-enemy-slowed",type:"skill",parts:[{key:"body",id:"100402",type:"skill",hits:3},{key:"talent",id:"100404",type:"additional",hits:3}]},
+        "1004032": {body:"100403",variant:"previous",stateKey:"welt-enemy-slowed",type:"ultimate",parts:[{key:"body",id:"100403",type:"ultimate"},{key:"talent",id:"100404",type:"additional",hits:2}]},
         "11004012": {body:"1100401",type:"normal",parts:[{key:"body",id:"1100401",type:"normal"},{key:"judgment",id:"110041021",source:"11004102",type:"additional"},{key:"talent",id:"1100404",type:"additional"}]},
         "11004022": {body:"1100402",type:"skill",parts:[{key:"body",id:"1100402",type:"skill",hits:5},{key:"judgment",id:"110041022",source:"11004102",type:"additional"},{key:"talent",id:"1100404",type:"additional",hits:5}]},
         "11004032": {body:"1100403",type:"ultimate",parts:[{key:"body",id:"1100403",type:"ultimate"},{key:"talent",id:"1100404",type:"additional",hits:2}]}
@@ -323,7 +326,7 @@
                 && components[0]?.key === "body" && components[0]?.attackId === elemental.body
                 && components[1]?.key === "additional" && components[1]?.attackId === elemental.talent;
             const welt = weltSequences[attack.id];
-            const validWeltDefinition = welt && attack.characterId === "1004" && attack.variant === "enhanced" && attack.sourceSkillId === welt.body
+            const validWeltDefinition = welt && attack.characterId === "1004" && attack.variant === (welt.variant || "enhanced") && attack.sourceSkillId === welt.body
                 && attack.type === welt.type && attack.element === "Imaginary" && components?.length === welt.parts.length
                 && welt.parts.every((p,i) => components[i]?.key === p.key && components[i]?.attackId === p.id);
             if (attack.id === "150905" && attack.characterId === "1509" && attack.sourceSkillId === "150905" && attack.type === "followUp" && attack.element === "Thunder" && components?.length === 2 && components[0]?.key === "lightning" && components[0]?.attackId === "1509051" && components[1]?.key === "wind" && components[1]?.attackId === "supplemental:trace:1509:150905:saber-wind-followup") return "";
@@ -784,7 +787,7 @@ function calculateFanning(input) {
         const moze = attack.id === "1223021";
         const elemental = elementalSequences[attack.id];
         const welt = weltSequences[attack.id];
-        const snapshot = elemental || (welt && {owner:"1004",stateKey:"welt-weightless-active",type:welt.type});
+        const snapshot = elemental || (welt && {owner:"1004",stateKey:welt.stateKey || "welt-weightless-active",type:welt.type});
         const element = welt ? "Imaginary" : elemental?.element || (yukong ? "Imaginary" : moze ? "Thunder" : "Wind");
         const expected = welt ? welt.parts : elemental ? [{key:"body",id:elemental.body,type:elemental.type},{key:"additional",id:elemental.talent,type:elemental.talentType}] : yukong ? [{ key:"basic", id:"120701", type:"normal" }, { key:"talent", id:"120704", type:"additional" }] : moze ? [{key:"skill",id:"122302",type:"skill"},{key:"additional",id:"122304",type:"additional"}] : [
             { key: "skill", id: "122002", type: "skill" },
@@ -795,8 +798,9 @@ function calculateFanning(input) {
         if (character.level !== 80 || character.eidolon !== 0 || enemy.count !== 1 || enemy.weakness !== false || enemy.toughnessActive !== true) {
             return fail(snapshot ? "本体＋付加合計はLv80・星魂0・敵1体・非弱点・靭性ありの事前状態のみ計算対応です。" : yukong ? "通常＋徹札矢はLv80・星魂0・虚数弱点なし・敵1体・靭性ありのみ計算対応です。" : moze ? "モゼの初回スキル＋付加はLv80・星魂0・雷弱点なし・敵1体・靭性ありのみ計算対応です。" : "飛霄のスキル＋追加攻撃はLv80・星魂0・風弱点なし・敵1体・靭性ありのみ計算対応です。");
         }
-        if (snapshot && (attack.characterId !== snapshot.owner || input.modifierInputs?.[snapshot.stateKey] !== true)) return fail("この合計に必要な敵の事前状態（燃焼・感電・無重力）を指定してください。");
-        if (welt && input.modifierInputs?.["welt-weightless-damage-stacks"] !== 10) return fail("この強化版合計は攻撃前から懲戒10層が有効な状態のみ計算対応です。");
+        if (snapshot && (attack.characterId !== snapshot.owner || input.modifierInputs?.[snapshot.stateKey] !== true)) return fail("この合計に必要な敵の事前状態（燃焼・感電・減速・無重力）を指定してください。");
+        if(welt?.variant === "previous" && character.id !== "1004")return fail("原版ヴェルト本人の最終ステータスを使用してください。");
+        if (welt && !welt.variant && input.modifierInputs?.["welt-weightless-damage-stacks"] !== 10) return fail("この強化版合計は攻撃前から懲戒10層が有効な状態のみ計算対応です。");
         if (!(Number.isFinite(character.stats?.atk) && character.stats.atk > 0)
             || !Number.isFinite(character.stats?.critRate) || !Number.isFinite(character.stats?.critDamage)
             || !Number.isFinite(character.stats?.damageBonus)) {
@@ -820,12 +824,16 @@ function calculateFanning(input) {
                 return fail("本体または追加成分のデータが、対応している構成と一致しません。");
             }
             if (snapshot && (childInput.modifierInputs?.[snapshot.stateKey] !== true
-                || (welt && childInput.modifierInputs?.["welt-weightless-damage-stacks"] !== 10)
+                || (welt && !welt.variant && childInput.modifierInputs?.["welt-weightless-damage-stacks"] !== 10)
                 || (childInput.modifiers || []).some(m => m.enabled !== false && m.applicable !== false && m.category === "progressiveTakenDamage"))) return fail("各成分で同じ事前状態を指定してください。段間で増加する補正はこの合計では扱いません。");
-            if (welt && [["trace:1004:1100404:weightless-defense-down",40],["traceNode:1004:11004101:weightless-party-damage",100]].some(([id,value]) => {
+            if (welt && !welt.variant && [["trace:1004:1100404:weightless-defense-down",40],["traceNode:1004:11004101:weightless-party-damage",100]].some(([id,value]) => {
                 const rows = (childInput.modifiers || []).filter(m => m.id === id && m.enabled === true && m.applicable === true);
                 return rows.length !== 1 || rows[0].value !== value;
             })) return fail("各成分に事前無重力の防御低下40%と懲戒10層100%を1回ずつ反映してください。");
+            if(welt?.variant === "previous" && welt.type === "ultimate") {
+                const rows=(childInput.modifiers||[]).filter(m=>m.id==="traceNode:1004:1004101:damage-taken");
+                if(rows.length!==1 || rows[0].value!==12 || !(rows[0].enabled===true&&rows[0].applicable===true || rows[0].includedInFinalStats===true&&enemy.takenDamage>=12))return fail("原版必殺の各成分へA2懲戒12%を1回適用するか、敵入力への算入済みを指定してください。");
+            }
             if (JSON.stringify(childInput.character) !== JSON.stringify(character)
                 || JSON.stringify(childInput.enemy) !== JSON.stringify(enemy)) {
                 return fail("複合攻撃の各成分は同じ攻撃時点のステータス・敵条件で計算してください。");
@@ -838,7 +846,7 @@ function calculateFanning(input) {
             || !Number.isFinite(nativeFollowUpBonus[0].value))) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
-        return combineDamageComponents(attack, components, welt ? "本体＋審判/天賦付加の合計（事前無重力・懲戒10層）" : elemental ? "本体＋事前DoT状態への天賦付加1回の合計" : yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+        return combineDamageComponents(attack, components, welt ? (welt.variant === "previous" ? "原版本体＋天賦付加の合計（事前減速）" : "本体＋審判/天賦付加の合計（事前無重力・懲戒10層）") : elemental ? "本体＋事前DoT状態への天賦付加1回の合計" : yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
     }
 
     // The joint action has two owners; both use completed, explicitly separate stat snapshots.

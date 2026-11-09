@@ -161,7 +161,7 @@
       "id":"100402","characterId":"1004","name":"虚空断界","element":"Imaginary","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":3,"canCrit":true,"multipliers":[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72,75.6,79.2,82.8,86.4,90],"sourceSkillId":"100402","variant":"previous","overrideReason":"強化前は初撃と追加2ヒットの計3ヒット。各ヒットの第1パラメータを全15レベルで照合。"
     },
     {
-      "id":"100403","characterId":"1004","name":"疑似ブラックホール","element":"Imaginary","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[90,96,102,108,114,120,127.5,135,142.5,150,156,162,168,174,180],"sourceSkillId":"100403","variant":"previous","overrideReason":"強化前必殺技の第1パラメータを全15レベルで照合。禁錮は攻撃倍率から分離。"
+      "id":"100403","characterId":"1004","name":"疑似ブラックホール","element":"Imaginary","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[90,96,102,108,114,120,127.5,135,142.5,150,156,162,168,174,180],"sourceSkillId":"100403","variant":"previous","overrideReason":"強化前必殺技の第1パラメータを全15レベルで照合。禁錮は攻撃倍率から分離。","comparisonModifierInputs":{"welt-punishment-active":true},"calculationNote":"原版必殺の直接2段の総倍率だけを計算します。A2懲戒12%はこの必殺のダメージ前に成立するため自動適用。敵入力へ算入済みの場合は補正欄で除外してください。事前減速への天賦2回を含む合計は専用合計行で確認します。"
     },
     {
       "id":"100404","characterId":"1004","name":"時空の歪み","element":"Imaginary","type":"additional","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[30,33,36,39,42,45,48.75,52.5,56.25,60,63,66,69,72,75],"sourceSkillId":"100404","variant":"previous","conditionText":"減速状態の敵に攻撃が命中","overrideReason":"強化前天賦の付加ダメージを独立攻撃として全15レベルで照合。"

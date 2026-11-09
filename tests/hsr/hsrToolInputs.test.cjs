@@ -4538,3 +4538,19 @@ test('round36 Dahlia normal dancer conversion uses separate N/T levels, one expl
  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved).expected,find(app).expected);saved.node('hsrTalentTrace').value='1';near(find(saved).expected,1800+3767.5533*.3*3*.4*1.5);
  saved.node('hsrToughnessState').value='active';assert.equal(find(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='132101').name));
 });
+
+
+test('round37 previous Welt shares prior Slow state and auto-applies Ultimate A2 through save restoration',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+ app.state.characterId='1004';app.state.enhancementState='previous';app.node('hsrEnhancementState').value='previous';
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,damageBonus:0}))app.node('hsrStat-'+k).value=String(v);
+ app.node('hsrWeakness').value='false';app.node('hsrToughnessState').value='active';app.node('hsrNormalTrace').value='6';app.node('hsrSkillTrace').value='10';app.node('hsrUltimateTrace').value='10';app.node('hsrTalentTrace').value='10';
+ const name=id=>data.attacks.find(a=>a.id===id).name,find=(x,id)=>x.calculate().find(r=>r.attack?.name===name(id));assert.equal(find(app,'1004022'),undefined);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-toggle="welt-enemy-slowed"/g)||[]).length,1);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'welt-enemy-slowed'},checked:true}});
+ const n=find(app,'1004012'),sk=find(app,'1004022'),u=find(app,'1004032');assert.ok(n&&sk&&u,app.node('hsrResults').innerHTML);
+ near(n.expected,3000*(1+.6)*.36*1.5);near(sk.expected,3000*(.72*3+.6*3)*.36*1.5);near(u.expected,3000*(1.5+.6*2)*.36*1.12*1.5);near(find(app,'100403').expected,3000*1.5*.36*1.12*1.5);
+ app.state.modifierInputs['welt-punishment-in-final-enemy-input']=true;app.node('hsrEnemyTakenDamage').value='12';near(find(app,'1004032').expected,u.expected);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved,'1004032').expected,u.expected);saved.state.modifierInputs['welt-enemy-slowed']=false;assert.equal(find(saved,'1004032'),undefined);assert.ok(saved.calculate().some(r=>r.attack?.name===name('100401')));
+ saved.node('hsrEnhancementState').value='enhanced';saved.state.enhancementState='enhanced';assert.equal(find(saved,'1004012'),undefined,"original composition is not shown in enhanced mode");
+});

@@ -1463,9 +1463,9 @@
       const sequenceAttacks = parts.every(Boolean) ? parts.map(a => ({...resolvedAttack(a),damageFormula:"statMultiplier",target:"single",hitCount:1,comparisonModifierInputs:{...selected.comparisonModifierInputs},modifierInputKey:undefined,modifierConditions:undefined})) : [];
       return {...selected,traceLevel:state.traceLevels.ultimate,talentTraceLevel:state.traceLevels.talent,multiplier:selected.multipliers[state.traceLevels.ultimate-1],traceLevelLabel:`必殺Lv${state.traceLevels.ultimate}＋スキルLv${state.traceLevels.skill}＋天賦Lv${state.traceLevels.talent}`,attackType:"ultimate",sequenceAttacks};
     }
-    if (["11004012","11004022","11004032"].includes(selected.id) && selected.damageFormula === "componentSequence") {
+    if (["1004012","1004022","1004032","11004012","11004022","11004032"].includes(selected.id) && selected.damageFormula === "componentSequence") {
       const parts = selected.damageComponents.map(c => state.data.attacks.find(a => a.id === c.attackId && a.characterId === "1004"));
-      const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), damageFormula:"statMultiplier", target:"single", hitCount:selected.damageComponents[i].hitCount})) : [];
+      const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i) => ({...resolvedAttack(a), damageFormula:"statMultiplier", target:"single", hitCount:selected.damageComponents[i].hitCount,...(selected.comparisonModifierInputs?{comparisonModifierInputs:{...selected.comparisonModifierInputs}}:{})})) : [];
       const level = state.traceLevels[selected.traceKey];
       return {...selected, traceLevel:level, multiplier:sequenceAttacks[0]?.multiplier, traceLevelLabel:`本体Lv${level}＋天賦Lv${state.traceLevels.talent}`, attackType:selected.type, sequenceAttacks};
     }
