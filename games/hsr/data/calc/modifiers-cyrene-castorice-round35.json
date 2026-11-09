@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-castorice-round35-dbe8cdf",
+  "modifiers": [
+    {
+      "id": "trace:1415:1141517:castorice-deathragon-talent-multiplier",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141517"
+      },
+      "name": "『生と死』・死竜の天賦倍率（超過新蕾）",
+      "description": "『生と死』がキャストリスへ有効な状態で、今回の死竜召喚時に超過分として消費された新蕾を指定します。敵2体以下の係数を合算した天賦倍率加算です。戦闘後の残り新蕾や現在の敵数からは推定しません。1140712は固定版上で精霊スキルに分類されるHP全消費版で、同じ6段効果として個別に対象へ含めます。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "cyrene-castorice-excess-newbud",
+        "inputLabel": "死竜召喚時に消費された超過分の新蕾（%）",
+        "minimum": 0,
+        "inputMaximum": 100,
+        "inputStep": 1,
+        "scaleValues": [
+          36,
+          43,
+          51,
+          57,
+          65,
+          72
+        ],
+        "addValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "memospriteTalent",
+          "memospriteSkill"
+        ],
+        "elements": [
+          "Quantum"
+        ],
+        "attackIds": [
+          "1140706",
+          "1140712"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-life-death-active",
+        "inputLabel": "『生と死』が今回の死竜召喚時に有効（敵2体以下）",
+        "conditionText": "キュレネの精霊スキル『生と死』がキャストリスに有効で、今回の死竜召喚時にフィールド上の敵が2体以下だった状態を指定します。",
+        "default": false
+      },
+      "stacking": {
+        "group": "cyrene-life-death-castorice-deathragon-talent",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "multiplierAddition",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 100,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1141517.params[1,4]の超過新蕾1%あたりの倍率増加を合算。対象は敵数2体以下の今回召喚した死竜が発動する天賦攻撃に限定し、敵数・召喚状態は明示入力する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141517.desc,params[0..5][1,4,5]",
+        "verifiedAt": "2026-11-09",
+        "gameVersion": "fixed dbe8cdf",
+        "verification": "tests/hsr/hsrCyreneCastoriceRound35.test.cjs",
+        "notes": "params[1]は超過新蕾1%あたりの基本増加、params[4]は召喚時の敵数がparams[5]=2以下の場合に加わる増加。両係数を加算して敵2体以下の条件で使用する。"
+      }
+    }
+  ]
+}

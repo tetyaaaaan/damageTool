@@ -173,6 +173,9 @@
     "modifiers-cyrene-round32.json",
     "modifiers-cyrene-round33.json",
     "modifiers-cyrene-genesis-round34.json",
-    "modifiers-cyrene-earth-round34.json"
+    "modifiers-cyrene-earth-round34.json",
+    "modifiers-cyrene-castorice-round35.json",
+    "modifiers-cyrene-evernight-round35.json",
+    "modifiers-cyrene-cipher-round35.json"
   ]
 }

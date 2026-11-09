@@ -277,6 +277,7 @@
   }
 
   function attackStateIssues(attack, issue) {
+    if(['1140706','1140712'].includes(attack.id)&&attack.cyreneLifeDeathActive&&(!Number.isInteger(state.modifierInputs['cyrene-castorice-excess-newbud'])||state.modifierInputs['cyrene-castorice-excess-newbud']<0||state.modifierInputs['cyrene-castorice-excess-newbud']>100))issue('この死竜の召喚時に消費した超過新蕾を0～100%の整数で指定してください。召喚時の敵数2体以下の状態だけに対応します。','hsrConditionDialogOpen');
     if(attack.id==='140811'&&state.modifierInputs['phainon-ruin-stacks']===4&&[7,8,9].includes(attack.traceLevel))issue('壊傷4層はスキルLv1～6・10のみ対応です。Lv7～9の4層は根拠待ちで計算対象外です。壊傷1～3層はLv1～10に対応します。','hsrSkillTrace');
     if(attack.id==='1403033'&&attack.cyreneBarrierActive&&state.modifierInputs['tribbie-followup-damage-stacks']!==3)issue('門と道の追加比較は追撃前からA2が3層で飽和した状態のみ対応です。追撃本体の新規層は自動加算しません。','hsrConditionDialogOpen');
 
@@ -469,7 +470,7 @@
 
   function supportTraceKey(source) {
     if(['8007','8008'].includes(source.id)&&['1800701','1800703','1800707'].includes(source.skillId))return source.skillId==='1800703'?'memTalent':'memSkill';
-    if(source.id==='1415'&&['1141513','1141525','1141514','1141515','1141516','1141518','1141520','1141521','1141522','1141523'].includes(source.skillId))return 'memSkill';
+    if(source.id==='1415'&&['1141517','1141524','1141513','1141525','1141514','1141515','1141516','1141518','1141520','1141521','1141522','1141523'].includes(source.skillId))return 'memSkill';
     const skill = find("characters", String(source.id))?.skills?.find(item => String(item.id) === String(source.skillId));
     return Object.entries(TRACE_FIELDS).find(([, [type]]) => type === skill?.type)?.[0];
   }
@@ -669,7 +670,10 @@
     if (!window.HsrModifierRuntime) return [];
     const brokenSwordStance = state.characterId === "1206" && state.enemy.toughnessActive === false;
     const effectiveInputs = brokenSwordStance ? {...inputs, "sushang-post-ultimate-sword-stance-hits": 2} : inputs;
-    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>(item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId))&&(item.id!=='trace:1415:1141520:cipher-damage'||state.characterId==='1406')&&(!item.id.startsWith('trace:1415:1141515:')||state.characterId==='1403')&&(!item.id.startsWith('trace:1415:1141514:')||state.characterId==='1402')&&(item.id!=='trace:1415:1141522:serin-damage'||state.characterId==='1410')&&(!item.id.startsWith('trace:1415:1141518:')||state.characterId==='1405')&&(!item.id.startsWith('trace:1415:1141521:')||state.characterId==='1408')&&(item.id!=='trace:1415:1141516:mydei-godslayer-crit-damage'||state.characterId==='1404')&&(!item.id.startsWith('trace:1415:1141513:')||['8007','8008'].includes(state.characterId))&&(!item.id.startsWith('trace:1415:1141525:')||state.characterId==='1414')&&(item.id!=='trace:1415:1141523:military-merit-crit-damage'||['1003','1102'].includes(state.characterId)&&state.party.some(m=>m.characterId==='1412')&&String(state.modifierInputs['cyrene-merit-recipient'])===state.characterId));
+    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>(item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId))&&(!item.id.startsWith('trace:1415:1141520:')||state.characterId==='1406')&&(!item.id.startsWith('trace:1415:1141515:')||state.characterId==='1403')&&(!item.id.startsWith('trace:1415:1141514:')||state.characterId==='1402')&&(item.id!=='trace:1415:1141522:serin-damage'||state.characterId==='1410')&&(!item.id.startsWith('trace:1415:1141518:')||state.characterId==='1405')&&(!item.id.startsWith('trace:1415:1141521:')||state.characterId==='1408')&&(item.id!=='trace:1415:1141516:mydei-godslayer-crit-damage'||state.characterId==='1404')&&(!item.id.startsWith('trace:1415:1141517:')||state.characterId==='1407')&&(!item.id.startsWith('trace:1415:1141524:')||state.characterId==='1413')&&(!item.id.startsWith('trace:1415:1141513:')||['8007','8008'].includes(state.characterId))&&(!item.id.startsWith('trace:1415:1141525:')||state.characterId==='1414')&&(item.id!=='trace:1415:1141523:military-merit-crit-damage'||['1003','1102'].includes(state.characterId)&&state.party.some(m=>m.characterId==='1412')&&String(state.modifierInputs['cyrene-merit-recipient'])===state.characterId));
+    for(const item of candidates){
+      if(item.id==='trace:1415:1141520:cipher-defense-reduction'&&item.enabled&&!item.includedInFinalStats&&![0,1].includes(inputs['cyrene-cipher-patron-state'])){item.applicable=false;item.inputWarnings=['対象のお得意様状態は0または1を入力してください。'];item.reason=item.inputWarnings[0];}
+    }
     for(const item of candidates){
       if(!['trace:8007:1800703:mem-crit-damage','trace:8008:1800703:mem-crit-damage'].includes(item.id))continue;
       if(item.providerId===state.characterId&&item.valueInput)item.valueInput={...item.valueInput,shared:true};
@@ -1020,6 +1024,10 @@
       const rows=structuredSourceConditions().filter(m=>m.id.startsWith('trace:1415:1141513:mem-')&&m.enabled&&!m.includedInFinalStats&&window.HsrModifierRuntime.applicableToAttack(m,target));
       for(const m of rows){if(m.inputWarnings?.length||m.applicable===false)genesisIssue='創世の参照値にデミウルゴスの独立した最終HP/会心率を入力してください。';else if(m.category==='statFlat'&&m.stat==='atk')stats.atk+=m.value;else if(m.category==='critRate')stats.critRate+=m.value;}
     }
+    if(id==='1413'&&attack){
+      const rows=structuredSourceConditions().filter(m=>m.id.startsWith('trace:1415:1141524:')&&m.enabled&&!m.includedInFinalStats&&window.HsrModifierRuntime.applicableToAttack(m,attack));
+      for(const m of rows){if(m.inputWarnings?.length||m.applicable===false)genesisIssue='歳月の会心支援には、長夜月がスキルを発動した時点の会心ダメージを入力してください。';else if(m.category==='critDamage')stats.critDamage+=m.value;else if(m.category==='damageBonus')stats.damageBonus+=m.value;}
+    }
     return {referenceCharacter:{id:owner,level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},completedReferenceSnapshot:valid,damageOwnerId:owner,referenceIssue:genesisIssue||(valid?'':({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜','8007':'ミュリオン','8008':'ミュリオン','1508':'アーチャー'})[id]+'の独立した最終値を補正条件で入力してください。補正なしは0です。'),referenceCondition:{id:'memosprite:'+id,tab:'軌跡'}};
   }
   function dragonActionSnapshot(profile) {
@@ -1198,7 +1206,7 @@
     return allConditions(inputs, attack).filter((item) => !item.displayOnly).map((original) => {
       const item=attack.marchEnhancedAdditional && original.id === "trace:1224:122404:enhanced-damage" ? {...original,target:{...original.target,attackIds:["122402"],attackTypes:["additional"],elements:[]}} : original;
       const separateBenediction=item.id==="trace:1202:120202:benediction-atk" && state.characterId==="1202" && state.party.some(m=>String(m.characterId)===String(state.modifierInputs["party-reference-owner:1202"]));
-      const attackApplies = !separateBenediction && modifierTargetsCalculation(item, attack) && (!attack.completedReferenceSnapshot || ['enemySingle','enemyAll'].includes(item.target?.owner));
+      const attackApplies = !separateBenediction && modifierTargetsCalculation(item, attack) && (!attack.completedReferenceSnapshot || ['enemySingle','enemyAll'].includes(item.target?.owner) || ['1140706','1140712'].includes(attack.id)&&item.id==='trace:1415:1141517:castorice-deathragon-talent-multiplier'&&item.category==='multiplierAddition');
       const supplementalApplies = !item.supplementalAttack || item.id === attack.sourceModifierId;
       const primaryTargetApplies = !item.primaryTargetOnly || attack.target !== "adjacent";
       const adjacentTargetApplies = !item.adjacentTargetOnly || attack.target === "adjacent";
@@ -1301,11 +1309,12 @@
 
     if(['141303','1141301','1141307'].includes(selected.id)&&selected.requiresIndependentEvernight){
       const level=state.traceLevels[selected.traceKey],q=state.modifierInputs['evernight-memoquanta'],multiplier=selected.id==='1141301'?selected.baseCurve[level-1]+Math.floor(q/4)*selected.bonusCurve[level-1]:selected.multipliers[level-1];
-      return {...selected,traceLevel:level,multiplier,...(selected.id==='1141301'?{scalingTerms:[{stat:'hp',multiplier:selected.baseCurve[level-1]},{stat:'hp',multiplier:Math.floor(q/4)*selected.bonusCurve[level-1]}]}:{}),attackType:selected.type,...independentMemospriteSnapshot('1413')};
+      return {...selected,traceLevel:level,multiplier,...(selected.id==='1141301'?{scalingTerms:[{stat:'hp',multiplier:selected.baseCurve[level-1]},{stat:'hp',multiplier:Math.floor(q/4)*selected.bonusCurve[level-1]}]}:{}),attackType:selected.type,...independentMemospriteSnapshot('1413',selected)};
     }
     if(['1140701','1140702','1140706','1140712'].includes(selected.id)){
       const traceKey=selected.id==='1140706'||selected.id==='1140712'?'memTalent':'memSkill',level=state.traceLevels[traceKey],n=state.modifierInputs['castorice-breath-stage'],multiplier=selected.id==='1140702'?selected.breathStageMultipliers?.[n]?.[level-1]:selected.multipliers[level-1];
-      return {...selected,traceKey,maximumTraceLevel:6,damageFormula:"statMultiplier",traceLevel:level,multiplier,attackType:selected.type,requiresIndependentCastorice:true,...independentMemospriteSnapshot('1407')};
+      const blessing=cyreneBlessingSnapshot('1141517','cyrene-life-death-active');
+      return {...selected,traceKey,maximumTraceLevel:6,damageFormula:"statMultiplier",traceLevel:level,multiplier,attackType:selected.type,requiresIndependentCastorice:true,cyreneSupportLevel:blessing.cyreneSupportLevel,cyreneLifeDeathActive:blessing.cyreneBlessingActive,...independentMemospriteSnapshot('1407')};
     }
     if(selected.id==='11407022'){
       const ref=independentMemospriteSnapshot('1407'),level=state.traceLevels.memSkill,sequenceAttacks=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);

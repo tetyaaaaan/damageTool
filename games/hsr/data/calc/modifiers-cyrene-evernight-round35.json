@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-evernight-round35-dbe8cdf",
+  "modifiers": [
+    {
+      "id": "trace:1415:1141524:long-memosprite-skill-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141524"
+      },
+      "name": "『歳月』に捧ぐ詩・長夜の精霊スキル与ダメージ",
+      "description": "キュレネが『歳月』に捧ぐ詩を長夜月へ発動済みの状態で、長夜の精霊スキル『露のように儚い夢』に適用します。長夜の他の攻撃、長夜月本人の攻撃、他の精霊には適用しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          9,
+          10.8,
+          12.6,
+          14.4,
+          16.2,
+          18
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "memospriteSkill"
+        ],
+        "attackIds": [
+          "1141307"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-years-active",
+        "inputLabel": "『歳月』の祝福が長夜月に有効",
+        "conditionText": "キュレネが『歳月』に捧ぐ詩を長夜月へ発動済み（戦闘終了まで有効）",
+        "default": false
+      },
+      "stacking": {
+        "group": "cyrene-years-long-memosprite-skill-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版パラメータの最初の6段階を使い、既存の長夜精霊スキル1141307だけに与ダメージ補正を接続します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141524.params[0..5][0]; character_skill_trees.json:1415301(max_level=6)",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-09",
+        "notes": "Fixed source 1141524 explicitly names Long's Memosprite Skill '露のように儚い夢'; the existing supported Long attack is 1141307. Other Memosprite Skill attacks are excluded.",
+        "verification": "tests/hsr/hsrCyreneEvernightRound35.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141524:long-memosprite-skill-damage-in-final-stats",
+        "inputLabel": "『歳月』の長夜精霊スキル与ダメージを最終入力へ算入済み"
+      }
+    },
+    {
+      "id": "trace:1415:1141524:long-skill-crit-damage-increment",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141524"
+      },
+      "name": "『歳月』に捧ぐ詩・長夜月の戦闘スキル会心ダメージ増加分",
+      "description": "『歳月』の祝福が有効で、長夜月の戦闘スキルによる精霊会心ダメージ上昇が継続中の場合のみ、その上昇量へ長夜月がスキル発動時に持っていた会心ダメージの6～12%分を加算します。現在の最終会心ダメージから再帰計算せず、スキル発動時の長夜月会心ダメージを別入力します。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "cyrene-years-longnight-crit-damage-at-skill-application",
+        "inputLabel": "長夜月が戦闘スキルを発動した時点の会心ダメージ",
+        "inputUnit": "%",
+        "minimum": 0,
+        "inputMaximum": 1000,
+        "inputStep": 0.1,
+        "scaleValues": [
+          6,
+          7.2,
+          8.4,
+          9.6,
+          10.8,
+          12
+        ],
+        "addValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "ultimate",
+          "memospriteSkill"
+        ],
+        "attackIds": [
+          "141303",
+          "1141301",
+          "1141307"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cyrene-years-skill-buff-active",
+        "inputLabel": "長夜月の戦闘スキルによる精霊会心ダメージ上昇が有効",
+        "requiredToggleKey": "cyrene-years-active",
+        "conditionText": "『歳月』の祝福が有効で、長夜月の戦闘スキル由来の精霊会心ダメージ上昇が対象攻撃の前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "cyrene-years-long-skill-crit-damage-increment",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版スキル141302が味方精霊へ付与する会心ダメージ上昇の追加分だけを、発動時点の明示入力×祝福レベル別係数として表します。長夜月本人の攻撃や未収録精霊には接続しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141524.params[0..5][2]; character_skills.json:141302.desc/params[0..14][0]",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-09",
+        "notes": "This row represents only the Cyrene Years increment to the separate Evernight Skill crit-damage buff. It does not rederive that buff or read current final Crit DMG as its source.",
+        "verification": "tests/hsr/hsrCyreneEvernightRound35.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6,
+        "minimum": 0,
+        "maximum": 1000,
+        "integer": false
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141524:long-skill-crit-damage-increment-in-final-stats",
+        "inputLabel": "『歳月』による精霊会心ダメージの増加分を長夜の最終会心ダメージへ算入済み"
+      }
+    }
+  ]
+}

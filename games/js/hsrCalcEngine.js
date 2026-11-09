@@ -61,6 +61,10 @@
         };
     }
 
+    function cyreneDeathragonMultiplier(modifier, attack) {
+        return ['1140706','1140712'].includes(attack.id) && modifier.id==='trace:1415:1141517:castorice-deathragon-talent-multiplier' && modifier.category==='multiplierAddition';
+    }
+
     function modifierAppliesToAttack(modifier, attack) {
         if (modifier.primaryTargetOnly && attack?.target === "adjacent") return false;
         if (modifier.adjacentTargetOnly && attack?.target !== "adjacent") return false;
@@ -470,7 +474,13 @@ function calculateFanning(input) {
         }
         if(input.attack?.id==='1140702'||input.attack?.requiresIndependentCastorice){
             const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,n=input.modifierInputs?.['castorice-breath-stage'],curve=[[12,14.4,16.8,19.2,21.6,24],[14,16.8,19.6,22.4,25.2,28],[17,20.4,23.8,27.2,30.6,34]];
-            if(a.characterId!=='1407'||c.id!=='11407'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!a.completedReferenceSnapshot||a.damageOwnerId!=='11407'||!Number.isInteger(l)||l<1||l>(a.id==='140709:dragon'?10:6)||!['hp','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&(k==='hp'?c.stats[k]>0:c.stats[k]>=0))||a.id==='1140702'&&(!Number.isInteger(n)||n<0||n>2||a.multiplier!==curve[n]?.[l-1]||a.hitCount!==1)||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(!['enemyAll','enemySingle'].includes(m.target?.owner)||m.category==='progressiveTakenDamage')))return {supported:false,reason:'キャストリスの最終HPと死竜の独立した最終会心/量子DMGを指定してください。息吹は事前段階0～2、Lv80/E0・敵1体・精霊Lv1～6のみ対応です。'};
+            if(['1140706','1140712'].includes(a.id)){
+                if(a.type!==(a.id==='1140706'?'memospriteTalent':'memospriteSkill'))return {supported:false,reason:'死竜の天賦とHP全消費版は固定版の攻撃種別を保持してください。'};
+                const mods=(input.modifiers||[]).filter(m=>m.enabled!==false&&m.applicable!==false&&cyreneDeathragonMultiplier(m,a)),x=input.modifierInputs?.['cyrene-castorice-excess-newbud'],level=a.cyreneSupportLevel,active=a.cyreneLifeDeathActive===true;
+                if((active||mods.length)&&(input.modifierInputs?.['cyrene-life-death-active']!==true||!active||!Number.isInteger(level)||level<1||level>6||!Number.isInteger(x)||x<0||x>100||mods.length!==1||Math.abs(mods[0].value-x*[.36,.43,.51,.57,.65,.72][level-1])>1e-8))return {supported:false,reason:'生と死は祝福有効・召喚時の敵2体以下の死竜と、消費した超過新蕾0～100%の整数値を指定してください。提供者MemSkill1～6を使用します。'};
+            }
+
+            if(a.characterId!=='1407'||c.id!=='11407'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!a.completedReferenceSnapshot||a.damageOwnerId!=='11407'||!Number.isInteger(l)||l<1||l>(a.id==='140709:dragon'?10:6)||!['hp','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&(k==='hp'?c.stats[k]>0:c.stats[k]>=0))||a.id==='1140702'&&(!Number.isInteger(n)||n<0||n>2||a.multiplier!==curve[n]?.[l-1]||a.hitCount!==1)||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(!['enemyAll','enemySingle'].includes(m.target?.owner)&&!cyreneDeathragonMultiplier(m,a)||m.category==='progressiveTakenDamage')))return {supported:false,reason:'キャストリスの最終HPと死竜の独立した最終会心/量子DMGを指定してください。息吹は事前段階0～2、Lv80/E0・敵1体・精霊Lv1～6のみ対応です。'};
         }
         // A recorded healing amount is a base reference, not HP and not an already resolved damage value.
         if(input.attack?.damageFormula==='recordedHealing'){

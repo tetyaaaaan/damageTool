@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "cyrene-cipher-round35-dbe8cdf",
+  "modifiers": [
+    {
+      "id": "trace:1415:1141520:cipher-defense-reduction",
+      "source": {
+        "kind": "trace",
+        "id": "1415",
+        "skillId": "1141520"
+      },
+      "name": "詭術の祝福・対象の防御低下",
+      "description": "サフェルへ詭術を発動済みの状態で、対象がお得意様かどうかを明示します。サフェル本人の対応済み攻撃への適用に限定し、記録済み確定ダメージを再計算しません。",
+      "category": "defenseReduction",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "cyrene-cipher-patron-state",
+        "inputLabel": "対象のお得意様状態（該当しない=0、該当=1）",
+        "inputMaximum": 1,
+        "inputStep": 1,
+        "inputUnit": "",
+        "scaleValues": [
+          400,
+          480,
+          560,
+          640,
+          720,
+          800
+        ],
+        "addValues": [
+          6,
+          7.2,
+          8.4,
+          9.6,
+          10.8,
+          12
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "trace:1415:1141520:cipher-damage-active",
+        "inputLabel": "詭術の祝福・サフェルの与ダメージが攻撃前から有効",
+        "conditionText": "詭術の祝福・サフェルの与ダメージが攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1415:1141520:cipher-defense-reduction",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定1141520の対象別DEF低下を既存の防御係数へ加算。対象状態0/1を明示し、保存された元ダメージには再適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1141520",
+        "gameVersion": "fixed snapshot dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-11-09",
+        "notes": "1141520.params[0..5][1] patron DEF10..20%, [2] non-patron DEF6..12%; explicit 0/1 target snapshot, no auto assignment.",
+        "verification": "tests/hsr/hsrCyreneCipherRound35.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1415:1141520:cipher-defense-reduction-in-final-stats",
+        "inputLabel": "詭術の対象DEF低下を敵の防御ダウンへ算入済み"
+      }
+    }
+  ]
+}
