@@ -1,6 +1,6 @@
 # HSR 主要攻撃の対応範囲と保守課題
 
-最新の登録数・E0認定は[生成完成管理表](HSR_CHARACTER_COMPLETION.md)を正本とする。直近の限定受入は末尾の第38回（丹恒・飲月）、直前の追加範囲は第35～37回を参照。
+最新の登録数・E0認定は[生成完成管理表](HSR_CHARACTER_COMPLETION.md)を正本とする。直近の範囲拡張は末尾の第39回（姫子・旅立ちのパルス）、限定受入は第38回（丹恒・飲月）を参照。
 
 最終検証日:2026-11-10。第38回で同版実行データから飲月のヒット配分/固有累積を接続して限定E0受入。雪衣はネイティブ削靭予測の入力値責務を保留。以下の過去工程の人数・件数は履歴として保持します。
 
@@ -1099,3 +1099,11 @@ Lv80/E0/敵Lv80/敵1体・耐性20%・防御補正なし・ATK3000・CR50/CD100�
 既存121301/308/310/312/303を参考値から昇格。[同版4.6.0 Ability](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_DanHengIL_00_Ability.json)の各HitSplitRatioから主対象2/3/5/7/3段の比率を採用し、命中後の亢心と4段目以降命中前の叱咤を各段へ反映した。初期0層・Lv80/E0・非虚数弱点/未撃破の敵1体、敵存命/外部補正一定の限定受入。通常系はNormal補正、必殺はUltimate補正を使用する。初期非0・A6対象の虚数弱点・隣接敵の別イベント・途中撃破/死亡・資源更新/E1以上は対象外。現在層数を0へ推定せず、事前固有補正のない最終DMG/CDを使う比較であることを結果に表示する。
 
 雪衣の同版Skill03では、A4が直接Damageの前、固有補正がOnBeforeHitで計算されることを確認。しかし`SetDynamicValueByPreCalcStanceDamage`の残靭性制限/効率の内部定義は未取得で、未撃破Uや雪衣E0認定は追加しない。原パラメータの上限だけで実削靭の参照値を推定しない。資料・独立値・再着手条件は[第38回台帳](HSR_COMPLETION_WORKLOAD.md#hsr-round38-followup)、検証は[`hsrImbibitorLunaeRound38.test.cjs`](../tests/hsr/hsrImbibitorLunaeRound38.test.cjs)。
+
+
+<a id="hsr-round39-himeko"></a>
+## 第39回：姫子・旅立ちの原動力2/3とA6（2026-11-10）
+
+既存151009を[後続override](../games/hsr/data/calc/attacks-himeko-departure-round39.json)で拡張した。敵1体・Lv80/E0・U1～10・A6解放済み・状態一定に限定し、明示した原動力1/2/3から基本パルス1回/追加2弾+基本1回/追加3弾+基本1回を計算する。追加弾は基本パルスの前。原動力3では追加弾のATK倍率へA6の30ポイントを加え、DMG加算には入れない。旧入力を再利用し、未入力は当該行だけ停止する。成分別のUltimate補正/会心と合計を表示し、ビーム/最後撃/支援を無条件に合算しない。
+
+固定最大762%はA6なしの6ビーム+3回の原動力3パルス+3最後撃に対応し、A6込みなら同構成1032%。単一パルスはLv10/原動力3で200%。この照合によって最大値の説明と単一攻撃を区別した。本人支援151025/151026と裁決/殲滅の固有補正は残るため姫子のE0認定は保留する。原動力2/3/A6を未対応とする第30回の記録は履歴とし、現在範囲は本節を参照。根拠blob/独立値/再着手条件は[第39回台帳](HSR_COMPLETION_WORKLOAD.md#hsr-round39-followup)、代表検証は[`hsrHimekoDepartureRound39.test.cjs`](../tests/hsr/hsrHimekoDepartureRound39.test.cjs)。

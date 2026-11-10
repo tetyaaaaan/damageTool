@@ -1375,6 +1375,13 @@ Object.assign(e0CandidateAudit['1004'],{
  evidence:e0CandidateAudit['1004'].evidence+' 第37回KQM Welt v1.5（2023-12-03公開）の事前減速・スキル各bounce3回/必殺2回・禁錮はダメージ後・A2はダメージ前を、固定100401/2/3/4の原版係数と照合。hsrWeltRound37/ToolInputsで独立NC/C/EV、成分回数、攻撃種別別補正、原版/強化版の分離、A2自動適用/敵入力算入済み、状態OFF・保存を確認。',
  remaining:'Lv80/E0・非虚数弱点/未撃破の敵1体・全成分中に状態変化なし。原版は攻撃前から減速/禁錮が成立した通常1～6/スキル・必殺・天賦1～10。原版UはA2被DMG12%をダメージ前に1回適用し、敵入力へ算入済みなら再加算しない。強化版は従来どおり事前無重力・懲戒10層、審判はN/S各1回、天賦N/S/U各1/5/2回、EHR由来ATKは最終入力に一度含める。新規減速の成功/同撃判定、未減速開始スキル、懲戒0～9層の途中更新、途中撃破/死亡・複数敵・E1以上は認定外。原版Uの当該禁錮を事前減速へ置換しない。'
 });
+// Round39 resolves the pulse branch, while the remaining assist modes still prevent certification.
+Object.assign(e0CandidateAudit['1510'],{
+ missingComponents:['151025/151026 同行協定：裁決/殲滅の本人支援・固有補正の計算接続'],
+ summary:'通常・ビーム・最後撃・本人通常支援に加え、原動力1～3の単一パルスを同版の実弾数とA6係数加算で計算。',
+ evidence:e0CandidateAudit['1510'].evidence+' 第39回は同版4.6.0 Dimbreath6b2bc17 HimekoNova Ability blob88054e5c/Config blob285e9b9fのSkill21 Entry/B1/B2/B3を固定151009/1510103と照合。旧原動力2/3の2/3弾、A6の追加弾倍率+30ポイント、追加弾後の基本全体成分をhsrHimekoDepartureRound39/ToolInputsで独立検証。',
+ remaining:'Lv80/E0・A6解放済み・敵1体・全成分で最終値/敵状態一定。通常1～6、U/Talent1～10。151009は入力した事前原動力1の基本パルス、2の追加2弾、3のA6付き追加3弾を含む1回比較。151003は最後撃3段、151008はビーム1回、151022は本人使用の通常支援1+4段。151003最大381～762%はA6なしの6ビーム+3回の原動力3パルス+最後撃の整合値で、単独パルスへ流用しない。裁決151025/殲滅151026の本人支援・固有補正、他使用者、途中撃破/死亡・複数敵/E1以上は未認定。必殺中の資源/全行動順の自動進行は完成要件に追加しない。'
+});
 // Round38: same-release execution data supplies the missing hit splits and intrinsic update order.
 Object.assign(e0CandidateAudit['1213'],{
  status:'confirmed',workClass:'済',majorSourceIds:['121301','121308','121310','121312','121303'],requiredAttackIds:['121301','121308','121310','121312','121303'],missingComponents:[],

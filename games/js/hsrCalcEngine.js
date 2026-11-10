@@ -295,6 +295,7 @@
     };
 
     function unsupportedAttackReason(attack = {}) {
+        if(attack.id==="151009"&&attack.characterId==="1510"&&attack.sourceSkillId===attack.id&&attack.type==="ultimate"&&attack.element==="Fire"&&attack.damageFormula==="componentSequence")return "";
         if(attack.id==='150308'&&attack.characterId==='1503'&&attack.sourceSkillId==='150308'&&attack.damageFormula==='componentSequence'&&attack.type==='enhancedNormal'&&attack.element==='Ice')return '';
 
         if(attack.id==='1414039'&&attack.characterId==='1414'&&attack.sourceSkillId==='141403'&&attack.damageFormula==='componentSequence'&&attack.type==='followUp'&&attack.element==='Physical')return '';
@@ -441,7 +442,7 @@ function calculateFanning(input) {
             const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,extra=a.id==='14141031',profile=a.id==='1414031'?'dragon':'additional',curve=extra?[40]:[40,44,48,52,56,60,65,70,75,80];
             if(c.id!=='1414'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||a.characterId!=='1414'||a.statReferenceId!=='1414'||a.effectiveProfile!==profile||!a.completedReferenceSnapshot||a.damageFormula!=='statMultiplier'||a.scalingStat!=='atk'||a.element!=='Physical'||a.type!==(profile==='dragon'?'followUp':'additional')||a.sourceSkillId!==(extra?'1414103':'141403')||a.hitCount!==1||a.scalingTerms?.length||!Number.isInteger(l)||l<1||l>curve.length||a.multiplier!==curve[l-1]||!['atk','critRate','critDamage','damageBonus'].every(k=>Number.isFinite(c.stats?.[k])&&(k==='atk'?c.stats[k]>0:c.stats[k]>=0))||!['defenseIgnore','resistancePenetration'].every(k=>Number.isFinite(e[k]))||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(!['enemyAll','enemySingle'].includes(m.target?.owner)||m.category==='progressiveTakenDamage')))return {supported:false,reason:'本人を同袍にした強化龍霊の各成分に有効な最終値を指定してください。Lv80/E0・未撃破の敵1体・U Lv1～10・追加能力は固定40%のみ対応です。'};
         }
-        if(['151001','151003','151009','151022'].includes(input.attack?.id)){
+        if(['151001','151003','151009','151022'].includes(input.attack?.id)&&input.attack?.damageFormula!=="componentSequence"){
             const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,curve=({'151001':[50,60,70,80,90,100],'151003':[120,132,144,156,168,180,195,210,225,240],'151009':[10,11,12,13,14,15,16.25,17.5,18.75,20],'151022':[172,187.6,203.2,218.8,234.4,250,269.5,289,308.5,328]})[a.id];
             if(c.level!==80||c.eidolon!==0||e.count!==1||!Number.isInteger(l)||l<1||l>curve.length||a.multiplier!==curve[l-1]||a.damageFormula!=='statMultiplier'||a.scalingStat!=='atk'||a.characterId!=='1510'||c.id&&c.id!=='1510'||a.scalingTerms?.length||a.hitCount!==1||(a.id==='151009'&&input.modifierInputs?.['himeko-departure-drive']!==1))return {supported:false,reason:'姫子・旅立ちはLv80/E0・敵1体の指定した単発成分のみ対応です。パルス砲は攻撃前の原動力1だけを明示してください。'};
         }
@@ -671,6 +672,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(input.attack?.id==="151009"&&input.attack?.characterId==="1510")return calculateHimekoDeparturePulse(input);
         if(input.attack?.characterId === "1213" && ["121301","121308","121310","121312","121303"].includes(input.attack.id))return calculateImbibitorLunaeSnapshot(input);
         if(input.attack?.id==='1403033'){
             const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],n=a.cyreneBarrierActive?1:0,curve=[6,6.6,7.2,7.8,8.4,9,9.75,10.5,11.25,12];
@@ -1119,6 +1121,21 @@ function calculateFanning(input) {
             if (JSON.stringify(part.input.character) !== JSON.stringify(c) || JSON.stringify(part.input.enemy) !== JSON.stringify(e)) return fail("黄泉の全成分には同じ最終ステータスと敵条件が必要です。");
         }
         return combineDamageComponents(a, parts, `啼沢斬り3回＋黄泉返り＋雷心6ヒット（集真赤事前${knots}層・雷心事前3層）`);
+    }
+
+    // Same-release Skill21 saves all prior charges for the bounce loop before clearing them.
+    function calculateHimekoDeparturePulse(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],drive=input.modifierInputs?.["himeko-departure-drive"],level=a.traceLevel;
+        const fail=()=>({supported:false,reason:"パルス砲はLv80/E0・A6解放済み・敵1体・状態一定。攻撃前の原動力1～3と必殺技Lv1～10を明示してください。"});
+        const base=[10,11,12,13,14,15,16.25,17.5,18.75,20][level-1],shot=[15,16.5,18,19.5,21,22.5,24.37,26.25,28.12,30][level-1];
+        if(c.id!=="1510"||c.level!==80||c.eidolon!==0||e.count!==1||![true,false].includes(e.toughnessActive)||!Number.isInteger(drive)||drive<1||drive>3||!Number.isInteger(level)||level<1||level>10||a.damageFormula!=="componentSequence"||a.type!=="ultimate"||a.sourceSkillId!=="151009"||a.element!=="Fire"||a.scalingStat!=="atk"||a.scalingTerms?.length||a.multiplier!==base||parts.length!==(drive===1?1:2)||a.damageComponents?.length!==parts.length)return fail();
+        for(let i=0;i<parts.length;i++){
+            const isShot=drive>1&&i===0,q=parts[i]?.input,b=q?.attack||{},key=isShot?"shots":"pulse",id=isShot?"1510091":"1510092";
+            if(parts[i]?.key!==key||a.damageComponents[i]?.key!==key||a.damageComponents[i]?.attackId!==id||b.id!==id||b.characterId!=="1510"||b.sourceSkillId!=="151009"||b.damageFormula!=="statMultiplier"||b.type!=="ultimate"||b.attackType!=="ultimate"||b.element!=="Fire"||b.scalingStat!=="atk"||b.scalingTerms?.length||b.flatDamage||b.target!=="single"||b.traceLevel!==level||b.hitCount!==(isShot?drive:1)||Math.abs(b.multiplier-(isShot?shot+(drive===3?30:0):base))>1e-8||!Number.isFinite(b.multiplier)||JSON.stringify(q?.character)!==JSON.stringify(c)||JSON.stringify(q?.enemy)!==JSON.stringify(e)||JSON.stringify(q?.modifierInputs)!==JSON.stringify(input.modifierInputs)||(q.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(m.category==="progressiveTakenDamage"||m.source?.id==="1510"&&m.source?.skillId==="1510103")))return fail();
+        }
+        const result=combineDamageComponents(a,parts,drive===1?"基本全体パルス1回":`追加弾${drive}発＋基本全体パルス（A6${drive===3?"あり":"なし"}）`);
+        if(result.breakdown)result.breakdown.condition=a.conditionText+" "+a.calculationNote;
+        return result;
     }
 
     function calculateImbibitorLunaeSnapshot(input) {
