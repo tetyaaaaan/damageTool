@@ -54,7 +54,7 @@
         "verification": "tests/hsr/hsrHimekoDepartureRound40.test.cjs",
         "relatedSourceCommit": "6b2bc17ebf461e497ba0dd0ffd44875f1866762b",
         "relatedSourceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json",
-        "notes": "第41回: 同版SupportFakeSkill/SupportSkillによる使用者とCasterの分離、他使用者分[0..2]を追加検証。tests/hsr/hsrHimekoDepartureRound41.test.cjs。本人用[3..5]は維持。 使用者区分は同版Config/GlobalConfig/GameCoreConstValue.json CharacterIDGroups、blob de23353629e189399d5d8c94eca0aa0cce238083。1002=Model01、1001=Model02、1101=両モデル/AstralExpressの外。 第42回: 同版Field_Insert_Phase02.OnStart[0]のAllLightTeamIgnoreServantへの支援行動付与を確認。サンデー1313=Model01/Skill52Fake、ヴェルト1004=Model02/Skill53Fake、停雲1202=group外/Skill51Fake。各FakeSkillからHimeko宛TurnInsertActionを経て同じ151022他使用者成分へ到達。"
+        "notes": "第41回: 同版SupportFakeSkill/SupportSkillによる使用者とCasterの分離、他使用者分[0..2]を追加検証。tests/hsr/hsrHimekoDepartureRound41.test.cjs。本人用[3..5]は維持。 使用者区分は同版Config/GlobalConfig/GameCoreConstValue.json CharacterIDGroups、blob de23353629e189399d5d8c94eca0aa0cce238083。1002=Model01、1001=Model02、1101=両モデル/AstralExpressの外。 第42回: 同版Field_Insert_Phase02.OnStart[0]のAllLightTeamIgnoreServantへの支援行動付与を確認。サンデー1313=Model01/Skill52Fake、ヴェルト1004=Model02/Skill53Fake、停雲1202=group外/Skill51Fake。各FakeSkillからHimeko宛TurnInsertActionを経て同じ151022他使用者成分へ到達。 第43回: 同版CharacterIDGroupsは1213をModel01、1224をModel02へ明示。Field_Insert_Phase02のAllLightTeamIgnoreServantからそれぞれSkill52Fake/Skill53Fakeを付与し、SupportFakeSkill02/03→姫子宛TurnInsertAction→SupportSkill02/03_Phase02のダメージ前AstralExpressへ到達することを確認。1213は裁決、1224は殲滅。元形態の条件や攻撃倍率を流用しない。"
       },
       "enforceSnapshotContract": true,
       "tags": [
@@ -170,7 +170,9 @@
         "1101",
         "1313",
         "1004",
-        "1202"
+        "1202",
+        "1213",
+        "1224"
       ]
     }
   ]

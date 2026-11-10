@@ -4608,3 +4608,18 @@ test('round42 new Himeko assist users preserve ownership, prior accord, inclusio
  const cdRecords=data.structuredModifiers.filter(m=>m.source.id==='1510'&&['151004','151026'].includes(m.source.skillId)&&m.category==='critDamage'&&m.support.status==='calculable');assert.equal(cdRecords.length,3);for(const r of cdRecords)app.state.modifierInputs['party-reference:1510:included:'+r.id]=true;app.state.modifierInputs['party-reference:1510:critDamage']=380;near(foreign(app).expected,base.expected);
  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(foreign(saved).expected,base.expected);delete saved.state.modifierInputs['party-reference:1510:atk'];assert.ok(!foreign(saved));assert.ok(saved.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='120201').name));saved.state.party[0].characterId='';assert.ok(!foreign(saved));
 });
+
+
+test('round43 alternate-form Himeko assist users keep owner values, final-stat exclusion and local lifecycle separate',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b),foreign=x=>x.calculate().find(r=>r.attack?.name.includes('が使用・所有者：姫子'));
+ for(const[id,mode,normalId]of[['1213',1,'121301'],['1224',2,'122401']]){
+  const app=await tool(undefined,data);app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:1},{type:'Ultra',level:1},{type:'Talent',level:1}],stats:{atk:777,hp:9991,def:1400,critRate:10,critDamage:50,damageBonus:7}});app.state.party[0]={...app.state.party[0],characterId:'1510',eidolon:0,traceLevels:{talent:10,skill:10}};app.state.modifierInputs['himeko-departure-accord']=3-mode;
+  assert.ok(!foreign(app));const normal=x=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===normalId).name);assert.ok(normal(app));app.state.conditionTab='パーティ';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="party-reference:1510:atk"/g)||[]).length,1);
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,Fire:0,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['party-reference:1510:'+k]=v;app.state.modifierInputs['enemy-resistance:Fire']=20;
+  const r=foreign(app),nc=3000*2.32*.45*(mode===1?2:1),cd=mode===1?1.8:3.8;assert.ok(r);near(r.nonCrit,nc);near(r.crit,nc*(1+cd));near(r.expected,nc*(1+.5*cd));assert.equal(Object.keys(r.components).length,2);assert.equal(app.state.modifierInputs['himeko-departure-accord'],3-mode);
+  app.node('hsrStat-atk').value='999999';app.node('hsrStat-critDamage').value='9999';near(foreign(app).expected,r.expected);
+  if(mode===1){app.state.modifierInputs['party-reference:1510:included:trace:1510:151025:accord-damage']=true;app.state.modifierInputs['party-reference:1510:Fire']=100;}
+  else{const buffs=data.structuredModifiers.filter(m=>m.source.id==='1510'&&['151004','151026'].includes(m.source.skillId)&&m.category==='critDamage'&&m.support.status==='calculable');assert.equal(buffs.length,3);for(const b of buffs)app.state.modifierInputs['party-reference:1510:included:'+b.id]=true;app.state.modifierInputs['party-reference:1510:critDamage']=380;}
+  near(foreign(app).expected,r.expected);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(foreign(saved).expected,r.expected);delete saved.state.modifierInputs['party-reference:1510:atk'];assert.ok(!foreign(saved));assert.ok(normal(saved));saved.state.party[0].characterId='';assert.ok(!foreign(saved));
+ }
+});
