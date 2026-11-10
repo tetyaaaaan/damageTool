@@ -4276,7 +4276,7 @@ test('Round27 independent spirits reach results, keep missing inputs local and r
   app.node('hsrStat-hp').value='9300';app.node('hsrStat-critDamage').value='299';near(row().expected,expected,'owner edits do not change spirit');
   app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/data-structured-input="memosprite:/);assert.doesNotMatch(app.node('hsrConditionList').innerHTML,/undefined/);
   app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);near(row(restored).expected,expected);
-  if(cyrene){restored.state.modifierInputs['cyrene-recollection-allies']=0;near(row(restored).expected,expected/3);}else{restored.state.modifierInputs['hyacine-recorded-healing']=0;near(row(restored).expected,0);}
+  if(cyrene){assert.match(restored.node('hsrResults').innerHTML,/本体1回＋既発動の追加ヒット2回/);restored.state.modifierInputs['cyrene-recollection-allies']=0;near(row(restored).expected,expected/3);assert.match(restored.node('hsrResults').innerHTML,/本体1回＋既発動の追加ヒット0回/);}else{restored.state.modifierInputs['hyacine-recorded-healing']=0;near(row(restored).expected,0);}
   delete restored.state.modifierInputs['memosprite:'+id+':critDamage'];assert.ok(!row(restored));assert.ok(restored.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id===id+'01').name));
  }
 });

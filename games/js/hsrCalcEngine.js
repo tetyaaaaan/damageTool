@@ -766,7 +766,7 @@ function calculateFanning(input) {
             const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],n=input.modifierInputs?.['cyrene-recollection-allies'];
             if(c.id!=='11415'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||!Number.isInteger(n)||n<0||n>3||parts.length!==2||a.damageComponents?.length!==2||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6)return {supported:false,reason:'精霊の舞曲合計はLv80/E0・敵1体・他精霊なし・追憶を得た異なる味方0～3名の明示が必要です。'};
             for(let i=0;i<2;i++){const q=parts[i]?.input,b=q?.attack||{};if(parts[i].key!==['body','recollection'][i]||b.id!==['1141501','1141526'][i]||a.damageComponents[i].attackId!==b.id||b.traceLevel!==a.traceLevel||JSON.stringify(q.character)!==JSON.stringify(c)||JSON.stringify(q.enemy)!==JSON.stringify(e)||JSON.stringify(q.modifierInputs)!==JSON.stringify(input.modifierInputs))return {supported:false,reason:'舞曲の精霊所有者・Lv・敵・追憶条件が一致しません。'};}
-            return combineDamageComponents(a,[parts[0],...Array.from({length:n},(_,i)=>({...parts[1],key:'recollection'+(i+1)}))],'精霊の全体1回＋指定した追憶提供者数の追加ヒット');
+            return combineDamageComponents({...a,hitCountLabel:`本体1回＋既発動の追加ヒット${n}回`},[parts[0],...Array.from({length:n},(_,i)=>({...parts[1],key:'recollection'+(i+1)}))],'精霊の全体1回＋指定した追憶提供者数の追加ヒット');
         }
         if (["1402012","140208"].includes(input.attack?.id)) return calculateAglaeaSnapshot(input);
         if (input.attack?.id === "150403") return calculateFudieUltimateSnapshot(input);

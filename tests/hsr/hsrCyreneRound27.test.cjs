@@ -23,6 +23,7 @@ test('Round27 Cyrene aggregate represents one base plus two already-triggered re
  const out=engine.calculate(root);assert.notEqual(out.supported,false,out.reason);
  const p=root.sequenceComponents[0].input,e=oracle(p,60).expected;
  assertClose(out.expected,3*e,'one base + two pre-triggered hits');
+ assert.equal(out.attack.hitCountLabel,'本体1回＋既発動の追加ヒット2回');
  const missing=spirit(makeRequest(get('1141501'),6,owner));delete missing.attack.completedReferenceSnapshot;
  assert.equal(engine.calculate(missing).supported,false,'missing independent final snapshot must stop locally');
  const missingRoot=spirit(makeRequest(get('11415012'),6,owner));missingRoot.modifierInputs=root.modifierInputs;missingRoot.sequenceComponents=root.sequenceComponents.map(p=>({key:p.key,input:{...p.input,character:{...p.input.character,stats:{...p.input.character.stats,hp:undefined}}}}));
