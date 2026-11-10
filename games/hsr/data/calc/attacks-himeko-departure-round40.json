@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "himeko-departure-self-assist-round40",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "同版Skill51/52/53の本人分と固定151022/151025/151026の天賦係数を照合。境界内のAssist→BPSkill扱いと攻撃前の天賦補正を含む。"
+  },
+  "overrides": [
+    {
+      "id": "151022",
+      "characterId": "1510",
+      "sourceSkillId": "151022",
+      "name": "開拓が共にあらんことを（本人支援・協定指定）",
+      "element": "Fire",
+      "type": "assist",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "hitCountLabel": "本人全体1回＋単体4回（境界展開中）",
+      "canCrit": true,
+      "multipliers": [
+        172,
+        187.6,
+        203.2,
+        218.8,
+        234.4,
+        250,
+        269.5,
+        289,
+        308.5,
+        328
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "fixed-release-self-assist",
+      "conditionText": "Lv80/E0・天賦Lv1～10・敵1体・境界展開中。協定なし/裁決/殲滅を指定した本人の支援攻撃1回。攻撃中の状態は一定。",
+      "calculationNote": "Skill51/52/53の本人使用・本人自動支援は同じ本人ATK係数で、全体1回と単体4回を合算します。裁決/殲滅は共有の協定選択から適用し、重ねません。境界中の支援は戦闘スキル補正の対象です。今回の支援使用で発動する天賦CD/耐性貫通はダメージ前に自動適用し、既算入指定を維持します。他の使用者のステータスや係数は代用しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "同版Skill51/52/53の本人分と固定151022/151025/151026の天賦係数を照合。境界内のAssist→BPSkill扱いと攻撃前の天賦補正を含む。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151022/151025/151026.params[0..9][3..5]; HimekoNova Skill51/52/53 self branch, AstralExpress, AssistAsBpSkill and OnBeforeSkillUse",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrHimekoDepartureRound40.test.cjs",
+        "relatedSourceCommit": "6b2bc17ebf461e497ba0dd0ffd44875f1866762b",
+        "relatedSourceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json"
+      },
+      "enforceSnapshotContract": true,
+      "tags": [
+        "skill"
+      ],
+      "damageComponents": [
+        {
+          "key": "area",
+          "attackId": "1510221",
+          "name": "本人支援・全体1回",
+          "type": "assist",
+          "tags": [
+            "skill"
+          ],
+          "element": "Fire",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            100,
+            110,
+            120,
+            130,
+            140,
+            150,
+            162.5,
+            175,
+            187.5,
+            200
+          ]
+        },
+        {
+          "key": "shots",
+          "attackId": "1510222",
+          "name": "本人支援・単体4回",
+          "type": "assist",
+          "tags": [
+            "skill"
+          ],
+          "element": "Fire",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 4,
+          "multipliers": [
+            18,
+            19.4,
+            20.8,
+            22.2,
+            23.6,
+            25,
+            26.75,
+            28.5,
+            30.25,
+            32
+          ]
+        }
+      ]
+    }
+  ]
+}

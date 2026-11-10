@@ -469,6 +469,7 @@
   }
 
   function supportTraceKey(source) {
+    if(source.id==="1510"&&["151025","151026"].includes(source.skillId))return "talent";
     if(['8007','8008'].includes(source.id)&&['1800701','1800703','1800707'].includes(source.skillId))return source.skillId==='1800703'?'memTalent':'memSkill';
     if(source.id==='1415'&&['1141517','1141524','1141513','1141525','1141514','1141515','1141516','1141518','1141520','1141521','1141522','1141523'].includes(source.skillId))return 'memSkill';
     const skill = find("characters", String(source.id))?.skills?.find(item => String(item.id) === String(source.skillId));
@@ -1038,6 +1039,13 @@
     const get=k=>state.modifierInputs['pearl-learned:1502:'+k],keys=['elation','critRate','critDamage','merrymake','defenseIgnore',physical?'physicalPen':'icePen',...(physical?['physicalResistance']:[])],members=state.party.filter(m=>m.characterId),pair=members.length===1&&members[0].characterId==='1502'&&members[0].eidolon===0,valid=pair&&keys.every(k=>Number.isFinite(get(k))&&(k==='physicalResistance'?get(k)>=-100&&get(k)<=90:get(k)>=0)),enemy=componentSnapshots().enemy;
     return {referenceStats:{elation:get('elation'),critRate:get('critRate'),critDamage:get('critDamage'),damageBonus:0},referenceCharacter:{id:'1502',level:state.level,eidolon:0,stats:{elation:get('elation'),critRate:get('critRate'),critDamage:get('critDamage'),damageBonus:0}},referenceEnemy:{...enemy,...(physical?{resistance:get('physicalResistance'),resistances:{...enemy.resistances,Physical:get('physicalResistance')}}:{}),defenseIgnore:get('defenseIgnore'),resistancePenetration:get(physical?'physicalPen':'icePen')},completedReferenceSnapshot:valid,damageOwnerId:'1502',statReferenceId:'1502',learnedOwnerId:'1502',pearlPairActive:pair,referenceIssue:valid?'':'パール＋Lv80/E0の爻光だけの編成と、爻光の独立した最終愉悦/会心/上笑/対象属性の防御・耐性補正を指定してください。',referenceCondition:{id:'pearl-learned:1502',tab:'軌跡'}};
   }
+  function himekoAccordControls() {
+    if((state.characterId==="1510"&&state.conditionTab==="軌跡")||(state.characterId!=="1510"&&state.conditionTab==="パーティ"&&state.party.some(m=>m.characterId==="1510"))){
+      const key="himeko-departure-accord",value=state.modifierInputs[key]??0;conditionReferenceInputs.add(key);
+      return '<section class="hsr-condition-purpose"><h5>姫子・旅立ちの同行協定</h5><label class="genshin-condition-control"><span>成立済みの同行協定</span><select data-structured-input="'+key+'">'+[[0,'未発動'],[1,'裁決'],[2,'殲滅']].map(([v,label])=>'<option value="'+v+'"'+(value===v?' selected':'')+'>'+label+'</option>').join('')+'</select></label><p class="genshin-help">開拓仲間の支援で成立済みの協定を指定します。裁決と殲滅は同時適用しません。裁決は姫子本人の与ダメージと必殺技、殲滅は味方の会心ダメージと戦闘スキル会心を補正します。本人支援は境界中の1回比較で、天賦の会心・耐性貫通を攻撃前に反映します。味方による使用やチャージの自動追跡は含みません。</p></section>';
+    }
+    return "";
+  }
   function partyReferenceControls() {
     if (['1003','1102'].includes(state.characterId) && state.conditionTab==='パーティ' && ['1415','1412'].every(id=>state.party.some(m=>m.characterId===id))) {
       const recipients=[state.characterId,...state.party.map(m=>m.characterId)].filter(id=>['1003','1102'].includes(id));
@@ -1112,6 +1120,7 @@
     });
     const meta = CONDITION_TAB_META[state.conditionTab] || CONDITION_TAB_META["その他"];
 
+    if(state.characterId==="1510"||state.party.some(m=>m.characterId==="1510"))conditionReferenceInputs.add("himeko-departure-accord");
     const purposes = CONDITION_PURPOSES.map(purpose => {
       const entries = [...groups.values()].filter(items => conditionPurpose(items[0]) === purpose.id);
       if (!entries.length) return "";
@@ -1119,7 +1128,7 @@
       return purpose.folded ? `<details class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><summary>${esc(purpose.title)}（${entries.length}件）</summary>${content}</details>`
         : `<section class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><h5>${esc(purpose.title)}</h5>${content}</section>`;
     }).join("");
-    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${partyReferenceControls()}${comparisonReferenceControls()}${purposes || '<p class="genshin-condition-card-empty">このカテゴリに設定できる効果はありません。</p>'}</section>`;
+    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${himekoAccordControls()}${partyReferenceControls()}${comparisonReferenceControls()}${purposes || '<p class="genshin-condition-card-empty">このカテゴリに設定できる効果はありません。</p>'}</section>`;
   }
 
   // Patch facts only: replacing a numeric control on blur steals the next click/focus.
@@ -1462,6 +1471,11 @@
       const parts = selected.damageComponents.map(c => state.data.attacks.find(a => a.id === c.attackId && a.characterId === "1210"));
       const sequenceAttacks = parts.every(Boolean) ? parts.map(a => ({...resolvedAttack(a),damageFormula:"statMultiplier",target:"single",hitCount:1,comparisonModifierInputs:{...selected.comparisonModifierInputs},modifierInputKey:undefined,modifierConditions:undefined})) : [];
       return {...selected,traceLevel:state.traceLevels.ultimate,talentTraceLevel:state.traceLevels.talent,multiplier:selected.multipliers[state.traceLevels.ultimate-1],traceLevelLabel:`必殺Lv${state.traceLevels.ultimate}＋スキルLv${state.traceLevels.skill}＋天賦Lv${state.traceLevels.talent}`,attackType:"ultimate",sequenceAttacks};
+    }
+    if(selected.id==="151022"&&selected.characterId==="1510"&&selected.damageFormula==="componentSequence"){
+      const level=state.traceLevels.talent,mode=state.modifierInputs["himeko-departure-accord"]??0;
+      const sequenceAttacks=selected.damageComponents.map(d=>({...selected,...d,id:d.attackId,sourceSkillId:"151022",damageFormula:"statMultiplier",damageComponents:undefined,traceLevel:level,multiplier:d.multipliers[level-1],attackType:"assist",hitCountLabel:d.hitCount+"ヒット"}));
+      return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:"assist",traceLevelLabel:`天賦Lv${level}・協定${["なし","裁決","殲滅"][mode]||"不正"}`,sequenceAttacks};
     }
     if(selected.id==="151009" && selected.characterId==="1510" && selected.damageFormula==="componentSequence") {
       const level=state.traceLevels.ultimate,drive=state.modifierInputs["himeko-departure-drive"];
@@ -2213,6 +2227,7 @@
   }
 
   function traceKeyForSkill(skill) {
+    if(state.characterId==="1510"&&["151025","151026"].includes(String(skill.id)))return "talent";
     const links = Object.values(state.data.traceSkillMap?.[state.characterId] || {});
     const group = links.find((item) => item.skillIds?.includes(String(skill.id)));
     const primary = character()?.skills?.find((entry) => entry.id === group?.skillIds?.[0]);

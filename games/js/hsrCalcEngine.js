@@ -295,6 +295,7 @@
     };
 
     function unsupportedAttackReason(attack = {}) {
+        if(attack.id==="151022"&&attack.characterId==="1510"&&attack.sourceSkillId===attack.id&&attack.type==="assist"&&attack.element==="Fire"&&attack.damageFormula==="componentSequence")return "";
         if(attack.id==="151009"&&attack.characterId==="1510"&&attack.sourceSkillId===attack.id&&attack.type==="ultimate"&&attack.element==="Fire"&&attack.damageFormula==="componentSequence")return "";
         if(attack.id==='150308'&&attack.characterId==='1503'&&attack.sourceSkillId==='150308'&&attack.damageFormula==='componentSequence'&&attack.type==='enhancedNormal'&&attack.element==='Ice')return '';
 
@@ -672,6 +673,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(input.attack?.id==="151022"&&input.attack?.characterId==="1510")return calculateHimekoDepartureAssist(input);
         if(input.attack?.id==="151009"&&input.attack?.characterId==="1510")return calculateHimekoDeparturePulse(input);
         if(input.attack?.characterId === "1213" && ["121301","121308","121310","121312","121303"].includes(input.attack.id))return calculateImbibitorLunaeSnapshot(input);
         if(input.attack?.id==='1403033'){
@@ -1121,6 +1123,20 @@ function calculateFanning(input) {
             if (JSON.stringify(part.input.character) !== JSON.stringify(c) || JSON.stringify(part.input.enemy) !== JSON.stringify(e)) return fail("黄泉の全成分には同じ最終ステータスと敵条件が必要です。");
         }
         return combineDamageComponents(a, parts, `啼沢斬り3回＋黄泉返り＋雷心6ヒット（集真赤事前${knots}層・雷心事前3層）`);
+    }
+
+    function calculateHimekoDepartureAssist(input){
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],l=a.traceLevel,mode=input.modifierInputs?.["himeko-departure-accord"]??0;
+        const curves=[[100,110,120,130,140,150,162.5,175,187.5,200],[18,19.4,20.8,22.2,23.6,25,26.75,28.5,30.25,32]],keys=["area","shots"];
+        const fail=()=>({supported:false,reason:"本人支援は境界展開中・Lv80/E0・敵1体・天賦Lv1～10・状態一定。同行協定はなし/裁決/殲滅のいずれかを指定してください。"});
+        if(c.id!=="1510"||c.level!==80||c.eidolon!==0||e.count!==1||![0,1,2].includes(mode)||!Number.isInteger(l)||l<1||l>10||a.damageFormula!=="componentSequence"||a.sourceSkillId!=="151022"||a.type!=="assist"||a.element!=="Fire"||a.multiplier!==curves[0][l-1]+4*curves[1][l-1]||parts.length!==2||a.damageComponents?.length!==2)return fail();
+        for(let i=0;i<2;i++){
+            const q=parts[i]?.input,b=q?.attack||{},id="151022"+(i+1);
+            if(parts[i]?.key!==keys[i]||a.damageComponents[i]?.attackId!==id||b.id!==id||b.sourceSkillId!=="151022"||b.characterId!=="1510"||b.type!=="assist"||b.attackType!=="assist"||!b.tags?.includes("skill")||b.element!=="Fire"||b.scalingStat!=="atk"||b.scalingTerms?.length||b.flatDamage||b.damageFormula!=="statMultiplier"||b.hitCount!==(i?4:1)||b.target!=="single"||b.traceLevel!==l||Math.abs(b.multiplier-curves[i][l-1])>1e-8||!Number.isFinite(b.multiplier)||JSON.stringify(q?.character)!==JSON.stringify(c)||JSON.stringify(q?.enemy)!==JSON.stringify(e)||JSON.stringify(q?.modifierInputs)!==JSON.stringify(input.modifierInputs)||(q.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.category==="progressiveTakenDamage"))return fail();
+        }
+        const result=combineDamageComponents(a,parts,"本人の全体1回＋単体4回（協定"+["なし","裁決","殲滅"][mode]+"）");
+        if(result.breakdown)result.breakdown.condition=a.conditionText+" "+a.calculationNote;
+        return result;
     }
 
     // Same-release Skill21 saves all prior charges for the bounce loop before clearing them.

@@ -1390,6 +1390,14 @@ Object.assign(e0CandidateAudit['1213'],{
  evidence:'StarRailRes dbe8 info.json=4.6.0とJP121301/308/310/312/303/302/304。同版Dimbreath6b2bc17のDanHengIL Ability blob93414e77/Config blob90edd34eでHitSplitRatio・パラメータ参照・命中後亢心/4段目以降命中前叱咤を確認。hsrImbibitorLunaeRound38/ToolInputsで独立NC/C/EV・全段/合計・通常専用補正・状態/所有者/係数不整合拒否・保存を検証。',
  remaining:'Lv80/E0・非虚数弱点/未撃破の敵1体・攻撃開始時の亢心/叱咤0層を明示した5比較行。本体N1～6/U1～10・Skill/Talent1～10、全段で敵が存命・外部補正一定。初期0は行の想定であり未入力状態を推定したものではない。入力最終DMG/CDは事前の亢心/叱咤加算を含まない。この条件内では全段の自動累積を含む。初期非0、虚数弱点へのA6、隣接敵の別イベント、複数敵、途中撃破/死亡・資源更新・ターン全体・E1以上は認定外。'
 });
+// Round40: the selected native accord and its owner-specific self-assist complete the bounded E0 kit.
+Object.assign(e0CandidateAudit['1510'],{
+ status:'confirmed',workClass:'済',majorSourceIds:['151001','151003','151008','151009','151022'],requiredAttackIds:['151001','151003','151008','151009','151022'],missingComponents:[],
+ sourceRoleOverrides:{'151002':'支援/導く旗印DMG','151004':'支援/使用前の天賦CD・耐性貫通','151014':'既存151003の最後撃3段へ統合（独立イベントなし）','151025':'支援/裁決の本人DMG・U補正と151022の本人支援','151026':'支援/殲滅の味方CD・SkillCD補正と151022の本人支援'},
+ summary:'通常・ビーム・原動力1～3/A6パルス・最後撃と、裁決/殲滅を指定した本人支援1+4段を既存Modifier/成分式で確認。',
+ evidence:'固定dbe8の151001/2/3/4/8/9/22/25/26と1510103。同版4.6.0 Dimbreath6b2bc17 HimekoNova Ability blob88054e5c/Config blob285e9b9fでSkill51/52/53本人分、AstralExpress協定切替、OnBeforeSkillUseの天賦、SpecialBattleAreaのAssistAsBpSkillを照合。Round30/39/40とToolInputsで独立NC/C/EV、4補正・対象外・提供者離脱・既算入・保存を確認。',
+ remaining:'Lv80/E0・A6解放済み・境界展開中・敵1体・全成分で最終値/敵状態一定。N1～6、U/Talent/Skill1～10。本人の通常/ビーム1回/明示した原動力1～3の単一パルス/最後撃3段/本人支援1+4段。裁決/殲滅は開拓仲間の支援によって事前成立したいずれか1つを指定する。天賦のCD/耐性貫通は今回の本人支援前に自動適用し既算入を除く。殲滅は独立した受益者の本人攻撃へ提供者天賦Lvで適用、精霊の最終値へ一般継承しない。他使用者の支援係数・新規協定付与/チャージ/発動回数の自動更新・途中撃破/死亡・複数敵/E1以上は認定外。Uの全行動合計やローテーションを完成要件へ追加しない。'
+});
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={
  '1220':'スキル+雷狩は限定対応。必殺技の分岐と途中撃破/成分間変化が不足。',
@@ -1599,7 +1607,7 @@ async function generate(){
  '9. UID・保存・PC/モバイルの最終QAは開発完了と別に記録する。今回実UID通信は行っていない。');
  p('', '第8回の統合検証:HSR589テスト成功。飛霄/緋英/乱破/ブートヒル/夏アベンチュリンを1440/390/320pxで実操作し、72画像を作成して代表画像を目視。100万超の結果値のセル内範囲、長文/箇条書きの枠内、支援ON/OFF/提供者離脱/空欄/再読み込みを確認。JS例外・ページ横はみ出しなし。実UID通信は今回未実施。');
  for(const d of details){p(`<a id="character-${d.c.id}"></a>`, `### ${d.c.id} ${d.c.name}`,'',d.confirmed?confirmedE0[d.c.id]:d.audit?(d.audit.summary+' 残作業: '+d.audit.remaining+' 証拠: '+d.audit.evidence):knownGaps[d.c.id]||'登録一覧の全成分/固有効果は要精査。登録状態と完成認定を分ける。','', '|攻撃ID・種類・名前|登録/実行|Lv・星魂範囲|必要入力・限定条件・不足|次作業/難易度|','|---|---|---|---|---|');for(const a of d.attacks)p(`|${a.id} ${cell(category(a)+' '+a.name)}|登録・${attackStatus(a)}|${cell(bounds(a))}|${cell(a.calculationNote||a.conditionText||a.support?.reason||'個別の入力・固有補正範囲は未明示')}|${cell(difficulty(a))}|`);
-  p('','|固定版スキルID・名前|性質|対応する登録攻撃|管理上の扱い|','|---|---|---|---|');for(const s of d.sources){const mapped=d.mapped(s);const role=skillRole(s);p(`|${s.id} ${cell(s.name)}|${cell(role)}|${mapped.map(a=>a.id+' '+attackStatus(a)).join('、')||'なし'}|${role.startsWith('支援')?'ダメージ未実装数に含めない':role.startsWith('秘技')?'主要完成集計外':role.startsWith('召喚')?'有無/子攻撃/既存式接続を要確認':mapped.length?'成分/時点/条件の完全性を確認':'未登録候補。独立ダメージか既存行の成分か要確認'}|`);}
+  p('','|固定版スキルID・名前|性質|対応する登録攻撃|管理上の扱い|','|---|---|---|---|');for(const s of d.sources){const mapped=d.mapped(s);const role=skillRole(s);p(`|${s.id} ${cell(s.name)}|${cell(role)}|${mapped.map(a=>a.id+' '+attackStatus(a)).join('、')||'なし'}|${role.startsWith('既存')?'既存攻撃へ統合・重複登録しない':role.startsWith('支援')?'ダメージ未実装数に含めない':role.startsWith('秘技')?'主要完成集計外':role.startsWith('召喚')?'有無/子攻撃/既存式接続を要確認':mapped.length?'成分/時点/条件の完全性を確認':'未登録候補。独立ダメージか既存行の成分か要確認'}|`);}
   p('','|星魂|構造化計算/表示|軌跡Lv加算（元データ）/残作業|','|---|---|---|');
   for(let rank=1;rank<=6;rank++){const es=d.eidolon.filter(m=>Number(m.source.eidolonRank)===rank),raw=d.c.eidolons.find(e=>Number(e.rank)===rank);const levelSkills=raw?.levelUpSkills||[];p(`|E${rank}|${es.filter(e=>e.support.status==='calculable').length}/${es.filter(e=>e.support.status==='displayOnly').length}|${levelSkills.map(x=>cell(JSON.stringify(x))).join('、')||'Lv加算なし'}。${es.length?'効果ごとの攻撃範囲/実計算を確認':'構造化記録なし。効果がないとは判断せず影響を精査'}|`);}
   p('',`星魂: 元データE1～6あり。構造化${d.eidolon.length}件（計算${d.eidolon.filter(m=>m.support.status==='calculable').length}・表示${d.eidolon.filter(m=>m.support.status==='displayOnly').length}）。E0主要攻撃と別に、各星魂の攻撃影響/軌跡Lv加算を確認する。`,'');

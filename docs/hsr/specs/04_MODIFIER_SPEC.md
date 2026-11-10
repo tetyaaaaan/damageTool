@@ -295,3 +295,8 @@ LC23011はHP減少後の有効支援を任意指定。LC23029の甲卸/窮寇は
 通常/強化通常の本体と師匠属性付加は独立した対象。1224011/1224081では既存の成分別type判定を使用し、Basic限定補正は本体だけに適用する。122404の強化時DMGは固有の別対象として付加にも1回適用する。御空のnormalタグ継承とは異なり、なのかの付加へnormalタグを追加しない。段間の累積被ダメージ等の未受入範囲は維持する。
 
 [師匠支援3成分](../../../games/hsr/data/calc/modifiers-march-round17.json)は既存activeAlly/providerScope=party、toggle/requiredToggleKey/finalStatsInclusionを使用。速度は受益者の基礎速度×スキルLv係数。計算対象が師匠でスキル有効という前提に加え、強化通常後の破浪が有効な場合のみCD/BEを付与する。CD/BEは発動キー共通・算入済み/重複グループ個別。現在のキャラに対する成立済み状態を指定し、自己へ支援を戻さない。既存の支援後閾値評価/基礎値欠損時停止を再利用する。詳細は[第17回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round17-followup)。
+
+
+### 第40回：同行協定の共有状態と本人支援前の天賦
+
+裁決/殲滅の4登録は既存numericThresholdで同一の`himeko-departure-accord`（0なし/1裁決/2殲滅）を参照する。UIは共有選択1欄とし、value.sharedInputで重複入力を出さない。値と提供者Talent Lvを検証し、各数値成分は既存finalStatsInclusionで除外できる。一般的な排他状態エンジンは追加しない。既存151004のCD/RES貫通は、計算対象が本人のsourceSkillId=151022の場合だけOnBeforeSkillUseの根拠から自動適用する。前回発動トグルと同一登録を使うため二重登録/二重適用はしない。他の攻撃では従来の事前状態指定を維持する。詳細は[第40回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round40-followup)を参照。

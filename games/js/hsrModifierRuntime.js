@@ -249,6 +249,7 @@
   function activationState(record, context = {}, inputs = {}) {
     const activation = record.activation || {};
     const input = inputs[activation.inputKey];
+    if(record.source?.id==="1510"&&record.source?.skillId==="151004"&&context.characterId==="1510"&&context.attack?.sourceSkillId==="151022")return {active:true,automatic:true,mode:"always"};
     if (activation.requiredToggleKey && inputs[activation.requiredToggleKey] !== true) return { active: false, automatic: false };
     if (activation.reference === "enemy.quantumWeakness") {
       // The enemy weakness selector describes the main character's element, not each component.

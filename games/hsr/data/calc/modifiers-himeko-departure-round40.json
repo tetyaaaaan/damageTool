@@ -1,0 +1,343 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "himeko-departure-accords-round40",
+  "modifiers": [
+    {
+      "id": "trace:1510:151025:accord-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1510",
+        "skillId": "151025"
+      },
+      "name": "裁決・本人与ダメージ",
+      "description": "裁決・本人与ダメージ。成立済みの協定を共有選択で指定します。姫子・旅立ちの天賦Lvを参照し、最終値へ算入済みなら再加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          50,
+          55,
+          60,
+          65,
+          70,
+          75,
+          81.25,
+          87.5,
+          93.75,
+          100
+        ],
+        "inputKey": "himeko-departure-accord",
+        "default": 0,
+        "sharedInput": true
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "himeko-departure-accord",
+        "inputLabel": "同行協定（0:なし・1:裁決・2:殲滅）",
+        "conditionText": "裁決が成立済み",
+        "operator": "==",
+        "threshold": 1,
+        "minimum": 0,
+        "maximum": 2,
+        "default": 0,
+        "strictInput": true,
+        "step": 1
+      },
+      "stacking": {
+        "group": "trace:1510:accord-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定151025/151026[7,9]と同版Model01/02の適用攻撃種類・対象を照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151025.params[0..9][7,9]; HimekoNova AstralExpress/Model01/Model02",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrHimekoDepartureRound40.test.cjs",
+        "notes": "同版実行定義 6b2bc17ebf461e497ba0dd0ffd44875f1866762b https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json。Ability blob88054e5cc17cda73bd8fe2350b23e0541432e26c、Config blob285e9b9febc72a0bcf8db9c432c1fa879d277bb5。"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 2,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1510:accord-damage:in-final-stats",
+        "inputLabel": "裁決・本人与ダメージを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1510:151025:accord-ultimate",
+      "source": {
+        "kind": "trace",
+        "id": "1510",
+        "skillId": "151025"
+      },
+      "name": "裁決・本人必殺技与ダメージ",
+      "description": "裁決・本人必殺技与ダメージ。成立済みの協定を共有選択で指定します。姫子・旅立ちの天賦Lvを参照し、最終値へ算入済みなら再加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          50,
+          55,
+          60,
+          65,
+          70,
+          75,
+          81.25,
+          87.5,
+          93.75,
+          100
+        ],
+        "inputKey": "himeko-departure-accord",
+        "default": 0,
+        "sharedInput": true
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "himeko-departure-accord",
+        "inputLabel": "同行協定（0:なし・1:裁決・2:殲滅）",
+        "conditionText": "裁決が成立済み",
+        "operator": "==",
+        "threshold": 1,
+        "minimum": 0,
+        "maximum": 2,
+        "default": 0,
+        "strictInput": true,
+        "step": 1
+      },
+      "stacking": {
+        "group": "trace:1510:accord-ultimate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定151025/151026[7,9]と同版Model01/02の適用攻撃種類・対象を照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151025.params[0..9][7,9]; HimekoNova AstralExpress/Model01/Model02",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrHimekoDepartureRound40.test.cjs",
+        "notes": "同版実行定義 6b2bc17ebf461e497ba0dd0ffd44875f1866762b https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json。Ability blob88054e5cc17cda73bd8fe2350b23e0541432e26c、Config blob285e9b9febc72a0bcf8db9c432c1fa879d277bb5。"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 2,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1510:accord-ultimate:in-final-stats",
+        "inputLabel": "裁決・本人必殺技与ダメージを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1510:151026:accord-crit",
+      "source": {
+        "kind": "trace",
+        "id": "1510",
+        "skillId": "151026"
+      },
+      "name": "殲滅・味方会心ダメージ",
+      "description": "殲滅・味方会心ダメージ。成立済みの協定を共有選択で指定します。姫子・旅立ちの天賦Lvを参照し、最終値へ算入済みなら再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          50,
+          55,
+          60,
+          65,
+          70,
+          75,
+          81.25,
+          87.5,
+          93.75,
+          100
+        ],
+        "inputKey": "himeko-departure-accord",
+        "default": 0,
+        "sharedInput": true
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "himeko-departure-accord",
+        "inputLabel": "同行協定（0:なし・1:裁決・2:殲滅）",
+        "conditionText": "殲滅が成立済み",
+        "operator": "==",
+        "threshold": 2,
+        "minimum": 0,
+        "maximum": 2,
+        "default": 0,
+        "strictInput": true,
+        "step": 1
+      },
+      "stacking": {
+        "group": "trace:1510:accord-crit",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定151025/151026[7,9]と同版Model01/02の適用攻撃種類・対象を照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151026.params[0..9][7,9]; HimekoNova AstralExpress/Model01/Model02",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrHimekoDepartureRound40.test.cjs",
+        "notes": "同版実行定義 6b2bc17ebf461e497ba0dd0ffd44875f1866762b https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json。Ability blob88054e5cc17cda73bd8fe2350b23e0541432e26c、Config blob285e9b9febc72a0bcf8db9c432c1fa879d277bb5。"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 2,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1510:accord-crit:in-final-stats",
+        "inputLabel": "殲滅・味方会心ダメージを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1510:151026:accord-skill-crit",
+      "source": {
+        "kind": "trace",
+        "id": "1510",
+        "skillId": "151026"
+      },
+      "name": "殲滅・味方戦闘スキル会心ダメージ",
+      "description": "殲滅・味方戦闘スキル会心ダメージ。成立済みの協定を共有選択で指定します。姫子・旅立ちの天賦Lvを参照し、最終値へ算入済みなら再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          50,
+          55,
+          60,
+          65,
+          70,
+          75,
+          81.25,
+          87.5,
+          93.75,
+          100
+        ],
+        "inputKey": "himeko-departure-accord",
+        "default": 0,
+        "sharedInput": true
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "skill",
+          "enhancedSkill"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "himeko-departure-accord",
+        "inputLabel": "同行協定（0:なし・1:裁決・2:殲滅）",
+        "conditionText": "殲滅が成立済み",
+        "operator": "==",
+        "threshold": 2,
+        "minimum": 0,
+        "maximum": 2,
+        "default": 0,
+        "strictInput": true,
+        "step": 1
+      },
+      "stacking": {
+        "group": "trace:1510:accord-skill-crit",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定151025/151026[7,9]と同版Model01/02の適用攻撃種類・対象を照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151026.params[0..9][7,9]; HimekoNova AstralExpress/Model01/Model02",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrHimekoDepartureRound40.test.cjs",
+        "notes": "同版実行定義 6b2bc17ebf461e497ba0dd0ffd44875f1866762b https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json。Ability blob88054e5cc17cda73bd8fe2350b23e0541432e26c、Config blob285e9b9febc72a0bcf8db9c432c1fa879d277bb5。"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 2,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1510:accord-skill-crit:in-final-stats",
+        "inputLabel": "殲滅・味方戦闘スキル会心ダメージを最終値へ反映済み"
+      }
+    }
+  ]
+}
