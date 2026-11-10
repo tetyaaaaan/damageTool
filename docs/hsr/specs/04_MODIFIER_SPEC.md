@@ -300,3 +300,8 @@ LC23011はHP減少後の有効支援を任意指定。LC23029の甲卸/窮寇は
 ### 第40回：同行協定の共有状態と本人支援前の天賦
 
 裁決/殲滅の4登録は既存numericThresholdで同一の`himeko-departure-accord`（0なし/1裁決/2殲滅）を参照する。UIは共有選択1欄とし、value.sharedInputで重複入力を出さない。値と提供者Talent Lvを検証し、各数値成分は既存finalStatsInclusionで除外できる。一般的な排他状態エンジンは追加しない。既存151004のCD/RES貫通は、計算対象が本人のsourceSkillId=151022の場合だけOnBeforeSkillUseの根拠から自動適用する。前回発動トグルと同一登録を使うため二重登録/二重適用はしない。他の攻撃では従来の事前状態指定を維持する。詳細は[第40回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round40-followup)を参照。
+
+
+### 第41回：他使用者支援の所有者別補正
+
+他使用者が発動する151022もダメージ所有者は姫子1510。既存の姫子Skill/Talent/協定7登録を姫子のコンテキストで再評価し、使用者の自己補正は継承しない。算入済み入力はparty-reference:1510:included:*に分け、使用者のfinalStatsInclusion指定から独立させる。共有の敵対象Modifierと手動敵補正は維持する。他の装備/支援は姫子の完成値へ一度含める。丹恒/三月なのかのダメージ前協定は当該攻撃のeffectiveHimekoAccordへ局所解決し、共有欄の事前値を保存したままにする。使用前Talentは第40回の本人コンテキスト評価経路を再利用し、重複登録しない。対象範囲は[第41回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round41-followup)を参照。

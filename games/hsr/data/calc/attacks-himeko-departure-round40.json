@@ -53,7 +53,8 @@
         "verifiedAt": "2026-11-10",
         "verification": "tests/hsr/hsrHimekoDepartureRound40.test.cjs",
         "relatedSourceCommit": "6b2bc17ebf461e497ba0dd0ffd44875f1866762b",
-        "relatedSourceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json"
+        "relatedSourceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json",
+        "notes": "第41回: 同版SupportFakeSkill/SupportSkillによる使用者とCasterの分離、他使用者分[0..2]を追加検証。tests/hsr/hsrHimekoDepartureRound41.test.cjs。本人用[3..5]は維持。 使用者区分は同版Config/GlobalConfig/GameCoreConstValue.json CharacterIDGroups、blob de23353629e189399d5d8c94eca0aa0cce238083。1002=Model01、1001=Model02、1101=両モデル/AstralExpressの外。"
       },
       "enforceSnapshotContract": true,
       "tags": [
@@ -110,6 +111,63 @@
             32
           ]
         }
+      ],
+      "otherUserComponents": [
+        {
+          "key": "area",
+          "attackId": "1510223",
+          "name": "他使用者支援・全体1回",
+          "type": "assist",
+          "tags": [
+            "skill"
+          ],
+          "element": "Fire",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            80,
+            88,
+            96,
+            104,
+            112,
+            120,
+            130,
+            140,
+            150,
+            160
+          ]
+        },
+        {
+          "key": "shots",
+          "attackId": "1510224",
+          "name": "他使用者支援・単体3回",
+          "type": "assist",
+          "tags": [
+            "skill"
+          ],
+          "element": "Fire",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 3,
+          "multipliers": [
+            12,
+            13.2,
+            14.4,
+            15.6,
+            16.8,
+            18,
+            19.5,
+            21,
+            22.5,
+            24
+          ]
+        }
+      ],
+      "supportedOtherUsers": [
+        "1001",
+        "1002",
+        "1101"
       ]
     }
   ]

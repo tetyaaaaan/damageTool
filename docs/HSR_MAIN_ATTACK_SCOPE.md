@@ -1,6 +1,6 @@
 # HSR 主要攻撃の対応範囲と保守課題
 
-最新の登録数・E0認定は[生成完成管理表](HSR_CHARACTER_COMPLETION.md)を正本とする。直近の限定受入は末尾の第40回（姫子・旅立ちの協定/本人支援）、パルス拡張は第39回を参照。
+最新の登録数・E0認定は[生成完成管理表](HSR_CHARACTER_COMPLETION.md)を正本とする。直近の対応範囲拡張は末尾の第41回（姫子・旅立ちの他使用者支援）。本人の限定受入は第40回、パルス拡張は第39回を参照。
 
 最終検証日:2026-11-10。第38回で同版実行データから飲月のヒット配分/固有累積を接続して限定E0受入。雪衣はネイティブ削靭予測の入力値責務を保留。以下の過去工程の人数・件数は履歴として保持します。
 
@@ -1117,3 +1117,13 @@ Lv80/E0/敵Lv80/敵1体・耐性20%・防御補正なし・ATK3000・CR50/CD100�
 本人支援は境界展開中の想定とし、同版SpecialBattleAreaのAssistAsBpSkillにより当該支援だけにSkillタグを付ける。OnBeforeSkillUseで今回の支援前に付くTalent CD/RES貫通は自動適用し、前回分と重ねない。協定の付与/履歴/チャージ/発動回数を自動再現せず、成立後の1回を計算する。新規攻撃行は増やさない。原動力1～3/A6の前回範囲は維持する。
 
 Lv80/E0・A6解放・境界中・敵1体・全段で最終値/敵状態一定、N1～6/S・U・Talent1～10の通常/ビーム/単一パルス/最後撃/本人支援と主要補正を限定E0受入。協定が成立する前の他使用者の支援、一般精霊継承、途中状態更新、複数敵/E1以上は対象外。認定根拠/独立値は[第40回台帳](HSR_COMPLETION_WORKLOAD.md#hsr-round40-followup)、定義は[本人支援](../games/hsr/data/calc/attacks-himeko-departure-round40.json)/[協定補正](../games/hsr/data/calc/modifiers-himeko-departure-round40.json)、検証は[`hsrHimekoDepartureRound40.test.cjs`](../tests/hsr/hsrHimekoDepartureRound40.test.cjs)。第39回の本人支援保留は本節で解消した。
+
+
+<a id="hsr-round41-himeko"></a>
+## 第41回：他使用者が呼ぶ姫子・旅立ちの支援（2026-11-10）
+
+既存151022を拡張し、丹恒1002・三月なのか1001・ブローニャ1101を使用者として全体1回＋単体3回を計算する。使用者は発動者であり、挿入される攻撃のCaster/ダメージ所有者・ATK/会心参照者・Talent倍率提供者は姫子1510。本人支援1+4を他使用者へコピーしない。Talent1～10の他使用者分は全体80～160%＋単体3×12～24%。姫子の独立した完成値と所有者専用の算入済み指定を使い、使用者自身の装備/会心/ATKは持ち込まない。
+
+同版CharacterIDGroupsとダメージ前の協定処理に従い、丹恒は裁決、三月なのかは殲滅、ブローニャは事前協定を維持する。既存の使用前Talent/協定Modifierを姫子へ適用。境界中の当該AssistのみSkillタグも持ち、裁決のU専用DMGやA6係数加算は加えない。共有敵補正は維持し、入力不足は当該支援だけ停止、提供者解除で候補除外する。
+
+使用者/姫子Lv80/E0・敵1体・境界中・Talent1～10・全段で最終値/敵状態一定。他の使用者/複数敵/E1以上/途中状態更新は対象外。3人の対応を全使用者完成とはしない。既存本人の限定E0認定は維持。根拠・独立値・残範囲は[第41回台帳](HSR_COMPLETION_WORKLOAD.md#hsr-round41-followup)、定義は[151022](../games/hsr/data/calc/attacks-himeko-departure-round40.json)、代表検証は[`hsrHimekoDepartureRound41.test.cjs`](../tests/hsr/hsrHimekoDepartureRound41.test.cjs)。第40回に保留した他使用者分のうち、本節の3人/状態のみを解消した。

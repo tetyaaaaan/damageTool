@@ -264,7 +264,7 @@
   }
 
   function availableAttacks() {
-    return state.data.attacks.filter(item => item.characterId === state.characterId && !item.hidden
+    return state.data.attacks.filter(item => (item.characterId === state.characterId || item.id==="151022"&&item.supportedOtherUsers?.includes(state.characterId)&&state.party.some(m=>m.characterId==="1510")) && !item.hidden
       && (!item.requiredEidolon || state.eidolon >= item.requiredEidolon)
       // This selector chooses a released balance version, not an attack state.
       && (!item.variant || item.variant === state.enhancementState));
@@ -1007,7 +1007,7 @@
   function selectedPartyReferences() {
     return Object.fromEntries(state.party.filter(m=>m.characterId).map(m=>{
       const id=String(m.characterId),key='party-reference:'+id+':',get=k=>state.modifierInputs[key+k];
-      return [id,{characterId:id,element:find('characters',id)?.element,level:80,eidolon:m.eidolon,stats:{atk:get('atk'),critRate:get('critRate'),critDamage:get('critDamage')},damageBonuses:{Thunder:get('Thunder'),Wind:get('Wind')},defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')}];
+      return [id,{characterId:id,element:find('characters',id)?.element,level:80,eidolon:m.eidolon,stats:{atk:get('atk'),critRate:get('critRate'),critDamage:get('critDamage')},damageBonuses:{Thunder:get('Thunder'),Wind:get('Wind'),Fire:get('Fire')},defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')}];
     }));
   }
   function laftraSnapshot() {
@@ -1039,10 +1039,29 @@
     const get=k=>state.modifierInputs['pearl-learned:1502:'+k],keys=['elation','critRate','critDamage','merrymake','defenseIgnore',physical?'physicalPen':'icePen',...(physical?['physicalResistance']:[])],members=state.party.filter(m=>m.characterId),pair=members.length===1&&members[0].characterId==='1502'&&members[0].eidolon===0,valid=pair&&keys.every(k=>Number.isFinite(get(k))&&(k==='physicalResistance'?get(k)>=-100&&get(k)<=90:get(k)>=0)),enemy=componentSnapshots().enemy;
     return {referenceStats:{elation:get('elation'),critRate:get('critRate'),critDamage:get('critDamage'),damageBonus:0},referenceCharacter:{id:'1502',level:state.level,eidolon:0,stats:{elation:get('elation'),critRate:get('critRate'),critDamage:get('critDamage'),damageBonus:0}},referenceEnemy:{...enemy,...(physical?{resistance:get('physicalResistance'),resistances:{...enemy.resistances,Physical:get('physicalResistance')}}:{}),defenseIgnore:get('defenseIgnore'),resistancePenetration:get(physical?'physicalPen':'icePen')},completedReferenceSnapshot:valid,damageOwnerId:'1502',statReferenceId:'1502',learnedOwnerId:'1502',pearlPairActive:pair,referenceIssue:valid?'':'パール＋Lv80/E0の爻光だけの編成と、爻光の独立した最終愉悦/会心/上笑/対象属性の防御・耐性補正を指定してください。',referenceCondition:{id:'pearl-learned:1502',tab:'軌跡'}};
   }
+  function himekoOtherUserSnapshot() {
+    const member=state.party.find(m=>m.characterId==="1510"),context=structuredModifierContext(),ref=window.HsrModifierRuntime.partyReferenceSnapshot("1510","Fire",{...context,enemy:componentSnapshots().enemy},state.modifierInputs),level=context.traceLevelFor({id:"1510",skillId:"151004"});
+    const mode=state.characterId==="1002"?1:state.characterId==="1001"?2:(state.modifierInputs["himeko-departure-accord"]??0),valid=ref.supported&&member&&["1001","1002","1101"].includes(state.characterId)&&state.level===80&&state.eidolon===0&&Number.isInteger(level)&&level>=1&&level<=10;
+    return {referenceCharacter:ref.character,referenceStats:ref.stats,referenceEnemy:ref.enemy,completedReferenceSnapshot:!!valid,referenceIssue:valid?"":ref.reason||"使用者と姫子はLv80/E0・姫子の天賦Lv1～10が必要です。",referenceCondition:{id:"party-reference:1510",tab:"パーティ"},himekoOtherUser:true,actingCharacterId:state.characterId,actingCharacterLevel:state.level,actingCharacterEidolon:state.eidolon,providerPresent:!!member,statReferenceId:"1510",damageOwnerId:"1510",effectiveHimekoAccord:mode,providerTalentLevel:level};
+  }
+  function himekoReferenceModifiers(attack) {
+    const context=structuredModifierContext(),inputs={...state.modifierInputs,"himeko-departure-accord":attack.effectiveHimekoAccord};
+    const records=(state.data.structuredModifiers||[]).filter(m=>m.source?.id==="1510"&&["151002","151004","151025","151026"].includes(m.source.skillId)&&m.calculable!==false&&m.support?.status==="calculable");
+    for(const r of records)if(r.finalStatsInclusion)inputs[r.finalStatsInclusion.inputKey]=state.modifierInputs["party-reference:1510:included:"+r.id]===true;
+    return window.HsrModifierRuntime.buildCandidates(records,{...context,characterId:"1510",characterElement:"Fire",eidolon:attack.referenceCharacter?.eidolon,stats:attack.referenceStats,enemy:attack.referenceEnemy,partyIds:[state.characterId,...context.partyIds.filter(id=>id!=="1510")],attack},inputs).map(m=>({...m,sourceMeta:m.source,source:m.sourceName,structured:true,matchesAttack:window.HsrModifierRuntime.applicableToAttack(m,attack),applicable:window.HsrModifierRuntime.applicableToAttack(m,attack)}));
+  }
+  function himekoOtherUserControls() {
+    if(!["1001","1002","1101"].includes(state.characterId)||state.conditionTab!=="パーティ"||!state.party.some(m=>m.characterId==="1510"))return "";
+    const fields=[["atk","姫子の最終ATK"],["critRate","姫子の最終会心率（%）"],["critDamage","姫子の最終会心ダメージ（%）"],["Fire","姫子の最終炎属性与ダメージ（%）"],["defenseIgnore","姫子の有効な防御無視（%）"],["resistancePenetration","姫子の有効な炎耐性貫通（%）"]].map(([k,label])=>{const key="party-reference:1510:"+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" min="0" step="any" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'"></label>';}).join('');
+    const res=state.modifierInputs["enemy-resistance:Fire"],resField=conditionReferenceInputs.has("enemy-resistance:Fire")?"":'<label class="genshin-condition-control"><span>敵の炎属性耐性（%）</span><input type="number" class="input_num" data-structured-input="enemy-resistance:Fire" data-structured-strict="true" step="any" value="'+(Number.isFinite(res)?res:'')+'"></label>';
+    const checks=(state.data.structuredModifiers||[]).filter(m=>m.source?.id==="1510"&&["151002","151004","151025","151026"].includes(m.source.skillId)&&m.finalStatsInclusion&&m.support?.status==="calculable"&&!m.target.attackTypes.includes("ultimate")).map(m=>{const key="party-reference:1510:included:"+m.id;return '<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="'+key+'"'+(state.modifierInputs[key]===true?' checked':'')+'><span>姫子の「'+esc(m.name)+'」を上の最終値へ反映済み</span></label>';}).join('');
+    const mode=state.characterId==="1002"?"この支援ではダメージ前に裁決へ切り替わります。":state.characterId==="1001"?"この支援ではダメージ前に殲滅へ切り替わります。":"この支援は事前の協定を維持します。";
+    return '<section class="hsr-condition-purpose" data-hsr-condition-ids="party-reference:1510"><h5>他使用者支援：姫子・旅立ちの独立した最終値</h5><p class="genshin-help">使用者は'+esc(character()?.name)+'、ダメージ所有者・倍率提供者は姫子・旅立ちです。姫子の天賦Lv1～10を編成欄で指定し、境界中の全体1回＋単体3回だけを比較します。使用者のATK・会心は代用しません。'+mode+'協定・天賦を既に含めた項目は下で反映済みを指定してください。他の装備・支援は姫子の最終値へ一度含めます。</p>'+fields+resField+checks+'</section>';
+  }
   function himekoAccordControls() {
     if((state.characterId==="1510"&&state.conditionTab==="軌跡")||(state.characterId!=="1510"&&state.conditionTab==="パーティ"&&state.party.some(m=>m.characterId==="1510"))){
       const key="himeko-departure-accord",value=state.modifierInputs[key]??0;conditionReferenceInputs.add(key);
-      return '<section class="hsr-condition-purpose"><h5>姫子・旅立ちの同行協定</h5><label class="genshin-condition-control"><span>成立済みの同行協定</span><select data-structured-input="'+key+'">'+[[0,'未発動'],[1,'裁決'],[2,'殲滅']].map(([v,label])=>'<option value="'+v+'"'+(value===v?' selected':'')+'>'+label+'</option>').join('')+'</select></label><p class="genshin-help">開拓仲間の支援で成立済みの協定を指定します。裁決と殲滅は同時適用しません。裁決は姫子本人の与ダメージと必殺技、殲滅は味方の会心ダメージと戦闘スキル会心を補正します。本人支援は境界中の1回比較で、天賦の会心・耐性貫通を攻撃前に反映します。味方による使用やチャージの自動追跡は含みません。</p></section>';
+      return '<section class="hsr-condition-purpose"><h5>姫子・旅立ちの同行協定</h5><label class="genshin-condition-control"><span>成立済みの同行協定</span><select data-structured-input="'+key+'">'+[[0,'未発動'],[1,'裁決'],[2,'殲滅']].map(([v,label])=>'<option value="'+v+'"'+(value===v?' selected':'')+'>'+label+'</option>').join('')+'</select></label><p class="genshin-help">開拓仲間の支援で成立済みの協定を指定します。裁決と殲滅は同時適用しません。裁決は姫子本人の与ダメージと必殺技、殲滅は味方の会心ダメージと戦闘スキル会心を補正します。本人支援は境界中の1回比較で、天賦の会心・耐性貫通を攻撃前に反映します。他使用者支援は下欄に示す対応使用者だけを計算し、チャージの自動追跡は含みません。</p></section>';
     }
     return "";
   }
@@ -1128,7 +1147,7 @@
       return purpose.folded ? `<details class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><summary>${esc(purpose.title)}（${entries.length}件）</summary>${content}</details>`
         : `<section class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><h5>${esc(purpose.title)}</h5>${content}</section>`;
     }).join("");
-    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${himekoAccordControls()}${partyReferenceControls()}${comparisonReferenceControls()}${purposes || '<p class="genshin-condition-card-empty">このカテゴリに設定できる効果はありません。</p>'}</section>`;
+    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${himekoAccordControls()}${himekoOtherUserControls()}${partyReferenceControls()}${comparisonReferenceControls()}${purposes || '<p class="genshin-condition-card-empty">このカテゴリに設定できる効果はありません。</p>'}</section>`;
   }
 
   // Patch facts only: replacing a numeric control on blur steals the next click/focus.
@@ -1210,6 +1229,7 @@
   }
 
   function modifiers(attack) {
+    if(attack.himekoOtherUser)return himekoReferenceModifiers(attack).concat(modifiers({...attack,himekoOtherUser:false}).filter(m=>["enemySingle","enemyAll"].includes(m.target?.owner)));
     const otherNihility=state.characterId==='1507' && state.party.some(m=>String(m.characterId)!==state.characterId && ['Warlock','Nihility'].includes(find('characters',m.characterId)?.path));
     const inputs = attack.comparisonModifierInputs || state.characterId==='1507' ? { ...state.modifierInputs, ...attack.comparisonModifierInputs,...(state.characterId==='1507'?{'mortenax-no-other-nihility':!otherNihility,'mortenax-other-nihility':otherNihility}:{}) } : state.modifierInputs;
     return allConditions(inputs, attack).filter((item) => !item.displayOnly).map((original) => {
@@ -1473,6 +1493,11 @@
       return {...selected,traceLevel:state.traceLevels.ultimate,talentTraceLevel:state.traceLevels.talent,multiplier:selected.multipliers[state.traceLevels.ultimate-1],traceLevelLabel:`必殺Lv${state.traceLevels.ultimate}＋スキルLv${state.traceLevels.skill}＋天賦Lv${state.traceLevels.talent}`,attackType:"ultimate",sequenceAttacks};
     }
     if(selected.id==="151022"&&selected.characterId==="1510"&&selected.damageFormula==="componentSequence"){
+      if(state.characterId!=="1510"){
+        const ref=himekoOtherUserSnapshot(),level=ref.providerTalentLevel,damageComponents=selected.otherUserComponents,mode=ref.effectiveHimekoAccord;
+        const sequenceAttacks=damageComponents.map(d=>({...selected,...d,...ref,id:d.attackId,sourceSkillId:"151022",damageFormula:"statMultiplier",damageComponents:undefined,traceLevel:level,multiplier:d.multipliers[level-1],attackType:"assist",hitCountLabel:d.hitCount+"ヒット"}));
+        return {...selected,...ref,name:'開拓が共にあらんことを（'+character().name+'が使用・所有者：姫子）',traceLevel:level,multiplier:damageComponents[0].multipliers[level-1]+3*damageComponents[1].multipliers[level-1],attackType:"assist",traceLevelLabel:`姫子の天賦Lv${level}・協定${["なし","裁決","殲滅"][mode]||"不正"}`,damageComponents,sequenceAttacks,hitCountLabel:"姫子の全体1回＋単体3回",conditionText:"使用者と姫子Lv80/E0・境界中・敵1体・姫子の独立した最終値と天賦Lv1～10・状態一定。",calculationNote:"使用者："+character().name+"。ダメージ所有者/ATK・会心参照者/倍率提供者：姫子・旅立ち。使用者の攻撃値は使用しません。姫子の全体80～160%＋単体3回×12～24%を合算。丹恒は裁決、三月なのかは殲滅をこの支援のダメージ前に自動適用し、ブローニャは事前協定を維持します。姫子の天賦CD/耐性貫通も使用前に適用し、上の所有者別の反映済み指定を優先します。"};
+      }
       const level=state.traceLevels.talent,mode=state.modifierInputs["himeko-departure-accord"]??0;
       const sequenceAttacks=selected.damageComponents.map(d=>({...selected,...d,id:d.attackId,sourceSkillId:"151022",damageFormula:"statMultiplier",damageComponents:undefined,traceLevel:level,multiplier:d.multipliers[level-1],attackType:"assist",hitCountLabel:d.hitCount+"ヒット"}));
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:"assist",traceLevelLabel:`天賦Lv${level}・協定${["なし","裁決","殲滅"][mode]||"不正"}`,sequenceAttacks};

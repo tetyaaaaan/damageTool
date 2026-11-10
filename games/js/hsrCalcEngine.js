@@ -1126,15 +1126,16 @@ function calculateFanning(input) {
     }
 
     function calculateHimekoDepartureAssist(input){
-        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],l=a.traceLevel,mode=input.modifierInputs?.["himeko-departure-accord"]??0;
-        const curves=[[100,110,120,130,140,150,162.5,175,187.5,200],[18,19.4,20.8,22.2,23.6,25,26.75,28.5,30.25,32]],keys=["area","shots"];
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],l=a.traceLevel,other=a.himekoOtherUser===true,mode=other?a.effectiveHimekoAccord:(input.modifierInputs?.["himeko-departure-accord"]??0);
+        const curves=other?[[80,88,96,104,112,120,130,140,150,160],[12,13.2,14.4,15.6,16.8,18,19.5,21,22.5,24]]:[[100,110,120,130,140,150,162.5,175,187.5,200],[18,19.4,20.8,22.2,23.6,25,26.75,28.5,30.25,32]],keys=["area","shots"],shots=other?3:4;
         const fail=()=>({supported:false,reason:"本人支援は境界展開中・Lv80/E0・敵1体・天賦Lv1～10・状態一定。同行協定はなし/裁決/殲滅のいずれかを指定してください。"});
-        if(c.id!=="1510"||c.level!==80||c.eidolon!==0||e.count!==1||![0,1,2].includes(mode)||!Number.isInteger(l)||l<1||l>10||a.damageFormula!=="componentSequence"||a.sourceSkillId!=="151022"||a.type!=="assist"||a.element!=="Fire"||a.multiplier!==curves[0][l-1]+4*curves[1][l-1]||parts.length!==2||a.damageComponents?.length!==2)return fail();
+        if(other&&(!["1001","1002","1101"].includes(a.actingCharacterId)||a.actingCharacterLevel!==80||a.actingCharacterEidolon!==0||!a.providerPresent||!a.completedReferenceSnapshot||a.statReferenceId!=="1510"||a.damageOwnerId!=="1510"||mode!==(a.actingCharacterId==="1002"?1:a.actingCharacterId==="1001"?2:(input.modifierInputs?.["himeko-departure-accord"]??0))))return fail();
+        if(c.id!=="1510"||c.level!==80||c.eidolon!==0||e.count!==1||![0,1,2].includes(mode)||!Number.isInteger(l)||l<1||l>10||a.damageFormula!=="componentSequence"||a.sourceSkillId!=="151022"||a.type!=="assist"||a.element!=="Fire"||Math.abs(a.multiplier-(curves[0][l-1]+shots*curves[1][l-1]))>1e-8||parts.length!==2||a.damageComponents?.length!==2)return fail();
         for(let i=0;i<2;i++){
-            const q=parts[i]?.input,b=q?.attack||{},id="151022"+(i+1);
-            if(parts[i]?.key!==keys[i]||a.damageComponents[i]?.attackId!==id||b.id!==id||b.sourceSkillId!=="151022"||b.characterId!=="1510"||b.type!=="assist"||b.attackType!=="assist"||!b.tags?.includes("skill")||b.element!=="Fire"||b.scalingStat!=="atk"||b.scalingTerms?.length||b.flatDamage||b.damageFormula!=="statMultiplier"||b.hitCount!==(i?4:1)||b.target!=="single"||b.traceLevel!==l||Math.abs(b.multiplier-curves[i][l-1])>1e-8||!Number.isFinite(b.multiplier)||JSON.stringify(q?.character)!==JSON.stringify(c)||JSON.stringify(q?.enemy)!==JSON.stringify(e)||JSON.stringify(q?.modifierInputs)!==JSON.stringify(input.modifierInputs)||(q.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.category==="progressiveTakenDamage"))return fail();
+            const q=parts[i]?.input,b=q?.attack||{},id="151022"+(i+(other?3:1));
+            if(parts[i]?.key!==keys[i]||a.damageComponents[i]?.attackId!==id||b.id!==id||b.sourceSkillId!=="151022"||b.characterId!=="1510"||b.type!=="assist"||b.attackType!=="assist"||!b.tags?.includes("skill")||b.element!=="Fire"||b.scalingStat!=="atk"||b.scalingTerms?.length||b.flatDamage||b.damageFormula!=="statMultiplier"||b.hitCount!==(i?shots:1)||b.target!=="single"||b.traceLevel!==l||Math.abs(b.multiplier-curves[i][l-1])>1e-8||!Number.isFinite(b.multiplier)||JSON.stringify(q?.character)!==JSON.stringify(c)||JSON.stringify(q?.enemy)!==JSON.stringify(e)||JSON.stringify(q?.modifierInputs)!==JSON.stringify(input.modifierInputs)||(q.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.category==="progressiveTakenDamage"))return fail();
         }
-        const result=combineDamageComponents(a,parts,"本人の全体1回＋単体4回（協定"+["なし","裁決","殲滅"][mode]+"）");
+        const result=combineDamageComponents(a,parts,(other?"他使用者が呼ぶ姫子の全体1回＋単体3回":"本人の全体1回＋単体4回")+"（協定"+["なし","裁決","殲滅"][mode]+"）");
         if(result.breakdown)result.breakdown.condition=a.conditionText+" "+a.calculationNote;
         return result;
     }
