@@ -4554,3 +4554,13 @@ test('round37 previous Welt shares prior Slow state and auto-applies Ultimate A2
  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved,'1004032').expected,u.expected);saved.state.modifierInputs['welt-enemy-slowed']=false;assert.equal(find(saved,'1004032'),undefined);assert.ok(saved.calculate().some(r=>r.attack?.name===name('100401')));
  saved.node('hsrEnhancementState').value='enhanced';saved.state.enhancementState='enhanced';assert.equal(find(saved,'1004012'),undefined,"original composition is not shown in enhanced mode");
 });
+
+
+test('round38 Imbibitor Lunae displays all five fixed-state attacks with per-hit stacks and restored trace levels',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);app.state.characterId='1213';
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,damageBonus:0}))app.node('hsrStat-'+k).value=String(v);app.node('hsrWeakness').value='false';app.node('hsrToughnessState').value='active';app.node('hsrNormalTrace').value='6';app.node('hsrSkillTrace').value='10';app.node('hsrUltimateTrace').value='10';app.node('hsrTalentTrace').value='10';
+ const name=id=>data.attacks.find(a=>a.id===id).name,find=(x,id)=>x.calculate().find(r=>r.attack?.name===name(id));
+ for(const[id,n]of [['121301',2],['121308',3],['121310',5],['121312',7],['121303',3]]){const r=find(app,id);assert.ok(r,app.node('hsrResults').innerHTML);assert.equal(Object.keys(r.components).length,n);}
+ const r=find(app,'121312'),w=[.142,.142,.142,.142,.142,.142,.148];let expected=0;w.forEach((v,i)=>{const n=3000*5*v*(1+.1*i)*.36,cd=1+.12*Math.max(0,i-2);expected+=n*(1+.5*cd);});near(r.expected,expected);
+ assert.match(app.node('hsrResults').innerHTML,/入力DMG\/CDにこの2効果の事前加算がない/);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(find(saved,'121312').expected,r.expected);saved.node('hsrSkillTrace').value='1';assert.ok(find(saved,'121312').expected<r.expected);saved.node('hsrWeakness').value='true';assert.equal(find(saved,'121312'),undefined);
+});

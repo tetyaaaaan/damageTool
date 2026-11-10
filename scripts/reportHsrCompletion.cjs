@@ -1375,6 +1375,14 @@ Object.assign(e0CandidateAudit['1004'],{
  evidence:e0CandidateAudit['1004'].evidence+' 第37回KQM Welt v1.5（2023-12-03公開）の事前減速・スキル各bounce3回/必殺2回・禁錮はダメージ後・A2はダメージ前を、固定100401/2/3/4の原版係数と照合。hsrWeltRound37/ToolInputsで独立NC/C/EV、成分回数、攻撃種別別補正、原版/強化版の分離、A2自動適用/敵入力算入済み、状態OFF・保存を確認。',
  remaining:'Lv80/E0・非虚数弱点/未撃破の敵1体・全成分中に状態変化なし。原版は攻撃前から減速/禁錮が成立した通常1～6/スキル・必殺・天賦1～10。原版UはA2被DMG12%をダメージ前に1回適用し、敵入力へ算入済みなら再加算しない。強化版は従来どおり事前無重力・懲戒10層、審判はN/S各1回、天賦N/S/U各1/5/2回、EHR由来ATKは最終入力に一度含める。新規減速の成功/同撃判定、未減速開始スキル、懲戒0～9層の途中更新、途中撃破/死亡・複数敵・E1以上は認定外。原版Uの当該禁錮を事前減速へ置換しない。'
 });
+// Round38: same-release execution data supplies the missing hit splits and intrinsic update order.
+Object.assign(e0CandidateAudit['1213'],{
+ status:'confirmed',workClass:'済',majorSourceIds:['121301','121308','121310','121312','121303'],requiredAttackIds:['121301','121308','121310','121312','121303'],missingComponents:[],
+ sourceRoleOverrides:{'121302':'支援/通常強化・叱咤CD累積（直接ダメージなし）','121304':'支援/亢心DMG累積（直接ダメージなし）','121309':'支援/強化キャンセル（直接ダメージなし）'},
+ summary:'固定4.6.0の実行JSONの各段比率と更新順に基づき、通常/3種強化通常/必殺の主対象全段を事前亢心・叱咤0層から計算。',
+ evidence:'StarRailRes dbe8 info.json=4.6.0とJP121301/308/310/312/303/302/304。同版Dimbreath6b2bc17のDanHengIL Ability blob93414e77/Config blob90edd34eでHitSplitRatio・パラメータ参照・命中後亢心/4段目以降命中前叱咤を確認。hsrImbibitorLunaeRound38/ToolInputsで独立NC/C/EV・全段/合計・通常専用補正・状態/所有者/係数不整合拒否・保存を検証。',
+ remaining:'Lv80/E0・非虚数弱点/未撃破の敵1体・攻撃開始時の亢心/叱咤0層を明示した5比較行。本体N1～6/U1～10・Skill/Talent1～10、全段で敵が存命・外部補正一定。初期0は行の想定であり未入力状態を推定したものではない。入力最終DMG/CDは事前の亢心/叱咤加算を含まない。この条件内では全段の自動累積を含む。初期非0、虚数弱点へのA6、隣接敵の別イベント、複数敵、途中撃破/死亡・資源更新・ターン全体・E1以上は認定外。'
+});
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={
  '1220':'スキル+雷狩は限定対応。必殺技の分岐と途中撃破/成分間変化が不足。',

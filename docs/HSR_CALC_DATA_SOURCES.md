@@ -4,6 +4,10 @@
 
 現在の配信データ構成は `games/js/hsrCalcData.js` と `games/hsr/data/calc/data-files.json`、固定版は StarRailRes `dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487` を参照します。現在の対応範囲は [主要攻撃の対応範囲](HSR_MAIN_ATTACK_SCOPE.md)、登録状況は [生成完成管理表](HSR_CHARACTER_COMPLETION.md)、効果別受入と残作業は [残作業測定](HSR_COMPLETION_WORKLOAD.md) が管理元です。下記の「14攻撃」「代表5支援」「条件付き装備は詳細表示のみ」を現在の開発制限として使用しません。マスター再生成を通常の効果追加手順に含めません。
 
+## 固定版の実行定義照合（2026-11-10）
+
+固定SHAの[`info.json`](https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/info.json)で4.6.0を確認した。第38回は同リリースの[Dimbreath実行データcommit](https://github.com/DimbreathBot/TurnBasedGameData/commit/6b2bc17ebf461e497ba0dd0ffd44875f1866762b)のAvatar Ability/Configと固定JPパラメータの対応を照合し、飲月の段比率/更新順に利用する。最新mainの内容を無条件には採用せず、版・commit・blob・参照パラメータを記録する。過去登録の「4.2」等の注釈と現在の固定版を区別する。ネイティブ関数の呼出しだけが見つかった場合、その内部演算を名前から推定しない。取得ファイルやマスターの全面再生成は行わない。対象blobと未確定範囲は[第38回台帳](HSR_COMPLETION_WORKLOAD.md#hsr-round38-followup)を参照。
+
 ## 実行時の正本
 
 新版は `games/hsr/data/` のJSONだけを読み込みます。旧 `data/hsr/`、旧 `games/data/hsr/`、CSV、XLSX、旧連番IDは実行・テストのどこからも参照しません。

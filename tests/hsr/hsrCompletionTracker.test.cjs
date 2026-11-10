@@ -53,6 +53,7 @@ test('candidate audit keeps missing damage components distinct from registered s
  assert.equal(e0CandidateAudit['1408'].status,'confirmed','Round33 bounded accepted Ruin level/stack contract');
  assert.equal(e0CandidateAudit['1415'].status,'confirmed','Round35 native kit and verified blessing snapshot scopes');
  assert.equal(e0CandidateAudit['1004'].status,'confirmed','Round37 versioned original-kit pre-slowed composition and existing enhanced scope');
+ assert.equal(e0CandidateAudit['1213'].status,'confirmed','Round38 versioned hit splits and zero-initial-stack major composition');
  assert.deepEqual(e0CandidateAudit['1004'].majorSourceIds,['100401','100402','100403','100404','1100401','1100402','1100403','1100404']);
  assert.equal(e0CandidateAudit['1503'].status,'confirmed','Round31 exact Pearl/Yaoguang independent-owner composition');
  for(const id of ['8007','8008','1508'])assert.equal(e0CandidateAudit[id].status,'confirmed','Round29 independent-owner major composition');

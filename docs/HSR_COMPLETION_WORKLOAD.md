@@ -1,6 +1,23 @@
 # HSR 最終完成までの残作業測定
 
 
+<a id="hsr-round38-followup"></a>
+## 第38回：雪衣の実行定義と飲月の段別計算・限定E0受入（2026-11-10）
+
+- 開始HEAD `50b166432854e87e2b0637621be3ae9091a0c2e2`、main。雪衣を優先したが、残靭性による予測削靭の制限までは一次根拠で確定できず保留。新しい実行資料から解決できた次候補の丹恒・飲月を実装/限定認定した。最新の人数/攻撃件数は[生成完成管理表](HSR_CHARACTER_COMPLETION.md)を正本とする。
+- **版対応の新根拠**：[固定StarRailRes info.json](https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/info.json)は4.6.0で、当該commitは2026-09-29。対応する[Dimbreath release commit](https://github.com/DimbreathBot/TurnBasedGameData/commit/6b2bc17ebf461e497ba0dd0ffd44875f1866762b)は前日の`OSPRODWin4.6.0_D16695122_A16693838_L16693838`。過去登録の「4.2」注釈を固定SHAの版と読み替えない。参照先は固定し、マスターは再生成していない。
+- **雪衣で確定した範囲**：[Ability JSON](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_Xueyi_00_Ability.json)（blob `a6f66325b729f61b5ba9d0cfd93938f6c486953c`）と[Config JSON](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigCharacter/Avatar/Avatar_Xueyi_00_Config.json)（blob `9323fdd3c220ce8b688662bb184bb4320b343087`）を取得。前後の4.6.0スナップショットでも同一blob。Skill03 Phase02はA4の残靭性50%以上判定を`DamageByAttackProperty`の前に行う。`MAvatar_Xueyi_00_Skill03_AddAttackRatio`は`OnBeforeHit`で`SetDynamicValueByPreCalcStanceDamage`を呼び、返却値dについて0<d<=30を1、d>30をd/30とし、Skill03[1]を掛けSkill03[2]で制限した値を通常DMG加算へ渡す。この処理とパラメータ対応は確認済み。
+- **雪衣に残る一点**：返却dを生成するネイティブ関数の本体が未取得で、効率補正と敵の残靭性による制限の関係を確定できない。公開宣言ヘッダーは関数本体を持たず、別版トポロジー資料も式の根拠にしない。基礎120（旧単位）・補正後量・実際の減少量のいずれかを名前から推定しない。したがって未撃破UやE0認定は追加せず、既撃破の既存範囲を維持。実ゲームでの独立実測は実施していない。
+- **飲月の解決根拠**：同commitの[Ability](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_DanHengIL_00_Ability.json)（blob `93414e77fd753912283c4a60a9f59d9d0d9bbaf1`）と[Config](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigCharacter/Avatar/Avatar_DanHengIL_00_Config.json)（blob `90edd34e53421fbaa4847be491c2fd85d40638ba`）から、Skill01/11/12/13/03と固定JP121301/308/310/312/303を対応付けた。主対象の配分は順に30/70、33/33/34、20×5、14.2×6+14.8、30/30/40%。総倍率を均等分割して作成していない。各Damage後のFlag_AttackCount更新と、Skill12/13の4段目以降の直前CD付与を確認。[KQM v1.3ガイド](https://hsr.keqingmains.com/imbibitor-lunae/)も命中後の亢心/命中前の叱咤を明記する。JPのTalent Lv7/9は8.13/9.38%を維持し、別の丸め値へ変更しない。
+- **実装/限定受入**：既存参考値5行を、初期亢心/叱咤0層・Lv80/E0・非虚数弱点/未撃破の敵1体の比較へ昇格。N/3種強化通常はLv1～6、U/Skill/TalentはLv1～10。各段に命中前の亢心0～6、5/7段強化の4段目以降に叱咤1～4を適用し、既存直接式と成分合算でNC/C/期待値を求める。隣接処理は主対象へ混ぜない。初期非0・虚数弱点へのA6・複数敵・途中撃破/死亡・外部補正の途中変化・資源更新・ターン全体/E1以上は認定外。初期0は行名/結果説明で明示した想定であり、未入力の現在層を推定するものではない。入力DMG/CDに亢心/叱咤の事前分がない前提を結果欄にも表示し、局所算出する固有補正を外部から重ねる要求は拒否。
+- **増分の単位**：新規攻撃登録0、既存参考値から昇格5、新しい内部の段別計算20（2+3+5+7+3）。亢心DMGと叱咤CDは攻撃内で導出する固有補正で、本番Modifier行を増やしていない。Skill121302・Talent121304・キャンセル121309は直接攻撃を持たない操作/支援として根拠付き分類し、架空のダメージ行を作らない。
+- **独立代表値**：ATK3000、CR50%、CD100%、DMG0%、N6/U10/Skill10/Talent10、敵Lv80/RES20%/非弱点/未撃破・敵補正0、初期0。共通係数0.5×0.8×0.9=0.36。通常NC/C/EV=1155.6/2311.2/1733.4、強化3段=3091.608/6183.216/4637.412、強化5段=4924.8/10253.4336/7589.1168、強化7段=7029.72/15464.5632/11247.1416、U3段=3596.4/7192.8/5394.6。7段は各段NC=766.8/843.48/920.16/996.84/1073.52/1150.2/1278.72を個別に会心化してから合算する。
+- 追加テスト3件（独立段別値/合計1・不整合/対象外補正/二重適用拒否1・製品入力/保存1）。関連123件と製品入力テスト成功。実画面で5行、7段内訳と更新、初期0/算入前提の説明、独立したSkill Lv変更、保存再読込、対象外条件での停止を確認。JavaScript例外なし。新入力/HTML/CSS変更なしのため全幅再検証は行わず、実UID通信も未実施。
+- 最終検証：HSR全体 **1122/1122成功（117.77秒、全体実行1回）**。追加3件。最終製品コード以後は文書のみ更新。Modifier静的問題0（本番1013/計算586、原登録1014/計算587。既存ID置換1の差）、攻撃静的38指摘は開始時と内容・順序が同一。完成管理表`--check`成功、変更5文書のローカルリンク254件に欠損なし。原神JSONのSHA256は開始時と一致。
+- 変更13ファイル：文書5（`HSR_CALC_DATA_SOURCES.md` / `HSR_CHARACTER_COMPLETION.md` / 本台帳 / `HSR_MAIN_ATTACK_SCOPE.md` / `hsr/specs/03_CALCULATION_SPEC.md`）、データ2（新規 `attacks-imbibitor-lunae-round38.json` / 既存 `data-files.json`）、製品2（`hsrApp.js` / `hsrCalcEngine.js`）、生成スクリプト1（`reportHsrCompletion.cjs`）、テスト3（新規 `hsrImbibitorLunaeRound38.test.cjs` / 既存 `hsrToolInputs.test.cjs` / `hsrCompletionTracker.test.cjs`）。
+- **第39回の再着手**：雪衣はこの同版ネイティブ関数の定義/返却値、または残靭性と効率を別々に変えた4条件A-Dの制御実測が必要。Lv/E0/U Lv/最終ATK/CR/CD/DMG/敵DEF・RESを固定し、A4の50%判定を独立管理、天賦発生と量子撃破/もつれを直撃へ混ぜず、直撃の非会心値と実際の靭性減少量を記録する。それが取得不能なら、姫子・旅立ち151009の原動力2/3とA6を同版実行JSONで確認する候補へ切り替える。既に特定した空白部分を説明文検索だけで反復しない。
+
+
 <a id="hsr-round37-followup"></a>
 ## 第37回：原版ヴェルトの版付き回数根拠と限定E0受入（2026-11-09）
 

@@ -1,0 +1,742 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "imbibitor-lunae-4.6-hit-splits-round38",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "初期0層・非弱点/未撃破の敵1体に限定した主要5攻撃の命中別計算。"
+  },
+  "overrides": [
+    {
+      "id": "121301",
+      "characterId": "1213",
+      "sourceSkillId": "121301",
+      "name": "水華（亢心・叱咤0層開始）",
+      "element": "Imaginary",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 2,
+      "hitCountLabel": "2段・命中ごとの亢心/叱咤を反映",
+      "canCrit": true,
+      "multipliers": [
+        50.0,
+        60.0,
+        70.0,
+        80.0,
+        90.0,
+        100
+      ],
+      "adjacentMultipliers": [],
+      "damageFormula": "componentSequence",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "initialTalentStacks": 0,
+      "initialOutroarStacks": 0,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "hit1",
+          "attackId": "12130101",
+          "name": "1段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            15.0,
+            18.0,
+            21.0,
+            24.0,
+            27.0,
+            30.0
+          ],
+          "weight": 0.3
+        },
+        {
+          "key": "hit2",
+          "attackId": "12130102",
+          "name": "2段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            35.0,
+            42.0,
+            49.0,
+            56.0,
+            63.0,
+            70.0
+          ],
+          "weight": 0.7
+        }
+      ],
+      "calculationScope": "fixed-4.6-hit-split-zero-initial-stacks-single-target",
+      "conditionText": "Lv80/E0・非虚数弱点/未撃破の敵1体。攻撃開始時の亢心/叱咤がともに0層の比較。全段で敵が存命、撃破や外部補正の途中変化なし。",
+      "calculationNote": "攻撃前の亢心と叱咤が0層である想定を明示した行です。現在の層数を0へ推定/置換しません。入力DMG/CDにこの2効果の事前加算がない状態を使用します。各段の倍率配分を使い、各命中後に亢心を1層（最大6）、天矢陰/躍動せし耀鱗の4段目以降は命中前に叱咤を1層（最大4）加算して各段の会心/非会心/期待値を合算します。通常系は通常攻撃の補正を適用し、戦闘スキルDMGは適用しません。必殺は必殺補正を適用します。隣接敵・初期層数が非0・虚数弱点へのA6・途中撃破/死亡・資源更新/ターン全体・E1以上は対象外。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定JP全採用Lvの総曲線と同版4.6.0実行JSONの命中比率/層更新を照合し、代表Lv/非対称ステータス/成分合計を独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes + DimbreathBot/TurnBasedGameData",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121301,121302,121304",
+        "referenceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_DanHengIL_00_Ability.json",
+        "relatedSourceCommit": "6b2bc17ebf461e497ba0dd0ffd44875f1866762b",
+        "abilityBlobSha": "93414e77fd753912283c4a60a9f59d9d0d9bbaf1",
+        "configBlobSha": "90edd34e53421fbaa4847be491c2fd85d40638ba",
+        "gameVersion": "4.6.0 (StarRailRes info.json and OSPRODWin4.6.0 dump)",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrImbibitorLunaeRound38.test.cjs",
+        "notes": "Config Skill01/Skill11/Skill12/Skill13/Skill03 map to pinned 121301/308/310/312/303. HitSplitRatio is read from each DamageByAttackProperty, never inferred by evenly dividing the total. Talent applies after a hit; Outroar stacks before hits4+. The v1.3 KQM guide independently documents the update timing."
+      }
+    },
+    {
+      "id": "121308",
+      "characterId": "1213",
+      "sourceSkillId": "121308",
+      "name": "瞬華（亢心・叱咤0層開始）",
+      "element": "Imaginary",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 3,
+      "hitCountLabel": "3段・命中ごとの亢心/叱咤を反映",
+      "canCrit": true,
+      "multipliers": [
+        130.0,
+        156.0,
+        182.0,
+        208.0,
+        234.0,
+        260.0
+      ],
+      "adjacentMultipliers": [],
+      "damageFormula": "componentSequence",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "initialTalentStacks": 0,
+      "initialOutroarStacks": 0,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "hit1",
+          "attackId": "12130801",
+          "name": "1段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            42.9,
+            51.48,
+            60.06,
+            68.64,
+            77.22,
+            85.8
+          ],
+          "weight": 0.33
+        },
+        {
+          "key": "hit2",
+          "attackId": "12130802",
+          "name": "2段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            42.9,
+            51.48,
+            60.06,
+            68.64,
+            77.22,
+            85.8
+          ],
+          "weight": 0.33
+        },
+        {
+          "key": "hit3",
+          "attackId": "12130803",
+          "name": "3段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            44.2,
+            53.04,
+            61.88,
+            70.72,
+            79.56,
+            88.4
+          ],
+          "weight": 0.34
+        }
+      ],
+      "calculationScope": "fixed-4.6-hit-split-zero-initial-stacks-single-target",
+      "conditionText": "Lv80/E0・非虚数弱点/未撃破の敵1体。攻撃開始時の亢心/叱咤がともに0層の比較。全段で敵が存命、撃破や外部補正の途中変化なし。",
+      "calculationNote": "攻撃前の亢心と叱咤が0層である想定を明示した行です。現在の層数を0へ推定/置換しません。入力DMG/CDにこの2効果の事前加算がない状態を使用します。各段の倍率配分を使い、各命中後に亢心を1層（最大6）、天矢陰/躍動せし耀鱗の4段目以降は命中前に叱咤を1層（最大4）加算して各段の会心/非会心/期待値を合算します。通常系は通常攻撃の補正を適用し、戦闘スキルDMGは適用しません。必殺は必殺補正を適用します。隣接敵・初期層数が非0・虚数弱点へのA6・途中撃破/死亡・資源更新/ターン全体・E1以上は対象外。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定JP全採用Lvの総曲線と同版4.6.0実行JSONの命中比率/層更新を照合し、代表Lv/非対称ステータス/成分合計を独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes + DimbreathBot/TurnBasedGameData",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121308,121302,121304",
+        "referenceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_DanHengIL_00_Ability.json",
+        "relatedSourceCommit": "6b2bc17ebf461e497ba0dd0ffd44875f1866762b",
+        "abilityBlobSha": "93414e77fd753912283c4a60a9f59d9d0d9bbaf1",
+        "configBlobSha": "90edd34e53421fbaa4847be491c2fd85d40638ba",
+        "gameVersion": "4.6.0 (StarRailRes info.json and OSPRODWin4.6.0 dump)",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrImbibitorLunaeRound38.test.cjs",
+        "notes": "Config Skill01/Skill11/Skill12/Skill13/Skill03 map to pinned 121301/308/310/312/303. HitSplitRatio is read from each DamageByAttackProperty, never inferred by evenly dividing the total. Talent applies after a hit; Outroar stacks before hits4+. The v1.3 KQM guide independently documents the update timing."
+      }
+    },
+    {
+      "id": "121310",
+      "characterId": "1213",
+      "sourceSkillId": "121310",
+      "name": "天矢陰（亢心・叱咤0層開始）",
+      "element": "Imaginary",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 5,
+      "hitCountLabel": "5段・命中ごとの亢心/叱咤を反映",
+      "canCrit": true,
+      "multipliers": [
+        190.0,
+        228.0,
+        266.0,
+        304.0,
+        342.0,
+        380.0
+      ],
+      "adjacentMultipliers": [],
+      "damageFormula": "componentSequence",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "initialTalentStacks": 0,
+      "initialOutroarStacks": 0,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "hit1",
+          "attackId": "12131001",
+          "name": "1段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            38.0,
+            45.6,
+            53.2,
+            60.8,
+            68.4,
+            76.0
+          ],
+          "weight": 0.2
+        },
+        {
+          "key": "hit2",
+          "attackId": "12131002",
+          "name": "2段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            38.0,
+            45.6,
+            53.2,
+            60.8,
+            68.4,
+            76.0
+          ],
+          "weight": 0.2
+        },
+        {
+          "key": "hit3",
+          "attackId": "12131003",
+          "name": "3段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            38.0,
+            45.6,
+            53.2,
+            60.8,
+            68.4,
+            76.0
+          ],
+          "weight": 0.2
+        },
+        {
+          "key": "hit4",
+          "attackId": "12131004",
+          "name": "4段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            38.0,
+            45.6,
+            53.2,
+            60.8,
+            68.4,
+            76.0
+          ],
+          "weight": 0.2
+        },
+        {
+          "key": "hit5",
+          "attackId": "12131005",
+          "name": "5段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            38.0,
+            45.6,
+            53.2,
+            60.8,
+            68.4,
+            76.0
+          ],
+          "weight": 0.2
+        }
+      ],
+      "calculationScope": "fixed-4.6-hit-split-zero-initial-stacks-single-target",
+      "conditionText": "Lv80/E0・非虚数弱点/未撃破の敵1体。攻撃開始時の亢心/叱咤がともに0層の比較。全段で敵が存命、撃破や外部補正の途中変化なし。",
+      "calculationNote": "攻撃前の亢心と叱咤が0層である想定を明示した行です。現在の層数を0へ推定/置換しません。入力DMG/CDにこの2効果の事前加算がない状態を使用します。各段の倍率配分を使い、各命中後に亢心を1層（最大6）、天矢陰/躍動せし耀鱗の4段目以降は命中前に叱咤を1層（最大4）加算して各段の会心/非会心/期待値を合算します。通常系は通常攻撃の補正を適用し、戦闘スキルDMGは適用しません。必殺は必殺補正を適用します。隣接敵・初期層数が非0・虚数弱点へのA6・途中撃破/死亡・資源更新/ターン全体・E1以上は対象外。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定JP全採用Lvの総曲線と同版4.6.0実行JSONの命中比率/層更新を照合し、代表Lv/非対称ステータス/成分合計を独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes + DimbreathBot/TurnBasedGameData",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121310,121302,121304",
+        "referenceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_DanHengIL_00_Ability.json",
+        "relatedSourceCommit": "6b2bc17ebf461e497ba0dd0ffd44875f1866762b",
+        "abilityBlobSha": "93414e77fd753912283c4a60a9f59d9d0d9bbaf1",
+        "configBlobSha": "90edd34e53421fbaa4847be491c2fd85d40638ba",
+        "gameVersion": "4.6.0 (StarRailRes info.json and OSPRODWin4.6.0 dump)",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrImbibitorLunaeRound38.test.cjs",
+        "notes": "Config Skill01/Skill11/Skill12/Skill13/Skill03 map to pinned 121301/308/310/312/303. HitSplitRatio is read from each DamageByAttackProperty, never inferred by evenly dividing the total. Talent applies after a hit; Outroar stacks before hits4+. The v1.3 KQM guide independently documents the update timing."
+      }
+    },
+    {
+      "id": "121312",
+      "characterId": "1213",
+      "sourceSkillId": "121312",
+      "name": "躍動せし耀鱗（亢心・叱咤0層開始）",
+      "element": "Imaginary",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 7,
+      "hitCountLabel": "7段・命中ごとの亢心/叱咤を反映",
+      "canCrit": true,
+      "multipliers": [
+        250.0,
+        300,
+        350.0,
+        400,
+        450.0,
+        500
+      ],
+      "adjacentMultipliers": [],
+      "damageFormula": "componentSequence",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "initialTalentStacks": 0,
+      "initialOutroarStacks": 0,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "hit1",
+          "attackId": "12131201",
+          "name": "1段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            35.5,
+            42.6,
+            49.7,
+            56.8,
+            63.9,
+            71.0
+          ],
+          "weight": 0.142
+        },
+        {
+          "key": "hit2",
+          "attackId": "12131202",
+          "name": "2段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            35.5,
+            42.6,
+            49.7,
+            56.8,
+            63.9,
+            71.0
+          ],
+          "weight": 0.142
+        },
+        {
+          "key": "hit3",
+          "attackId": "12131203",
+          "name": "3段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            35.5,
+            42.6,
+            49.7,
+            56.8,
+            63.9,
+            71.0
+          ],
+          "weight": 0.142
+        },
+        {
+          "key": "hit4",
+          "attackId": "12131204",
+          "name": "4段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            35.5,
+            42.6,
+            49.7,
+            56.8,
+            63.9,
+            71.0
+          ],
+          "weight": 0.142
+        },
+        {
+          "key": "hit5",
+          "attackId": "12131205",
+          "name": "5段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            35.5,
+            42.6,
+            49.7,
+            56.8,
+            63.9,
+            71.0
+          ],
+          "weight": 0.142
+        },
+        {
+          "key": "hit6",
+          "attackId": "12131206",
+          "name": "6段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            35.5,
+            42.6,
+            49.7,
+            56.8,
+            63.9,
+            71.0
+          ],
+          "weight": 0.142
+        },
+        {
+          "key": "hit7",
+          "attackId": "12131207",
+          "name": "7段目",
+          "type": "normal",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            37.0,
+            44.4,
+            51.8,
+            59.2,
+            66.6,
+            74.0
+          ],
+          "weight": 0.148
+        }
+      ],
+      "calculationScope": "fixed-4.6-hit-split-zero-initial-stacks-single-target",
+      "conditionText": "Lv80/E0・非虚数弱点/未撃破の敵1体。攻撃開始時の亢心/叱咤がともに0層の比較。全段で敵が存命、撃破や外部補正の途中変化なし。",
+      "calculationNote": "攻撃前の亢心と叱咤が0層である想定を明示した行です。現在の層数を0へ推定/置換しません。入力DMG/CDにこの2効果の事前加算がない状態を使用します。各段の倍率配分を使い、各命中後に亢心を1層（最大6）、天矢陰/躍動せし耀鱗の4段目以降は命中前に叱咤を1層（最大4）加算して各段の会心/非会心/期待値を合算します。通常系は通常攻撃の補正を適用し、戦闘スキルDMGは適用しません。必殺は必殺補正を適用します。隣接敵・初期層数が非0・虚数弱点へのA6・途中撃破/死亡・資源更新/ターン全体・E1以上は対象外。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定JP全採用Lvの総曲線と同版4.6.0実行JSONの命中比率/層更新を照合し、代表Lv/非対称ステータス/成分合計を独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes + DimbreathBot/TurnBasedGameData",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121312,121302,121304",
+        "referenceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_DanHengIL_00_Ability.json",
+        "relatedSourceCommit": "6b2bc17ebf461e497ba0dd0ffd44875f1866762b",
+        "abilityBlobSha": "93414e77fd753912283c4a60a9f59d9d0d9bbaf1",
+        "configBlobSha": "90edd34e53421fbaa4847be491c2fd85d40638ba",
+        "gameVersion": "4.6.0 (StarRailRes info.json and OSPRODWin4.6.0 dump)",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrImbibitorLunaeRound38.test.cjs",
+        "notes": "Config Skill01/Skill11/Skill12/Skill13/Skill03 map to pinned 121301/308/310/312/303. HitSplitRatio is read from each DamageByAttackProperty, never inferred by evenly dividing the total. Talent applies after a hit; Outroar stacks before hits4+. The v1.3 KQM guide independently documents the update timing."
+      }
+    },
+    {
+      "id": "121303",
+      "characterId": "1213",
+      "sourceSkillId": "121303",
+      "name": "傲睨せし蒼龍、世を濯ぐ劫水（亢心・叱咤0層開始）",
+      "element": "Imaginary",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 3,
+      "hitCountLabel": "3段・命中ごとの亢心/叱咤を反映",
+      "canCrit": true,
+      "multipliers": [
+        180.0,
+        192.0,
+        204.0,
+        216.0,
+        228.0,
+        240.0,
+        255.0,
+        270.0,
+        285.0,
+        300
+      ],
+      "adjacentMultipliers": [],
+      "damageFormula": "componentSequence",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "initialTalentStacks": 0,
+      "initialOutroarStacks": 0,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "hit1",
+          "attackId": "12130301",
+          "name": "1段目",
+          "type": "ultimate",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            54.0,
+            57.6,
+            61.2,
+            64.8,
+            68.4,
+            72.0,
+            76.5,
+            81.0,
+            85.5,
+            90.0
+          ],
+          "weight": 0.3
+        },
+        {
+          "key": "hit2",
+          "attackId": "12130302",
+          "name": "2段目",
+          "type": "ultimate",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            54.0,
+            57.6,
+            61.2,
+            64.8,
+            68.4,
+            72.0,
+            76.5,
+            81.0,
+            85.5,
+            90.0
+          ],
+          "weight": 0.3
+        },
+        {
+          "key": "hit3",
+          "attackId": "12130303",
+          "name": "3段目",
+          "type": "ultimate",
+          "element": "Imaginary",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "multipliers": [
+            72.0,
+            76.8,
+            81.6,
+            86.4,
+            91.2,
+            96.0,
+            102.0,
+            108.0,
+            114.0,
+            120.0
+          ],
+          "weight": 0.4
+        }
+      ],
+      "calculationScope": "fixed-4.6-hit-split-zero-initial-stacks-single-target",
+      "conditionText": "Lv80/E0・非虚数弱点/未撃破の敵1体。攻撃開始時の亢心/叱咤がともに0層の比較。全段で敵が存命、撃破や外部補正の途中変化なし。",
+      "calculationNote": "攻撃前の亢心と叱咤が0層である想定を明示した行です。現在の層数を0へ推定/置換しません。入力DMG/CDにこの2効果の事前加算がない状態を使用します。各段の倍率配分を使い、各命中後に亢心を1層（最大6）、天矢陰/躍動せし耀鱗の4段目以降は命中前に叱咤を1層（最大4）加算して各段の会心/非会心/期待値を合算します。通常系は通常攻撃の補正を適用し、戦闘スキルDMGは適用しません。必殺は必殺補正を適用します。隣接敵・初期層数が非0・虚数弱点へのA6・途中撃破/死亡・資源更新/ターン全体・E1以上は対象外。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定JP全採用Lvの総曲線と同版4.6.0実行JSONの命中比率/層更新を照合し、代表Lv/非対称ステータス/成分合計を独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes + DimbreathBot/TurnBasedGameData",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121303,121302,121304",
+        "referenceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_DanHengIL_00_Ability.json",
+        "relatedSourceCommit": "6b2bc17ebf461e497ba0dd0ffd44875f1866762b",
+        "abilityBlobSha": "93414e77fd753912283c4a60a9f59d9d0d9bbaf1",
+        "configBlobSha": "90edd34e53421fbaa4847be491c2fd85d40638ba",
+        "gameVersion": "4.6.0 (StarRailRes info.json and OSPRODWin4.6.0 dump)",
+        "verifiedAt": "2026-11-10",
+        "verification": "tests/hsr/hsrImbibitorLunaeRound38.test.cjs",
+        "notes": "Config Skill01/Skill11/Skill12/Skill13/Skill03 map to pinned 121301/308/310/312/303. HitSplitRatio is read from each DamageByAttackProperty, never inferred by evenly dividing the total. Talent applies after a hit; Outroar stacks before hits4+. The v1.3 KQM guide independently documents the update timing."
+      }
+    }
+  ]
+}

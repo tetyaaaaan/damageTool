@@ -317,6 +317,7 @@
         if (attack.id === "131718" && attack.characterId === "1317" && attack.sourceSkillId === "131718" && attack.damageFormula === "nativeBreakSequence" && attack.nativeBreakKind === "rappa" && attack.type === "enhancedNormal" && attack.element === "Imaginary") return "";
         if (["131008","131009","1131008","1131009"].includes(attack.id) && attack.characterId === "1310" && attack.damageFormula === "nativeBreakSequence") return "";
         if (attack.id === "131508" && attack.damageFormula === "normalAndBreak" && attack.type === "enhancedNormal") return "";
+        if (attack.characterId === "1213" && ["121301","121308","121310","121312","121303"].includes(attack.id) && attack.damageFormula === "componentSequence" && attack.sourceSkillId === attack.id && attack.element === "Imaginary") return "";
         if (attack.damageFormula === "componentSequence") {
             const components = attack.damageComponents;
             if (["1402012","140208"].includes(attack.id) && attack.characterId === "1402" && attack.sourceSkillId === (attack.id === "140208" ? "140208" : "140201") && attack.element === "Thunder") return "";
@@ -670,6 +671,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(input.attack?.characterId === "1213" && ["121301","121308","121310","121312","121303"].includes(input.attack.id))return calculateImbibitorLunaeSnapshot(input);
         if(input.attack?.id==='1403033'){
             const a=input.attack,c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[],n=a.cyreneBarrierActive?1:0,curve=[6,6.6,7.2,7.8,8.4,9,9.75,10.5,11.25,12];
             const fail=()=>({supported:false,reason:'結界中・トリビーLv80/E0・未撃破の敵1体・状態一定。門と道ONの2回比較は追撃前からA2=3層の飽和状態のみ対応です。'});
@@ -1117,6 +1119,27 @@ function calculateFanning(input) {
             if (JSON.stringify(part.input.character) !== JSON.stringify(c) || JSON.stringify(part.input.enemy) !== JSON.stringify(e)) return fail("黄泉の全成分には同じ最終ステータスと敵条件が必要です。");
         }
         return combineDamageComponents(a, parts, `啼沢斬り3回＋黄泉返り＋雷心6ヒット（集真赤事前${knots}層・雷心事前3層）`);
+    }
+
+    function calculateImbibitorLunaeSnapshot(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},parts=input.sequenceComponents||[];
+        const fail=reason=>({supported:false,reason});
+        const weights={"121301":[.3,.7],"121308":[.33,.33,.34],"121310":[.2,.2,.2,.2,.2],"121312":[.142,.142,.142,.142,.142,.142,.148],"121303":[.3,.3,.4]}[a.id],type=a.id==="121303"?"ultimate":"normal",level=a.traceLevel,tl=a.talentTraceLevel,sl=a.skillTraceLevel;
+        if(!weights||c.id!=="1213"||c.level!==80||c.eidolon!==0||e.count!==1||e.weakness!==false||e.toughnessActive!==true||a.damageFormula!=="componentSequence"||a.type!==type||a.sourceSkillId!==a.id||a.element!=="Imaginary"||a.initialTalentStacks!==0||a.initialOutroarStacks!==0||!Number.isInteger(level)||level<1||level>(type==="normal"?6:10)||!Number.isInteger(tl)||tl<1||tl>10||!Number.isInteger(sl)||sl<1||sl>10||parts.length!==weights.length||a.damageComponents?.length!==weights.length||!Number.isFinite(a.multiplier)||a.multiplier<=0||a.multiplier!==a.multipliers?.[level-1])return fail("飲月はLv80/E0・非虚数弱点/未撃破の敵1体・亢心/叱咤ともに事前0層の想定のみ対応です。本体/スキル/天賦Lvを確認してください。");
+        const talent=[5,5.5,6,6.5,7,7.5,8.13,8.75,9.38,10][tl-1],skill=[6,6.6,7.2,7.8,8.4,9,9.75,10.5,11.25,12][sl-1];
+        const resolved=[];
+        for(let i=0;i<weights.length;i++){
+            const p=parts[i],q=p?.input,b=q?.attack||{},id=a.id+String(i+1).padStart(2,"0");
+            if(p?.key!=="hit"+(i+1)||a.damageComponents[i]?.attackId!==id||b.id!==id||b.characterId!=="1213"||b.sourceSkillId!==a.id||b.type!==type||b.attackType!==type||b.element!=="Imaginary"||b.scalingStat!=="atk"||b.damageFormula!=="statMultiplier"||b.hitCount!==1||b.target!=="single"||b.traceLevel!==level||Math.abs(b.multiplier-a.multiplier*weights[i])>1e-8||!Number.isFinite(b.multiplier)||JSON.stringify(q?.character)!==JSON.stringify(c)||JSON.stringify(q?.enemy)!==JSON.stringify(e))return fail("飲月の各段は固定版の比率・同じ所有者/敵/軌跡Lvを使用してください。");
+            const mods=q.modifiers||[];
+            if(mods.some(m=>m.enabled!==false&&m.applicable!==false&&(m.source?.id==="1213"&&["121302","121304"].includes(m.source?.skillId)||m.category==="progressiveTakenDamage")))return fail("命中ごとの亢心/叱咤や途中更新補正を外部から重ねて指定しないでください。");
+            const talentStacks=Math.min(6,i),outroarStacks=["121310","121312"].includes(a.id)?Math.min(4,Math.max(0,i-2)):0;
+            const local=(key,category,value)=>({id:"intrinsic:1213:"+key,name:key==="talent"?`亢心・${talentStacks}層（命中前）`:`叱咤・${outroarStacks}層（命中前）`,category,value,source:{kind:"trace",id:"1213",skillId:key==="talent"?"121304":"121302"},enabled:true,applicable:true,calculable:true,target:{owner:"self",attackTypes:[type],elements:["Imaginary"]},support:{status:"calculable",verified:true}});
+            resolved.push({...p,input:{...q,modifiers:[...mods,local("talent","damageBonus",talent*talentStacks),local("outroar","critDamage",skill*outroarStacks)]}});
+        }
+        const result=combineDamageComponents(a,resolved,"事前亢心/叱咤0層からの全段合計（命中後の亢心・4段目以降命中前の叱咤）");
+        if(result.breakdown)result.breakdown.condition=a.conditionText+" "+a.calculationNote;
+        return result;
     }
 
     function combineDamageComponents(attack, components, totalLabel) {
