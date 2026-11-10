@@ -1398,10 +1398,10 @@ Object.assign(e0CandidateAudit['1510'],{
  evidence:'固定dbe8の151001/2/3/4/8/9/22/25/26と1510103。同版4.6.0 Dimbreath6b2bc17 HimekoNova Ability blob88054e5c/Config blob285e9b9fでSkill51/52/53本人分、AstralExpress協定切替、OnBeforeSkillUseの天賦、SpecialBattleAreaのAssistAsBpSkillを照合。Round30/39/40とToolInputsで独立NC/C/EV、4補正・対象外・提供者離脱・既算入・保存を確認。',
  remaining:'Lv80/E0・A6解放済み・境界展開中・敵1体・全成分で最終値/敵状態一定。N1～6、U/Talent/Skill1～10。本人の通常/ビーム1回/明示した原動力1～3の単一パルス/最後撃3段/本人支援1+4段。裁決/殲滅は開拓仲間の支援によって事前成立したいずれか1つを指定する。天賦のCD/耐性貫通は今回の本人支援前に自動適用し既算入を除く。殲滅は独立した受益者の本人攻撃へ提供者天賦Lvで適用、精霊の最終値へ一般継承しない。他使用者の支援係数・新規協定付与/チャージ/発動回数の自動更新・途中撃破/死亡・複数敵/E1以上は認定外。Uの全行動合計やローテーションを完成要件へ追加しない。'
 });
-// Round41 adds a separate three-user snapshot scope without changing the original E0 gate.
+// Rounds41/42 extend the separate other-user snapshot scope without changing the original E0 gate.
 Object.assign(e0CandidateAudit['1510'],{
- evidence:e0CandidateAudit['1510'].evidence+' 第41回は同版SupportFakeSkillのHimeko宛TurnInsertAction/他使用者係数[0..2]とGameCoreConstValue blobde233536のグループを照合。hsrHimekoDepartureRound41/ToolInputsで丹恒・三月なのか・ブローニャの使用、姫子の独立値、ダメージ前協定・既算入/離脱/不足/保存を検証。',
- remaining:e0CandidateAudit['1510'].remaining.replace('他使用者の支援係数・','追加の別範囲として、丹恒1002/三月なのか1001/ブローニャ1101が使用する1+3段を、編成中の姫子のLv80/E0独立最終値/天賦1～10で比較可能。使用者本人の最終値へ置換しない。その他の他使用者の支援係数・')
+ evidence:e0CandidateAudit['1510'].evidence+' 第41回は同版SupportFakeSkillのHimeko宛TurnInsertAction/他使用者係数[0..2]とGameCoreConstValue blobde233536のグループを照合。hsrHimekoDepartureRound41/ToolInputsで丹恒・三月なのか・ブローニャの使用、姫子の独立値、ダメージ前協定・既算入/離脱/不足/保存を検証。 第42回は同版Field_Insert_Phase02.OnStart[0]の味方へのSkill52Fake/53Fake/51Fake付与を確認し、サンデー/ヴェルト/停雲を同じ151022へ追加。Round41検証とToolInputsのRound42ケースで独立値/事前協定維持/解除/既算入/保存を確認。',
+ remaining:e0CandidateAudit['1510'].remaining.replace('他使用者の支援係数・','追加の別範囲として、丹恒1002/三月なのか1001/ブローニャ1101/サンデー1313/ヴェルト1004/停雲1202が使用する1+3段を、編成中の姫子のLv80/E0独立最終値/天賦1～10で比較可能。使用者本人の最終値へ置換しない。その他の他使用者の支援係数・')
 });
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={

@@ -54,7 +54,7 @@
         "verification": "tests/hsr/hsrHimekoDepartureRound40.test.cjs",
         "relatedSourceCommit": "6b2bc17ebf461e497ba0dd0ffd44875f1866762b",
         "relatedSourceUrl": "https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json",
-        "notes": "第41回: 同版SupportFakeSkill/SupportSkillによる使用者とCasterの分離、他使用者分[0..2]を追加検証。tests/hsr/hsrHimekoDepartureRound41.test.cjs。本人用[3..5]は維持。 使用者区分は同版Config/GlobalConfig/GameCoreConstValue.json CharacterIDGroups、blob de23353629e189399d5d8c94eca0aa0cce238083。1002=Model01、1001=Model02、1101=両モデル/AstralExpressの外。"
+        "notes": "第41回: 同版SupportFakeSkill/SupportSkillによる使用者とCasterの分離、他使用者分[0..2]を追加検証。tests/hsr/hsrHimekoDepartureRound41.test.cjs。本人用[3..5]は維持。 使用者区分は同版Config/GlobalConfig/GameCoreConstValue.json CharacterIDGroups、blob de23353629e189399d5d8c94eca0aa0cce238083。1002=Model01、1001=Model02、1101=両モデル/AstralExpressの外。 第42回: 同版Field_Insert_Phase02.OnStart[0]のAllLightTeamIgnoreServantへの支援行動付与を確認。サンデー1313=Model01/Skill52Fake、ヴェルト1004=Model02/Skill53Fake、停雲1202=group外/Skill51Fake。各FakeSkillからHimeko宛TurnInsertActionを経て同じ151022他使用者成分へ到達。"
       },
       "enforceSnapshotContract": true,
       "tags": [
@@ -167,7 +167,10 @@
       "supportedOtherUsers": [
         "1001",
         "1002",
-        "1101"
+        "1101",
+        "1313",
+        "1004",
+        "1202"
       ]
     }
   ]

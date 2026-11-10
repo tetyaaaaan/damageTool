@@ -4592,3 +4592,19 @@ test('round41 foreign-user support keeps the Himeko snapshot separate, resolves 
  app.state.modifierInputs['party-reference:1510:included:trace:1510:151025:accord-damage']=true;app.state.modifierInputs['party-reference:1510:Fire']=100;near(foreign(app).expected,r.expected);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(foreign(saved).expected,r.expected);delete saved.state.modifierInputs['party-reference:1510:atk'];assert.ok(!foreign(saved));assert.ok(normal(saved));saved.state.party[0].characterId='';assert.ok(!foreign(saved));
  app.state.modifierInputs['party-reference:1510:included:trace:1510:151025:accord-damage']=false;app.state.modifierInputs['party-reference:1510:Fire']=0;app.state.characterId='1001';near(foreign(app).expected,3000*2.32*.45*2.9);app.state.characterId='1101';app.state.modifierInputs['himeko-departure-accord']=0;near(foreign(app).expected,3000*2.32*.45*1.9);app.state.modifierInputs['himeko-departure-accord']=2;near(foreign(app).expected,3000*2.32*.45*2.9);app.state.party[0].traceLevels.talent=1;near(foreign(app).expected,3000*1.16*.405*2.2);
 });
+
+
+test('round42 new Himeko assist users preserve ownership, prior accord, inclusion, local stopping and restoration',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b),foreign=x=>x.calculate().find(r=>r.attack?.name.includes('が使用・所有者：姫子'));
+ app.window.HsrTool.applyProfileCharacter({id:'1313',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:1},{type:'Ultra',level:1},{type:'Talent',level:1}],stats:{atk:777,hp:9991,def:1400,critRate:10,critDamage:50,damageBonus:7}});
+ app.state.party[0]={...app.state.party[0],characterId:'1510',eidolon:0,traceLevels:{talent:10,skill:10}};
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,Fire:0,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['party-reference:1510:'+k]=v;app.state.modifierInputs['enemy-resistance:Fire']=20;
+ for(const[id,forced]of[['1313',1],['1004',2],['1202',null]])for(const prior of[0,1,2]){
+  app.state.characterId=id;app.state.modifierInputs['himeko-departure-accord']=prior;const r=foreign(app),mode=forced??prior,cd=1.8+(mode===2?2:0),nc=3000*2.32*.45*(mode===1?2:1);assert.ok(r);near(r.nonCrit,nc);near(r.crit,nc*(1+cd));near(r.expected,nc*(1+.5*cd));assert.equal(app.state.modifierInputs['himeko-departure-accord'],prior);
+  app.state.conditionTab='パーティ';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="party-reference:1510:atk"/g)||[]).length,1);
+ }
+ app.state.characterId='1202';app.state.modifierInputs['himeko-departure-accord']=2;const base=foreign(app);app.node('hsrStat-atk').value='999999';app.node('hsrStat-critDamage').value='9999';near(foreign(app).expected,base.expected);
+ // Explicit record IDs from the existing production data are required; do not silently skip an inclusion check.
+ const cdRecords=data.structuredModifiers.filter(m=>m.source.id==='1510'&&['151004','151026'].includes(m.source.skillId)&&m.category==='critDamage'&&m.support.status==='calculable');assert.equal(cdRecords.length,3);for(const r of cdRecords)app.state.modifierInputs['party-reference:1510:included:'+r.id]=true;app.state.modifierInputs['party-reference:1510:critDamage']=380;near(foreign(app).expected,base.expected);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(foreign(saved).expected,base.expected);delete saved.state.modifierInputs['party-reference:1510:atk'];assert.ok(!foreign(saved));assert.ok(saved.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='120201').name));saved.state.party[0].characterId='';assert.ok(!foreign(saved));
+});

@@ -1,6 +1,6 @@
 # HSR 主要攻撃の対応範囲と保守課題
 
-最新の登録数・E0認定は[生成完成管理表](HSR_CHARACTER_COMPLETION.md)を正本とする。直近の対応範囲拡張は末尾の第41回（姫子・旅立ちの他使用者支援）。本人の限定受入は第40回、パルス拡張は第39回を参照。
+最新の登録数・E0認定は[生成完成管理表](HSR_CHARACTER_COMPLETION.md)を正本とする。直近の対応範囲拡張は末尾の第42回（姫子・旅立ちの他使用者追加）。本人の限定受入は第40回、パルス拡張は第39回を参照。
 
 最終検証日:2026-11-10。第38回で同版実行データから飲月のヒット配分/固有累積を接続して限定E0受入。雪衣はネイティブ削靭予測の入力値責務を保留。以下の過去工程の人数・件数は履歴として保持します。
 
@@ -1127,3 +1127,11 @@ Lv80/E0・A6解放・境界中・敵1体・全段で最終値/敵状態一定、
 同版CharacterIDGroupsとダメージ前の協定処理に従い、丹恒は裁決、三月なのかは殲滅、ブローニャは事前協定を維持する。既存の使用前Talent/協定Modifierを姫子へ適用。境界中の当該AssistのみSkillタグも持ち、裁決のU専用DMGやA6係数加算は加えない。共有敵補正は維持し、入力不足は当該支援だけ停止、提供者解除で候補除外する。
 
 使用者/姫子Lv80/E0・敵1体・境界中・Talent1～10・全段で最終値/敵状態一定。他の使用者/複数敵/E1以上/途中状態更新は対象外。3人の対応を全使用者完成とはしない。既存本人の限定E0認定は維持。根拠・独立値・残範囲は[第41回台帳](HSR_COMPLETION_WORKLOAD.md#hsr-round41-followup)、定義は[151022](../games/hsr/data/calc/attacks-himeko-departure-round40.json)、代表検証は[`hsrHimekoDepartureRound41.test.cjs`](../tests/hsr/hsrHimekoDepartureRound41.test.cjs)。第40回に保留した他使用者分のうち、本節の3人/状態のみを解消した。
+
+
+<a id="hsr-round42-himeko"></a>
+## 第42回：サンデー・ヴェルト・停雲による支援（2026-11-10）
+
+既存151022の対応使用者へサンデー1313（裁決へ切替）・ヴェルト1004（殲滅へ切替）・停雲1202（事前協定を維持）を追加した。同版Field_Insert_Phase02.OnStart[0]によるAllLightTeamIgnoreServantへのSkill52Fake/53Fake/51Fake付与、Fakeから姫子宛挿入行動、SupportSkill中の協定処理→ダメージの順序を確認。所属だけで発動可否を決めない。
+
+計算契約/限定条件は第41回と同じ。発動者とダメージ所有者を分離し、姫子の独立した最終ATK/会心/Fire補正とTalent1～10で全体1＋単体3を合算する。本人分1＋4、既存3人、原動力/A6は維持し、攻撃行・内部成分・Modifier行は増やさない。対応使用者は計6人で、他の使用者/別形態・複数敵/E1以上・途中状態更新は未受入。根拠/独立値/次候補は[第42回台帳](HSR_COMPLETION_WORKLOAD.md#hsr-round42-followup)、検証は[`hsrHimekoDepartureRound41.test.cjs`](../tests/hsr/hsrHimekoDepartureRound41.test.cjs)のRound42ケースと既存ToolInputsを参照。

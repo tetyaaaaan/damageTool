@@ -1,5 +1,19 @@
 # HSR 最終完成までの残作業測定
 
+<a id="hsr-round42-followup"></a>
+## 第42回：境界内の支援行動付与と追加使用者3人（2026-11-10）
+
+- 開始HEAD `781145c4993fc00fef29254ddc2671f0d93fcbdb`、main。サンデー1313・ヴェルト1004・停雲1202を既存151022へ追加。第41回3人と本人支援/原動力1～3/A6は維持。現在の登録数と認定数は[生成完成管理表](HSR_CHARACTER_COMPLETION.md)を正本とする。
+- **所属だけでなく付与入口を確認**：同版4.6.0 Dimbreath commit `6b2bc17ebf461e497ba0dd0ffd44875f1866762b` の[Ability](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Avatar/Avatar_HimekoNova_00_Ability.json)（blob `88054e5cc17cda73bd8fe2350b23e0541432e26c`）の `Avatar_HimekoNova_00_Field_Insert_Phase02.OnStart[0]` は `AllLightTeamIgnoreServant` の各味方へ支援行動を割り当てる。Model01にはSkill52Fake（Assist tag3）、Model02にはSkill53Fake（tag4）、それ以外の分岐にはSkill51Fake（tag2）、categoryはHimekoNova_AssistSkill。[同版グループ](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/GlobalConfig/GameCoreConstValue.json)（blob `de23353629e189399d5d8c94eca0aa0cce238083`）で1313=Model01、1004=Model02、1202=両モデル/AstralExpress外。3 IDを除外する付与条件はない。名前や所属だけから発動可能と判定しない。
+- **到達先/所有者**：各SupportFakeSkill_Phase01が使用者を姫子のAssist動的参照へ記録し、姫子宛TurnInsertActionを挿入する。[同版Config](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigCharacter/Avatar/Avatar_HimekoNova_00_Config.json)（blob `285e9b9febc72a0bcf8db9c432c1fa879d277bb5`）SkillList[6..8]のSkill51/52/53からSupportSkill(02/03)_Phase01/02へ到達し、AttackType=Assistの姫子Casterでダメージを与える。固定StarRailRes `dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487` の151022他使用者係数との対応は第41回と同じ。**発動者だけが追加3人、ダメージ所有者・ATK/CR/CD参照者・倍率/天賦Lv提供者は姫子1510**。
+- **協定**：SupportSkillのDamageより前のHimekoNova_00_AstralExpressでサンデーは裁決へ、ヴェルトは殲滅へ切り替わる。停雲はどちらのHaloも新規付与せず、事前協定0/1/2を維持。派生協定は当該支援のみで使用し、共有欄/他の攻撃を更新しない。境界SubModifierのAssistAsBpSkillは姫子Casterに作用し、味方へ支援行動を付与する入口とは別の処理。
+- **計算/限定範囲**：第41回の所有者別最終値・Talent1～10・全体1＋単体3の内部2成分をそのまま使う。使用者/姫子Lv80/E0、敵1体、境界中、最終値/敵状態一定。裁決U専用補正は適用せず、境界中の当該AssistへのSkill補正、使用前Talent、算入済み除外は既存経路を維持。新規攻撃行0・内部成分0・Modifier行0、既存行の対応使用者は3→6。限定E0・攻撃・Modifier件数は変更なし。計算契約/入力構造を変えていないため仕様03/04は更新せず、現在の対象一覧は[攻撃範囲](HSR_MAIN_ATTACK_SCOPE.md#hsr-round42-himeko)へ記録する。
+- **独立代表値**：姫子ATK3000/CR50%/CD100%/Fire DMG0、Talent10、敵Lv80/RES20%/靭性あり、他補正0。全体1.6＋3×0.24=2.32、使用前TalentでCD+80/RES貫通20。サンデー（裁決）NC/C/EV=6264/17539.2/11901.6、ヴェルト（殲滅）=3132/15033.6/9082.8、停雲（事前なし）=3132/8769.6/5950.8。停雲の事前裁決/殲滅では対応する同値。サンデーの成分EV8208＋3693.6を一度だけ合算する。
+- **検証**：追加2テスト（既存Round41独立検証へ1、ToolInputsへ1）。新3人の事前協定0/1/2とTalent1/10でNC/C/EV・2成分・不正協定拒否、使用者の非対称ATK/会心、所有者既算入、入力不足/提供者解除/保存を代表検証。既存3人/本人支援を含む関連6件成功。最終コードのHSR全体1132/1132成功（120.73秒、実行1回）。以後の製品コード変更なし。Modifier静的問題0、攻撃静的の既存38指摘は開始時と内容・順序同一、完成管理表--check成功。変更3文書のローカルリンク221件に欠損なし、git diff --check成功。保護対象の原神JSON SHA256は開始時と一致。
+- **実画面**：新3人の選択/支援表示、サンデーの事前殲滅→裁決11902、ヴェルトの殲滅9083、停雲の事前なし5951/裁決11902、姫子ATK3000の1+3内訳、既算入後も同値、保存再読込、ATK不足時に支援だけ停止/通常維持、提供者解除で支援除外を確認。既存入力/HTML構造/CSSを再利用したため幅別の再検証は未実施。実UID通信・実ゲーム実測も未実施。
+- 変更9ファイル：文書3（完成管理表/本台帳/攻撃範囲）、既存攻撃データ1、製品2（hsrApp.js/hsrCalcEngine.js）、完成管理スクリプト1、既存テスト2（hsrHimekoDepartureRound41.test.cjs/hsrToolInputs.test.cjs）。
+- **残範囲と第43回**：今回6人以外の他使用者/別形態、複数敵/E1以上/チャージ・途中状態更新は未受入。追加時は候補IDごとに同版の行動付与先とFake→姫子Skill経路、協定処理、既存最終値契約との一致を確認する。取得済み資料からの次候補はModel01の丹恒・飲月1213、Model02の巡狩三月なのか1224。今後も全IDを所属だけで一括追加しない。雪衣・ダリア・銀狼LV.999・ギルガメッシュの保留を解消する新根拠はなく、再調査していない。
+
 <a id="hsr-round41-followup"></a>
 ## 第41回：姫子・旅立ちの他使用者支援（2026-11-10）
 
