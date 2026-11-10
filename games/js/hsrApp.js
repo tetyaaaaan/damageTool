@@ -559,7 +559,9 @@
     const base = {};
     ["hp", "atk", "def", "speed"].forEach((stat) => {
       const characterValue = selectedCharacter.base?.[stat];
-      const coneValue = stat === "speed" || !selectedCone ? 0 : selectedCone.base?.[stat];
+      const coneValue = !selectedCone ? 0 : stat === "speed"
+        ? (selectedCone.path === selectedCharacter.path ? (selectedCone.effect?.propertiesByRank?.[state.coneRank - 1] || []).filter((item) => item.type === "BaseSpeed").reduce((sum, item) => sum + Number(item.value), 0) : 0)
+        : selectedCone.base?.[stat];
       if (characterValue != null && coneValue != null && Number.isFinite(Number(characterValue)) && Number.isFinite(Number(coneValue))) base[stat] = Number(characterValue) + Number(coneValue);
     });
     return base;
@@ -812,7 +814,8 @@
       const precombat = activation.reference === "self.preCombatSpeed";
       const numericLabels = { "self.maxEnergy": ["現在の最大EP", ""], "self.preCombatMaxEnergy": ["戦闘開始時の最大EP", ""], "party.fieldCount": ["場の味方ターゲット数", "体"] };
       if (numericLabels[activation.reference]) { const [label, unit] = numericLabels[activation.reference]; return `${item.conditionText || "入力条件"}（${label}：${Number.isFinite(activation.inputValue) ? detailNumber(activation.inputValue) + unit : "未入力"}）`; }
-      const value = Number.isFinite(activation.inputValue) ? `${detailNumber(activation.inputValue)}${!precombat && item.unit === "percent" ? "%" : ""}` : "未入力";
+      const stackReference = state.data.structuredModifiers.some((record) => record.activation?.mode === "stack" && record.activation.inputKey === activation.inputKey);
+      const value = Number.isFinite(activation.inputValue) ? `${detailNumber(activation.inputValue)}${stackReference ? "層" : !precombat && item.unit === "percent" ? "%" : ""}` : "未入力";
       return `${item.conditionText || "入力条件"}（${precombat ? "戦闘前の速度" : "現在値"}：${value}）`;
     }
     const reference = {
@@ -883,7 +886,7 @@
         rendered.add(`stack:${activation.inputKey}`); conditionReferenceInputs.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.inputLabel || "現在の層数")}</strong><small>現在成立している層数を選択します。</small></span><select data-structured-input="${esc(activation.inputKey)}">${Array.from({ length: max + 1 }, (_, value) => `<option value="${value}"${value === item.stacks ? " selected" : ""}>${value === 0 ? "未発動（0層）" : `${value}層`}</option>`).join("")}</select></label>`);
       }
-      if (activation.mode === "numericThreshold" && activation.inputKey && !item.comparisonControlled && !rendered.has(`threshold:${activation.inputKey}`) && !rendered.has(`stack:${activation.inputKey}`) && !conditionReferenceInputs.has(activation.inputKey)) {
+      if (activation.mode === "numericThreshold" && activation.inputKey && !item.comparisonControlled && !rendered.has(`threshold:${activation.inputKey}`) && !rendered.has(`stack:${activation.inputKey}`) && !conditionReferenceInputs.has(activation.inputKey) && !conditionReferenceInputs.has(`stack:${activation.inputKey}`)) {
         conditionReferenceInputs.add(activation.inputKey); rendered.add(`threshold:${activation.inputKey}`);
         const thresholdValue = state.modifierInputs[activation.inputKey] === undefined ? activation.default : state.modifierInputs[activation.inputKey];
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(activation.inputLabel || "現在の条件値")}</strong><small>${esc(activation.conditionText || "発動条件の判定に使用する値を入力します。")}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" ${activation.strictInput ? 'data-structured-strict="true"' : ""} data-structured-input="${esc(activation.inputKey)}" value="${activation.strictInput ? Number.isFinite(thresholdValue) ? thresholdValue : "" : num(activation.inputValue, activation.default || 0)}" min="${num(activation.minimum)}" max="${num(activation.maximum, 999)}" step="${num(activation.step, 1)}"></span></label>`);

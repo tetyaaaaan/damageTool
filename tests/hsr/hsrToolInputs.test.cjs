@@ -4623,3 +4623,37 @@ test('round43 alternate-form Himeko assist users keep owner values, final-stat e
   near(foreign(app).expected,r.expected);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(foreign(saved).expected,r.expected);delete saved.state.modifierInputs['party-reference:1510:atk'];assert.ok(!foreign(saved));assert.ok(normal(saved));saved.state.party[0].characterId='';assert.ok(!foreign(saved));
  }
 });
+
+test('Round45 actual Welt attacks respond to cone support, path eligibility, removal and saved restoration',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1004',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ app.state.enhancementState='previous';app.node('hsrEnhancementState').value='previous';
+ const normal=x=>x.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id==='100401').name);
+ const initial=normal(app).expected;near(initial,1620);
+ app.state.party[0]={characterId:'1413',level:80,eidolon:0,lightConeId:'23052',refinement:1};
+ app.state.modifierInputs['lc-23052-blank-active']=true;app.state.modifierInputs['lc-23052-verse-active']=true;
+ near(normal(app).nonCrit,1080*1.16);near(normal(app).expected,1080*1.16*(1+.5*1.256));
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(normal(saved).expected,normal(app).expected);
+ saved.state.modifierInputs['lc-23052-verse-active']=false;near(normal(saved).expected,1620*1.10);
+ saved.state.party[0].characterId='1003';assert.equal(normal(saved),undefined,'existing path validation rejects the incompatible equipment');assert.match(saved.node('hsrResults').innerHTML+saved.node('hsrCalculationFeedback').innerHTML,/運命/);
+ saved.state.party[0].characterId='1413';saved.state.party[0].lightConeId='';near(normal(saved).expected,1620);
+ saved.state.party[0].lightConeId='23052';saved.state.modifierInputs['lc-23052-verse-active']=true;near(normal(saved).expected,1080*1.16*(1+.5*1.256));
+ saved.state.party[0].characterId='';near(normal(saved).expected,1620);
+});
+
+test('Round45 shared Brocade state is rendered once and base-SPD support uses cone BaseSpeed without readding final SPD',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+ const fixture={...data,structuredModifiers:data.structuredModifiers.filter(x=>x.source?.id==='23036'||x.id==='ornament:311:2pc:speed-damage')};
+ const app=await tool(undefined,fixture),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1413',level:80,eidolon:0,lightCone:{id:'23036',rank:1,level:80},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,speed:130,critRate:50,critDamage:100,damageBonus:0}});
+ app.state.modifierInputs['lc-23036-brocade-stacks']=6;app.state.conditionTab='光円錐';app.node('hsrConditionDialogOpen').handlers.click();
+ assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="lc-23036-brocade-stacks"/g)||[]).length,1);
+ assert.match(app.node("hsrConditionList").innerHTML,/6層で成立（現在値：6層）/);assert.doesNotMatch(app.node("hsrConditionList").innerHTML,/現在値：6%/);
+ // Isolate an existing base-SPD percent lane: final130 already includes the fixed+12.
+ fixture.structuredModifiers.push({id:'round45-speed-support',source:{kind:'trace',id:'1413'},category:'statPercent',stat:'speed',value:{kind:'fixed',fixed:20},target:{owner:'self',attackTypes:['all']},activation:{mode:'always'},inputPolicy:'conditional',support:{status:'calculable',verified:true}});
+ app.state.ornamentId='311';app.state.modifierInputs['lc-23036-brocade-stacks']=0;
+ let input;const original=app.window.HsrCalcEngine.calculate;app.window.HsrCalcEngine.calculate=req=>{input=req;return original(req);};app.calculate();
+ near(input.character.baseStats.speed,data.characters.find(c=>c.id==='1413').base.speed+12);near(input.character.stats.speed,130);
+ app.state.coneRank=5;app.node('hsrConeRank').value='5';app.calculate();near(input.character.baseStats.speed,data.characters.find(c=>c.id==='1413').base.speed+20);
+ app.state.coneId='';app.calculate();near(input.character.baseStats.speed,data.characters.find(c=>c.id==='1413').base.speed);
+});

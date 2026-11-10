@@ -173,3 +173,9 @@
 [既存攻撃override](../../../games/hsr/data/attack-overrides.json)の1224011/1224081は本体Basic・付加Additionalというカテゴリを固定Fribbelsと照合し、通常限定補正を本体へ適用する。付加を追撃や通常へ変更しない。[師匠支援](../../../games/hsr/data/calc/modifiers-march-round17.json)は固定122402/1224103に基づく速度/会心ダメージ/撃破特効。本人の強化比較と、別キャラクターを師匠として計算する支援方向を区別する。
 
 雪衣は既撃破121403の受入を維持。未撃破での残量clip/効率/途中撃破/A4時点の根拠が不足しており、最大補正を仮定しない。優先度/不足する証拠/次回確認/解決条件は[既存台帳の第17回追跡表](../../HSR_COMPLETION_WORKLOAD.md#hsr-round17-followup)へ集約する。E0人数・登録数を本仕様書へ複製しない。
+
+### 固定BaseSpeedと装備変更（第45回）
+
+光円錐の恒常 `BaseSpeed` は基礎SPDへ加え、SPD割合補正より前に評価する。UID Mapperは装備の重畳に応じて `(キャラ基礎SPD + 光円錐BaseSpeed) × (1 + SpeedAddedRatio) + SpeedDelta` を再構成する。手動入力は装備込み最終SPDを維持し、割合SPD支援の基礎参照だけにこの加算を含める。光円錐選択だけで入力済み最終SPDを上書きしない。両方の運命が既知で不一致なら恒常effect propertiesを除き、光円錐そのものの基礎HP/ATK/DEFは除かない。UIDの未知重畳/不完全装備で最終値を捏造しない既存制限は維持する。
+
+新規装備の受入は全効果の完成認定ではない。光円錐の本人/味方/敵、通常/撃破/愉悦、独立精霊完成値の責務を分離し、算入済み成分を追加しない。具体的な対象/保留は[第45回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round45-equipment)、式の検証は[装備独立テスト](../../../tests/hsr/hsrEquipmentRound45.test.cjs)と[UID再構成テスト](../../../tests/hsr/hsrToolStructure.test.cjs)が管理元。

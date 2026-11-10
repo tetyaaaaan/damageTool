@@ -80,7 +80,10 @@
             addProperties(totals, byId(characterData?.traces, tree.pointId)?.levels?.[0]?.properties);
         });
         const rank = Math.max(1, number(character.equipment?.rank, 1));
-        addProperties(totals, lightCone?.effect?.propertiesByRank?.[rank - 1]);
+        const characterPath = String(characterData?.path || "");
+        const lightConePath = String(lightCone?.path || "");
+        const pathsKnownAndMismatch = characterPath && lightConePath && characterPath !== lightConePath;
+        if (!pathsKnownAndMismatch) addProperties(totals, lightCone?.effect?.propertiesByRank?.[rank - 1]);
         relicSets.forEach((selected) => {
             const set = byId(catalog?.relicSets, selected.id);
             (set?.effects || [])
@@ -117,7 +120,7 @@
             hp: exactLevel && Number.isFinite(hpBase) ? hpBase * (1 + (props.HPAddedRatio || 0)) + (props.HPDelta || 0) : undefined,
             atk: exactLevel && Number.isFinite(atkBase) ? atkBase * (1 + (props.AttackAddedRatio || 0)) + (props.AttackDelta || 0) : undefined,
             def: exactLevel && Number.isFinite(defBase) ? defBase * (1 + (props.DefenceAddedRatio || 0)) + (props.DefenceDelta || 0) : undefined,
-            speed: Number.isFinite(finiteValue(characterData?.base?.speed)) ? number(characterData.base.speed) * (1 + (props.SpeedAddedRatio || 0)) + (props.SpeedDelta || 0) : undefined,
+            speed: Number.isFinite(finiteValue(characterData?.base?.speed)) ? (number(characterData.base.speed) + (props.BaseSpeed || 0)) * (1 + (props.SpeedAddedRatio || 0)) + (props.SpeedDelta || 0) : undefined,
             critRate: percent(0.05 + (props.CriticalChanceBase || 0) + (props.CriticalChance || 0)),
             critDamage: percent(0.5 + (props.CriticalDamageBase || 0) + (props.CriticalDamage || 0)),
             breakEffect: percent((props.BreakDamageAddedRatioBase || 0) + (props.BreakDamageAddedRatio || 0)),

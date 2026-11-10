@@ -10,7 +10,7 @@ const allowedValueKinds = new Set(["fixed", "byLevel", "byRefinement", "perStack
 const allowedStackRules = new Set(["add", "max", "replace", "nonStacking"]);
 const fieldSets = {
   root: new Set(["id", "variant", "providerScope", "source", "name", "description", "category", "stat", "unit", "value", "inputValidation", "target", "supplementalAttack", "primaryTargetOnly", "adjacentTargetOnly", "activation", "stacking", "calculation", "inputPolicy", "finalStatsInclusion", "support", "provenance", "scope"]),
-  source: new Set(["kind", "id", "skillId", "traceId", "eidolonRank", "setPieces", "rankId"]),
+  source: new Set(["kind", "id", "skillId", "traceId", "eidolonRank", "setPieces", "rankId", "wearerIds"]),
   value: new Set(["kind", "fixed", "values", "perStack", "reference", "multiplierInputKey", "sharedInput", "multiplierInputLabel", "multiplierWhenTrue", "inputKey", "inputLabel", "inputUnit", "providerStat", "targetStat", "default", "minimum", "inputMaximum", "inputStep", "inputMultipliers", "levelInputKey", "levelInputLabel", "levelDefault", "scaleValues", "addValues", "targetPercentValues", "capPercentValues", "threshold", "step", "perStep", "maximum", "maximumAtEidolon", "thresholds"]),
   inputValidation: new Set(["maximumEidolon", "levelMaximum", "levelMaximumAtEidolon", "minimum", "maximum", "integer", "whenToggle"]),
   target: new Set(["owner", "attackTypes", "excludeSelf", "attackIds", "elements"]),
@@ -62,6 +62,10 @@ function validateModifiers(records) {
     }
     if (typeof modifier.source?.kind !== "string" || typeof modifier.source?.id !== "string" || !modifier.source.id) issues.push(`${at}: source kind/id required`);
     checkEnum(modifier.source?.kind, new Set(["character", "trace", "eidolon", "lightCone", "relic", "ornament", "enemy", "manual"]), `${at}.source.kind`, issues);
+    if (modifier.source?.wearerIds !== undefined) {
+      const ids = modifier.source.wearerIds;
+      if (modifier.source.kind !== "lightCone" || !Array.isArray(ids) || !ids.length || ids.some(id => typeof id !== "string" || !/^\d+$/.test(id)) || new Set(ids).size !== ids.length) issues.push(`${at}.source.wearerIds: expected unique character IDs for a light cone`);
+    }
     checkEnum(modifier.category, allowedCategories, `${at}.category`, issues);
     checkEnum(modifier.stat, allowedStats, `${at}.stat`, issues);
     checkEnum(modifier.unit, allowedUnits, `${at}.unit`, issues);

@@ -115,8 +115,9 @@
       return { selected: false };
     }
     if (source.kind === "lightCone") {
-      if (String(context.lightConeId || "") === id) return { selected: true, tab: "光円錐", sourceName, refinement: number(context.refinement, 1) };
-      const partyCone = (context.partyEquipment || []).find((item) => String(item.lightConeId || "") === id);
+      const eligible = wearer => !source.wearerIds || source.wearerIds.includes(String(wearer));
+      if (String(context.lightConeId || "") === id && eligible(characterId)) return { selected: true, tab: "光円錐", sourceName, refinement: number(context.refinement, 1) };
+      const partyCone = (context.partyEquipment || []).find((item) => String(item.lightConeId || "") === id && eligible(item.characterId));
       return partyCone && PARTY_TARGETS.has(record.target?.owner)
         ? { selected: true, tab: "パーティ", sourceName, providerId: String(partyCone.characterId || ""), refinement: number(partyCone.refinement, 1) }
         : { selected: false };
@@ -314,9 +315,10 @@
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じオーナメントの複数提供者による支援は条件未確定です。" });
       }
-      if (record.source?.kind === "lightCone" && ["23011", "23029", "23032", "21015", "23008", "23047", "23041", "23054", "21050", "22007", "24006", "23016", "23017", "23056", "23058", "23059", "23063", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
-        const count = Number(String(context.lightConeId || "") === String(record.source.id))
-          + (context.partyEquipment || []).filter(item => String(item.lightConeId || "") === String(record.source.id)).length;
+      if (record.source?.kind === "lightCone" && ["23051", "23052", "23043", "21064", "23035", "22006", "23011", "23029", "23032", "21015", "23008", "23047", "23041", "23054", "21050", "22007", "24006", "23016", "23017", "23056", "23058", "23059", "23063", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
+        const eligible = wearer => !record.source.wearerIds || record.source.wearerIds.includes(String(wearer));
+        const count = Number(String(context.lightConeId || "") === String(record.source.id) && eligible(context.characterId))
+          + (context.partyEquipment || []).filter(item => String(item.lightConeId || "") === String(record.source.id) && eligible(item.characterId)).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じ光円錐の複数提供者による支援は条件未確定です。" });
       }
       const inclusion = record.finalStatsInclusion;

@@ -1,0 +1,982 @@
+{
+  "schemaVersion": 1,
+  "description": "固定版10光円錐の戦闘補正15成分。恒常properties/独立精霊完成値の一般再加算をしない。撃破限定行の超撃破適用・召喚物追加Guard・自動状態進行は未受入。",
+  "modifiers": [
+    {
+      "id": "lightCone:23051:guard-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "23051"
+      },
+      "name": "万里の山河を越えて・必殺後の守護が有効",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23051-guard-active",
+        "inputLabel": "装備者の必殺技による守護が攻撃前から有効",
+        "conditionText": "装備者の必殺技による守護が攻撃前から有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23051:guard-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23051-guard-damage-in-final",
+        "inputLabel": "必殺後の守護が有効を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23051.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:23052:blank-taken",
+      "source": {
+        "kind": "lightCone",
+        "id": "23052"
+      },
+      "name": "愛はいま永遠に・空白が有効・敵被ダメージ",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          10,
+          12,
+          14,
+          16,
+          18
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23052-blank-active",
+        "inputLabel": "精霊の味方単体スキルで空白が付与済み",
+        "conditionText": "精霊の味方単体スキルで空白が付与済み",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23052:blank-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23052-blank-taken-in-final",
+        "inputLabel": "空白が有効・敵被ダメージを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23052.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:23052:verse-crit",
+      "source": {
+        "kind": "lightCone",
+        "id": "23052"
+      },
+      "name": "愛はいま永遠に・詩句が有効・味方会心DMG",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          16,
+          19,
+          22,
+          25,
+          28
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23052-verse-active",
+        "inputLabel": "精霊の対敵スキルで詩句が付与済み",
+        "conditionText": "精霊の対敵スキルで詩句が付与済み",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23052:verse-crit",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23052-verse-crit-in-final",
+        "inputLabel": "詩句が有効・味方会心DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23052.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:23052:both-blank",
+      "source": {
+        "kind": "lightCone",
+        "id": "23052"
+      },
+      "name": "愛はいま永遠に・空白・詩句の同時所持・被DMG追加分",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          6,
+          7.8,
+          9.8,
+          12,
+          14.4
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23052-blank-active",
+        "inputLabel": "空白と詩句を同時に所持",
+        "conditionText": "空白と詩句を同時に所持",
+        "default": false,
+        "requiredToggleKey": "lc-23052-verse-active"
+      },
+      "stacking": {
+        "group": "lightCone:23052:both-blank",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23052-both-blank-in-final",
+        "inputLabel": "空白・詩句の同時所持・被DMG追加分を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23052.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:23052:both-verse",
+      "source": {
+        "kind": "lightCone",
+        "id": "23052"
+      },
+      "name": "愛はいま永遠に・空白・詩句の同時所持・会心DMG追加分",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          9.6,
+          12.35,
+          15.4,
+          18.75,
+          22.4
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23052-verse-active",
+        "inputLabel": "空白と詩句を同時に所持",
+        "conditionText": "空白と詩句を同時に所持",
+        "default": false,
+        "requiredToggleKey": "lc-23052-blank-active"
+      },
+      "stacking": {
+        "group": "lightCone:23052:both-verse",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23052-both-verse-in-final",
+        "inputLabel": "空白・詩句の同時所持・会心DMG追加分を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23052.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:23036:brocade-crit",
+      "source": {
+        "kind": "lightCone",
+        "id": "23036"
+      },
+      "name": "光陰を織り黄金と成す・錦を織って・本人会心DMG",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          9,
+          10.5,
+          12,
+          13.5,
+          15
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-23036-brocade-stacks",
+        "inputLabel": "攻撃前に有効な錦を織っての層数",
+        "conditionText": "攻撃前に有効な錦を織っての層数",
+        "minimum": 0,
+        "maximum": 6,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:23036:brocade-crit",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23036-brocade-crit-in-final",
+        "inputLabel": "錦を織って・本人会心DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23036.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 6,
+        "integer": true
+      }
+    },
+    {
+      "id": "lightCone:23036:brocade-basic",
+      "source": {
+        "kind": "lightCone",
+        "id": "23036"
+      },
+      "name": "光陰を織り黄金と成す・錦を織って6層・通常DMG",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          54,
+          63,
+          72,
+          81,
+          90
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "lc-23036-brocade-stacks",
+        "inputLabel": "錦を織っての層数（会心DMGと共有）",
+        "operator": ">=",
+        "threshold": 6,
+        "minimum": 0,
+        "maximum": 6,
+        "default": 0,
+        "conditionText": "錦を織って6層で成立"
+      },
+      "stacking": {
+        "group": "lightCone:23036:brocade-basic",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23036-brocade-basic-in-final",
+        "inputLabel": "錦を織って6層・通常DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23036.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:23043:dazed-defense",
+      "source": {
+        "kind": "lightCone",
+        "id": "23043"
+      },
+      "name": "風に揺蕩う虚言・茫然付与済み・敵防御低下",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "defenseReduction",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          16,
+          18,
+          20,
+          22,
+          24
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23043-dazed-active",
+        "inputLabel": "対象敵に茫然が付与済み",
+        "conditionText": "対象敵に茫然が付与済み",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23043:dazed-defense",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23043-dazed-defense-in-final",
+        "inputLabel": "茫然付与済み・敵防御低下を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23043.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:23053:elation-ignore",
+      "source": {
+        "kind": "lightCone",
+        "id": "23053"
+      },
+      "name": "きらびやかな世界・SP消費で獲得済み・本人愉悦防御無視",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "elation"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-23053-ignore-stacks",
+        "inputLabel": "攻撃前にSP消費で獲得済みの防御無視層数",
+        "conditionText": "攻撃前にSP消費で獲得済みの防御無視層数",
+        "minimum": 0,
+        "maximum": 4,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:23053:elation-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23053-elation-ignore-in-final",
+        "inputLabel": "SP消費で獲得済み・本人愉悦防御無視を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23053.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 4,
+        "integer": true
+      }
+    },
+    {
+      "id": "lightCone:21064:elation-taken",
+      "source": {
+        "kind": "lightCone",
+        "id": "21064"
+      },
+      "name": "タケタケ冒険記・愉悦スキル後・敵の愉悦被DMG",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "elation"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21064-debuff-active",
+        "inputLabel": "装備者の愉悦スキルによる被ダメージ増加が付与済み",
+        "conditionText": "装備者の愉悦スキルによる被ダメージ増加が付与済み",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:21064:elation-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21064-elation-taken-in-final",
+        "inputLabel": "愉悦スキル後・敵の愉悦被DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21064.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:23050:self-break",
+      "source": {
+        "kind": "lightCone",
+        "id": "23050"
+      },
+      "name": "彼女の炎を忘れずに・入場時・本人撃破DMG",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "breakDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          32,
+          42,
+          52,
+          62,
+          72
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "break"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "戦闘開始後の装備者本人の撃破ダメージ"
+      },
+      "stacking": {
+        "group": "lightCone:23050:self-break",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "breakDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23050-self-break-in-final",
+        "inputLabel": "入場時・本人撃破DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23050.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:23035:ignition-break",
+      "source": {
+        "kind": "lightCone",
+        "id": "23035"
+      },
+      "name": "長途はやがて帰途へと続く・着火付与済み・撃破被DMG",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          18,
+          21,
+          24,
+          27,
+          30
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "break"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-23035-ignition-stacks",
+        "inputLabel": "対象敵に付与済みの着火層数",
+        "conditionText": "対象敵に付与済みの着火層数",
+        "minimum": 0,
+        "maximum": 2,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:23035:ignition-break",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23035-ignition-break-in-final",
+        "inputLabel": "着火付与済み・撃破被DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23035.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 2,
+        "integer": true
+      }
+    },
+    {
+      "id": "lightCone:23025:rout-break",
+      "source": {
+        "kind": "lightCone",
+        "id": "23025"
+      },
+      "name": "夢が帰り着く場所・敗走付与済み・装備者の撃破被DMG",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          28,
+          32,
+          36,
+          40
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "break"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23025-rout-active",
+        "inputLabel": "対象敵に敗走が付与済み",
+        "conditionText": "対象敵に敗走が付与済み",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23025:rout-break",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23025-rout-break-in-final",
+        "inputLabel": "敗走付与済み・装備者の撃破被DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23025.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:22006:trailblazer-party",
+      "source": {
+        "kind": "lightCone",
+        "id": "22006",
+        "wearerIds": [
+          "8007",
+          "8008"
+        ]
+      },
+      "name": "ピンク色の明日へ・記憶開拓者が装備・味方DMG",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "記憶開拓者8007/8008が装備している"
+      },
+      "stacking": {
+        "group": "lightCone:22006:trailblazer-party",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-22006-trailblazer-party-in-final",
+        "inputLabel": "記憶開拓者が装備・味方DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:22006.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    },
+    {
+      "id": "lightCone:22006:trailblazer-basic",
+      "source": {
+        "kind": "lightCone",
+        "id": "22006",
+        "wearerIds": [
+          "8007",
+          "8008"
+        ]
+      },
+      "name": "ピンク色の明日へ・記憶開拓者の指定強化通常・本人成分DMG",
+      "description": "固定版S1～S5の指定成分。恒常propertiesは装備込み最終入力に含めて再加算しません。精霊の独立最終値への一般継承、行動順・付与確率・持続更新、同一光円錐の複数提供者合成は対象外。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          60,
+          70,
+          80,
+          90,
+          100
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "enhancedNormal"
+        ],
+        "elements": [],
+        "attackIds": [
+          "800708:caster",
+          "800808:caster"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "記憶開拓者の明日を一緒に紡ごう・本人攻撃成分"
+      },
+      "stacking": {
+        "group": "lightCone:22006:trailblazer-basic",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-22006-trailblazer-basic-in-final",
+        "inputLabel": "記憶開拓者の指定強化通常・本人成分DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版全S1～S5の限定成分を既存共通評価と独立式で検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:22006.desc/params (S1～S5)",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound45.test.cjs",
+        "notes": "固定propertiesと今回の戦闘補正を分離。追加成分の対応であり全効果完成を意味しない。"
+      }
+    }
+  ]
+}

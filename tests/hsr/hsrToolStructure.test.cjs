@@ -456,6 +456,28 @@ test('UID reconstruction independently matches two elemental profiles and leaves
     const unknown=structuredClone(first);unknown.avatarId='unknown';assert.equal(map(unknown).stats.atk,undefined);
 });
 
+test('HSR profile mapper includes matching light-cone BaseSpeed before speed percent and flat bonuses', () => {
+    const window = {}; vm.runInNewContext(read('games/js/hsrProfileMapper.js'), { window });
+    const catalog = {
+        characters: [{ id: '1407', path: 'Memory', pathName: '記憶', base: { hp: 1000, atk: 500, def: 400, speed: 107 }, skills: [], traces: [] }],
+        lightCones: [{ id: '23036', path: 'Memory', effect: { propertiesByRank: [
+            [{ type: 'BaseSpeed', value: 12 }],
+            [], [], [],
+            [{ type: 'BaseSpeed', value: 20 }]
+        ] } }],
+        relicSets: []
+    };
+    const profileForRank = (rank) => window.HsrProfileMapper.mapProfileResponse({ detailInfo: { avatarDetailList: [{
+        avatarId: '1407', level: 80, equipment: { tid: '23036', level: 80, rank, _flat: { props: [] } },
+        relicList: [{ _flat: { props: [{ type: 'SpeedAddedRatio', value: 0.1 }, { type: 'SpeedDelta', value: 7 }] } }]
+    }] } }, catalog).characters[0];
+
+    assert.ok(Math.abs(profileForRank(1).stats.speed - 137.9) < 1e-9); // (107 + 12) * 1.10 + 7
+    assert.ok(Math.abs(profileForRank(5).stats.speed - 146.7) < 1e-9); // (107 + 20) * 1.10 + 7
+    catalog.characters[0].path = 'Knight';
+    assert.ok(Math.abs(profileForRank(1).stats.speed - 124.7) < 1e-9); // 107 * 1.10 + 7; mismatched cone effect excluded
+});
+
 test("HSR eidolon scope feedback stays outside the non-wrapping equipment metadata", () => {
     const html = read("games/hsr/index.html"), css = read("games/css/hsr-tool-ui.css");
     const characterCard = html.slice(html.indexOf('id="hsrCharacterCard"'), html.indexOf('id="hsrConeCard"'));
