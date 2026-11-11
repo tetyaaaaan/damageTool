@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "description": "固定版21030の必殺基礎DEF項と21029/20018の独立付加。限定条件の成分のみを受入。",
+  "modifiers": [
+    {
+      "id": "lightCone:21030:ultimate-base-defense",
+      "source": {
+        "kind": "lightCone",
+        "id": "21030"
+      },
+      "name": "これがウチだよ！・必殺基礎へのDEF加算",
+      "description": "装備者の最初の必殺ヒットへDEF60/75/90/105/120%を基礎加算。現在は三月なのか/符玄/アベンチュリン/丹恒・騰荒/存護開拓者男女の本人必殺1対象分に限定。途中丸めを追加せずDEF×係数を計算し、倍率・与DMG・会心・DEF/RES係数より前の基礎項へ1回加える。恒常DEF16～32%は装備込み最終DEFへ算入し再加算しない。恒常DEF算入済みという理由ではこの別の必殺項を除外しない。複数敵・ヒット途中の参照DEF/敵状態変化・E1以上は未受入。",
+      "category": "baseDamageAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          60,
+          75,
+          90,
+          105,
+          120
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": [],
+        "attackIds": [
+          "100103",
+          "120803",
+          "130403",
+          "141403",
+          "800303",
+          "800403"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "Lv80/E0・必殺Lv1～10・敵1体・全段の状態一定。敵ごとに基礎DEF項を1回だけ加算"
+      },
+      "stacking": {
+        "group": "lightCone:21030:ultimate-base-defense",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21030-ultimate-base-defense-in-final",
+        "inputLabel": "この成分を攻撃側へ別算入済みとして除外"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版rank係数/同版実行定義と独立式により、明示した限定条件の成分を検証。全装備/全状態完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21030.params[0..4][1]",
+        "verifiedAt": "2026-11-12",
+        "verification": "tests/hsr/hsrEquipmentRound47.test.cjs",
+        "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/EquipmemtAbility.json (blob 9f9d50947e473d8f1e537078054a0b1570560632) Ability21030",
+        "precisionNote": "同版ModifyDamageData.AttackData_DamageValueはSkillEquip[1]とhit時DEFの乗算式AQABAQQR。同じ式を通常ATK割合×層数にも確認し、floor/round命令は追加しない。ゲーム実行時内部量子化の実測ではない。"
+      },
+      "stat": "def",
+      "inputValidation": {
+        "maximumEidolon": 0
+      }
+    },
+    {
+      "id": "lightCone:21029:post-basic-skill-extra",
+      "source": {
+        "kind": "lightCone",
+        "id": "21029"
+      },
+      "name": "またお会いしましょう・通常/戦技後の付加1回",
+      "description": "装備者自身のATK48/60/72/84/96%・装備者の属性を使う独立付加1回。敵1体に限定しランダム分配/連鎖/行動履歴/元攻撃との自動合算は扱わない。通常/スキル/追撃専用DMGは付加へ継承せず、汎用DMG・会心・DEF/RES・被DMGを適用する。",
+      "category": "extraDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          48,
+          60,
+          72,
+          84,
+          96
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "enemy.count",
+        "operator": "==",
+        "threshold": 1,
+        "conditionText": "敵1体への通常攻撃または戦闘スキル後の付加1回を比較"
+      },
+      "stacking": {
+        "group": "lightCone:21029:post-basic-skill-extra",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "extraDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21029-post-basic-skill-extra-in-final",
+        "inputLabel": "この成分を攻撃側へ別算入済みとして除外"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版rank係数/同版実行定義と独立式により、明示した限定条件の成分を検証。全装備/全状態完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21029.params[0..4][0]",
+        "verifiedAt": "2026-11-12",
+        "verification": "tests/hsr/hsrEquipmentRound47.test.cjs",
+        "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/EquipmemtAbility.json (blob 9f9d50947e473d8f1e537078054a0b1570560632) Ability21029",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/tree/ac5e9d6c96ba350c32d658dc04238b14874954cd",
+        "precisionNote": "IsIndirect/PursuedとCaster属性は同版実行定義を確認。会心とAdditional分類は同型既存計算・Fribbels標準AdditionalのCR/CD参照を併せたモデル照合。ネイティブに明示critフラグがあるとの主張ではない。"
+      },
+      "supplementalAttack": {
+        "name": "またお会いしましょう・付加1回（敵1体）",
+        "element": "wearer",
+        "type": "additional",
+        "scalingStat": "atk",
+        "target": "single",
+        "canCrit": true,
+        "statReference": "activeCharacter",
+        "triggerActor": "activeCharacter"
+      }
+    },
+    {
+      "id": "lightCone:20018:skill-ready-extra",
+      "source": {
+        "kind": "lightCone",
+        "id": "20018"
+      },
+      "name": "匿影・スキル後の次通常への付加1回",
+      "description": "指定したスキル後状態の次の通常に属するATK60/75/90/105/120%の独立付加1回。本人の属性/ATK/会心を参照する。通常/スキル/追撃専用DMGは継承しない。使用済みフラグの自動更新・消費、複数敵へのランダム配分、元通常との自動合算は対象外。",
+      "category": "extraDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          60,
+          75,
+          90,
+          105,
+          120
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggleThreshold",
+        "inputKey": "lc-20018-next-basic-ready",
+        "inputLabel": "スキル後、次の通常攻撃の付加が有効",
+        "default": false,
+        "reference": "enemy.count",
+        "operator": "==",
+        "threshold": 1,
+        "conditionText": "スキル後の次通常に付加を与える状態・敵1体"
+      },
+      "stacking": {
+        "group": "lightCone:20018:skill-ready-extra",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "extraDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20018-skill-ready-extra-in-final",
+        "inputLabel": "この成分を攻撃側へ別算入済みとして除外"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版rank係数/同版実行定義と独立式により、明示した限定条件の成分を検証。全装備/全状態完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20018.params[0..4][0]",
+        "verifiedAt": "2026-11-12",
+        "verification": "tests/hsr/hsrEquipmentRound47.test.cjs",
+        "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/EquipmemtAbility.json (blob 9f9d50947e473d8f1e537078054a0b1570560632) Ability20018",
+        "referenceUrl": "https://github.com/fribbels/hsr-optimizer/tree/ac5e9d6c96ba350c32d658dc04238b14874954cd",
+        "precisionNote": "IsIndirect/PursuedとCaster属性は同版実行定義を確認。会心とAdditional分類は同型既存計算・Fribbels標準AdditionalのCR/CD参照を併せたモデル照合。ネイティブに明示critフラグがあるとの主張ではない。"
+      },
+      "supplementalAttack": {
+        "name": "匿影・スキル後の次通常付加1回",
+        "element": "wearer",
+        "type": "additional",
+        "scalingStat": "atk",
+        "target": "single",
+        "canCrit": true,
+        "statReference": "activeCharacter",
+        "triggerActor": "activeCharacter"
+      }
+    }
+  ]
+}

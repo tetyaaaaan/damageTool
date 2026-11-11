@@ -1,5 +1,48 @@
 # HSR 最終完成までの残作業測定
 
+<a id="hsr-round47-equipment"></a>
+## 第47回：必殺基礎DEF項・装備者属性の独立付加（2026-11-12）
+
+- 開始HEAD `3f696409092ed2a0ad92bdfbb117b3e8516d6887`、main。既存の複数参照基礎項・補正候補・独立付加・保存契約を再利用。追加は3装備の限定成分3効果群/Modifier3行（基礎加算1、独立付加2）。攻撃登録・参考値昇格・E0新規認定は0。各装備の全効果/全状態完成という意味ではない。
+- **一次根拠**：[固定StarRailRes 4.6.0 JP](https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json)（blob `ff0d30f700fd7f1a871726bc118a34a93b08062a`）と[同版実行定義](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Equip/EquipmemtAbility.json)（blob `9f9d50947e473d8f1e537078054a0b1570560632`）のAbility21030/21029/20018を照合。[追加定義](../games/hsr/data/calc/modifiers-equipment-round47.json)・[独立検証](../tests/hsr/hsrEquipmentRound47.test.cjs)・[製品入力検証](../tests/hsr/hsrToolInputs.test.cjs)が受入根拠。
+
+| ID・名称 | S1～S5の計算成分 | 今回の受入範囲 |
+|---|---|---|
+| 21030 これがウチだよ！ | DEF60/75/90/105/120%を必殺基礎へ加算 | 三月なのか/符玄/アベンチュリン/丹恒・騰荒/存護開拓者男女の6必殺。Lv80/E0・U1～10・敵1体・全段で参照値/敵状態一定。敵ごと最初のヒットに1回。恒常DEF16～32%は最終DEFへ既算入 |
+| 21029 またお会いしましょう | 装備者ATK48/60/72/84/96%の独立付加1回 | 通常/Skill後を想定する敵1体の結果。装備・敵数から自動候補化し、表示だけの発動トグルなし。元攻撃への自動合算・ランダム分配はしない |
+| 20018 匿影 | 装備者ATK60/75/90/105/120%の独立付加1回 | スキル後の次通常が付加を持つ状態を指定、敵1体。消費/再装填の自動追跡なし |
+
+- **21030の順序/精度**：OnBeforeSkillUse Ultra→OnBeforeHitで現DEFを読み、`AttackData_DamageValue`へ加算、敵の既発動マーカーで1回に制限し、終了時解除する。式`AQABAQQR`は係数×DEFの2項乗算で、同式の係数×層数の用例とも照合した。独立式は `（本体基礎 + 補正後DEF×S係数）×共通DMG/DEF/RES/被DMG/会心係数`。独自のfloor/roundやDEF100刻みの近似を挿入しない。小数DEF・非対称ステータスで検証し、丸めは従来の表示時のみ。これはゲーム内部量子化の実測を意味しない。全段の状態変化があるケース、複数敵、E1以上を一般対応しない。DEF支援を本体ATK/HP参照の必殺でも参照し、欠損DEFは該当必殺だけ停止する。恒常DEF算入と、この別の攻撃基礎項の算入済み除外を混同しない。
+- **独立付加の分類**：実行定義はCaster属性を読む `ReadTargetType`、`IsIndirect:true`、`AttackType:Pursued`。既定フィールドのPhysicalを固定物理属性と解釈しない。所有者のATK/属性/CR/CDを使い、汎用DMG・DEF/RES・被DMGを通常の付加式で評価する。通常/Skill/追撃専用補正は継承しない。会心/Additional分類は既存同型とFribbelsの標準Additional実装によるモデル照合を併用し、ネイティブに明示critフラグを確認したとの主張ではない。未確定属性は当該成分だけ停止。元攻撃とは別行で、攻撃登録総数に含めない。
+- **外部参考の限界**：[Fribbels固定参照版](https://github.com/fribbels/hsr-optimizer/tree/ac5e9d6c96ba350c32d658dc04238b14874954cd)のHiddenShadow/WeWillMeetAgain、hitDefinitionBuilder、damageCalculatorで所有者属性・Additional分類・会心・共通係数を確認。MIT LICENSEを確認済み、外部コード取り込み/依存追加なし。ThisIsMeはDEF必殺項がTODOのため21030の外部実行値根拠には使わない。固定版4.6.0の数値と4.7更新を含む参考実装を区別する。外部計算ツール実行値との直接比較・実ゲーム測定は未実施。
+
+| 集計単位 | 開始 | 終了 |
+|---|---:|---:|
+| 本番Modifier登録 / 計算行 | 1041 / 614 | 1044 / 617 |
+| 光円錐 構造化種類 / 計算行あり種類 / 未定義 | 137 / 136 / 33 | 140 / 139 / 30 |
+| 遺物 構造化種類 / 計算行あり種類 | 29 / 29 | 同左（全34） |
+| オーナメント 構造化種類 / 計算行あり種類 | 28 / 25 | 同左（全28） |
+
+原登録静的走査は1042/615→1045/618で、既存同一ID置換1行が本番との差。限定E0は94/98、攻撃583/計算562/参考4/表示専用17のまま。種類数は1計算行以上の有無であり、装備全効果完成率ではない。
+
+**実用上の残件（装備登録率と区別）**
+
+| 分類 | 今回確認した範囲・次の判断 |
+|---|---|
+| 主要攻撃へ影響する未接続成分 | 23013の治癒記録由来付加、21057の独立精霊CD、21039のDEF→DMG、既存21041/オーナメント303のEHR→ATK。全装備の効果単位母数は未集計で、未定義種類数から推定しない |
+| 部分対応 | 今回21030の6攻撃/状態制限、21029/20018の敵1体。既存23042のHP消費記録付加、23049の精霊DEF無視/継承、23043盗難の併存、23025/23035/23050の超撃破適用等は保留を維持 |
+| 既存経路で反映済み | 恒常propertiesはUID再構成と手動の装備込み最終入力で扱う。今回残る恒常/非与DMG中心27光円錐について、直接加算すべき恒常statの新たな欠落は確認されなかった。装備選択だけで手動最終値を書き換えない |
+| 直接与DMG以外 | 遺物101の治癒/SP、103のバリア（DEF15%は最終値）、106の軽減/HP/EP、110の行動順（風DMG10%は最終値）、111のEP（BE合計32%は最終値）。オーナメント308のEP/行動順、320の治癒（SPD6%は最終値）。ダミー計算行不要 |
+| 根拠/責務不足 | 23013は同版で治癒記録×36～60%・所有者属性・1ターン1回・`FinalFormulaType:ByPureDamage`まで確認。式名だけから会心/DEF/RES省略を推測しない。Fribbelsも当該付加の実計算なし。21057は本人CDと独立精霊完成CDの算入境界、21039は不透明な層数式の丸め、21041/303は最終入力との変換責務が未解決 |
+| 未認定4人 | ギルガメッシュ1509の150909根拠/8連携履歴、銀狼LV.999 1506の150608変換とランダムSSS、ダリア1321の未撃破削靭変換/味方所有成分/A6、雪衣1214の未撃破削靭→DMG/A4順序。今回は反復調査せず、既存限定計算を維持 |
+
+- **独立代表値/実画面**：Lv80、敵Lv80/RES20%/靭性あり、他汎用補正0。アベンチュリンU10・DEF2217/CR37/CD129、事前Unnerve15%、21030 S1は基礎 `2217×(2.7+0.6)=7316.1`、NC2633.796/会心6426.46224/EV4037.0825088。ヴェルトATK3000/CR37/CD129/虚数DMG0の21029 S1付加はNC518.4/会心1187.136/EV765.83232。20018 S1は648/1483.92/957.2904、S5は1296/2967.84/1914.5808。通常本体や天賦とは別行に表示。S5と発動状態の保存再読込後も同値、表示は整数へ丸め、付加行のLvを光円錐Sランク表記へ修正。既存UI/入力を再利用し、幅別の再監査は不要と判断した。
+- **統合**：6必殺×全U1～10×S1～5、7属性×付加S1～5を独立式で確認。製品入力でS1/S5、通常専用補正の非継承、装備A→B→A、OFF/解除、算入済み、DEF支援、DEF欠損の局所停止、保存復元を確認。UIDモックの再構成DEFに恒常DEFを1回含めた後、別の必殺基礎項を加算する。実UID通信は未実施。
+- **最終検証**：最終製品コードでHSR全1164/1164成功（128.40秒、全体実行1回、新規7テスト）。事前の独立/登録/共通参照9件と製品入力/既存燃焼4件も成功（全体と単純合算しない）。全体実行後の製品コード変更なし（文書とテスト末尾空白のみ整理）。Modifier静的問題0、攻撃38指摘は開始時と内容・順序が完全一致。完成管理表は既存生成器でlightCone行数/フィンガープリントのみ更新し、--check成功。変更文書のローカル参照欠損0、git diff --check成功。原神JSONのSHA256は開始時と同一、保護ディレクトリは変更・ステージングしない。push/デプロイなし。
+- **変更16ファイル**：文書6（[本台帳](HSR_COMPLETION_WORKLOAD.md)、[完成管理表](HSR_CHARACTER_COMPLETION.md)、[仕様03](hsr/specs/03_CALCULATION_SPEC.md)、[仕様04](hsr/specs/04_MODIFIER_SPEC.md)、[仕様06](hsr/specs/06_CHARACTER_EQUIPMENT_SPEC.md)、[calc README](../games/hsr/data/calc/README.md)）、データ3（[manifest](../games/hsr/data/calc/data-files.json)、[schema](../games/hsr/data/calc/modifier-contract.schema.json)、[追加定義](../games/hsr/data/calc/modifiers-equipment-round47.json)）、製品3（[App](../games/js/hsrApp.js)、[Engine](../games/js/hsrCalcEngine.js)、[Runtime](../games/js/hsrModifierRuntime.js)）、[登録検証器](../scripts/validateHsrModifiers.cjs)、テスト3（[Round47](../tests/hsr/hsrEquipmentRound47.test.cjs)、[入力統合](../tests/hsr/hsrToolInputs.test.cjs)、[参照者](../tests/hsr/hsrBatch4ReferenceRoles.test.cjs)）。
+- **第48回の具体作業**：23013のByPureDamageが使用する最終係数を同版の式定義または版付き実測で確定し、記録治癒量を独立入力として既存付加へ接続する。21057は独立精霊の完成CDに既算入を明示できる限定範囲を優先。21039は層数opcodeの丸め根拠が出た場合のみ、21041/303は最終入力との差分責務を確定できた場合のみ進める。未認定4人・姫子他使用者の反復調査や全装備総当たりは行わない。
+
+
 
 
 <a id="hsr-round46-equipment"></a>

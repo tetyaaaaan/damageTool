@@ -1225,7 +1225,7 @@
     if (["break", "superBreak"].includes(attack.type)) return ["breakEffect", "breakDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage", ...(attack.type === "superBreak" ? ["breakEfficiency", "superBreakDamage"] : [])].includes(item.category);
     if ((attack.canCrit === false || attack.type === "dot") && ["critRate", "critRateOverride", "critDamage", "critTakenDamage"].includes(item.category)) return false;
     if (["statFlat", "statPercent"].includes(item.category) || item.requiredBaseStat) {
-      const stats = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{stat: attack.scalingStat || "atk"}]), ...(attack.adjacentScalingTerms || [])].map(term => term.stat);
+      const stats = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{stat: attack.scalingStat || "atk"}]), ...(attack.adjacentScalingTerms || []), ...(attack.equipmentBaseStats || []).map(stat=>({stat}))].map(term => term.stat);
       if (attack.damageFormula === "enemyHpCappedByAtk") stats.push("atk");
       return stats.includes(item.stat || item.requiredBaseStat);
     }
@@ -1236,10 +1236,13 @@
     if(attack.himekoOtherUser)return himekoReferenceModifiers(attack).concat(modifiers({...attack,himekoOtherUser:false}).filter(m=>["enemySingle","enemyAll"].includes(m.target?.owner)));
     const otherNihility=state.characterId==='1507' && state.party.some(m=>String(m.characterId)!==state.characterId && ['Warlock','Nihility'].includes(find('characters',m.characterId)?.path));
     const inputs = attack.comparisonModifierInputs || state.characterId==='1507' ? { ...state.modifierInputs, ...attack.comparisonModifierInputs,...(state.characterId==='1507'?{'mortenax-no-other-nihility':!otherNihility,'mortenax-other-nihility':otherNihility}:{}) } : state.modifierInputs;
-    return allConditions(inputs, attack).filter((item) => !item.displayOnly).map((original) => {
+    const candidates = allConditions(inputs, attack).filter((item) => !item.displayOnly);
+    const equipmentBaseStats = candidates.filter(item => item.category === "baseDamageAddition" && item.enabled && item.applicable && window.HsrModifierRuntime.applicableToAttack(item,attack)).map(item=>item.stat);
+    const scopedAttack = equipmentBaseStats.length ? {...attack,equipmentBaseStats} : attack;
+    return candidates.map((original) => {
       const item=attack.marchEnhancedAdditional && original.id === "trace:1224:122404:enhanced-damage" ? {...original,target:{...original.target,attackIds:["122402"],attackTypes:["additional"],elements:[]}} : original;
       const separateBenediction=item.id==="trace:1202:120202:benediction-atk" && state.characterId==="1202" && state.party.some(m=>String(m.characterId)===String(state.modifierInputs["party-reference-owner:1202"]));
-      const attackApplies = !separateBenediction && modifierTargetsCalculation(item, attack) && (!attack.completedReferenceSnapshot || ['enemySingle','enemyAll'].includes(item.target?.owner) || ['1140706','1140712'].includes(attack.id)&&item.id==='trace:1415:1141517:castorice-deathragon-talent-multiplier'&&item.category==='multiplierAddition');
+      const attackApplies = !separateBenediction && modifierTargetsCalculation(item, scopedAttack) && (!attack.completedReferenceSnapshot || ['enemySingle','enemyAll'].includes(item.target?.owner) || ['1140706','1140712'].includes(attack.id)&&item.id==='trace:1415:1141517:castorice-deathragon-talent-multiplier'&&item.category==='multiplierAddition');
       const supplementalApplies = !item.supplementalAttack || item.id === attack.sourceModifierId;
       const primaryTargetApplies = !item.primaryTargetOnly || attack.target !== "adjacent";
       const adjacentTargetApplies = !item.adjacentTargetOnly || attack.target === "adjacent";
@@ -1607,7 +1610,7 @@
         multiplier: item.value,
         hitCount: 1,
         traceLevel: level,
-        traceLevelLabel: source.skillId ? `Lv${level}` : ""
+        traceLevelLabel: source.kind === "lightCone" ? `光円錐S${state.coneRank}` : source.skillId ? `Lv${level}` : ""
       };
     });
   }
@@ -1950,12 +1953,13 @@
   function modifierInputIssues(attack, baseStats) {
     return modifiers(attack).filter(item => item.enabled && item.matchesAttack).flatMap(item => {
       const issues = [...(item.inputWarnings || [])];
+      if (item.category === "baseDamageAddition" && !(Number.isFinite(state.stats[item.stat]) && state.stats[item.stat] > 0)) issues.push("必殺基礎加算に必要な最終防御力を入力してください。");
       if (["hp", "atk", "def"].includes(item.valueInput?.providerStat) && !(Number.isFinite(item.valueInput.value) && item.valueInput.value > 0)) issues.push(`${item.valueInput.label}に、発動者の最終値（0より大きい数値）を入力してください。`);
       const baseStat = item.category === "statPercent" ? item.stat : item.requiredBaseStat;
       if (baseStat && !(Number.isFinite(baseStats[baseStat]) && baseStats[baseStat] > 0)) issues.push(`必要な基礎${{hp:"HP",atk:"攻撃力",def:"防御力",speed:"速度"}[baseStat] || baseStat}を取得できません。キャラ・光円錐のLv80基礎値が必要です。この補正を外すか、レベル・装備を確認してください。`);
       return [...new Set(issues)].map(message => {
         modifierIssueIds.add(item.id);
-        const target = "modifier:" + item.id;
+        const target = item.category === "baseDamageAddition" ? "hsrStat-" + item.stat : "modifier:" + item.id;
         modifierIssueLinks.set(target, { item, message });
         return { message: `${item.source}・${item.name}：${message}`, target };
       });

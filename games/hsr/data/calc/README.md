@@ -25,3 +25,5 @@ node --test tests/hsr/*.test.cjs
 - `modifiers-equipment-round45.json`: 固定版光円錐の限定戦闘成分。全効果完成ではなく、対象/未対応と根拠は[第45回台帳](../../../../docs/HSR_COMPLETION_WORKLOAD.md#hsr-round45-equipment)、S1～S5の独立式は[対応テスト](../../../../tests/hsr/hsrEquipmentRound45.test.cjs)を参照。
 
 - `modifiers-equipment-round46.json`: 所持爆笑ネタ/受益者HP・層数・戦闘状態・装備由来DEF燃焼の限定成分。恒常propertiesを再加算しない。[受入/保留](../../../../docs/HSR_COMPLETION_WORKLOAD.md#hsr-round46-equipment)、[独立検証](../../../../tests/hsr/hsrEquipmentRound46.test.cjs)を参照。
+
+- `modifiers-equipment-round47.json`: 21030の必殺基礎DEF項と21029/20018の装備者属性による独立付加。受入の6必殺/敵1体/事前状態・精度根拠は[第47回台帳](../../../../docs/HSR_COMPLETION_WORKLOAD.md#hsr-round47-equipment)、[独立検証](../../../../tests/hsr/hsrEquipmentRound47.test.cjs)を参照。恒常DEFと攻撃基礎項を二重算入しない。

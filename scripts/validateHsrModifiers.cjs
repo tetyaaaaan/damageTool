@@ -22,7 +22,7 @@ const fieldSets = {
   support: new Set(["status", "verified", "reason"]),
   provenance: new Set(["sourceName", "sourceUrl", "sourceFile", "gameVersion", "verifiedAt", "notes", "sourceCommit", "scope", "verification", "referenceUrl", "formulaSource", "mechanicsSource", "precisionNote", "integrationNote", "toughnessNote"])
 };
-const allowedCategories = new Set(["statFlat", "statPercent", "critRate", "critRateOverride", "critDamage", "damageBonus", "multiplierAddition", "breakEffect", "breakEfficiency", "defenseReduction", "defenseIgnore", "resistancePenetration", "resistanceReduction", "takenDamage", "progressiveTakenDamage", "critTakenDamage", "independentMultiplier", "toughnessDamage", "extraDamage", "dotDamage", "superBreakDamage", "elation", "attackState", "breakDamage"]);
+const allowedCategories = new Set(["statFlat", "statPercent", "critRate", "critRateOverride", "critDamage", "damageBonus", "baseDamageAddition", "multiplierAddition", "breakEffect", "breakEfficiency", "defenseReduction", "defenseIgnore", "resistancePenetration", "resistanceReduction", "takenDamage", "progressiveTakenDamage", "critTakenDamage", "independentMultiplier", "toughnessDamage", "extraDamage", "dotDamage", "superBreakDamage", "elation", "attackState", "breakDamage"]);
 const allowedStats = new Set(["hp", "atk", "def", "speed", "critRate", "critDamage", "effectHitRate", "effectRes", "breakEffect", "elation", "energy", "energyRegen"]);
 const allowedUnits = new Set(["flat", "percent", "ratio", "toughnessPoint", "boolean", "count", "turn", "stack"]);
 const allowedAttackTypes = new Set(["all", "normal", "enhancedNormal", "skill", "enhancedSkill", "ultimate", "talent", "followUp", "additional", "dot", "break", "superBreak", "memospriteSkill", "memospriteTalent", "elation", "technique"]);
@@ -98,10 +98,11 @@ function validateModifiers(records) {
       if (inclusion.legacyToggleKey !== undefined && (typeof inclusion.legacyToggleKey !== "string" || !inclusion.legacyToggleKey)) issues.push(`${at}.finalStatsInclusion.legacyToggleKey: expected non-empty text`);
       if (modifier.inputPolicy === "includedInFinalStats") issues.push(`${at}: finalStatsInclusion cannot combine with includedInFinalStats policy`);
     }
+    if (modifier.category === "baseDamageAddition" && (modifier.source?.kind !== "lightCone" || modifier.stat !== "def" || modifier.value?.kind !== "byRefinement" || modifier.target?.owner !== "self" || modifier.activation?.mode !== "always" || modifier.target.attackTypes?.length !== 1 || modifier.target.attackTypes[0] !== "ultimate" || !modifier.target.attackIds?.length || modifier.target.attackIds.some(id=>!["100103","120803","130403","141403","800303","800403"].includes(id)))) issues.push(`${at}: baseDamageAddition requires the accepted self DEF Ultimate scope`);
     if (modifier.supplementalAttack) {
       for (const key of ["name", "element", "type", "scalingStat", "canCrit"]) if (modifier.supplementalAttack[key] === undefined) issues.push(`${at}: supplementalAttack missing ${key}`);
       checkEnum(modifier.supplementalAttack.statReference, new Set(["activeCharacter", "selectedParty"]), `${at}.supplementalAttack.statReference`, issues);
-      checkEnum(modifier.supplementalAttack.element, allowedElements, `${at}.supplementalAttack.element`, issues);
+      checkEnum(modifier.supplementalAttack.element, new Set([...allowedElements,"wearer"]), `${at}.supplementalAttack.element`, issues);
       checkEnum(modifier.supplementalAttack.type, new Set(["additional", "followUp", "dot"]), `${at}.supplementalAttack.type`, issues);
       checkEnum(modifier.supplementalAttack.scalingStat, new Set(["hp", "atk", "def"]), `${at}.supplementalAttack.scalingStat`, issues);
       checkEnum(modifier.supplementalAttack.target, new Set(["single", "blast", "all", "bounce"]), `${at}.supplementalAttack.target`, issues);

@@ -317,3 +317,9 @@ LC23011はHP減少後の有効支援を任意指定。LC23029の甲卸/窮寇は
 `party.punchline` は既存hsrPunchlineの所持数を参照する。非負整数かつ既存入力範囲内であることを検証し、未入力/不正ならその閾値補正だけ条件未確定とする。爆笑の褒美、攻撃固有の固定爆笑ネタ、所持数を相互に代用しない。20024のCDはこの値>=10で自動判定する。
 
 光円錐由来の `supplementalAttack` では、装備IDとステータス所有者IDを分離し、装備者本人の参照値を使う。`statReference` の受付は既存実装の `activeCharacter` / `selectedParty` に限定し、未知値は登録検証で拒否する。成分は元攻撃へ自動合算しない。21016は敵1体への付与済み燃焼自然DoT1回、DEF参照/炎属性/非会心。異属性の最終DMGと敵耐性が不足すると、その成分だけ停止する。[第46回受入](../../HSR_COMPLETION_WORKLOAD.md#hsr-round46-equipment)を参照。
+
+### 装備基礎項・装備者属性の付加（第47回）
+
+LC21030の `category:baseDamageAddition` はself/def/byRefinement/always/ultimateと確認済み6attackIdsに限定する。登録検証で他の組合せを拒否する。演算はcategoryによる限定実装であり、calculation.stage/operationから汎用演算を生成する変更ではない。既存finalStatsInclusionは「別の攻撃基礎項を算入済み」の除外指定に使い、恒常DEF割合の算入指定には使わない。
+
+`supplementalAttack.element:"wearer"` は候補生成時に現在の装備者属性へ解決する。実際の攻撃/対象属性は従来の7属性のみ。未知属性なら当該付加を停止し、他所有者の属性/最終値で補完しない。21029/20018はactiveCharacter参照の会心可能なadditional1回で、通常/Skill/追撃専用補正を継承しない。元攻撃へ自動合算しない。21029は敵1体を自動判定、20018はスキル後の次通常準備状態を既存toggleThresholdで指定する。履歴更新は行わない。根拠と限定範囲は[台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round47-equipment)、[定義](../../../games/hsr/data/calc/modifiers-equipment-round47.json)を参照。

@@ -607,9 +607,15 @@ function calculateFanning(input) {
             }
         }
         const multiplierAddition = nativeMultiplierAddition + applied.filter((item) => item.category === "multiplierAddition").reduce((sum, item) => sum + item.value, 0) * number(attack.multiplierAdditionScale, 1);
+        const baseAdditions = applied.filter(item => item.category === "baseDamageAddition");
+        if (baseAdditions.length && (!['100103','120803','130403','141403','800303','800403'].includes(attack.id) || attack.type !== "ultimate" || character.level !== 80 || number(character.eidolon) !== 0 || enemy.count !== 1 || number(attack.hitCount,1) !== 1 || !Number.isInteger(attack.traceLevel) || attack.traceLevel < 1 || attack.traceLevel > 10 || baseAdditions.some(item=>item.stat !== "def") || applied.some(item=>item.category === "progressiveTakenDamage"))) return {supported:false,reason:"装備の必殺基礎加算は、確認済みのLv80/E0・必殺Lv1～10・敵1体・全段の状態一定に限定しています。"};
+        if (baseAdditions.length && !(Number.isFinite(stats.def) && stats.def > 0)) return {supported:false,reason:"装備の必殺基礎加算に必要な最終DEFを入力してください。"};
         const scalingTerms = Array.isArray(attack.scalingTerms) && attack.scalingTerms.length
             ? attack.scalingTerms.map((term) => ({ stat: term.stat || "atk", referenceValue: number(effectiveStats[term.stat || "atk"]), multiplierPercent: number(term.multiplier) + (term.receivesMultiplierAddition ? multiplierAddition : 0) }))
             : [{ stat: scalingStat, referenceValue: number(effectiveStats[scalingStat]), multiplierPercent: number(attack.multiplier) + multiplierAddition }];
+        // The accepted attacks already aggregate one target's stable-state damage.
+        // Add the first-hit equipment term once; never add it to every native term/hit.
+        baseAdditions.forEach(item => scalingTerms.push({stat:item.stat,referenceValue:number(effectiveStats[item.stat]),multiplierPercent:item.value,sourceModifierId:item.id}));
         const cappedEnemyHpDamage = attack.damageFormula === "enemyHpCappedByAtk"
             ? Math.min(
                 Math.max(0, number(enemy.maxHp)) * Math.max(0, number(attack.enemyHpPercent)) / 100,

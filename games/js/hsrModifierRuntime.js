@@ -410,7 +410,7 @@
         } : null,
         target: record.target,
         calculation: record.calculation,
-        supplementalAttack: record.supplementalAttack || null,
+        supplementalAttack: record.supplementalAttack ? {...record.supplementalAttack,element:record.supplementalAttack.element === "wearer" ? context.characterElement : record.supplementalAttack.element} : null,
         primaryTargetOnly: record.primaryTargetOnly === true,
         adjacentTargetOnly: record.adjacentTargetOnly === true,
         stacking: record.stacking,
@@ -537,7 +537,9 @@
   }
 
   function supplementalReference(candidate, context = {}, inputs = {}) {
-    const definition = candidate.supplementalAttack || {};
+    const declared = candidate.supplementalAttack || {};
+    const definition = {...declared,element:declared.element === "wearer" ? context.characterElement : declared.element};
+    if (!["Physical","Fire","Ice","Thunder","Wind","Quantum","Imaginary"].includes(definition.element)) return {supported:false,reason:"付加ダメージの参照属性が未確定です。装備者を確認してください。"};
     const source = candidate.sourceMeta || candidate.source;
     const sourceId = String(candidate.providerId || (source?.kind === "lightCone" ? context.characterId : source?.id) || "");
     const ownerId = String(context.characterId || "");
