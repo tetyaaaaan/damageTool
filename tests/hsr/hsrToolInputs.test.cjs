@@ -4657,3 +4657,40 @@ test('Round45 shared Brocade state is rendered once and base-SPD support uses co
  app.state.coneRank=5;app.node('hsrConeRank').value='5';app.calculate();near(input.character.baseStats.speed,data.characters.find(c=>c.id==='1413').base.speed+20);
  app.state.coneId='';app.calculate();near(input.character.baseStats.speed,data.characters.find(c=>c.id==='1413').base.speed);
 });
+
+test('Round46 real Welt damage uses recipient HP, swaps two support cones and restores saved conditions',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),fixture={...data,structuredModifiers:data.structuredModifiers.filter(x=>x.provenance?.verification==='tests/hsr/hsrEquipmentRound46.test.cjs')},app=await tool(undefined,fixture),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1004',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ app.node('hsrEnhancementState').value='previous';const hit=x=>x.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id==='100401').name);
+ app.state.party[0]={characterId:'1217',level:80,eidolon:0,lightConeId:'21055',coneRank:5,hpPercent:0};
+ for(const hp of ['', '49.999','50','50.001']){app.node('hsrStat-hpPercent').value=hp;near(hit(app).expected,hp!==''&&Number(hp)>=50?1944:1620);}
+ app.state.party[0]={characterId:'1415',level:80,eidolon:0,lightConeId:'23042',coneRank:1};app.state.modifierInputs['lc-23042-memosprite-debuff-active']=true;near(hit(app).expected,1911.6);
+ app.state.party[0]={characterId:'1217',level:80,eidolon:0,lightConeId:'21055',coneRank:5};near(hit(app).expected,1944);
+ app.state.party[0]={characterId:'1415',level:80,eidolon:0,lightConeId:'23042',coneRank:1};near(hit(app).expected,1911.6);
+ app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,fixture);near(hit(restored).expected,1911.6);
+ restored.node('hsrEnemyTakenDamage').value='18';restored.state.modifierInputs['lc-23042-memosprite-taken-in-final']=true;near(hit(restored).expected,1911.6);
+ restored.node('hsrEnemyTakenDamage').value='0';restored.state.party[0].lightConeId='';near(hit(restored).expected,1620);
+});
+
+test('Round46 existing Punchline input automatically controls LC20024 and actual Aha damage without a duplicate condition',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),fixture={...data,structuredModifiers:data.structuredModifiers.filter(x=>x.provenance?.verification==='tests/hsr/hsrEquipmentRound46.test.cjs')},app=await tool(undefined,fixture),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'8009',level:80,eidolon:0,lightCone:{id:'20024',level:80,rank:1},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,elation:100}});
+ app.node('hsrMerrymake').value='0';app.node('hsrElationTrace').value='10';const aha=x=>x.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id==='800920').name);
+ for(const punch of [9,10,11]){app.node('hsrPunchline').value=String(punch);const nc=7535.107*2.2*2*(1+5*punch/(punch+240))*.36;near(aha(app).nonCrit,nc);near(aha(app).expected,nc*(punch>=10?1.6:1.5));}
+ app.node('hsrPunchline').value='10';app.state.conditionTab='光円錐';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/現在の爆笑ネタ 10個/);assert.doesNotMatch(app.node('hsrConditionList').innerHTML,/data-structured-input="party.punchline"/);assert.match(app.node('hsrPunchlineHelp').textContent,/残涙/);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,fixture);near(aha(saved).expected,7535.107*2.2*2*1.2*.36*1.6);
+ saved.state.coneId='21065';saved.state.modifierInputs['lc-21065-elation-stacks']=2;near(aha(saved).expected,7535.107*2.2*2.24*1.2*.36*1.5);
+ saved.state.coneId='20024';near(aha(saved).expected,7535.107*2.2*2*1.2*.36*1.6);
+ saved.state.coneId='20023';saved.state.modifierInputs['lc-20023-aha-active']=true;near(aha(saved).expected,7535.107*2.2*2.16*1.2*.36*1.5);saved.state.modifierInputs['lc-20023-aha-active']=false;near(aha(saved).expected,7535.107*2.2*2*1.2*.36*1.5);
+ saved.state.coneId='';near(aha(saved).expected,7535.107*2.2*2*1.2*.36*1.5);
+});
+
+test('Round46 equipment Burn is one independent DEF/Fire noncrit tick; missing cross-element inputs stop only this component',async()=>{
+ const{data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),fixture={...data,structuredModifiers:data.structuredModifiers.filter(x=>x.provenance?.verification==='tests/hsr/hsrEquipmentRound46.test.cjs')},app=await tool(undefined,fixture),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1304',level:80,eidolon:0,lightCone:{id:'21016',rank:1,level:80},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3127,hp:6123,def:2217,critRate:37,critDamage:129,damageBonus:11}});
+ const tick=x=>x.calculate().find(r=>r.attack.name==='星間市場のトレンド・付与済み燃焼1回');assert.equal(tick(app),undefined);assert.ok(app.calculate().some(r=>r.attack.name!=='星間市場のトレンド・付与済み燃焼1回'));
+ app.state.modifierInputs['lc-21016-fire-damage:1304']=35;app.state.modifierInputs['enemy-resistance:Fire']=23;let r=tick(app);assert.ok(r,app.node('hsrResults').innerHTML);const nc=2217*.4*1.35*.5*.77*.9;near(r.nonCrit,nc);near(r.crit,nc);near(r.expected,nc);assert.match(app.node('hsrResults').innerHTML,/最終DEF/);assert.match(app.node('hsrResults').innerHTML,/アベンチュリン/);
+ app.node('hsrStat-atk').value='9000';near(tick(app).expected,nc);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,fixture);near(tick(saved).expected,nc);
+ saved.state.coneRank=5;saved.node('hsrConeRank').value='5';near(tick(saved).expected,nc*2);saved.state.coneId='';assert.equal(tick(saved),undefined);saved.state.coneId='21016';near(tick(saved).expected,nc*2);
+ delete saved.state.modifierInputs['enemy-resistance:Fire'];assert.equal(tick(saved),undefined);assert.ok(saved.calculate().length);
+});

@@ -1,6 +1,44 @@
 # HSR 最終完成までの残作業測定
 
 
+
+<a id="hsr-round46-equipment"></a>
+## 第46回：共通装備条件・独立燃焼成分の接続（2026-11-11）
+
+- 開始HEAD `64688035a42ea5b98ecf63dc135c7a723effea8e`、main。第45回の登録・最終値・Modifier・成分別計算を再利用し、計算エンジン/UID再構成/保存形式は変更しない。新規装備8種類＋既存23051の1成分、計9効果群/9登録行（通常補正8＋独立DoT1）。攻撃登録行/参考値昇格/E0認定の増分は0。DoTは既存supplemental表示から生成する1内部成分で、attack登録数へ加算しない。
+- **資産/根拠**：第45回で確認した[Fribbels ac5e9d6](https://github.com/fribbels/hsr-optimizer/tree/ac5e9d6c96ba350c32d658dc04238b14874954cd)（4.7更新を含む参照版、MIT）の固定値/戦闘条件分離・攻撃種別・所有者分離を継続利用。外部コード取り込み/依存追加/外部ツール実行値比較はなし。数値は[固定StarRailRes 4.6.0 JP](https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json)（blob `ff0d30f700fd7f1a871726bc118a34a93b08062a`）と同版ENで確認。[登録](../games/hsr/data/calc/modifiers-equipment-round46.json)と[独立検証](../tests/hsr/hsrEquipmentRound46.test.cjs)が今回の受入範囲を管理する。
+- **実行定義**：同版Dimbreath commit `6b2bc17ebf461e497ba0dd0ffd44875f1866762b` の[Equip34.json](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Equip/Equip34.json)（blob `1dd65a516fb2f0a11addff8c0d5902be1c14bd46`）Ability21055はTeamLight/AllTeamMemberへSubを付け、各ModifierOwnerEntity自身のHP比が50%以上ならAllDamageTypeAddedRatioを付与する。装備者HPを全員へ流用しない。[EquipmemtAbility.json](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Equip/EquipmemtAbility.json)（blob `9f9d50947e473d8f1e537078054a0b1570560632`）Ability21016は被攻撃後にMCommon_DOT_Burnを付与し、`Modifier_Burn_DamagePercentage_Defence`をSkillEquip index2から設定する。確率をダメージ倍率として掛けず、成立済み燃焼の1回だけを比較する。
+
+| 装備 | 追加した効果・全S1→S5 | 状態/対象と判定 |
+|---|---|---|
+| 20022 辿る記憶 | 本人DMG8→12%×0～4層 | 有効追懐層数を指定。精霊側は独立完成値へ含める部分対応 |
+| 20023 嗤笑 | 愉悦度16→32% | アッハタイム中の効果を指定、本人愉悦のみ |
+| 20024 残涙 | CD20→40% | 既存の所持爆笑ネタ入力が10以上で自動。爆笑の褒美を代用しない |
+| 21055 明日の明日まで | 味方DMG12→20% | 各受益者本人の現在HP50%以上を自動判定。未入力ならこの補正だけ未確定 |
+| 21065 今日は好運 | 愉悦度12→20%×0～2層 | ダメージ参照時点の有効層数、本人愉悦のみ。恒常CRは最終値で管理 |
+| 23042 空の虹が消えぬように | 敵被DMG18→36% | 精霊スキルで付与済みを指定。HP消費記録による付加は保留 |
+| 23049 長き夜に輝く星へ | 本人DMG30→60% | 夜色中を指定。精霊全体のDEF無視/本人精霊DMG継承は保留 |
+| 23051 万里の山河を越えて | 召喚物所持者の追加DMG12→24% | 既存守護有効＋受益者本人の召喚物所持を指定。提供者の所持と混同しない |
+| 21016 星間市場のトレンド | 本人DEF40→80%の炎燃焼自然DoT1回 | 付与済み敵1体の独立非会心成分。付与抽選・他所有者との合成・起爆への自動登録は対象外 |
+
+- **共通処理**：`party.punchline` を既存hsrPunchlineから読み、整数/非負/既存入力範囲を検証する数値条件として追加。専用の同義入力/トグルは作らない。追加成分の光円錐提供元は装備IDではなく装備者IDで解決し、既存DEF参照・非会心・DoT・炎DMG/敵炎耐性入力を再利用する。未知のsupplemental `statReference` はschema/登録検証で拒否。新規の変換評価器・再帰評価・行動追跡は追加しない。装備解除/状態解除と算入済み申告を既存キーで保存する。
+- **自動/任意**：自動3行（20024、21055、21016の敵数限定による比較表示）。任意状態/層数6行。21016を表示するだけの発動チェックは追加しないが、「付与済み燃焼1回」の成立条件を名前/説明に明記し、敵への燃焼付与や他攻撃との自動合算はしない。
+
+| 装備別集計（種類数） | 開始 | 終了 | 全効果完成との区別 |
+|---|---:|---:|---|
+| 光円錐・総数 / 構造化定義 / 計算行あり / 未定義 | 170 / 129 / 128 / 41 | 170 / 137 / 136 / 33 | 今回9種類の受入範囲を確認。全種類の主DMG確認/部分対応総数は未集計 |
+| 遺物・総数 / 構造化定義 / 計算行あり / 未定義 | 34 / 29 / 29 / 5 | 同左 | 恒常入力と非与DMG成分をダミー登録しない |
+| オーナメント・総数 / 構造化定義 / 計算行あり / 未定義 | 28 / 28 / 25 / 0 | 同左 | 計算行なし3の理由は第45回と同じ |
+
+- **完成単位**：今回、主な与ダメージ成分を指定した単発条件で照合した5種類は20023/20024/21055/21065/21016、受入が一部成分に限られる4種類は20022/23042/23049/23051。これは全効果/全状態/独立精霊まで完成した装備数ではない。既存全装備に共通する主DMG完了・部分対応の効果別母数は未集計（恒常propertiesと表示行だけでは判定不能）。本番Modifierは1032/605→1041/614、原登録静的走査は1042/615（既存同一ID置換1行との差）。
+- **残りの分類**：開始時未定義41から今回の8種類を除く33種類のうち、5種類は特殊成分（23013治癒量記録/21057精霊CD/21030必殺DEF基礎加算/21029・20018追加攻撃の分類等）、1種類21039はDEF→DMG換算の丸めが未確定。残る27種類は恒常propertiesを最終値で扱うものと、治癒/バリア/軽減/EP/行動順/効果命中/解除など単発与ダメージ式へ直接足さないもの。A恒常値・B共通DMG・C閾値/層数は既存経路、D特殊・F根拠不足は上記保留、E非与DMGは低優先とし、未定義33をすべて「与ダメージ計算の欠落」としない。遺物101/103/106/110/111、オーナメント308/320の恒常値/非与DMG、303のEHR→ATK責務は継続扱い。
+- **保留の根拠**：21039のAbilityはDEF割合/固定値/DefenceConvertの変化時にDEFを再読込するが、`_Layer`の不透明PostfixExpr（`AQABAQECBRABEQ==`）からDEF100刻みの丸めを確定できない。連続式を推測した拡張は取り除いた。21029/20018は同版でCasterの属性参照を持つ間接Pursued成分だが、属性/攻撃種別の内部対応・会心・元攻撃との合算を未受入とし、通常/Skill補正を無条件に継承しない。既存21041/303変換責務、23043盗難併存、超撃破適用範囲も新根拠なしで変更しない。
+- **独立代表値**：ヴェルトN6、ATK3000/CR50/CD100/DMG0、敵Lv80/RES20/靭性あり、他補正0。本人HP50%・味方の21055 S5でEV1620→1944、HP49.999%/未入力は1620。味方23042 S1へ交換すると1911.6、21055→23042と戻しても一致。愉悦開拓者8009のAha Lv10、愉悦100/CR50/CD100、爆笑ネタ10/上笑0、敵同条件でNC14322.7313856、LC20024 S1のEV21484.0970784→22916.37021696。アベンチュリンDEF2217/最終炎DMG35、敵炎RES23/靭性あり、LC21016 S1の燃焼は `2217×0.4×1.35×0.5×0.77×0.9=414.82287`、S5は829.64574。ATK3127→9000で不変、会心は発生しない。
+- **統合/UI**：製品入力で装備A→B→A、解除、算入済み、提供者離脱、保存復元、HP/Punchline境界、実Aha、異属性入力不足時のDoTだけ停止を確認。実画面では炎DMG35/炎RES23のBurn表示415が保存再読込後も一致。1440/390/320pxで属性入力各1つ、横はみ出しなし。HTML/CSSの刷新はない。UID実通信・外部ツール実行値比較は未実施、既存UIDモックを回帰対象とする。
+- **最終検証**：最終コードでHSR全体1157/1157成功（125.16秒、新規12テスト）。初回全体125.28秒は1155成功/2失敗で、既存検証の「追加成分を雷/ATK固定」と「party参照はSPのみ」という固定前提が原因だった。属性/参照stat/会心可否を各supplemental定義から照合する検証とSP/Punchline契約へ直し、関連28件成功後に全体を再実行した。最終全体後の製品コード変更なし。事前の独立/共通runtime/登録48件と製品入力/UID import4件も成功（単純合算しない）。全体に既存mocked UID取得→再構成→計算→保存復元を含む。Modifier静的問題0、攻撃の既存38指摘は開始時と内容・順序同一、完成管理表--check成功。変更文書のローカルリンク欠損0、git diff --check成功、原神JSONのSHA256は開始時と同じ。保護ディレクトリは変更・ステージングしない。push/デプロイなし。
+- **変更15ファイル**：文書5（[本台帳](HSR_COMPLETION_WORKLOAD.md)、[完成管理表](HSR_CHARACTER_COMPLETION.md)、[仕様04](hsr/specs/04_MODIFIER_SPEC.md)、[仕様06](hsr/specs/06_CHARACTER_EQUIPMENT_SPEC.md)、[calc README](../games/hsr/data/calc/README.md)）、データ3（[manifest](../games/hsr/data/calc/data-files.json)、[schema](../games/hsr/data/calc/modifier-contract.schema.json)、[追加定義](../games/hsr/data/calc/modifiers-equipment-round46.json)）、製品2（[App](../games/js/hsrApp.js)、[Runtime](../games/js/hsrModifierRuntime.js)）、[登録検証器](../scripts/validateHsrModifiers.cjs)、テスト4（[Round46](../tests/hsr/hsrEquipmentRound46.test.cjs)、[入力統合](../tests/hsr/hsrToolInputs.test.cjs)、[参照者](../tests/hsr/hsrBatch4ReferenceRoles.test.cjs)、[構造](../tests/hsr/hsrToolStructure.test.cjs)）。
+- **第47回の優先順**：1) 21030の必殺1体1回のDEF基礎加算を既存複数参照項へ安全に接続、2) 21029/20018のPursued分類/会心/属性対応が明確になった独立成分、3) 21039の丸め定義と21041/303の算入責務、4) 23013記録治癒量や精霊成分の責務分離。27種類の非与DMG/恒常値は登録数のために再実装しない。未認定4人・姫子他使用者の反復調査は行わない。
+
 <a id="hsr-round45-equipment"></a>
 ## 第45回：装備補正の共通接続と基礎SPDの修正（2026-11-11）
 

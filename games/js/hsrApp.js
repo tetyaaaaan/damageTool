@@ -199,6 +199,7 @@
       $("hsrElationScope").textContent='火花Lv80/E0・未撃破の敵1体。通常アッハタイム21段と、本人CBによる強化通常/必殺の追加愉悦を別に比較します。';
       $("hsrPunchlineHelp").textContent='この爆笑ネタはアッハタイムだけに使用。本人CBとトラップ回数は補正条件で指定します。A2愉悦とA6会心ダメージはダメージ参照時点の最終入力へ一度含めてください。SP/衝撃ネタの更新は計算しません。';
     }
+    if (state.coneId === "20024") $("hsrPunchlineHelp").textContent += " この入力は光円錐「残涙」の所持爆笑ネタ条件にも使用します。爆笑の褒美は代用しません。";
     $("hsrEnhancementField").hidden = !state.data.attacks.some(item => item.characterId === char?.id && item.variant);
     $("hsrEnhancementState").value = state.enhancementState;
     $("hsrDotBaseDamageField").hidden = char?.id !== "1005";
@@ -613,7 +614,7 @@
       })),
       stats: state.stats,
       enemy: state.enemy,
-      party: { sp: state.partySp },
+      party: { sp: state.partySp, punchline: state.elationInputs.punchline },
       traceLevelFor,
       sourceNameFor
     };
@@ -823,7 +824,7 @@
       "self.hp": ["HP", ""], "self.hpPercent": ["HP割合", "%"], "self.epPercent": ["EP割合", "%"], "self.speed": ["速度", ""],
       "self.atk": ["攻撃力", ""], "self.def": ["防御力", ""], "self.critRate": ["会心率", "%"], "self.critDamage": ["会心ダメージ", "%"], "self.effectHitRate": ["効果命中", "%"],
       "self.effectRes": ["効果抵抗", "%"], "self.breakEffect": ["撃破特効", "%"], "self.elation": ["愉悦度", "%"],
-      "enemy.hpPercent": ["敵のHP割合", "%"], "enemy.weakness": ["属性弱点", ""], "enemy.quantumWeakness": ["敵の量子弱点", ""], "enemy.debuffCount": ["敵のデバフ数", ""], "enemy.count": ["敵数", ""], "enemy.toughnessRemaining": ["敵の残り靭性", ""], "party.elationCount": ["愉悦キャラクター数（攻撃者を含む）", "人"], "party.count": ["パーティ人数", ""], "party.sp": ["SP", ""]
+      "enemy.hpPercent": ["敵のHP割合", "%"], "enemy.weakness": ["属性弱点", ""], "enemy.quantumWeakness": ["敵の量子弱点", ""], "enemy.debuffCount": ["敵のデバフ数", ""], "enemy.count": ["敵数", ""], "enemy.toughnessRemaining": ["敵の残り靭性", ""], "party.elationCount": ["愉悦キャラクター数（攻撃者を含む）", "人"], "party.count": ["パーティ人数", ""], "party.sp": ["SP", ""], "party.punchline": ["爆笑ネタ", "個"]
     }[activation.reference] || ["現在値", ""];
     return `${item.conditionText || "自動判定条件"}（現在の${reference[0]} ${Number.isFinite(activation.inputValue) ? activation.inputValue : "未確認"}${reference[1]}）`;
   }
@@ -1591,7 +1592,7 @@
       const triggerName=find("characters",reference.triggerCharacterId)?.name||reference.triggerCharacterId;
       return {
         referenceCharacter:reference.character,completedReferenceSnapshot:!!reference.character,referenceStats:reference.stats,referenceEnemy:reference.enemy || (cross?{...state.enemy,resistance:state.modifierInputs[resKey],resistances:{[item.supplementalAttack.element]:state.modifierInputs[resKey]}}:undefined),referenceRoles:reference,referenceIssue:reference.supported?"":reference.reason,referenceCondition:{...item,valueInput:{key:reference.inputKey,shared:true}},
-        calculationNote:`発生元：${sourceName}。数値参照：${ownerName}の最終ATK・会心・${ELEMENT_KEYS[item.supplementalAttack.element]||item.supplementalAttack.element}属性与ダメージ。発動：${item.supplementalAttack.requiredStatReferenceId ? "成立済みの連携追加攻撃" : triggerName+"の攻撃後"}。軌跡Lvは${sourceName}を参照します。元攻撃とは別の1回分で、自動合算しません。`,
+        calculationNote:source.kind === "lightCone" ? `光円錐：${find("lightCones",source.id)?.name || source.id}。数値参照：${ownerName}の最終${item.supplementalAttack.scalingStat.toUpperCase()}・${ELEMENT_KEYS[item.supplementalAttack.element] || item.supplementalAttack.element}属性与ダメージ。条件：${item.conditionText}。元攻撃とは別の1回分で、自動合算しません。` : `発生元：${sourceName}。数値参照：${ownerName}の最終ATK・会心・${ELEMENT_KEYS[item.supplementalAttack.element]||item.supplementalAttack.element}属性与ダメージ。発動：${item.supplementalAttack.requiredStatReferenceId ? "成立済みの連携追加攻撃" : triggerName+"の攻撃後"}。軌跡Lvは${sourceName}を参照します。元攻撃とは別の1回分で、自動合算しません。`,
         ...(item.supplementalAttack.requiredStatReferenceId ? {characterLevelExact:80,maximumEidolon:0,enemyCountExact:1,maximumTraceLevel:10,enforceSnapshotContract:true} : {}),
         id: `supplemental:${item.id}`,
         sourceModifierId: item.id,

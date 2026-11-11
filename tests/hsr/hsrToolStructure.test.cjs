@@ -188,7 +188,7 @@ test("HSR enemy controls use selects for mutually exclusive states and never ove
     assert.match(html, /id="hsrStat-hpPercent" data-stat="hpPercent" type="number" min="0" max="100"/);
     assert.match(read("games/js/hsrApp.js"), /hitCountReference === "enemy\.debuffCount"/);
     assert.match(read("games/js/hsrApp.js"), /\$\("hsrEidolon"\)\.addEventListener\("change"/);
-    assert.match(read("games/js/hsrApp.js"), /party: \{ sp: state\.partySp \}/);
+    assert.match(read("games/js/hsrApp.js"), /party: \{ sp: state\.partySp, punchline: state\.elationInputs\.punchline \}/);
     assert.match(read("games/js/hsrApp.js"), /if \(attack\.enemyDebuffMinimum !== undefined && state\.enemy\.debuffCount < attack\.enemyDebuffMinimum\) issue/);
     assert.doesNotMatch(html, /id="hsrWeakness" type="checkbox"|id="hsrToughnessActive"/);
     assert.match(css, /input:not\(\[type="checkbox"\]\):not\(\[type="radio"\]\)/);

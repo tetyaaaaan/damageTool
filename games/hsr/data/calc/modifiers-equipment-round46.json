@@ -1,0 +1,584 @@
+{
+  "schemaVersion": 1,
+  "description": "固定版光円錐の限定戦闘成分を共通評価へ接続。装備全効果の完成ではない。",
+  "modifiers": [
+    {
+      "id": "lightCone:20022:commemoration-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "20022"
+      },
+      "name": "辿る記憶・追懐の本人DMG",
+      "description": "本人への1層8/9/10/11/12%、上限4層。精霊退場後は0層を指定。精霊側はその独立最終DMGへ含める。 恒常propertiesは装備込み最終値に含め、再加算しません。独立精霊の完成済み最終値への一般継承・ターン進行は扱いません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-20022-commemoration-stacks",
+        "inputLabel": "精霊存在中、攻撃前から有効な追懐の層数",
+        "conditionText": "精霊存在中、攻撃前から有効な追懐の層数",
+        "minimum": 0,
+        "maximum": 4,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:20022:commemoration-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20022-commemoration-damage-in-final",
+        "inputLabel": "追懐の本人DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版S1～S5のこの成分と指定状態のみを独立式で検証。装備全効果の完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20022.params[0..4][0..1]",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound46.test.cjs"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 4,
+        "integer": true
+      }
+    },
+    {
+      "id": "lightCone:20023:aha-elation",
+      "source": {
+        "kind": "lightCone",
+        "id": "20023"
+      },
+      "name": "嗤笑・アッハタイム中の愉悦度",
+      "description": "本人のアッハタイム中に有効な愉悦度。アッハタイム外の比較ではOFF。 恒常propertiesは装備込み最終値に含め、再加算しません。独立精霊の完成済み最終値への一般継承・ターン進行は扱いません。",
+      "category": "elation",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          16,
+          20,
+          24,
+          28,
+          32
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "elation"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-20023-aha-active",
+        "inputLabel": "アッハタイム開始から終了前の効果が有効",
+        "conditionText": "アッハタイム開始から終了前の効果が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:20023:aha-elation",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20023-aha-elation-in-final",
+        "inputLabel": "アッハタイム中の愉悦度を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版S1～S5のこの成分と指定状態のみを独立式で検証。装備全効果の完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20023.params[0..4][0]",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound46.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:20024:punchline-crit",
+      "source": {
+        "kind": "lightCone",
+        "id": "20024"
+      },
+      "name": "残涙・所持爆笑ネタ条件のCD",
+      "description": "既存の爆笑ネタ入力から自動判定。未入力・不正値はこの補正だけ未確定。 恒常propertiesは装備込み最終値に含め、再加算しません。独立精霊の完成済み最終値への一般継承・ターン進行は扱いません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "party.punchline",
+        "operator": ">=",
+        "threshold": 10,
+        "conditionText": "所持爆笑ネタ10個以上（爆笑の褒美とは別）"
+      },
+      "stacking": {
+        "group": "lightCone:20024:punchline-crit",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20024-punchline-crit-in-final",
+        "inputLabel": "所持爆笑ネタ条件のCDを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版S1～S5のこの成分と指定状態のみを独立式で検証。装備全効果の完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20024.params[0..4][0..1]",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound46.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:21055:healthy-party-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21055"
+      },
+      "name": "明日の明日まで・受益者HP条件DMG",
+      "description": "装備者を含む味方それぞれが自分自身のHP条件を満たす時にDMG上昇。装備者HPを味方へ流用しない。同版Dimbreath Equip34 Ability21055のTeamLight付与とModifierOwnerEntityのHP判定を照合。 恒常propertiesは装備込み最終値に含め、再加算しません。独立精霊の完成済み最終値への一般継承・ターン進行は扱いません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          14,
+          16,
+          18,
+          20
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "self.hpPercent",
+        "operator": ">=",
+        "threshold": 50,
+        "conditionText": "計算対象の味方本人の現在HPが50%以上"
+      },
+      "stacking": {
+        "group": "lightCone:21055:healthy-party-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21055-healthy-party-damage-in-final",
+        "inputLabel": "受益者HP条件DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版S1～S5のこの成分と指定状態のみを独立式で検証。装備全効果の完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21055.params[0..4][1..2]",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound46.test.cjs",
+        "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/Equip34.json Ability21055 (blob 1dd65a516fb2f0a11addff8c0d5902be1c14bd46)"
+      }
+    },
+    {
+      "id": "lightCone:21065:elation-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "21065"
+      },
+      "name": "今日は好運・愉悦スキル由来の愉悦度",
+      "description": "愉悦スキルによる有効層数を指定、上限2。発動中に増える層の順序・自動更新は再現せず指定済みの値で計算。 恒常propertiesは装備込み最終値に含め、再加算しません。独立精霊の完成済み最終値への一般継承・ターン進行は扱いません。",
+      "category": "elation",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          12,
+          14,
+          16,
+          18,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "elation"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-21065-elation-stacks",
+        "inputLabel": "ダメージ参照時点で有効な愉悦度上昇の層数",
+        "conditionText": "ダメージ参照時点で有効な愉悦度上昇の層数",
+        "minimum": 0,
+        "maximum": 2,
+        "default": 0
+      },
+      "stacking": {
+        "group": "lightCone:21065:elation-stacks",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21065-elation-stacks-in-final",
+        "inputLabel": "愉悦スキル由来の愉悦度を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版S1～S5のこの成分と指定状態のみを独立式で検証。装備全効果の完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21065.params[0..4][1..2]",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound46.test.cjs"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 2,
+        "integer": true
+      }
+    },
+    {
+      "id": "lightCone:23042:memosprite-taken",
+      "source": {
+        "kind": "lightCone",
+        "id": "23042"
+      },
+      "name": "空の虹が消えぬように・敵被DMG",
+      "description": "同系統は重複しない。消費HPを記録して次の精霊攻撃へ付加する別効果は今回未対応。 恒常propertiesは装備込み最終値に含め、再加算しません。独立精霊の完成済み最終値への一般継承・ターン進行は扱いません。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          18,
+          22.5,
+          27,
+          31.5,
+          36
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23042-memosprite-debuff-active",
+        "inputLabel": "装備者の精霊スキルによる敵被DMG上昇が付与済み",
+        "conditionText": "装備者の精霊スキルによる敵被DMG上昇が付与済み",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23042:memosprite-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23042-memosprite-taken-in-final",
+        "inputLabel": "敵被DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版S1～S5のこの成分と指定状態のみを独立式で検証。装備全効果の完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23042.params[0..4][3..4]",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound46.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23049:nightshade-self-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "23049"
+      },
+      "name": "長き夜に輝く星へ・夜色の本人DMG",
+      "description": "本人のDMGのみ。本人精霊DMG・味方全精霊のDEF無視・精霊退場時EPは別責務として保留。 恒常propertiesは装備込み最終値に含め、再加算しません。独立精霊の完成済み最終値への一般継承・ターン進行は扱いません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          37.5,
+          45,
+          52.5,
+          60
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23049-nightshade-active",
+        "inputLabel": "装備者の精霊スキル後、夜色が有効",
+        "conditionText": "装備者の精霊スキル後、夜色が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23049:nightshade-self-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23049-nightshade-self-damage-in-final",
+        "inputLabel": "夜色の本人DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版S1～S5のこの成分と指定状態のみを独立式で検証。装備全効果の完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23049.params[0..4][2]",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound46.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23051:guard-summon-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "23051"
+      },
+      "name": "万里の山河を越えて・召喚物所持者の守護追加DMG",
+      "description": "第45回の守護有効入力と併用。提供者ではなく、計算対象の味方本人の召喚物所持状態を指定する。独立精霊側の完成値へ一般継承しない。 恒常propertiesは装備込み最終値に含め、再加算しません。独立精霊の完成済み最終値への一般継承・ターン進行は扱いません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23051-recipient-summon-present",
+        "inputLabel": "計算対象の味方本人が召喚物を所持している",
+        "conditionText": "計算対象の味方本人が召喚物を所持している",
+        "default": false,
+        "requiredToggleKey": "lc-23051-guard-active"
+      },
+      "stacking": {
+        "group": "lightCone:23051:guard-summon-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23051-guard-summon-damage-in-final",
+        "inputLabel": "召喚物所持者の守護追加DMGを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版S1～S5のこの成分と指定状態のみを独立式で検証。装備全効果の完成ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23051.params[0..4][2]",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound46.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:21016:burn-tick",
+      "source": {
+        "kind": "lightCone",
+        "id": "21016"
+      },
+      "name": "星間市場のトレンド・付与済み燃焼の自然DoT1回",
+      "description": "被攻撃後の付与抽選に成功し、燃焼が成立済みの敵1体への自然DoT1回を比較。本人のDEF40/50/60/70/80%を炎属性・非会心で計算。付与確率・継続ターン・他所有者の燃焼との合成・DoT起爆への自動登録は対象外。恒常DEFは最終値へ算入済み。",
+      "category": "extraDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          40,
+          50,
+          60,
+          70,
+          80
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "dot"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "enemy.count",
+        "operator": "==",
+        "threshold": 1,
+        "conditionText": "敵1体・この光円錐による燃焼が付与済みの場合の自然DoT1回"
+      },
+      "stacking": {
+        "group": "lightCone:21016:burn-tick",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "extraDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21016-burn-tick-in-final",
+        "inputLabel": "この燃焼成分を別計算済みとして除外"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版光円錐21016.params[0..4][2]と同版Ability21016のDEF参照MCommon_DOT_Burn付与を照合。付与済み敵1体の自然DoTだけを独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21016.params[0..4][2]",
+        "verifiedAt": "2026-11-11",
+        "verification": "tests/hsr/hsrEquipmentRound46.test.cjs",
+        "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/EquipmemtAbility.json Ability21016 (blob 9f9d50947e473d8f1e537078054a0b1570560632)"
+      },
+      "supplementalAttack": {
+        "name": "星間市場のトレンド・付与済み燃焼1回",
+        "element": "Fire",
+        "type": "dot",
+        "scalingStat": "def",
+        "target": "single",
+        "canCrit": false,
+        "statReference": "activeCharacter",
+        "triggerActor": "unspecified",
+        "damageBonusInputKey": "lc-21016-fire-damage",
+        "damageBonusInputLabel": "装備者の最終炎属性与ダメージ（%）"
+      }
+    }
+  ]
+}

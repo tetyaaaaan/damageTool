@@ -79,8 +79,10 @@
       "enemy.count": context.enemy?.count,
       "enemy.toughnessRemaining": context.enemy?.toughnessRemaining,
       "party.count": Array.isArray(context.partyIds) ? context.partyIds.filter(Boolean).length + 1 : 1,
-      "party.sp": context.party?.sp
+      "party.sp": context.party?.sp,
+      "party.punchline": context.party?.punchline
     };
+    if (reference === "party.punchline") { const value = map[reference]; return Number.isInteger(value) && value >= 0 && value <= 99999 ? value : NaN; }
     if (reference === "self.preCombatSpeed") { const value = map[reference]; return Number.isFinite(value) && value > 0 && value <= 99999 ? value : NaN; }
     if (["self.hpPercent", "enemy.hpPercent", "self.epPercent"].includes(reference)) {
       const value = map[reference];
@@ -245,7 +247,7 @@
     return 0;
   }
 
-  const unresolvedReference = ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed", "self.preCombatCritDamage", "self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount", "party.samePathAllyCount", "party.nihilityAllyCount", "party.eruditionCount", "self.interpretation", "enemy.toughnessBroken"].includes(ref) || ref?.startsWith("provider.");
+  const unresolvedReference = ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "party.punchline", "self.preCombatSpeed", "self.preCombatCritDamage", "self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount", "party.samePathAllyCount", "party.nihilityAllyCount", "party.eruditionCount", "self.interpretation", "enemy.toughnessBroken"].includes(ref) || ref?.startsWith("provider.");
 
   function activationState(record, context = {}, inputs = {}) {
     const activation = record.activation || {};
@@ -315,7 +317,7 @@
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じオーナメントの複数提供者による支援は条件未確定です。" });
       }
-      if (record.source?.kind === "lightCone" && ["23051", "23052", "23043", "21064", "23035", "22006", "23011", "23029", "23032", "21015", "23008", "23047", "23041", "23054", "21050", "22007", "24006", "23016", "23017", "23056", "23058", "23059", "23063", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
+      if (record.source?.kind === "lightCone" && ["21055", "23042", "23051", "23052", "23043", "21064", "23035", "22006", "23011", "23029", "23032", "21015", "23008", "23047", "23041", "23054", "21050", "22007", "24006", "23016", "23017", "23056", "23058", "23059", "23063", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
         const eligible = wearer => !record.source.wearerIds || record.source.wearerIds.includes(String(wearer));
         const count = Number(String(context.lightConeId || "") === String(record.source.id) && eligible(context.characterId))
           + (context.partyEquipment || []).filter(item => String(item.lightConeId || "") === String(record.source.id) && eligible(item.characterId)).length;
@@ -536,7 +538,8 @@
 
   function supplementalReference(candidate, context = {}, inputs = {}) {
     const definition = candidate.supplementalAttack || {};
-    const sourceId = String(candidate.providerId || candidate.sourceMeta?.id || candidate.source?.id || "");
+    const source = candidate.sourceMeta || candidate.source;
+    const sourceId = String(candidate.providerId || (source?.kind === "lightCone" ? context.characterId : source?.id) || "");
     const ownerId = String(context.characterId || "");
     if (definition.statReference === "selectedParty") {
       const id=String(inputs[definition.ownerInputKey] || definition.requiredStatReferenceId || ''), snapshot=partyReferenceSnapshot(id,definition.element,context,inputs);
