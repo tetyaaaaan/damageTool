@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "description": "独立精霊の装備専用CD差分。恒常最終入力との算入責務を維持。",
+  "modifiers": [
+    {
+      "id": "lightCone:21057:independent-memosprite-crit-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21057",
+        "wearerIds": [
+          "1415",
+          "1413"
+        ]
+      },
+      "name": "花は忘れない・専属精霊の会心ダメージ",
+      "description": "装備者を召喚主とするデミウルゴス/長夜のCD+24/30/36/42/48%。本人の恒常CD+24～40%は本人最終値に含め、精霊へ流用しない。精霊の装備込み最終CDへ専用補正を含めた入力が既定。未算入のCDを入力した場合だけ算入済み指定を外し、精霊専用差分を1回追加する。本人攻撃・味方所有の精霊・一般継承は対象外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "memosprite",
+        "attackTypes": [
+          "memospriteSkill",
+          "ultimate"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1141501",
+          "1141526",
+          "11415012",
+          "1141301",
+          "1141307",
+          "141303"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "装備者本人の専属精霊。デミウルゴス/長夜の独立最終CDに未算入の場合だけ差分を追加"
+      },
+      "stacking": {
+        "group": "lightCone:21057:independent-memosprite-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21057-memosprite-cd-in-final",
+        "inputLabel": "精霊CD入力に花は忘れないの専用補正を算入済み",
+        "defaultIncluded": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の召喚主一致/Servant専用CDと、独立精霊の完成入力との差分だけを限定接続。本人CDの一般継承は扱わない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21057.params[0..4][1]",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-15",
+        "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/Equip34.json blob 1dd65a516fb2f0a11addff8c0d5902be1c14bd46 Ability21057: GetSummoner/Caster一致→CasterServantへCriticalDamageBase SkillEquip[1]",
+        "verification": "tests/hsr/hsrToolInputs.test.cjs",
+        "scope": "Lv80/E0・敵1体・既存の独立HP精霊6攻撃行。最終入力の既算入を既定とし、明示した未算入分だけ補完。"
+      }
+    }
+  ]
+}

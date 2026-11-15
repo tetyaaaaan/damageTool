@@ -1,5 +1,37 @@
 # HSR 最終完成までの残作業測定
 
+<a id="hsr-round48-equipment"></a>
+## 第48回：UIDの条件付きATK再構成・独立精霊CDの算入責務（2026-11-15）
+
+- 開始HEAD `97064671d5c9e939072b2010dbdbedf69f2cc948`、main。既存のUID properties集計・装備込み最終入力・独立精霊スナップショットを再利用。3つの装備成分を改善（UID ATK2成分、限定精霊CD1成分）。新しい攻撃行/参考値昇格/E0認定は0。未認定4人・姫子の他使用者は調査対象に含めない。
+
+| 対象 | 確認結果と今回の実装 | 境界 |
+|---|---|---|
+| 21041 ショーの始まり | EHR比例変換という以前の呼称を訂正。EHR80%以上ならATK+20/24/28/32/36%。UID再構成で運命・Sランク・EHRを判定し基礎ATKへの割合へ算入 | トリックDMGは既存の層数行を維持。手動入力は条件成立後の最終ATK。EHRだけの編集から手動ATKを自動再構成しない |
+| 303 汎銀河商事会社 | UIDの2セットEHR+10%を含めたEHRから `min(EHR×0.25,25%)` のATK割合を算入 | 基礎ATK×割合の段階、固定ATKより前。戦闘中EHR変化後は対応する最終ATKを入力。戦闘Modifierへ同じ変換を複製しない |
+| 21057 花は忘れない | 召喚主本人のデミウルゴス/長夜へ専用CD24/30/36/42/48%だけを補完 | 既存独立精霊6攻撃行・Lv80/E0・敵1体。最終CDへ算入済みを既定とし、未算入を明示した場合だけ追加。本人の恒常CD24～40%は本人最終値へ含め、精霊へ流用しない |
+| 23013 時節は居らず | 同版の記録治癒量×S係数・所有者属性・1ターン1回・ByPureDamageは確認済み | 最終式の係数仕様を式名だけで判断できないため保留。通常式/確定ダメージへの近似置換はしない |
+| 21039 運命を紡ぐ糸 | DEF変化時の再評価を確認 | 層数の不透明opcodeから丸めを確定できず保留。連続近似や推測floorを採用しない |
+
+- **根拠と数値処理**：[固定StarRailRes 4.6.0](https://github.com/Mar-7th/StarRailRes/tree/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp)の光円錐rank係数と303効果文、同版[Dimbreath装備実行定義](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Equip/EquipmemtAbility.json)（blob `9f9d50947e473d8f1e537078054a0b1570560632`、21041のStatusProbability閾値/AttackAddedRatio）、[RelicAbility.json](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/RelicAbility.json)（blob `f00dd3e79c43daa543c7a91894b55fda126bce32`、Ability53031のStatusProbabilityBase参照/上限）、[Equip34.json](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Equip/Equip34.json)（blob `1dd65a516fb2f0a11addff8c0d5902be1c14bd46`、GetSummoner一致/CasterServantのCriticalDamageBase）を照合。303は直接の割合/上限の効果文と実行定義を併用し、opcode全体を解読したとの主張はしない。UIDは固定catalogの恒常EHR propertiesの再構成で、戦闘中EHRバフを推測しない。計算途中の丸めは追加せず、21041閾値比較の1e-12許容は0.7+0.1の浮動小数誤差に限る（直下79.9999%は不成立）。
+- **二重算入防止**：UIDのraw propertiesからATKを一度作り、既存の完成ATKへ変換を上乗せしない。手動ATKは装備込み最終値のまま。303の表示専用行は最終入力の責務説明として維持し、与ダメージ行ありへ数え直さない。21057は `finalStatsInclusion.defaultIncluded:true` を使用。旧登録の既定値は変更せず、明示falseの場合だけ専属精霊の独立CDへ1回追加する。一般の本人/味方/別召喚主への継承はなし。補完した成分を適用記録へ含め、表示だけ適用済みにする変更ではない。
+- **代表独立値**：銀狼1006・Lv80・21041 S1＋303二部位・EHR80%、基礎ATK合計1116.612、他ATK補正0なら最終ATK1563.2568。通常Lv6・敵Lv80/RES20%/靭性あり、CR5/CD50でNC562.772448/EV576.8417592。デミウルゴスLv6・独立HP8432/CR37/CD143/氷DMG19、同敵ならNC2167.36128。21057 S5未算入分+48%を補完するとEV3314.112133248→3699.035496576、本体+既発動追憶2回の合計は11097.106489728。本人CDの編集では不変。独立式は[変換検証](../tests/hsr/hsrEquipmentConversionRound48.test.cjs)と[製品入力検証](../tests/hsr/hsrToolInputs.test.cjs)を参照。
+- **統合/UI**：EHR閾値未満/一致/超過、303上限/2セット、S1～S5、ATK固定加算との合成、運命不一致、不完全UID、本人/精霊・他所有者、既算入/未算入、装備A→B→A、再import、保存復元、入力不足時の精霊だけ停止を検証。実画面で21057 S5のNC2167/会心6307/EV3699と合計EV11097が再読込後も一致。1440/390/320pxで算入済みチェックと説明に横はみ出しなし。既存UIを再利用し、新レイアウト/恒常効果の発動トグルは作らない。UIDはモックのみ、実通信・外部ツール実行値との直接比較は未実施。
+
+| 集計単位 | 開始 → 終了 |
+|---|---|
+| Modifier 本番登録/計算行 | 1044/617 → 1045/618（静的原登録1045/618 → 1046/619、既存ID置換1行との差） |
+| 光円錐 構造化/計算行あり/未定義 | 140/139/30 → 141/140/29（全170種類） |
+| 遺物 構造化/計算行あり | 29/29、変更なし（全34） |
+| オーナメント 構造化/計算行あり | 28/25、変更なし（全28、303はUID最終値側の改善） |
+| 限定E0・攻撃 | 94/98・登録583/計算562/参考4/表示専用17、変更なし |
+
+**実用完成への残件**：主要ダメージの精度に影響し得る根拠待ちは23013最終式・21039丸め。21057の他専属精霊は装備込み最終CDで表現できるが、未算入分の自動補完は部分対応。部分対応は今回のUID恒常EHRからの再構成/精霊6行、既存23042記録HP付加・23049精霊DEF無視/継承・23043盗難併存・超撃破適用範囲等。特殊な未接続所有者/状態と、治癒/EP/行動順等の非与DMGは分ける。未認定4人（ギルガメッシュ・銀狼LV.999・ダリア・雪衣）は第47回の阻害要因を維持。全装備の効果単位母数は未集計で、種類数から完成率を推定しない。第49回は21057の他の既存独立精霊への限定展開を優先し、23013は同版の最終係数資料/版付き実測、21039はopcodeの丸め根拠が得られた場合のみ進める。21041/303の戦闘中変動は、完成ATK入力の責務を維持したまま差分責務を定義できる場合だけ拡張する。外部コード/依存関係の追加・マスター再生成なし。Fribbels固定版の段階/所有者分離を参考とする既存設計を再利用し、新たな外部計算結果による認定はしていない。
+
+
+- **最終検証**：最終製品コードのHSR全1171/1171成功（249.58秒、新規7テスト）。初回全体も1171成功（256.48秒）後、対象装備なしの不要評価回避・対象外精霊への説明限定・合算内訳の適用記録を修正したため再確認した。途中の全体1本は最終修正前に中断。最終の関連5件、変換4件、既存登録/独立精霊/第47回11件も成功（全体と単純合算しない）。実画面で確認した数値/算入操作は維持し、後段の成分記録修正は製品入力テストと最終全体で確認。全体実行後の製品コード変更なし。Modifier静的問題0、攻撃38指摘は開始時と内容・順序同一。完成管理表--check成功、変更文書のローカル参照363件に欠損なし。git diff --check成功。原神JSONのSHA256は開始時と同一、保護ディレクトリは変更・ステージングしない。push/デプロイなし。
+- **変更17ファイル**：文書6（[本台帳](HSR_COMPLETION_WORKLOAD.md)、[完成管理表](HSR_CHARACTER_COMPLETION.md)、[仕様03](hsr/specs/03_CALCULATION_SPEC.md)、[仕様04](hsr/specs/04_MODIFIER_SPEC.md)、[仕様06](hsr/specs/06_CHARACTER_EQUIPMENT_SPEC.md)、[calc README](../games/hsr/data/calc/README.md)）、データ5（[manifest](../games/hsr/data/calc/data-files.json)、[schema](../games/hsr/data/calc/modifier-contract.schema.json)、[追加定義](../games/hsr/data/calc/modifiers-equipment-round48.json)、[21041説明](../games/hsr/data/calc/modifiers-equipment-round5.json)、[303説明](../games/hsr/data/calc/modifiers-sets-round7.json)）、製品3（[App](../games/js/hsrApp.js)、[Runtime](../games/js/hsrModifierRuntime.js)、[Profile Mapper](../games/js/hsrProfileMapper.js)）、[登録検証器](../scripts/validateHsrModifiers.cjs)、テスト2（[変換独立検証](../tests/hsr/hsrEquipmentConversionRound48.test.cjs)、[製品入力](../tests/hsr/hsrToolInputs.test.cjs)）。計算エンジン本体/保存形式/攻撃範囲認定は変更なし。
+
 <a id="hsr-round47-equipment"></a>
 ## 第47回：必殺基礎DEF項・装備者属性の独立付加（2026-11-12）
 

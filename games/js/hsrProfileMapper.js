@@ -114,11 +114,34 @@
             || (character.relicList || []).some((relic) => !Array.isArray(relic?._flat?.props));
         if (incomplete) return {};
 
+        // The UID reconstruction path starts from base stats and item properties.
+        // Account for the conditional AttackAddedRatio here so the resulting
+        // profile ATK remains a final value; the manual calculator input must
+        // continue to be treated as already including equipped effects.
+        let attackAddedRatio = props.AttackAddedRatio || 0;
+        const effectHitRate = (props.StatusProbabilityBase || 0) + (props.StatusProbability || 0);
+        const panCosmicPieces = relicSets.find((set) => String(set.id) === "303")?.pieces || 0;
+        if (panCosmicPieces >= 2) {
+            // Pan-Cosmic Commercial Enterprise reads current EHR and converts
+            // 25% of it to ATK, capped at 25%. Its +10% EHR is already included
+            // in props above, so it participates in this one-time reconstruction.
+            attackAddedRatio += Math.min(0.25, Math.max(0, effectHitRate) * 0.25);
+        }
+        const coneId = String(character.equipment?.tid || "");
+        const coneRank = Number(character.equipment?.rank);
+        const conePathMismatch = characterData?.path && lightCone?.path && characterData.path !== lightCone.path;
+        if (coneId === "21041" && !conePathMismatch && Number.isInteger(coneRank) && coneRank >= 1 && coneRank <= 5) {
+            const params = lightCone?.effect?.paramsByRank?.[coneRank - 1];
+            const threshold = Number(params?.[3]);
+            const bonus = Number(params?.[4]);
+            if (Number.isFinite(threshold) && Number.isFinite(bonus) && effectHitRate + 1e-12 >= threshold) attackAddedRatio += bonus;
+        }
+
         return {
             // The local catalog currently records exact character bases at Lv.80.
             // Lower-level HP/ATK/DEF are intentionally left unset instead of interpolated.
             hp: exactLevel && Number.isFinite(hpBase) ? hpBase * (1 + (props.HPAddedRatio || 0)) + (props.HPDelta || 0) : undefined,
-            atk: exactLevel && Number.isFinite(atkBase) ? atkBase * (1 + (props.AttackAddedRatio || 0)) + (props.AttackDelta || 0) : undefined,
+            atk: exactLevel && Number.isFinite(atkBase) ? atkBase * (1 + attackAddedRatio) + (props.AttackDelta || 0) : undefined,
             def: exactLevel && Number.isFinite(defBase) ? defBase * (1 + (props.DefenceAddedRatio || 0)) + (props.DefenceDelta || 0) : undefined,
             speed: Number.isFinite(finiteValue(characterData?.base?.speed)) ? (number(characterData.base.speed) + (props.BaseSpeed || 0)) * (1 + (props.SpeedAddedRatio || 0)) + (props.SpeedDelta || 0) : undefined,
             critRate: percent(0.05 + (props.CriticalChanceBase || 0) + (props.CriticalChance || 0)),

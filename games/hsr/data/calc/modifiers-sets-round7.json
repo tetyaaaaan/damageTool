@@ -11,7 +11,7 @@
         "setPieces": 2
       },
       "name": "汎銀河商事会社・効果命中+10%（最終入力管理）",
-      "description": "効果命中+10%は最終効果命中へ含めます。効果命中を参照する攻撃力変換は最終ATKへ含め、個別に再加算しません。変換値の自動評価は二重加算の判定が確立するまで行いません。",
+      "description": "効果命中+10%は最終効果命中へ含めます。現在の効果命中×25%分のATK割合（上限25%）は、UID再構成時に基礎ATKへの割合として1回算入します。手動入力では変換込み最終ATKを使用し、戦闘Modifierとして再加算しません。戦闘中のEHR変化は入力側で対応する最終ATKも確認してください。",
       "category": "statPercent",
       "stat": "effectHitRate",
       "unit": "percent",
@@ -42,7 +42,7 @@
       "support": {
         "status": "displayOnly",
         "verified": true,
-        "reason": "恒常の効果命中は最終入力で管理します。効果命中25%相当のATK変換（最大25%）は最終ATKに含め、独立加算しません。"
+        "reason": "恒常EHRとEHR由来ATKはUID再構成/装備込み最終入力で管理。与ダメージModifierを複製せず、未算入時だけの別戦闘加算は導入しない。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",

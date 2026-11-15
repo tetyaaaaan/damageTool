@@ -18,7 +18,7 @@ const fieldSets = {
   activation: new Set(["requiredToggleKey", "mode", "conditionText", "inputKey", "inputLabel", "threshold", "thresholdReference", "minimum", "maximum", "maximumAtEidolon", "default", "reference", "operator", "durationTurns", "comparisonDerived", "strictInput", "step", "statSource"]),
   stacking: new Set(["group", "rule", "maximumStacks"]),
   calculation: new Set(["stage", "operation", "cap", "floor"]),
-  finalStatsInclusion: new Set(["inputKey", "inputLabel", "legacyToggleKey"]),
+  finalStatsInclusion: new Set(["inputKey", "inputLabel", "legacyToggleKey", "defaultIncluded"]),
   support: new Set(["status", "verified", "reason"]),
   provenance: new Set(["sourceName", "sourceUrl", "sourceFile", "gameVersion", "verifiedAt", "notes", "sourceCommit", "scope", "verification", "referenceUrl", "formulaSource", "mechanicsSource", "precisionNote", "integrationNote", "toughnessNote"])
 };
@@ -96,6 +96,7 @@ function validateModifiers(records) {
       const inclusion = modifier.finalStatsInclusion;
       if (typeof inclusion.inputKey !== "string" || !inclusion.inputKey || typeof inclusion.inputLabel !== "string" || !inclusion.inputLabel) issues.push(`${at}.finalStatsInclusion: inputKey and inputLabel are required`);
       if (inclusion.legacyToggleKey !== undefined && (typeof inclusion.legacyToggleKey !== "string" || !inclusion.legacyToggleKey)) issues.push(`${at}.finalStatsInclusion.legacyToggleKey: expected non-empty text`);
+      if (inclusion.defaultIncluded !== undefined && typeof inclusion.defaultIncluded !== "boolean") issues.push(`${at}.finalStatsInclusion.defaultIncluded: expected boolean`);
       if (modifier.inputPolicy === "includedInFinalStats") issues.push(`${at}: finalStatsInclusion cannot combine with includedInFinalStats policy`);
     }
     if (modifier.category === "baseDamageAddition" && (modifier.source?.kind !== "lightCone" || modifier.stat !== "def" || modifier.value?.kind !== "byRefinement" || modifier.target?.owner !== "self" || modifier.activation?.mode !== "always" || modifier.target.attackTypes?.length !== 1 || modifier.target.attackTypes[0] !== "ultimate" || !modifier.target.attackIds?.length || modifier.target.attackIds.some(id=>!["100103","120803","130403","141403","800303","800403"].includes(id)))) issues.push(`${at}: baseDamageAddition requires the accepted self DEF Ultimate scope`);

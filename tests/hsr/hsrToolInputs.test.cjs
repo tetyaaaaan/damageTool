@@ -4727,3 +4727,59 @@ test('Round47 UID reconstruction keeps LC21030 permanent DEF once before Ultimat
  const mapped=mapperWindow.HsrProfileMapper.mapProfileResponse({detailInfo:{avatarDetailList:[raw]}},data).characters[0];const def=(char.base.def+cone.base.def)*1.16,atk=char.base.atk+cone.base.atk;near(mapped.stats.def,def);app.window.HsrTool.applyProfileCharacter(mapped);
  const hit=x=>x.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id==='100103').name);const expected=(atk*1.5+def*.6)*.36;near(hit(app).nonCrit,expected);near(hit(app).expected,expected*1.025);app.node('hsrActionWindow').handlers.input();const saved=await tool(app.storage,fixture);near(hit(saved).nonCrit,expected);near(saved.state.stats.def,def);
 });
+
+test('Round48 equipment CD respects independent spirit ownership, included defaults and S1-S5 in real attacks',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+ const near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b),key='lc-21057-memosprite-cd-in-final';
+ for(const id of ['1415','1413']){
+  const app=await tool(undefined,data),memo=id==='1415'?'1141501':'1141301',caster=id+'01';
+  app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,lightCone:{id:'21057',level:80,rank:1},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6},{type:'MemospriteTalent',level:6}],stats:{atk:3127,hp:11037,def:1900,critRate:11,critDamage:57,damageBonus:7}});
+  const prefix='memosprite:'+id+':';for(const[k,v]of Object.entries({hp:8432,critRate:37,critDamage:143,damageBonus:19,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs[prefix+k]=v;
+  Object.assign(app.state.modifierInputs,{'cyrene-recollection-allies':2,'evernight-memoquanta':16});
+  const row=(attack,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===attack).name);
+  const own=row(caster).expected;
+  app.state.conditionTab='光円錐';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/data-structured-toggle="lc-21057-memosprite-cd-in-final" checked/);
+  const coefficient=id==='1415'?.6:.9,nc=8432*coefficient*1.19*.36;
+  near(row(memo).expected,nc*(1+.37*1.43));
+  assert.equal(row(memo).applied.filter(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage').length,0,'existing final CD is included by default');
+  app.state.modifierInputs[key]=false;
+  for(let rank=1;rank<=5;rank++){
+   app.state.coneRank=rank;app.node('hsrConeRank').value=String(rank);const bonus=[24,30,36,42,48][rank-1],r=row(memo);
+   near(r.nonCrit,nc);near(r.crit,nc*(1+(143+bonus)/100));near(r.expected,nc*(1+.37*(143+bonus)/100));
+   assert.equal(r.applied.filter(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage').length,1);assert.equal(r.applied.find(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage').statReferenceId,id==='1415'?'11415':'11413');near(row(caster).expected,own);
+   if(id==='1413'){const u=row('141303');near(u.expected,8432*2*1.19*.36*(1+.37*(143+bonus)/100));}
+   else {const sum=row('11415012');near(sum.expected,3*r.expected);for(const part of Object.values(sum.components)){assert.equal(part.applied.filter(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage').length,1,'each component reports the resolved snapshot addition');assert.ok(!part.skipped.some(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage'),'resolved component is not shown as excluded');}}
+  }
+  app.node('hsrStat-critDamage').value='999';near(row(memo).expected,nc*(1+.37*1.91),'wearer CD is not inherited');
+  const boosted=row(memo).expected;app.state.modifierInputs[prefix+'critDamage']=191;app.state.modifierInputs[key]=true;near(row(memo).expected,boosted,'explicitly included component is never doubled');
+  app.state.modifierInputs[prefix+'critDamage']=143;app.state.modifierInputs[key]=false;app.state.coneId='21029';near(row(memo).expected,nc*(1+.37*1.43));app.state.coneId='21057';near(row(memo).expected,boosted,'A-B-A restores exactly');
+  app.node('hsrStat-hp').handlers.input();const saved=await tool(app.storage,data);near(row(memo,saved).expected,boosted);
+  saved.state.coneId='';near(row(memo,saved).expected,nc*(1+.37*1.43));saved.state.coneId='21057';delete saved.state.modifierInputs[prefix+'critDamage'];assert.equal(row(memo,saved),undefined);assert.ok(row(caster,saved),'missing spirit CD remains local');
+ }
+});
+
+test('Round48 explicit final inclusion preserves prior defaults and rejects non-boolean metadata',async()=>{
+ const {data,runtime}= {...await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),runtime:require('../../games/js/hsrModifierRuntime.js')};
+ const row=data.structuredModifiers.find(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage'),context={characterId:'1415',lightConeId:'21057',refinement:3,eidolon:0,partyIds:[],stats:{},characterElement:'Ice'};
+ const candidate=inputs=>runtime.buildCandidates([row],context,inputs)[0];
+ assert.equal(candidate({}).includedInFinalStats,true);assert.equal(candidate({}).enabled,false);assert.equal(candidate({[row.finalStatsInclusion.inputKey]:false}).value,36);assert.equal(candidate({[row.finalStatsInclusion.inputKey]:false}).enabled,true);
+ const old={...row,finalStatsInclusion:{inputKey:'old-final',inputLabel:'old'}};assert.equal(runtime.buildCandidates([old],context,{})[0].includedInFinalStats,false,'all existing records retain their defaults');
+ assert.equal(runtime.buildCandidates([row],{...context,lightConeId:'',partyIds:['1413'],partyEquipment:[{characterId:'1413',lightConeId:'21057',refinement:5}]},{}).length,0,'another summoner does not supply this component');
+ assert.equal(runtime.buildCandidates([row],{...context,characterId:'1407'},{}).length,0,'unverified spirit owner excluded');
+ const {validateModifiers}=require('../../scripts/validateHsrModifiers.cjs');const bad=JSON.parse(JSON.stringify(row));bad.finalStatsInclusion.defaultIncluded='true';assert.ok(validateModifiers([bad]).some(s=>s.includes('defaultIncluded: expected boolean')));
+});
+
+test('Round48 UID converted ATK reaches product damage once and survives equipment and saved-input changes',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),catalog=JSON.parse(read('games/hsr/data/catalog.json')),mapperWindow={};
+ vm.runInNewContext(read('games/js/hsrProfileMapper.js'),{window:mapperWindow});
+ const cone=catalog.lightCones.find(x=>x.id==='21041'),character=catalog.characters.find(x=>x.id==='1006'),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ const raw={avatarId:1006,level:80,rank:0,equipment:{tid:21041,level:80,rank:1,_flat:{props:[{type:'BaseHP',value:cone.base.hp},{type:'BaseAttack',value:cone.base.atk},{type:'BaseDefence',value:cone.base.def}]}},skillTreeList:[{pointId:1006001,level:6},{pointId:1006002,level:10},{pointId:1006003,level:10},{pointId:1006004,level:10}],relicList:[{tid:1,_flat:{setID:303,props:[{type:'StatusProbabilityBase',value:.7}]}},{tid:2,_flat:{setID:303,props:[]}}]};
+ const profile=mapperWindow.HsrProfileMapper.mapProfileResponse({detailInfo:{avatarDetailList:[raw]}},catalog).characters[0];
+ const expectedAtk=(character.base.atk+cone.base.atk)*1.4;near(profile.stats.effectHitRate,80);near(profile.stats.atk,expectedAtk);
+ app.window.HsrTool.applyProfileCharacter(profile);
+ const normal=x=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='100601').name),expected=expectedAtk*1*.36;
+ near(normal(app).nonCrit,expected);near(normal(app).expected,expected*1.025);
+ app.state.coneId='21029';near(normal(app).nonCrit,expected,'manual final ATK remains authoritative when changing equipment');app.state.coneId='21041';near(normal(app).nonCrit,expected,'switching back cannot re-add conversion');
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(normal(saved).nonCrit,expected);
+ saved.window.HsrTool.applyProfileCharacter(profile);near(normal(saved).nonCrit,expected,'reimport is reconstructed once from raw properties');
+});

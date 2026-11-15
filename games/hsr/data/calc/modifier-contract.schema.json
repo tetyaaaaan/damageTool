@@ -185,7 +185,8 @@
       "properties": {
         "inputKey": { "type": "string", "minLength": 1 },
         "inputLabel": { "type": "string", "minLength": 1 },
-        "legacyToggleKey": { "type": "string", "minLength": 1 }
+        "legacyToggleKey": { "type": "string", "minLength": 1 },
+        "defaultIncluded": { "type": "boolean" }
       },
       "additionalProperties": false
     },

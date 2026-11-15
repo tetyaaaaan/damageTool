@@ -323,3 +323,7 @@ LC23011はHP減少後の有効支援を任意指定。LC23029の甲卸/窮寇は
 LC21030の `category:baseDamageAddition` はself/def/byRefinement/always/ultimateと確認済み6attackIdsに限定する。登録検証で他の組合せを拒否する。演算はcategoryによる限定実装であり、calculation.stage/operationから汎用演算を生成する変更ではない。既存finalStatsInclusionは「別の攻撃基礎項を算入済み」の除外指定に使い、恒常DEF割合の算入指定には使わない。
 
 `supplementalAttack.element:"wearer"` は候補生成時に現在の装備者属性へ解決する。実際の攻撃/対象属性は従来の7属性のみ。未知属性なら当該付加を停止し、他所有者の属性/最終値で補完しない。21029/20018はactiveCharacter参照の会心可能なadditional1回で、通常/Skill/追撃専用補正を継承しない。元攻撃へ自動合算しない。21029は敵1体を自動判定、20018はスキル後の次通常準備状態を既存toggleThresholdで指定する。履歴更新は行わない。根拠と限定範囲は[台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round47-equipment)、[定義](../../../games/hsr/data/calc/modifiers-equipment-round47.json)を参照。
+
+### 独立最終入力の既算入初期値（第48回）
+
+`finalStatsInclusion.defaultIncluded` は任意boolean。明示入力を最優先、既存legacyToggleKeyが指定済みなら従来の反転指定を使い、どちらもなければこの初期値を使う。未指定の既存登録は従来どおり。21057は常時効果だが独立精霊の入力契約が装備込み最終CDのため、既算入trueを初期値とする。未算入を明示した場合だけS別24～48%を対応する精霊スナップショットのCDへ追加する。本人向けModifierや一般的な所有者跨ぎ継承へ変換しない。適用記録は補完済みの精霊結果に付ける。303/21041のATKはUID最終値再構成の責務とし、同じ戦闘Modifierを複製しない。[追加定義](../../../games/hsr/data/calc/modifiers-equipment-round48.json)、[受入](../../HSR_COMPLETION_WORKLOAD.md#hsr-round48-equipment)を参照。

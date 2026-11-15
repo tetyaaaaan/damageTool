@@ -324,7 +324,7 @@
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じ光円錐の複数提供者による支援は条件未確定です。" });
       }
       const inclusion = record.finalStatsInclusion;
-      const includedInFinalStats = Boolean(inclusion && (inputs[inclusion.inputKey] ?? (inclusion.legacyToggleKey && inputs[inclusion.legacyToggleKey] === false)));
+      const includedInFinalStats = Boolean(inclusion && (inputs[inclusion.inputKey] ?? (inclusion.legacyToggleKey && inputs[inclusion.legacyToggleKey] !== undefined ? inputs[inclusion.legacyToggleKey] === false : inclusion.defaultIncluded === true)));
       const supportStatus = record.support?.status || "review";
       const calculable = supportStatus === "calculable" && record.inputPolicy !== "includedInFinalStats";
       const value = resolveValue(record, providerContext, inputs, selection);

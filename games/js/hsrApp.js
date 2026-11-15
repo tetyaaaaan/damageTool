@@ -1023,6 +1023,11 @@
   function independentMemospriteSnapshot(id, attack) {
     const cyrene=id==='1415',owner=({'1415':'11415','1409':'11409','1413':'11413','1407':'11407','8007':'18007','8008':'18007','1508':'1015'})[id],keys=[...(['8007','8008','1508'].includes(id)?['atk']:[]),...(['1415','1413'].includes(id)?['hp']:[]),'critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'],get=k=>state.modifierInputs['memosprite:'+id+':'+k];
     const valid=keys.every(k=>Number.isFinite(get(k))&&(['hp','atk'].includes(k)?get(k)>0:get(k)>=0))&&(id!=='1407'||Number.isFinite(state.stats.hp)&&state.stats.hp>0),stats={...Object.fromEntries(keys.filter(k=>!['defenseIgnore','resistancePenetration'].includes(k)).map(k=>[k,get(k)])),...(id==='1407'?{hp:state.stats.hp}:{})};
+    const snapshotEquipment = [];
+    if (state.coneId === '21057' && ['1415','1413'].includes(id) && id === state.characterId) {
+      const item = structuredSourceConditions().find(m => m.id === 'lightCone:21057:independent-memosprite-crit-damage' && m.enabled && m.applicable !== false && !m.inputWarnings?.length);
+      if (item && Number.isFinite(stats.critDamage)) { stats.critDamage += item.value; snapshotEquipment.push({...item, statReferenceId:owner}); }
+    }
     let genesisIssue='';
     if(['8007','8008'].includes(id)&&attack){
       const target=['800708','800808'].includes(attack.id)?{...attack,id:id==='8007'?'800703':'800803'}:attack;
@@ -1033,7 +1038,7 @@
       const rows=structuredSourceConditions().filter(m=>m.id.startsWith('trace:1415:1141524:')&&m.enabled&&!m.includedInFinalStats&&window.HsrModifierRuntime.applicableToAttack(m,attack));
       for(const m of rows){if(m.inputWarnings?.length||m.applicable===false)genesisIssue='歳月の会心支援には、長夜月がスキルを発動した時点の会心ダメージを入力してください。';else if(m.category==='critDamage')stats.critDamage+=m.value;else if(m.category==='damageBonus')stats.damageBonus+=m.value;}
     }
-    return {referenceCharacter:{id:owner,level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},completedReferenceSnapshot:valid,damageOwnerId:owner,referenceIssue:genesisIssue||(valid?'':({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜','8007':'ミュリオン','8008':'ミュリオン','1508':'アーチャー'})[id]+'の独立した最終値を補正条件で入力してください。補正なしは0です。'),referenceCondition:{id:'memosprite:'+id,tab:'軌跡'}};
+    return {referenceCharacter:{id:owner,level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},completedReferenceSnapshot:valid,damageOwnerId:owner,snapshotEquipment,referenceIssue:genesisIssue||(valid?'':({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜','8007':'ミュリオン','8008':'ミュリオン','1508':'アーチャー'})[id]+'の独立した最終値を補正条件で入力してください。補正なしは0です。'),referenceCondition:{id:'memosprite:'+id,tab:'軌跡'}};
   }
   function dragonActionSnapshot(profile) {
     const get=k=>state.modifierInputs['dragon:1414:'+profile+':'+k],keys=['critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'],valid=keys.every(k=>Number.isFinite(get(k))&&get(k)>=0)&&Number.isFinite(state.stats.atk)&&state.stats.atk>0,stats={atk:state.stats.atk,...Object.fromEntries(keys.slice(0,3).map(k=>[k,get(k)]))};
@@ -1085,7 +1090,7 @@
 
     if(['1409','1415','1413','1407'].includes(state.characterId)&&state.conditionTab==='軌跡'){
       const id=state.characterId,cyrene=id==='1415',name=({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜'})[id],pairs=[...(['1415','1413'].includes(id)?[['hp','精霊の最終HP']]:[]),['critRate','精霊の最終会心率（%）'],['critDamage','精霊の最終会心ダメージ（%）'],['damageBonus','精霊の最終'+(id==='1409'?'風':id==='1407'?'量子':'氷')+'与ダメージ（%）'],['defenseIgnore','精霊の防御無視（%）'],['resistancePenetration','精霊の属性耐性貫通（%）']];
-      return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:'+id+'"><h5>'+name+'の独立した戦闘中の最終値</h5><p class="genshin-help">本人の値は継承しません。装備・支援・固有補正を各自の最終値へ一度含めます。'+(id==='1413'?'長夜の最終HPを入力します。天賦CD・精霊在場DMG・常時会心率35%・有効スキルと編成人数由来の会心DMGを含めてください。必殺は至暗の謎が事前成立した状態で、DMGと敵被ダメージも各最終入力に含めます。憶質は攻撃前の値、終結技は16のみ対応です。':id==='1407'?'HP参照は画面のキャストリス本人の最終HPです。死竜の会心・量子DMG・防御無視・貫通は独立入力します。天賦DMGと、今回の息吹発動で加わる30%を含む追加能力の有効層は、ダメージ発生時点の死竜DMGへ一度含めてください。息吹の事前段階と死竜のHP割合を指定し、25%以下の同時天賦は合計行へ一度だけ加算します。':cyrene?'必殺の会心、天賦DMG・A6のSPD由来氷貫通も含めてください。追憶の追加は他精霊なしの味方0～3名です。特殊な祝福は未対応です。':'微笑む暗雲の会心率+100%、治癒後の天賦DMG最大3層も含めてください。累計治癒量は攻撃直前の記録値です。HPや与ダメージ結果ではありません。記録の蓄積・50%消去は自動追跡しません。')+'</p>'+pairs.map(([k,label])=>{const key='memosprite:'+id+':'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
+      return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:'+id+'"><h5>'+name+'の独立した戦闘中の最終値</h5><p class="genshin-help">本人の値は継承しません。装備・支援・固有補正を各自の最終値へ一度含めます。'+(['1415','1413'].includes(id)?'花は忘れないは精霊専用CDも含めて入力し、未算入の場合だけ光円錐補正の算入済み指定を外してください。':'')+(id==='1413'?'長夜の最終HPを入力します。天賦CD・精霊在場DMG・常時会心率35%・有効スキルと編成人数由来の会心DMGを含めてください。必殺は至暗の謎が事前成立した状態で、DMGと敵被ダメージも各最終入力に含めます。憶質は攻撃前の値、終結技は16のみ対応です。':id==='1407'?'HP参照は画面のキャストリス本人の最終HPです。死竜の会心・量子DMG・防御無視・貫通は独立入力します。天賦DMGと、今回の息吹発動で加わる30%を含む追加能力の有効層は、ダメージ発生時点の死竜DMGへ一度含めてください。息吹の事前段階と死竜のHP割合を指定し、25%以下の同時天賦は合計行へ一度だけ加算します。':cyrene?'必殺の会心、天賦DMG・A6のSPD由来氷貫通も含めてください。追憶の追加は他精霊なしの味方0～3名です。特殊な祝福は未対応です。':'微笑む暗雲の会心率+100%、治癒後の天賦DMG最大3層も含めてください。累計治癒量は攻撃直前の記録値です。HPや与ダメージ結果ではありません。記録の蓄積・50%消去は自動追跡しません。')+'</p>'+pairs.map(([k,label])=>{const key='memosprite:'+id+':'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
     }
     if(state.characterId==='1402'&&state.conditionTab==='軌跡')return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:1402"><h5>ラフトラの独立した戦闘中の最終値</h5><p class="genshin-help">本人と精霊のATK・会心・雷与ダメージを分けます。至高の姿の速度由来ATK・保持速度層・装備・支援は各自の最終値に一度含めてください。本人の値を精霊へ自動継承しません。敵1体・事前の糸・状態一定の単発比較です。</p>'+[['atk','ラフトラの最終ATK'],['critRate','ラフトラの最終会心率（%）'],['critDamage','ラフトラの最終会心ダメージ（%）'],['damageBonus','ラフトラの最終雷与ダメージ（%）'],['defenseIgnore','ラフトラの防御無視（%）'],['resistancePenetration','ラフトラの雷耐性貫通（%）']].map(([k,label])=>{const key='memosprite:1402:'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
 
@@ -1887,8 +1892,8 @@
     conditionAudit = { applied: new Set(), skipped: new Set() };
     const audit = result => {
       if (!result || result.supported === false) return;
-      if (result.components) { Object.values(result.components).forEach(audit); return; }
       (result.applied || []).forEach(item => conditionAudit.applied.add(item.id));
+      if (result.components) { Object.values(result.components).forEach(audit); return; }
       (result.skipped || []).forEach(item => conditionAudit.skipped.add(item.id));
     };
     results.forEach(({result, adjacent}) => { audit(result); audit(adjacent); });
@@ -2100,6 +2105,20 @@
 
       if (selected.sequenceTemplates) request.attack = {...request.attack, damageComponents:selected.sequenceTemplates};
       const result = window.HsrCalcEngine.calculate(request);
+      if (selected.snapshotEquipment?.length) {
+        const trackSnapshotEquipment = (out, source) => {
+          if (!out || out.supported === false) return;
+          const items = source.attack?.snapshotEquipment || [];
+          out.applied = [...(out.applied || []), ...items];
+          const ids = new Set(items.map(item => item.id));
+          out.skipped = (out.skipped || []).filter(item => !ids.has(item.id));
+          Object.entries(out.components || {}).forEach(([key, child]) => {
+            const component = (source.sequenceComponents || []).find(item => item.key === key || source.attack?.id === '11415012' && item.key === 'recollection' && /^recollection[1-3]$/.test(key));
+            if (component) trackSnapshotEquipment(child, component.input);
+          });
+        };
+        trackSnapshotEquipment(result, request);
+      }
       const adjacentAttack = selected.adjacentMultiplier && !(selected.suppressAdjacentWithSingleEnemy && state.enemy.count === 1) ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;
       const adjacent = adjacentAttack ? window.HsrCalcEngine.calculate({ ...baseRequest, attack: adjacentAttack, modifiers: modifiers(adjacentAttack) }) : null;
       return { attack: selected, result, adjacent };

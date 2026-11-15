@@ -27,3 +27,5 @@ node --test tests/hsr/*.test.cjs
 - `modifiers-equipment-round46.json`: 所持爆笑ネタ/受益者HP・層数・戦闘状態・装備由来DEF燃焼の限定成分。恒常propertiesを再加算しない。[受入/保留](../../../../docs/HSR_COMPLETION_WORKLOAD.md#hsr-round46-equipment)、[独立検証](../../../../tests/hsr/hsrEquipmentRound46.test.cjs)を参照。
 
 - `modifiers-equipment-round47.json`: 21030の必殺基礎DEF項と21029/20018の装備者属性による独立付加。受入の6必殺/敵1体/事前状態・精度根拠は[第47回台帳](../../../../docs/HSR_COMPLETION_WORKLOAD.md#hsr-round47-equipment)、[独立検証](../../../../tests/hsr/hsrEquipmentRound47.test.cjs)を参照。恒常DEFと攻撃基礎項を二重算入しない。
+
+- `modifiers-equipment-round48.json`: 21057の専属精霊CD差分。独立した装備込み最終値は既算入を初期値とし、明示した未算入分だけ追加する。21041/303のATK改善はUID再構成側で、戦闘Modifierへ複製しない。[第48回台帳](../../../../docs/HSR_COMPLETION_WORKLOAD.md#hsr-round48-equipment)、[変換検証](../../../../tests/hsr/hsrEquipmentConversionRound48.test.cjs)を参照。
