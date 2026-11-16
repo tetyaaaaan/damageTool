@@ -5015,3 +5015,36 @@ test('Round50 LC23049 separates own-Servant DMG from allied-Servant defense igno
  saved.state.party[0].coneRank=5;near(row('1141501',saved).expected,oracle(0,30));saved.state.party[1]={characterId:'1407',level:80,eidolon:0,lightConeId:'23049',coneRank:5};near(row('1141501',saved).expected,base);saved.state.party[1].characterId='8007';near(row('1141501',saved).expected,base,'an unconnected second provider cannot be ignored');
  saved.state.party=[];near(row('1141501',saved).expected,base);
 });
+
+
+test('Round51 final-input and unresolved EHR scope stays visible without stopping valid attacks',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1004',level:80,eidolon:0,lightCone:{id:'21041',level:80,rank:1},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,effectHitRate:70}});
+ const row=(x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='100401').name);
+ app.state.modifierInputs['lc-21041-ehr-baseline-active']=true;near(row().expected,1620);assert.match(app.node('hsrResults').innerHTML,/data-hsr-equipment-scope="21041"/);assert.match(app.node('hsrResults').innerHTML,/基準効果命中を確認できない/);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(row(saved).expected,1620);assert.match(saved.node('hsrResults').innerHTML,/基準効果命中を確認できない/);
+ saved.state.modifierInputs['lc-21041-baseline-ehr']=70;near(row(saved).expected,1620);assert.doesNotMatch(saved.node('hsrResults').innerHTML,/基準効果命中を確認できない/);
+ saved.state.coneId='';saved.state.ornamentId='303';near(row(saved).expected,1620);assert.match(saved.node('hsrResults').innerHTML,/data-hsr-equipment-scope="303"/);assert.doesNotMatch(saved.node('hsrResults').innerHTML,/data-hsr-equipment-scope="21041"/);
+ saved.state.ornamentId='';near(row(saved).expected,1620);assert.doesNotMatch(saved.node('hsrResults').innerHTML,/data-hsr-equipment-scope=/);
+});
+
+test('Round51 separate unsupported spirit components are explained only when relevant and survive restore',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1415',level:80,eidolon:0,lightCone:{id:'23042',level:80,rank:1},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6}],stats:{atk:3000,hp:11037,def:2000,critRate:11,critDamage:57,damageBonus:0}});
+ const row=(id,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ assert.ok(row('141501'));assert.equal(row('1141501'),undefined);assert.doesNotMatch(app.node('hsrResults').innerHTML,/data-hsr-equipment-scope="23042"/);
+ for(const[k,v]of Object.entries({hp:8432,critRate:37,critDamage:143,damageBonus:19,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:1415:'+k]=v;
+ const expected=8432*.6*1.19*.36*(1+.37*1.43);near(row('1141501').expected,expected);assert.match(app.node('hsrResults').innerHTML,/data-hsr-equipment-scope="23042"/);assert.match(app.node('hsrResults').innerHTML,/消費HP記録による別の付加ダメージは含みません/);
+ app.node('hsrStat-hp').handlers.input();const saved=await tool(app.storage,data);near(row('1141501',saved).expected,expected);assert.match(saved.node('hsrResults').innerHTML,/data-hsr-equipment-scope="23042"/);
+ saved.state.coneId='21057';near(row('1141501',saved).expected,expected);assert.doesNotMatch(saved.node('hsrResults').innerHTML,/data-hsr-equipment-scope="(?:23042|21057)"/);
+ saved.state.coneId='';near(row('1141501',saved).expected,expected);assert.doesNotMatch(saved.node('hsrResults').innerHTML,/data-hsr-equipment-scope=/);
+});
+
+test('Round51 known unconnected equipment and character scopes preserve per-attack calculation',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data);
+ const profile=id=>({id,level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6},{type:'MemospriteTalent',level:6}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ for(const[id,cone]of [['1203','23013'],['1304','21039']]){app.window.HsrTool.applyProfileCharacter(profile(id));app.state.coneId=cone;assert.ok(app.calculate().length);assert.match(app.node('hsrResults').innerHTML,new RegExp('data-hsr-equipment-scope="'+cone+'"'));}
+ app.window.HsrTool.applyProfileCharacter(profile('8007'));app.state.coneId='21057';for(const[k,v]of Object.entries({atk:5000,critRate:37,critDamage:143,damageBonus:19,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:8007:'+k]=v;
+ assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='1800701').name));assert.match(app.node('hsrResults').innerHTML,/data-hsr-equipment-scope="21057"/);
+ app.window.HsrTool.applyProfileCharacter(profile('1214'));assert.ok(app.calculate().length);assert.match(app.node('hsrResults').innerHTML,/data-hsr-equipment-scope="character"/);assert.match(app.node('hsrResults').innerHTML,/計算可能の表示は攻撃ごとの対応範囲/);
+});

@@ -1118,7 +1118,7 @@
       const id=state.characterId,cyrene=id==='1415',name=({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜'})[id],pairs=[...(['1415','1413'].includes(id)?[['hp','精霊の最終HP']]:[]),['critRate','精霊の最終会心率（%）'],['critDamage','精霊の最終会心ダメージ（%）'],['damageBonus','精霊の最終'+(id==='1409'?'風':id==='1407'?'量子':'氷')+'与ダメージ（%）'],['defenseIgnore','精霊の防御無視（%）'],['resistancePenetration','精霊の属性耐性貫通（%）']];
       return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:'+id+'"><h5>'+name+'の独立した戦闘中の最終値</h5><p class="genshin-help">本人の値は継承しません。装備・支援・固有補正を各自の最終値へ一度含めます。'+(['1415','1413'].includes(id)?'花は忘れないは精霊専用CDも含めて入力し、未算入の場合だけ光円錐補正の算入済み指定を外してください。':'')+(id==='1413'?'長夜の最終HPを入力します。天賦CD・精霊在場DMG・常時会心率35%・有効スキルと編成人数由来の会心DMGを含めてください。必殺は至暗の謎が事前成立した状態で、DMGと敵被ダメージも各最終入力に含めます。憶質は攻撃前の値、終結技は16のみ対応です。':id==='1407'?'HP参照は画面のキャストリス本人の最終HPです。死竜の会心・量子DMG・防御無視・貫通は独立入力します。天賦DMGと、今回の息吹発動で加わる30%を含む追加能力の有効層は、ダメージ発生時点の死竜DMGへ一度含めてください。息吹の事前段階と死竜のHP割合を指定し、25%以下の同時天賦は合計行へ一度だけ加算します。':cyrene?'必殺の会心、天賦DMG・A6のSPD由来氷貫通も含めてください。追憶の追加は他精霊なしの味方0～3名です。特殊な祝福は未対応です。':'微笑む暗雲の会心率+100%、治癒後の天賦DMG最大3層も含めてください。累計治癒量は攻撃直前の記録値です。HPや与ダメージ結果ではありません。記録の蓄積・50%消去は自動追跡しません。')+'</p>'+pairs.map(([k,label])=>{const key='memosprite:'+id+':'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
     }
-    if(state.characterId==='1402'&&state.conditionTab==='軌跡')return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:1402"><h5>ラフトラの独立した戦闘中の最終値</h5><p class="genshin-help">本人と精霊のATK・会心・雷与ダメージを分けます。至高の姿の速度由来ATK・保持速度層・装備・支援は各自の最終値に一度含めてください。本人の値を精霊へ自動継承しません。敵1体・事前の糸・状態一定の単発比較です。</p>'+[['atk','ラフトラの最終ATK'],['critRate','ラフトラの最終会心率（%）'],['critDamage','ラフトラの最終会心ダメージ（%）'],['damageBonus','ラフトラの最終雷与ダメージ（%）'],['defenseIgnore','ラフトラの防御無視（%）'],['resistancePenetration','ラフトラの雷耐性貫通（%）']].map(([k,label])=>{const key='memosprite:1402:'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
+    if(state.characterId==='1402'&&state.conditionTab==='軌跡')return '<section class="hsr-condition-purpose" data-hsr-condition-ids="memosprite:1402"><h5>ラフトラの独立した戦闘中の最終値</h5><p class="genshin-help">本人と精霊のATK・会心・雷与ダメージを分けます。至高の姿の速度由来ATK・保持速度層・装備・支援は各自の最終値に一度含めてください。花は忘れないの精霊専用CDも含め、未算入の場合だけ光円錐補正の算入済み指定を外してください。本人の値を精霊へ自動継承しません。敵1体・事前の糸・状態一定の単発比較です。</p>'+[['atk','ラフトラの最終ATK'],['critRate','ラフトラの最終会心率（%）'],['critDamage','ラフトラの最終会心ダメージ（%）'],['damageBonus','ラフトラの最終雷与ダメージ（%）'],['defenseIgnore','ラフトラの防御無視（%）'],['resistancePenetration','ラフトラの雷耐性貫通（%）']].map(([k,label])=>{const key='memosprite:1402:'+k;return '<label class="genshin-condition-control"><span>'+label+'</span><input type="number" class="input_num" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" min="0" step="any"></label>';}).join('')+'</section>';
 
     if (state.characterId === '1509' && state.conditionTab === '軌跡') {
       const present=state.party.some(m=>String(m.characterId)==='1014'),id=present?'1014':'';
@@ -1854,6 +1854,37 @@
     return `<h4>${esc(targetLabel)}・適用された補正</h4>${list(result.applied, true)}<h4>${esc(targetLabel)}・条件未成立／対象外</h4>${list(result.skipped, false)}`;
   }
 
+  function resultEquipmentScope(results) {
+    const attacks=[];
+    const visit=attack=>{attacks.push(attack);(attack.sequenceAttacks||[]).forEach(visit);};
+    results.forEach(item=>visit(item.attack));
+    const own=attacks.filter(a=>!a.referenceCharacter||a.referenceCharacter.id===state.characterId);
+    const usesAtk=own.some(a=>a.scalingStat==='atk'||a.scalingTerms?.some(term=>term.stat==='atk'));
+    const ownDirect=own.some(a=>!['break','superBreak','elation'].includes(a.type));
+    const spirits=attacks.filter(a=>a.referenceCharacter&&a.referenceCharacter.id!==state.characterId&&a.damageOwnerId===a.referenceCharacter.id);
+    const cone=find('lightCones',state.coneId),compatible=cone&&cone.path===character()?.path;
+    const notes=[];
+    const add=(id,text)=>notes.push(`<li data-hsr-equipment-scope="${id}">${esc(text)}</li>`);
+    if(compatible&&usesAtk&&state.coneId==='21041'){
+      const delta=structuredSourceConditions().find(m=>m.id==='lightCone:21041:battle-ehr-attack-delta');
+      add('21041',delta?.activation.unresolved?'ショーの始まり：基準効果命中を確認できないため、戦闘中のATK差分は含みません。基準効果命中を補正条件で入力するか、差分を含む最終ATKを入力してください。':delta?.includedInFinalStats?'ショーの始まり：戦闘中のATK差分は最終ATKへ反映済みとして再加算しません。':'ショーの始まり：入力ATKは装備込み最終値です。現在の効果命中からATK差分を更新する場合は、補正条件でATKに対応する基準効果命中を指定してください。');
+    }
+    if(usesAtk&&state.ornamentId==='303')add('303','汎銀河商事会社：効果命中からのATK変換はUID取得時に一度反映します。手入力・戦闘中の効果命中変更では、変換を含む最終ATKを入力してください。戦闘中の自動再変換は行いません。');
+    if(compatible&&ownDirect&&state.coneId==='21039')add('21039','運命を紡ぐ糸：DEFに応じた与ダメージ変換は自動加算しません。対応する与ダメージ補正を最終入力へ含めてください。変換の正確な丸め順序は計算対象外です。');
+    if(compatible&&ownDirect&&state.coneId==='23013')add('23013','時節は居らず：記録治癒量によって別に発生する付加ダメージは計算対象外です。表示中の攻撃へ加算・合算していません。');
+    if(compatible&&spirits.length&&state.coneId==='23042')add('23042','空の虹が消えぬように：表示中の精霊攻撃に、消費HP記録による別の付加ダメージは含みません。敵被ダメージ上昇は補正条件の指定に従います。');
+    if(compatible&&spirits.length&&state.coneId==='21057'){
+      const record=state.data.structuredModifiers.find(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage');
+      if(!record?.source.wearerIds.includes(state.characterId)||spirits.some(a=>!window.HsrModifierRuntime.applicableToAttack({...record,enabled:true,calculable:true},a)))add('21057','花は忘れない：この精霊・攻撃には専用会心ダメージの自動補完が接続されていません。精霊の独立した最終会心ダメージへ装備効果を一度含めて入力してください。');
+    }
+    if(spirits.length){
+      const ignore=structuredSourceConditions().find(m=>m.id==='lightCone:23049:nightshade-memosprite-defense-ignore');
+      if(ignore?.activation.unresolved)add('23049','長き夜に輝く星へ：複数提供者の精霊防御無視は合成を確認できないため追加していません。対応する防御無視を精霊の最終入力へ含めてください。');
+    }
+    if(results.length&&['1214','1321','1506','1509'].includes(state.characterId))add('character','このキャラクターの主要構成には計算対象外の範囲があります。計算可能な行は、各攻撃の詳細に記載した条件で利用できます。');
+    return notes.length?`<details class="hsr-excluded-conditions" open><summary>選択中の装備・攻撃の計算範囲</summary><ul>${notes.join('')}</ul></details>`:'';
+  }
+
   function excludedConditions() {
     const items = allConditions().filter((item) => item.displayOnly && !isAttackSelectionCondition(item));
     const included = items.filter((item) => item.inputPolicy === "includedInFinalStats");
@@ -1961,7 +1992,7 @@
     if (!visibleGroups.length) visibleGroups.push(RESULT_GROUPS.find((group) => group.id === "other"));
     const active = visibleGroups.find((group) => groups[group.id].length)?.id || visibleGroups[0].id;
     const table = (rows, label) => `<div class="genshin-damage-table-wrap"><table class="genshin-damage-table${hasCritical ? "" : " hsr-noncritical-table"}" aria-label="${label}の計算結果"><colgroup><col class="genshin-damage-col-name"><col class="genshin-damage-col-value">${hasCritical ? '<col class="genshin-damage-col-value"><col class="genshin-damage-col-value">' : ""}</colgroup><thead><tr><th scope="col">攻撃名</th><th scope="col">${hasCritical ? "非会心" : "ダメージ"}</th>${hasCritical ? '<th scope="col">会心</th><th scope="col">期待値</th>' : ""}</tr></thead><tbody>${rows.join("")}</tbody></table></div>`;
-    $("hsrResults").innerHTML = `<div class="genshin-result-tabs" role="tablist" aria-label="攻撃種別">${visibleGroups.map((group) => `<button type="button" class="genshin-result-tab${group.id === active ? " is-active" : ""}" role="tab" id="hsr-result-tab-${group.id}" aria-controls="hsr-result-panel-${group.id}" data-result-tab="${group.id}" aria-selected="${group.id === active}" tabindex="${group.id === active ? "0" : "-1"}">${group.label}${pending[group.id].some(row => row.includes("data-hsr-pending-input")) ? `<small>入力確認 ${pending[group.id].length}</small>` : ""}</button>`).join("")}</div>${visibleGroups.map((group) => `<section class="genshin-json-result-section" role="tabpanel" id="hsr-result-panel-${group.id}" aria-labelledby="hsr-result-tab-${group.id}" data-result-panel="${group.id}"${group.id === active ? "" : " hidden"}>${groups[group.id].length ? table(groups[group.id],group.label) : pending[group.id].length ? "" : '<p class="genshin-help">この種別に計算できる攻撃はありません。</p>'}${pending[group.id].join("")}${unsupported[group.id].length ? `<details class="hsr-unavailable-results"><summary>計算不可の攻撃・条件（${unsupported[group.id].length}件）</summary>${unsupported[group.id].join("")}</details>` : ""}</section>`).join("")}${excludedConditions()}<p class="hsr-support-note">表示値は丸めています。多段攻撃はヒット合計です。対応条件は各攻撃の詳細で確認できます。</p>`;
+    $("hsrResults").innerHTML = `${resultEquipmentScope(results)}<div class="genshin-result-tabs" role="tablist" aria-label="攻撃種別">${visibleGroups.map((group) => `<button type="button" class="genshin-result-tab${group.id === active ? " is-active" : ""}" role="tab" id="hsr-result-tab-${group.id}" aria-controls="hsr-result-panel-${group.id}" data-result-tab="${group.id}" aria-selected="${group.id === active}" tabindex="${group.id === active ? "0" : "-1"}">${group.label}${pending[group.id].some(row => row.includes("data-hsr-pending-input")) ? `<small>入力確認 ${pending[group.id].length}</small>` : ""}</button>`).join("")}</div>${visibleGroups.map((group) => `<section class="genshin-json-result-section" role="tabpanel" id="hsr-result-panel-${group.id}" aria-labelledby="hsr-result-tab-${group.id}" data-result-panel="${group.id}"${group.id === active ? "" : " hidden"}>${groups[group.id].length ? table(groups[group.id],group.label) : pending[group.id].length ? "" : '<p class="genshin-help">この種別に計算できる攻撃はありません。</p>'}${pending[group.id].join("")}${unsupported[group.id].length ? `<details class="hsr-unavailable-results"><summary>計算不可の攻撃・条件（${unsupported[group.id].length}件）</summary>${unsupported[group.id].join("")}</details>` : ""}</section>`).join("")}${excludedConditions()}<p class="hsr-support-note">表示値は丸めています。多段攻撃はヒット合計です。計算可能の表示は攻撃ごとの対応範囲です。装備込み最終値と各攻撃の事前条件は詳細で確認できます。</p>`;
   }
 
   function renderAttackPreview() {
