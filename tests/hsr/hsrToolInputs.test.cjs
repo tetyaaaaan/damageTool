@@ -4783,3 +4783,126 @@ test('Round48 UID converted ATK reaches product damage once and survives equipme
  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(normal(saved).nonCrit,expected);
  saved.window.HsrTool.applyProfileCharacter(profile);near(normal(saved).nonCrit,expected,'reimport is reconstructed once from raw properties');
 });
+
+// Round49 uses fixed-source coefficients below, not results from the production engine.
+// 256 IEEE-754 epsilons bound the short sums/products of these composed scenarios;
+// this tolerance is for arithmetic evaluation order, never a gameplay percentage error.
+function r49Oracle(base, {dmg=0,cr=37,cd=129,down=15,ignore=5,pen=7,res=27,taken=9,broken=false}={}) {
+ const defense=100/(100+103*Math.max(0,1-(down+ignore)/100));
+ const nonCrit=base*(1+dmg/100)*defense*(1-(res-pen)/100)*(broken?1:.9)*(1+taken/100);
+ return {nonCrit,crit:nonCrit*(1+cd/100),expected:nonCrit*(1+Math.min(100,cr)*cd/10000)};
+}
+function r49Equal(actual, expected, label) {
+ for(const k of ['nonCrit','crit','expected'])assert.ok(Number.isFinite(actual?.[k])&&Math.abs(actual[k]-expected[k])<=Number.EPSILON*256*Math.max(1,Math.abs(expected[k])),label+' '+k+': '+actual?.[k]+' != '+expected[k]);
+}
+async function r49App(data,id,stats={}) {
+ const app=await tool(undefined,data);
+ app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6},{type:'MemospriteTalent',level:6}],stats:{atk:2700,hp:8432.25,def:2000,speed:132,critRate:37,critDamage:129,damageBonus:21,effectHitRate:80,effectRes:40,breakEffect:180,...stats}});
+ app.node('hsrEnhancementState').value='previous';
+ for(const[k,v]of Object.entries({hsrEnemyLevel:83,hsrEnemyResistance:27,hsrEnemyDefenseReduction:15,hsrEnemyDefenseIgnore:5,hsrEnemyResistancePenetration:7,hsrEnemyTakenDamage:9,hsrEnemyCount:1,hsrEnemyDebuffCount:3}))app.node(k).value=String(v);
+ return app;
+}
+function r49Result(app,data,id){const name=data.attacks.find(a=>a.id===id).name,result=app.calculate().find(r=>r.attack?.name===name);assert.ok(result,name+': '+app.node('hsrCalculationFeedback').innerHTML);return result;}
+function r49Log(label,expected,actual){console.log('ROUND49 '+JSON.stringify({case:label,independent:expected,actual:{nonCrit:actual.nonCrit,crit:actual.crit,expected:actual.expected}}));}
+function r49Robin(app,slot=0){app.state.party[slot]={...app.state.party[slot],characterId:'1309',level:80,eidolon:0,traceLevels:{skill:10,talent:10,ultimate:10}};delete app.state.modifierInputs['robin-talent-crit-active'];app.state.modifierInputs['robin-skill-damage-active']=true;}
+
+test('Round49 representative combined equipment uses independent ATK, DEF, spirit and UID expectations',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+ // 1. ATK: fixed Welt N6/S10/U10 plus Musketeer, Arena, cone and two providers.
+ {
+  const app=await r49App(data,'1004',{critRate:66}),base=r49Oracle(2700,{dmg:21,cr:66});r49Equal(r49Result(app,data,'100401'),base,'ATK baseline');
+  app.state.coneId='21001';app.state.relicId='102';app.state.ornamentId='309';app.node('hsrStat-atk').value='3127.125';r49Robin(app);
+  app.state.party[1]={...app.state.party[1],characterId:'1208',level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs['fuxuan-matrix-active']=true;
+  const checks=[['100401',1,137,9],['100402',.72*3,127,9],['100403',1.5,107,21]];
+  for(const[id,m,dmg,taken]of checks){const e=r49Oracle(3127.125*m,{dmg,cr:78,cd:149,taken}),r=r49Result(app,data,id);r49Equal(r,e,'ATK '+id);r49Log('ATK '+id,e,r);}
+  const expected=r49Oracle(3127.125,{dmg:137,cr:78,cd:149});app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);r49Equal(r49Result(saved,data,'100401'),expected,'ATK saved');
+  saved.state.modifierInputs['fuxuan-matrix-active']=false;r49Equal(r49Result(saved,data,'100401'),r49Oracle(3127.125,{dmg:117,cr:66,cd:149}),'Arena loses supported CR threshold');
+  saved.state.party=Array.from({length:3},()=>({characterId:''}));saved.state.coneId='';saved.state.relicId='';saved.state.ornamentId='';saved.node('hsrStat-atk').value='2700';r49Equal(r49Result(saved,data,'100401'),base,'ATK removal');
+ }
+ // 3. DEF: the cone term is base damage once, not DMG% or one term per hit.
+ {
+  const app=await r49App(data,'1304');app.state.modifierInputs['aventurine-unnerve-active']=true;
+  const base=r49Oracle(2000*2.7,{dmg:21,cd:144});r49Equal(r49Result(app,data,'130403'),base,'DEF baseline');
+  app.state.coneId='21030';app.state.relicId='103';app.state.ornamentId='310';app.node('hsrStat-def').value='2413.75';r49Robin(app);
+  const e=r49Oracle(2413.75*(2.7+.6),{dmg:71,cd:174}),r=r49Result(app,data,'130403');r49Equal(r,e,'DEF combined');r49Log('DEF U10',e,r);
+  app.node('hsrStat-def').handlers.input();const saved=await tool(app.storage,data);r49Equal(r49Result(saved,data,'130403'),e,'DEF saved');
+  saved.node('hsrStat-effectRes').value='29.999';r49Equal(r49Result(saved,data,'130403'),r49Oracle(2413.75*3.3,{dmg:71,cd:164}),'Keel boundary');
+  saved.state.party=[];saved.state.coneId='';saved.state.relicId='';saved.state.ornamentId='';saved.node('hsrStat-def').value='2000';r49Equal(r49Result(saved,data,'130403'),base,'DEF removal');
+ }
+ // 6. Independent spirit: caster-only gear and stats do not cross the owner boundary.
+ {
+  const app=await r49App(data,'1415',{critRate:80});
+  for(const[k,v]of Object.entries({hp:10000,critRate:45,critDamage:150,damageBonus:30,defenseIgnore:9,resistancePenetration:11}))app.state.modifierInputs['memosprite:1415:'+k]=v;
+  app.state.modifierInputs['cyrene-recollection-allies']=2;
+  const args={dmg:30,cr:45,cd:150,ignore:9,pen:11},base=r49Oracle(6000,args);r49Equal(r49Result(app,data,'1141501'),base,'spirit baseline');
+  app.state.coneId='21057';app.state.coneRank=5;app.node('hsrConeRank').value='5';app.state.relicId='102';app.state.ornamentId='309';app.state.modifierInputs['lc-21057-memosprite-cd-in-final']=false;
+  app.state.party[0]={...app.state.party[0],characterId:'1413',level:80,eidolon:0,lightConeId:'23042',coneRank:1,traceLevels:{memSkill:6}};app.state.modifierInputs['lc-23042-memosprite-debuff-active']=true;
+  const e=r49Oracle(6000,{...args,cd:198,taken:27}),r=r49Result(app,data,'1141501');r49Equal(r,e,'spirit combined');r49Log('independent spirit',e,r);r49Equal(r49Result(app,data,'11415012'),Object.fromEntries(Object.entries(e).map(([k,v])=>[k,v*3])),'spirit three components');
+  app.node('hsrStat-hp').value='17000';app.node('hsrStat-critDamage').value='999';r49Equal(r49Result(app,data,'1141501'),e,'caster isolation');
+  app.node('hsrStat-hp').handlers.input();const saved=await tool(app.storage,data);r49Equal(r49Result(saved,data,'1141501'),e,'spirit saved');
+  saved.state.party=[];saved.state.coneId='';saved.state.relicId='';saved.state.ornamentId='';r49Equal(r49Result(saved,data,'1141501'),base,'spirit removal');
+ }
+ // 8. Reconstructed UID final ATK plus Trick, Genius and Robin, without redoing conversion.
+ {
+  const catalog=JSON.parse(read('games/hsr/data/catalog.json')),w={};vm.runInNewContext(read('games/js/hsrProfileMapper.js'),{window:w});const cone=catalog.lightCones.find(c=>c.id==='21041'),char=catalog.characters.find(c=>c.id==='1006');
+  const raw={avatarId:1006,level:80,rank:0,equipment:{tid:21041,level:80,rank:5,_flat:{props:[{type:'BaseHP',value:cone.base.hp},{type:'BaseAttack',value:cone.base.atk},{type:'BaseDefence',value:cone.base.def}]}},skillTreeList:[{pointId:1006001,level:6},{pointId:1006002,level:10},{pointId:1006003,level:10},{pointId:1006004,level:10}],relicList:[{_flat:{setID:303,props:[{type:'StatusProbabilityBase',value:.7},{type:'AttackAddedRatio',value:.12},{type:'AttackDelta',value:217.875}]}},{_flat:{setID:303,props:[]}}]};
+  const profile=w.HsrProfileMapper.mapProfileResponse({detailInfo:{avatarDetailList:[raw]}},catalog).characters[0],atk=(char.base.atk+cone.base.atk)*1.68+217.875;
+  assert.ok(Math.abs(profile.stats.atk-atk)<=Number.EPSILON*256*atk);
+  const app=await r49App(data,'1006');app.window.HsrTool.applyProfileCharacter(profile);app.node('hsrEnhancementState').value='previous';
+  const args={dmg:0,cr:5,cd:50},base=r49Oracle(atk,args);r49Equal(r49Result(app,data,'100601'),base,'UID baseline');
+  app.state.modifierInputs['lc-21041-trick-stacks']=3;app.state.relicId='108';app.node('hsrWeakness').value='true';r49Robin(app);
+  const e=r49Oracle(atk,{...args,dmg:80,cd:70,ignore:25}),r=r49Result(app,data,'100601');r49Equal(r,e,'UID combat composition');r49Log('UID EHR to ATK',e,r);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);r49Equal(r49Result(saved,data,'100601'),e,'UID saved');
+  saved.state.party=[];saved.state.relicId='';saved.state.modifierInputs['lc-21041-trick-stacks']=0;r49Equal(r49Result(saved,data,'100601'),base,'UID combat removal');
+ }
+});
+
+test('Round49 representative HP, break, independent hits and foreign support keep their own modifier contracts',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+ // 2. HP: enhanced Basic 30% twice; conditional HP uses the two equipped bases.
+ {
+  const app=await r49App(data,'1415',{hp:8123.5,critRate:75,critDamage:170,damageBonus:50}),base=r49Oracle(8123.5*.6,{dmg:50,cr:75,cd:170});r49Equal(r49Result(app,data,'141508'),base,'HP baseline');
+  app.state.coneId='23036';app.state.relicId='127';app.state.ornamentId='309';app.state.modifierInputs['lc-23036-brocade-stacks']=6;app.state.modifierInputs['relic-127-party-damage']=true;
+  const baseHP=data.characters.find(c=>c.id==='1415').base.hp+data.lightCones.find(c=>c.id==='23036').base.hp,hp=8123.5+baseHP*.24;
+  const e=r49Oracle(hp*.6,{dmg:139,cr:75,cd:224}),r=r49Result(app,data,'141508');r49Equal(r,e,'HP combined');r49Log('HP enhanced Basic',e,r);
+  app.state.modifierInputs['relic:127:4pc:wearer-hp:in-final-stats']=true;app.node('hsrStat-hp').value=String(hp);r49Equal(r49Result(app,data,'141508'),e,'HP included once');
+  app.node('hsrStat-hp').handlers.input();const saved=await tool(app.storage,data);r49Equal(r49Result(saved,data,'141508'),e,'HP saved');
+  saved.state.coneId='';saved.state.relicId='';saved.state.ornamentId='';saved.node('hsrStat-hp').value='8123.5';r49Equal(r49Result(saved,data,'141508'),base,'HP removal');
+ }
+ // 4. Break and Super Break: the same loadout feeds distinct formulas.
+ {
+  const app=await r49App(data,'1310',{breakEffect:240,speed:145}),observed={};
+  const engine=app.window.HsrCalcEngine;app.window.HsrCalcEngine={...engine,calculateBreak(q){const r=engine.calculateBreak(q);observed.break={...r,nonCrit:r.value,crit:r.value,expected:r.value};return r;},calculateSuperBreak(q){const r=engine.calculateSuperBreak(q);observed.superBreak={...r,nonCrit:r.value,crit:r.value,expected:r.value};return r;}};
+  app.node('hsrWeakness').value='true';app.node('hsrToughnessState').value='broken';app.node('hsrMaxToughness').value='180';app.node('hsrSuperBreakToughness').value='60';app.node('hsrSuperBreakMultiplier').value='100';
+  const result=(kind,x=app)=>{x.node('hsrBreakMode').value=kind;x.calculate();return observed[kind];};
+  const oracle=(be,ignore,breakBonus,sb=false)=>{const n=3767.5533*(sb?60/10:2*2)*(1+be/100)*(100/(100+103*(1-(15+ignore)/100)))*.8*1.09*(sb?1:1+breakBonus/100);return {nonCrit:n,crit:n,expected:n};};
+  r49Equal(result('break'),oracle(240,5,0),'Break baseline');r49Equal(result('superBreak'),oracle(240,5,0,true),'SuperBreak baseline');
+  app.state.relicId='119';app.state.ornamentId='307';app.state.party[0]={...app.state.party[0],characterId:'1202',level:80,eidolon:0,lightConeId:'21056',coneRank:5,traceLevels:{skill:10,talent:10,ultimate:10}};
+  const br=oracle(260,15,24),sb=oracle(260,30,0,true);r49Equal(result('break'),br,'Break combined');r49Log('Fire Break',br,observed.break);r49Equal(result('superBreak'),sb,'SuperBreak combined');r49Log('SuperBreak',sb,observed.superBreak);
+  app.state.party[0].lightConeId='';r49Equal(result('superBreak'),sb,'Break-only cone never boosts SuperBreak');app.state.party[0].lightConeId='21056';
+  app.node('hsrStat-breakEffect').handlers.input();const saved=await tool(app.storage,data),savedObserved={};const savedEngine=saved.window.HsrCalcEngine;saved.window.HsrCalcEngine={...savedEngine,calculateBreak(q){const r=savedEngine.calculateBreak(q);savedObserved.break={...r,nonCrit:r.value,crit:r.value,expected:r.value};return r;},calculateSuperBreak(q){const r=savedEngine.calculateSuperBreak(q);savedObserved.superBreak={...r,nonCrit:r.value,crit:r.value,expected:r.value};return r;}};
+  saved.node('hsrBreakMode').value='superBreak';saved.calculate();r49Equal(savedObserved.superBreak,sb,'SuperBreak saved');
+  saved.state.party=[];saved.state.relicId='';saved.state.ornamentId='';saved.calculate();r49Equal(savedObserved.superBreak,oracle(240,5,0,true),'SuperBreak removal');
+ }
+ // 5. Equipment additional damage uses all-DMG but never Basic/Skill-only bonuses.
+ {
+  const app=await r49App(data,'1004',{atk:3127.125,critRate:66});app.state.coneId='21029';app.state.coneRank=3;app.node('hsrConeRank').value='3';
+  const row=x=>x.calculate().find(r=>r.attack?.name.startsWith('またお会いしましょう')),hidden=x=>x.calculate().find(r=>r.attack?.name.startsWith('匿影'));
+  r49Equal(row(app),r49Oracle(3127.125*.72,{dmg:21,cr:66}),'additional baseline');app.state.relicId='102';app.state.ornamentId='309';r49Robin(app);app.state.party[1]={...app.state.party[1],characterId:'1208',level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs['fuxuan-matrix-active']=true;
+  const e=r49Oracle(3127.125*.72,{dmg:71,cr:78,cd:149});r49Equal(row(app),e,'additional combined');r49Log('independent additional',e,row(app));assert.ok(!row(app).applied.some(m=>m.id==='relic:102:4pc:normal-damage'||m.id==='ornament:309:2pc:normal-skill-damage'));
+  app.state.coneId='20018';assert.equal(hidden(app),undefined);app.state.modifierInputs['lc-20018-next-basic-ready']=true;const b=r49Oracle(3127.125*.9,{dmg:71,cr:78,cd:149});r49Equal(hidden(app),b,'second cone ready');assert.equal(row(app),undefined);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);r49Equal(hidden(saved),b,'additional saved');saved.state.coneId='21029';r49Equal(row(saved),e,'additional A-B-A');saved.state.coneId='';assert.equal(row(saved),undefined);assert.equal(hidden(saved),undefined);assert.ok(r49Result(saved,data,'100401'));
+ }
+ // 7. Himeko owns this assist; the triggering actor's equipment cannot become hers.
+ {
+  const app=await r49App(data,'1004');app.state.party[0]={...app.state.party[0],characterId:'1510',level:80,eidolon:0,traceLevels:{talent:10,skill:10}};
+  for(const[k,v]of Object.entries({atk:4317,critRate:37,critDamage:143,Fire:23,defenseIgnore:11,resistancePenetration:7}))app.state.modifierInputs['party-reference:1510:'+k]=v;
+  app.state.modifierInputs['enemy-resistance:Fire']=27;app.state.modifierInputs['himeko-departure-accord']=0;
+  const row=x=>x.calculate().find(r=>r.attack?.name.includes('が使用・所有者：姫子')),args={dmg:23,cr:37,cd:423,ignore:11,pen:27},base=r49Oracle(4317*2.32,args);
+  r49Equal(row(app),base,'foreign baseline with native Himeko buffs');app.state.coneId='21001';app.state.relicId='102';app.state.ornamentId='309';app.node('hsrStat-critRate').value='90';app.node('hsrStat-atk').value='9999';app.node('hsrStat-damageBonus').value='99';r49Equal(row(app),base,'foreign cannot inherit actor loadout');
+  app.node('hsrEnemyTakenDamage').value='24';const e=r49Oracle(4317*2.32,{...args,taken:24}),r=row(app);r49Equal(r,e,'foreign shared enemy effect');r49Log('Himeko other-user assist',e,r);r49Equal(r.components.area,r49Oracle(4317*1.6,{...args,taken:24}),'foreign area');r49Equal(r.components.shots,r49Oracle(4317*.24*3,{...args,taken:24}),'foreign three shots');
+  for(const id of ['trace:1510:151004:crit-damage','trace:1510:151026:accord-crit','trace:1510:151026:accord-skill-crit'])app.state.modifierInputs['party-reference:1510:included:'+id]=true;
+  app.state.modifierInputs['party-reference:1510:critDamage']=423;r49Equal(row(app),e,'foreign native CD included once');
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);r49Equal(row(saved),e,'foreign saved');saved.state.party=[];assert.equal(row(saved),undefined);assert.ok(r49Result(saved,data,'100401'));
+ }
+});
