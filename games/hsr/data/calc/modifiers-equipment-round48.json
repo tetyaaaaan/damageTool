@@ -8,12 +8,15 @@
         "kind": "lightCone",
         "id": "21057",
         "wearerIds": [
-          "1415",
-          "1413"
+          "1402",
+          "1407",
+          "1409",
+          "1413",
+          "1415"
         ]
       },
       "name": "花は忘れない・専属精霊の会心ダメージ",
-      "description": "装備者を召喚主とするデミウルゴス/長夜のCD+24/30/36/42/48%。本人の恒常CD+24～40%は本人最終値に含め、精霊へ流用しない。精霊の装備込み最終CDへ専用補正を含めた入力が既定。未算入のCDを入力した場合だけ算入済み指定を外し、精霊専用差分を1回追加する。本人攻撃・味方所有の精霊・一般継承は対象外。",
+      "description": "装備者を召喚主とする独立精霊（ラフトラ、死竜、イカルン、長夜、デミウルゴス）のCD+24/30/36/42/48%。本人の恒常CDは本人最終値に含め、精霊へ流用しない。対応する精霊の装備込み最終CDへ専用補正を含めた入力が既定。未算入のCDを入力した場合だけ算入済み指定を外し、精霊専用差分を1回追加する。本人攻撃・味方所有の精霊・一般継承は対象外。",
       "category": "critDamage",
       "unit": "percent",
       "value": {
@@ -30,6 +33,9 @@
         "owner": "memosprite",
         "attackTypes": [
           "memospriteSkill",
+          "memospriteTalent",
+          "enhancedNormal",
+          "enhancedSkill",
           "ultimate"
         ],
         "elements": [],
@@ -37,6 +43,15 @@
           "1141501",
           "1141526",
           "11415012",
+          "1140201",
+          "140208:laftra",
+          "1140901",
+          "1140701",
+          "1140702",
+          "11407022",
+          "1140706",
+          "1140712",
+          "140709:dragon",
           "1141301",
           "1141307",
           "141303"
@@ -44,7 +59,7 @@
       },
       "activation": {
         "mode": "always",
-        "conditionText": "装備者本人の専属精霊。デミウルゴス/長夜の独立最終CDに未算入の場合だけ差分を追加"
+        "conditionText": "装備者本人の専属精霊。対応する専属精霊の独立最終CDに未算入の場合だけ差分を追加"
       },
       "stacking": {
         "group": "lightCone:21057:independent-memosprite-crit-damage",
@@ -75,6 +90,85 @@
         "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/Equip34.json blob 1dd65a516fb2f0a11addff8c0d5902be1c14bd46 Ability21057: GetSummoner/Caster一致→CasterServantへCriticalDamageBase SkillEquip[1]",
         "verification": "tests/hsr/hsrToolInputs.test.cjs",
         "scope": "Lv80/E0・敵1体・既存の独立HP精霊6攻撃行。最終入力の既算入を既定とし、明示した未算入分だけ補完。"
+      }
+    },
+    {
+      "id": "lightCone:21041:battle-ehr-attack-delta",
+      "source": {
+        "kind": "lightCone",
+        "id": "21041"
+      },
+      "name": "ショーの始まり・戦闘中EHR変化によるATK差分",
+      "description": "21041の効果命中率80%閾値に対する、現在状態とATK基準状態との差分だけを反映します。ATK入力が基準EHR時点の変換を含むことを確認し、基準EHRを入力してください。戦闘中EHRは現在のステータス入力を参照します。UID再構成・手動入力のどちらも最終ATKを再構築せず、差分だけを加減します。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "thresholdDeltaByRefinement",
+        "values": [
+          20,
+          24,
+          28,
+          32,
+          36
+        ],
+        "threshold": 80,
+        "inputKey": "lc-21041-baseline-ehr",
+        "inputLabel": "ATK入力の基準効果命中率",
+        "inputUnit": "%",
+        "minimum": 0,
+        "inputMaximum": 9999,
+        "inputStep": 0.1
+      },
+      "inputValidation": {
+        "maximumEidolon": 6,
+        "levelMaximum": 15,
+        "minimum": 0,
+        "maximum": 9999,
+        "integer": false
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21041-ehr-baseline-active",
+        "inputLabel": "ATKは基準EHR時点の装備込み最終値",
+        "conditionText": "ATKは基準EHR時点の21041効果を含む最終値で、基準EHRと現在EHRを指定",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:21041:battle-ehr-attack-delta",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21041-ehr-delta-in-final",
+        "inputLabel": "21041の戦闘中ATK差分を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.6実行定義のStatusProbability閾値の付与/解除と、基準最終ATKからのS1～S5差分を限定対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21041.params[0..4][3..4]",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-16",
+        "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/EquipmemtAbility.json blob 9f9d50947e473d8f1e537078054a0b1570560632 Ability21041: OnAbilityPropertyChange(StatusProbability) removes below SkillEquip[3] and adds AttackAddedRatio SkillEquip[4] at/above threshold.",
+        "verification": "tests/hsr/hsrEhrDeltaRound50.test.cjs",
+        "notes": "The battle calculation treats current EHR as an explicit input state and baseline EHR as the state already reflected in final ATK. Only the signed difference between threshold states is applied. EHR is converted back to a ratio for comparison, with the same 1e-12 floating-point boundary guard as Round48 UID reconstruction; 79.9999% remains below threshold. Missing/out-of-range baseline or current EHR suppresses this modifier alone. This does not reconstruct the final ATK or infer UID provenance."
       }
     }
   ]

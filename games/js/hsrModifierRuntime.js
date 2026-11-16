@@ -176,6 +176,16 @@
       const refinement = number(selection.refinement ?? context.refinement, 1);
       return number(value.values?.[Math.max(0, Math.min(value.values.length - 1, refinement - 1))]);
     }
+    if (value.kind === "thresholdDeltaByRefinement") {
+      const refinement = number(selection.refinement ?? context.refinement, 1);
+      const amount = number(value.values?.[Math.max(0, Math.min(value.values.length - 1, refinement - 1))]);
+      const baseline = inputs[value.inputKey];
+      const current = context.stats?.effectHitRate;
+      if (!Number.isFinite(baseline) || baseline < 0 || baseline > 9999 || !Number.isFinite(current) || current < 0 || current > 9999) return NaN;
+      const thresholdRatio = number(value.threshold) / 100;
+      const active = ehrPercent => Number(ehrPercent / 100 + 1e-12 >= thresholdRatio);
+      return amount * (active(current) - active(baseline));
+    }
     if (value.kind === "perStack") {
       const raw = number(inputs[record.activation?.inputKey], record.activation?.default || 0);
       const minimum = number(record.activation?.minimum, 0);
@@ -311,7 +321,7 @@
       const selection = sourceSelection(record, context);
       if (!selection.selected) return [];
       const providerContext = { ...context, providerId: selection.providerId || context.characterId };
-      const activation = activationState(record, providerContext, inputs);
+      let activation = activationState(record, providerContext, inputs);
       if (record.source?.kind === "ornament" && record.activation?.reference?.startsWith("provider.")) {
         const count = Number(String(context.ornamentId || "") === String(record.source.id) && !record.target?.excludeSelf)
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
@@ -325,6 +335,20 @@
       }
       const inclusion = record.finalStatsInclusion;
       const includedInFinalStats = Boolean(inclusion && (inputs[inclusion.inputKey] ?? (inclusion.legacyToggleKey && inputs[inclusion.legacyToggleKey] !== undefined ? inputs[inclusion.legacyToggleKey] === false : inclusion.defaultIncluded === true)));
+      if (record.value?.kind === "thresholdDeltaByRefinement" && activation.active && !includedInFinalStats) {
+        const baseline = inputs[record.value.inputKey];
+        const current = context.stats?.effectHitRate;
+        const valid = Number.isFinite(baseline) && baseline >= 0 && baseline <= 9999
+          && Number.isFinite(current) && current >= 0 && current <= 9999;
+        if (!valid) activation = {
+          ...activation,
+          active: false,
+          unresolved: true,
+          unresolvedReason: !Number.isFinite(baseline) || baseline < 0 || baseline > 9999
+            ? "ATKの基準効果命中率を0～9999%で入力してください。"
+            : "現在の効果命中率を0～9999%で入力してください。"
+        };
+      }
       const supportStatus = record.support?.status || "review";
       const calculable = supportStatus === "calculable" && record.inputPolicy !== "includedInFinalStats";
       const value = resolveValue(record, providerContext, inputs, selection);

@@ -675,6 +675,11 @@
     const brokenSwordStance = state.characterId === "1206" && state.enemy.toughnessActive === false;
     const effectiveInputs = brokenSwordStance ? {...inputs, "sushang-post-ultimate-sword-stance-hits": 2} : inputs;
     const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, effectiveInputs).filter(item=>(item.id!=='trace:1415:1141502:generic-blessing-damage'||['1003','1102'].includes(state.characterId))&&(!item.id.startsWith('trace:1415:1141520:')||state.characterId==='1406')&&(!item.id.startsWith('trace:1415:1141515:')||state.characterId==='1403')&&(!item.id.startsWith('trace:1415:1141514:')||state.characterId==='1402')&&(item.id!=='trace:1415:1141522:serin-damage'||state.characterId==='1410')&&(!item.id.startsWith('trace:1415:1141518:')||state.characterId==='1405')&&(!item.id.startsWith('trace:1415:1141521:')||state.characterId==='1408')&&(item.id!=='trace:1415:1141516:mydei-godslayer-crit-damage'||state.characterId==='1404')&&(!item.id.startsWith('trace:1415:1141517:')||state.characterId==='1407')&&(!item.id.startsWith('trace:1415:1141524:')||state.characterId==='1413')&&(!item.id.startsWith('trace:1415:1141513:')||['8007','8008'].includes(state.characterId))&&(!item.id.startsWith('trace:1415:1141525:')||state.characterId==='1414')&&(item.id!=='trace:1415:1141523:military-merit-crit-damage'||['1003','1102'].includes(state.characterId)&&state.party.some(m=>m.characterId==='1412')&&String(state.modifierInputs['cyrene-merit-recipient'])===state.characterId));
+    const nightshadeProviders=nightshadeProviderIds();
+    if(nightshadeProviders.length>1){
+      const item=candidates.find(m=>m.id==='lightCone:23049:nightshade-memosprite-defense-ignore');
+      if(item){item.enabled=false;item.applicable=false;item.activation={...item.activation,active:false,unresolved:true};item.inputWarnings=['複数の夜色提供者による味方精霊の防御無視の合成は未確定です。'];item.reason=item.inputWarnings[0];}
+    }
     for(const item of candidates){
       if(item.id==='trace:1415:1141520:cipher-defense-reduction'&&item.enabled&&!item.includedInFinalStats&&![0,1].includes(inputs['cyrene-cipher-patron-state'])){item.applicable=false;item.inputWarnings=['対象のお得意様状態は0または1を入力してください。'];item.reason=item.inputWarnings[0];}
     }
@@ -1014,20 +1019,41 @@
       return [id,{characterId:id,element:find('characters',id)?.element,level:80,eidolon:m.eidolon,stats:{atk:get('atk'),critRate:get('critRate'),critDamage:get('critDamage')},damageBonuses:{Thunder:get('Thunder'),Wind:get('Wind'),Fire:get('Fire')},defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')}];
     }));
   }
-  function laftraSnapshot() {
+  function laftraSnapshot(attack) {
     const get=k=>state.modifierInputs['memosprite:1402:'+k],keys=['atk','critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'];
     const valid=keys.every(k=>Number.isFinite(get(k))&&(k==='atk'?get(k)>0:get(k)>=0));
     const stats=Object.fromEntries(['atk','critRate','critDamage','damageBonus'].map(k=>[k,get(k)]));
-    return {referenceCharacter:{id:'11402',level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},requiresIndependentLaftra:true,completedReferenceSnapshot:valid,damageOwnerId:'11402',referenceIssue:valid?'':'ラフトラの最終ATK・会心・雷与ダメージ・防御無視・耐性貫通を入力してください。補正なしは0です。',referenceCondition:{id:'memosprite:1402',tab:'軌跡'}};
+    const referenceEnemy={...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},snapshotEquipment=independentMemospriteEquipment('1402','11402',stats,referenceEnemy,attack);
+    return {referenceCharacter:{id:'11402',level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy,requiresIndependentLaftra:true,completedReferenceSnapshot:valid,damageOwnerId:'11402',snapshotEquipment,referenceIssue:valid?'':'ラフトラの最終ATK・会心・雷与ダメージ・防御無視・耐性貫通を入力してください。補正なしは0です。',referenceCondition:{id:'memosprite:1402',tab:'軌跡'}};
+  }
+  function nightshadeProviderIds() {
+    const conePath=find('lightCones','23049')?.path;
+    const eligible=id=>{const path=find('characters',String(id))?.path;return !path||path===conePath;};
+    // An unconnected Servant owner may still provide a second Nightshade effect.
+    return [...(state.coneId==='23049'&&eligible(state.characterId)?[String(state.characterId)]:[]),...state.party.filter(m=>m.characterId&&m.lightConeId==='23049'&&eligible(m.characterId)).map(m=>String(m.characterId))];
+  }
+  function independentMemospriteEquipment(id, owner, stats, referenceEnemy, attack) {
+    const snapshotEquipment=[];
+    const candidates=structuredSourceConditions(),findEnabled=id=>candidates.find(m=>m.id===id&&m.enabled&&m.applicable!==false&&!m.inputWarnings?.length&&attack&&window.HsrModifierRuntime.applicableToAttack(m,attack));
+    if(id===state.characterId&&state.coneId==='21057'){
+      const item=findEnabled('lightCone:21057:independent-memosprite-crit-damage');
+      if(item&&Number.isFinite(stats.critDamage)){stats.critDamage+=item.value;snapshotEquipment.push({...item,statReferenceId:owner});}
+    }
+    if(id===state.characterId&&state.coneId==='23049'){
+      const item=findEnabled('lightCone:23049:nightshade-memosprite-damage');
+      if(item&&Number.isFinite(stats.damageBonus)){stats.damageBonus+=item.value;snapshotEquipment.push({...item,statReferenceId:owner});}
+    }
+    const providers=nightshadeProviderIds();
+    if(providers.length===1&&['1402','1407','1409','1413','1415'].includes(String(id))){
+      const item=findEnabled('lightCone:23049:nightshade-memosprite-defense-ignore');
+      if(item&&Number.isFinite(referenceEnemy?.defenseIgnore)){referenceEnemy.defenseIgnore+=item.value;snapshotEquipment.push({...item,statReferenceId:owner});}
+    }
+    return snapshotEquipment;
   }
   function independentMemospriteSnapshot(id, attack) {
     const cyrene=id==='1415',owner=({'1415':'11415','1409':'11409','1413':'11413','1407':'11407','8007':'18007','8008':'18007','1508':'1015'})[id],keys=[...(['8007','8008','1508'].includes(id)?['atk']:[]),...(['1415','1413'].includes(id)?['hp']:[]),'critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'],get=k=>state.modifierInputs['memosprite:'+id+':'+k];
     const valid=keys.every(k=>Number.isFinite(get(k))&&(['hp','atk'].includes(k)?get(k)>0:get(k)>=0))&&(id!=='1407'||Number.isFinite(state.stats.hp)&&state.stats.hp>0),stats={...Object.fromEntries(keys.filter(k=>!['defenseIgnore','resistancePenetration'].includes(k)).map(k=>[k,get(k)])),...(id==='1407'?{hp:state.stats.hp}:{})};
-    const snapshotEquipment = [];
-    if (state.coneId === '21057' && ['1415','1413'].includes(id) && id === state.characterId) {
-      const item = structuredSourceConditions().find(m => m.id === 'lightCone:21057:independent-memosprite-crit-damage' && m.enabled && m.applicable !== false && !m.inputWarnings?.length);
-      if (item && Number.isFinite(stats.critDamage)) { stats.critDamage += item.value; snapshotEquipment.push({...item, statReferenceId:owner}); }
-    }
+    const referenceEnemy={...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},snapshotEquipment=independentMemospriteEquipment(id,owner,stats,referenceEnemy,attack);
     let genesisIssue='';
     if(['8007','8008'].includes(id)&&attack){
       const target=['800708','800808'].includes(attack.id)?{...attack,id:id==='8007'?'800703':'800803'}:attack;
@@ -1038,7 +1064,7 @@
       const rows=structuredSourceConditions().filter(m=>m.id.startsWith('trace:1415:1141524:')&&m.enabled&&!m.includedInFinalStats&&window.HsrModifierRuntime.applicableToAttack(m,attack));
       for(const m of rows){if(m.inputWarnings?.length||m.applicable===false)genesisIssue='歳月の会心支援には、長夜月がスキルを発動した時点の会心ダメージを入力してください。';else if(m.category==='critDamage')stats.critDamage+=m.value;else if(m.category==='damageBonus')stats.damageBonus+=m.value;}
     }
-    return {referenceCharacter:{id:owner,level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},completedReferenceSnapshot:valid,damageOwnerId:owner,snapshotEquipment,referenceIssue:genesisIssue||(valid?'':({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜','8007':'ミュリオン','8008':'ミュリオン','1508':'アーチャー'})[id]+'の独立した最終値を補正条件で入力してください。補正なしは0です。'),referenceCondition:{id:'memosprite:'+id,tab:'軌跡'}};
+    return {referenceCharacter:{id:owner,level:state.level,eidolon:state.eidolon,stats},referenceStats:stats,referenceEnemy,completedReferenceSnapshot:valid,damageOwnerId:owner,snapshotEquipment,referenceIssue:genesisIssue||(valid?'':({'1415':'デミウルゴス','1409':'イカルン','1413':'長夜','1407':'死竜','8007':'ミュリオン','8008':'ミュリオン','1508':'アーチャー'})[id]+'の独立した最終値を補正条件で入力してください。補正なしは0です。'),referenceCondition:{id:'memosprite:'+id,tab:'軌跡'}};
   }
   function dragonActionSnapshot(profile) {
     const get=k=>state.modifierInputs['dragon:1414:'+profile+':'+k],keys=['critRate','critDamage','damageBonus','defenseIgnore','resistancePenetration'],valid=keys.every(k=>Number.isFinite(get(k))&&get(k)>=0)&&Number.isFinite(state.stats.atk)&&state.stats.atk>0,stats={atk:state.stats.atk,...Object.fromEntries(keys.slice(0,3).map(k=>[k,get(k)]))};
@@ -1344,7 +1370,7 @@
     }
 
     if(selected.id==='140709'&&selected.damageFormula==='componentSequence'){
-      const level=state.traceLevels.skill,ref=independentMemospriteSnapshot('1407'),body={...selected,id:'140709:caster',damageFormula:'statMultiplier',damageComponents:undefined,hitCount:1,hitCountLabel:'本人1ヒット',traceLevel:level,multiplier:selected.multipliers[level-1],attackType:'enhancedSkill'},dragon={...body,id:'140709:dragon',hitCountLabel:'死竜1ヒット',multiplier:selected.dragonMultipliers[level-1],requiresIndependentCastorice:true,...ref};
+      const level=state.traceLevels.skill,ref=independentMemospriteSnapshot('1407',{...selected,id:'140709:dragon'}),body={...selected,id:'140709:caster',damageFormula:'statMultiplier',damageComponents:undefined,hitCount:1,hitCountLabel:'本人1ヒット',traceLevel:level,multiplier:selected.multipliers[level-1],attackType:'enhancedSkill'},dragon={...body,id:'140709:dragon',hitCountLabel:'死竜1ヒット',multiplier:selected.dragonMultipliers[level-1],requiresIndependentCastorice:true,...ref};
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks:[body,dragon],referenceIssue:ref.referenceIssue,referenceCondition:ref.referenceCondition};
     }
 
@@ -1355,21 +1381,21 @@
     if(['1140701','1140702','1140706','1140712'].includes(selected.id)){
       const traceKey=selected.id==='1140706'||selected.id==='1140712'?'memTalent':'memSkill',level=state.traceLevels[traceKey],n=state.modifierInputs['castorice-breath-stage'],multiplier=selected.id==='1140702'?selected.breathStageMultipliers?.[n]?.[level-1]:selected.multipliers[level-1];
       const blessing=cyreneBlessingSnapshot('1141517','cyrene-life-death-active');
-      return {...selected,traceKey,maximumTraceLevel:6,damageFormula:"statMultiplier",traceLevel:level,multiplier,attackType:selected.type,requiresIndependentCastorice:true,cyreneSupportLevel:blessing.cyreneSupportLevel,cyreneLifeDeathActive:blessing.cyreneBlessingActive,...independentMemospriteSnapshot('1407')};
+      return {...selected,traceKey,maximumTraceLevel:6,damageFormula:"statMultiplier",traceLevel:level,multiplier,attackType:selected.type,requiresIndependentCastorice:true,cyreneSupportLevel:blessing.cyreneSupportLevel,cyreneLifeDeathActive:blessing.cyreneBlessingActive,...independentMemospriteSnapshot('1407',selected)};
     }
     if(selected.id==='11407022'){
-      const ref=independentMemospriteSnapshot('1407'),level=state.traceLevels.memSkill,sequenceAttacks=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);
+      const ref=independentMemospriteSnapshot('1407',selected),level=state.traceLevels.memSkill,sequenceAttacks=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks,...ref};
     }
 
-    if(['1140901','1141501','1141526'].includes(selected.id))return {...selected,traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:selected.type,...independentMemospriteSnapshot(selected.characterId)};
+    if(['1140901','1141501','1141526'].includes(selected.id))return {...selected,traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:selected.type,...independentMemospriteSnapshot(selected.characterId,selected)};
     if(selected.id==='11415012'){
-      const ref=independentMemospriteSnapshot('1415'),level=state.traceLevels.memSkill,sequenceAttacks=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);
+      const ref=independentMemospriteSnapshot('1415',selected),level=state.traceLevels.memSkill,sequenceAttacks=selected.damageComponents.map(d=>state.data.attacks.find(a=>a.id===d.attackId)).filter(Boolean).map(resolvedAttack);
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks,...ref};
     }
-    if(selected.id==='1140201')return {...selected,traceKey:'memSkill',traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:'memospriteSkill',...laftraSnapshot()};
+    if(selected.id==='1140201')return {...selected,traceKey:'memSkill',traceLevel:state.traceLevels.memSkill,multiplier:selected.multipliers[state.traceLevels.memSkill-1],attackType:'memospriteSkill',...laftraSnapshot(selected)};
     if(['1402012','140208'].includes(selected.id)&&selected.damageFormula==='componentSequence'){
-      const joint=selected.id==='140208',level=state.traceLevels.normal,talent=state.data.attacks.find(a=>a.id==='140204'),ref=joint?laftraSnapshot():null;
+      const joint=selected.id==='140208',level=state.traceLevels.normal,talent=state.data.attacks.find(a=>a.id==='140204'),ref=joint?laftraSnapshot({...selected,id:'140208:laftra'}):null;
       const body=joint?{...selected,id:'140208:aglaea',damageFormula:'statMultiplier',damageComponents:undefined,hitCount:1,attackType:'enhancedNormal',traceLevel:level,multiplier:selected.multipliers[level-1]}:resolvedAttack(state.data.attacks.find(a=>a.id==='140201'));
       const sequenceAttacks=talent?[body,...(joint?[{...body,id:'140208:laftra',...ref}]:[]),resolvedAttack(talent)]:[];
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,sequenceAttacks,...(ref?{referenceIssue:ref.referenceIssue,referenceCondition:ref.referenceCondition}:{})};
@@ -2105,7 +2131,7 @@
 
       if (selected.sequenceTemplates) request.attack = {...request.attack, damageComponents:selected.sequenceTemplates};
       const result = window.HsrCalcEngine.calculate(request);
-      if (selected.snapshotEquipment?.length) {
+      if (selected.snapshotEquipment?.length || request.sequenceComponents?.some(component => component.input.attack?.snapshotEquipment?.length)) {
         const trackSnapshotEquipment = (out, source) => {
           if (!out || out.supported === false) return;
           const items = source.attack?.snapshotEquipment || [];

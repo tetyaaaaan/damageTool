@@ -4765,7 +4765,7 @@ test('Round48 explicit final inclusion preserves prior defaults and rejects non-
  assert.equal(candidate({}).includedInFinalStats,true);assert.equal(candidate({}).enabled,false);assert.equal(candidate({[row.finalStatsInclusion.inputKey]:false}).value,36);assert.equal(candidate({[row.finalStatsInclusion.inputKey]:false}).enabled,true);
  const old={...row,finalStatsInclusion:{inputKey:'old-final',inputLabel:'old'}};assert.equal(runtime.buildCandidates([old],context,{})[0].includedInFinalStats,false,'all existing records retain their defaults');
  assert.equal(runtime.buildCandidates([row],{...context,lightConeId:'',partyIds:['1413'],partyEquipment:[{characterId:'1413',lightConeId:'21057',refinement:5}]},{}).length,0,'another summoner does not supply this component');
- assert.equal(runtime.buildCandidates([row],{...context,characterId:'1407'},{}).length,0,'unverified spirit owner excluded');
+ assert.equal(runtime.buildCandidates([row],{...context,characterId:'8007'},{}).length,0,'unverified spirit owner excluded');
  const {validateModifiers}=require('../../scripts/validateHsrModifiers.cjs');const bad=JSON.parse(JSON.stringify(row));bad.finalStatsInclusion.defaultIncluded='true';assert.ok(validateModifiers([bad]).some(s=>s.includes('defaultIncluded: expected boolean')));
 });
 
@@ -4905,4 +4905,113 @@ test('Round49 representative HP, break, independent hits and foreign support kee
   app.state.modifierInputs['party-reference:1510:critDamage']=423;r49Equal(row(app),e,'foreign native CD included once');
   app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);r49Equal(row(saved),e,'foreign saved');saved.state.party=[];assert.equal(row(saved),undefined);assert.ok(r49Result(saved,data,'100401'));
  }
+});
+
+
+// The independent final values include every other effect; only the dedicated
+// summoner-to-Servant CD term is deliberately absent in the explicit false state.
+test('Round50 LC21057 expands only its own independently specified Servant CD at S1-S5',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+ const near=(a,b,label)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<=256*Number.EPSILON*Math.max(1,Math.abs(b)),label+': '+a+' != '+b);
+ const key='lc-21057-memosprite-cd-in-final',modifier='lightCone:21057:independent-memosprite-crit-damage';
+ for(const [id,attack,owner,cr,cd,base] of [['1402','1140201','11402',20,200,5000*1.1*1.2*.36],['1407','1140702','11407',80,200,6000*.34*1.3*.36],['1409','1140901','11409',37,143,12345*.2*1.19*.36]]){
+  const app=await tool(undefined,data),prefix='memosprite:'+id+':';
+  app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,lightCone:{id:'21057',level:80,rank:1},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6},{type:'MemospriteTalent',level:6}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+  for(const[k,v]of Object.entries({atk:5000,critRate:cr,critDamage:cd,damageBonus:id==='1402'?20:id==='1407'?30:19,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs[prefix+k]=v;
+  Object.assign(app.state.modifierInputs,{'castorice-breath-stage':2,'castorice-dragon-hp-percent':25,'hyacine-recorded-healing':12345});
+  const row=(attackId=attack,x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===attackId).name);
+  const verify=(r,bonus,label)=>{assert.ok(r,label);near(r.nonCrit,base,label+' NC');near(r.crit,base*(1+(cd+bonus)/100),label+' crit');near(r.expected,base*(1+cr*(cd+bonus)/10000),label+' EV');};
+  verify(row(),0,id+' default included');assert.equal(row().applied.filter(m=>m.id===modifier).length,0);
+  app.state.conditionTab='光円錐';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/data-structured-toggle="lc-21057-memosprite-cd-in-final" checked/);
+  app.state.modifierInputs[key]=false;
+  const caster=row(id+'01').expected;
+  for(let rank=1;rank<=5;rank++){
+   app.state.coneRank=rank;app.node('hsrConeRank').value=String(rank);const bonus=[24,30,36,42,48][rank-1],r=row();verify(r,bonus,id+' S'+rank);
+   const applied=r.applied.filter(m=>m.id===modifier);assert.equal(applied.length,1);assert.equal(applied[0].statReferenceId,owner);near(row(id+'01').expected,caster,'caster CD isolated');
+  }
+  const scope=data.structuredModifiers.find(m=>m.id===modifier),attackIds=scope.target.attackIds;
+  scope.target.attackIds=attackIds.filter(attackId=>attackId!==attack);verify(row(),0,'an excluded attack never receives snapshot equipment');scope.target.attackIds=attackIds;
+  console.log('ROUND50 '+JSON.stringify({owner,attack,nonCrit:base,independentS5:base*(1+cr*(cd+48)/10000),actualS5:row().expected}));
+  app.node('hsrStat-critDamage').value='999';verify(row(),48,'caster edit isolation');
+  app.state.modifierInputs[prefix+'critDamage']=cd+48;app.state.modifierInputs[key]=true;verify(row(),48,'already included once');
+  app.state.modifierInputs[prefix+'critDamage']=cd;app.state.modifierInputs[key]=false;app.state.coneId='';verify(row(),0,'unequip');app.state.coneId='21057';verify(row(),48,'equip A-B-A');
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);verify(row(attack,saved),48,'saved CD contract');
+  saved.state.coneId='';saved.state.party[0]={characterId:'1415',level:80,eidolon:0,lightConeId:'21057',coneRank:5};verify(row(attack,saved),0,'another summoner cannot supply CD');
+  saved.state.coneId='21057';delete saved.state.modifierInputs[prefix+'critDamage'];assert.equal(row(attack,saved),undefined);assert.ok(row(id+'01',saved),'missing Servant input remains local');
+ }
+});
+
+test('Round50 LC21057 joint and same-event sequences add CD to Servant components exactly once',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+ const near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b),key='lc-21057-memosprite-cd-in-final';
+ for(const id of ['1402','1407']){
+  const app=await tool(undefined,data);
+  app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,lightCone:{id:'21057',level:80,rank:5},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6},{type:'MemospriteTalent',level:6}],stats:{atk:3000,hp:6000,def:2000,critRate:id==='1402'?50:10,critDamage:id==='1402'?100:50,damageBonus:0}});
+  for(const[k,v]of Object.entries({atk:5000,critRate:id==='1402'?20:80,critDamage:200,damageBonus:id==='1402'?20:30,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:'+id+':'+k]=v;
+  Object.assign(app.state.modifierInputs,{[key]:false,'castorice-breath-stage':2,'castorice-dragon-hp-percent':25});
+  const row=attack=>app.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===attack).name);
+  if(id==='1402'){
+   const r=row('140208');assert.ok(r);near(r.components.aglaea.expected,3000*2*.36*1.5);near(r.components.laftra.expected,5000*2*1.2*.36*(1+.2*2.48));near(r.components.silkTalent.expected,3000*.3*.36*1.5);assert.equal(r.components.laftra.applied.filter(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage').length,1);assert.equal(r.components.aglaea.applied.filter(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage').length,0);near(r.expected,3000*2*.36*1.5+5000*2*1.2*.36*(1+.2*2.48)+3000*.3*.36*1.5);
+  }else{
+   const r=row('140709');assert.ok(r);near(r.components.caster.expected,6000*.3*.36*1.05);near(r.components.dragon.expected,6000*.5*1.3*.36*(1+.8*2.48));assert.equal(r.components.dragon.applied.filter(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage').length,1);assert.equal(r.components.caster.applied.filter(m=>m.id==='lightCone:21057:independent-memosprite-crit-damage').length,0);near(r.expected,6000*.3*.36*1.05+6000*.5*1.3*.36*(1+.8*2.48));
+   const seq=row('11407022');assert.ok(seq);near(seq.components.breath.expected,6000*.34*1.3*.36*(1+.8*2.48));near(seq.components.exit.expected,6000*6*.4*1.3*.36*(1+.8*2.48));near(seq.expected,6000*(.34+6*.4)*1.3*.36*(1+.8*2.48));
+  }
+ }
+});
+
+
+test('Round50 explicit EHR baseline updates only LC21041 ATK delta without rebuilding final inputs',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+ const near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b),active='lc-21041-ehr-baseline-active',baseline='lc-21041-baseline-ehr',included='lc-21041-ehr-delta-in-final';
+ const app=await tool(undefined,data);
+ app.window.HsrTool.applyProfileCharacter({id:'1006',level:80,eidolon:0,lightCone:{id:'21041',level:80,rank:1},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:37,critDamage:143,damageBonus:19,effectHitRate:70}});
+ const row=(x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='100601').name),ev=atk=>atk*1.19*.36*(1+.37*1.43),baseAtk=data.characters.find(c=>c.id==='1006').base.atk+data.lightCones.find(c=>c.id==='21041').base.atk;
+ app.node('hsrStat-effectHitRate').value='90';near(row().expected,ev(3000));
+ app.state.conditionTab='光円錐';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/data-structured-input="lc-21041-baseline-ehr"/);assert.match(app.node('hsrConditionList').innerHTML,/data-structured-toggle="lc-21041-ehr-baseline-active"/);
+ app.state.modifierInputs[active]=true;app.state.modifierInputs[baseline]=70;
+ for(let rank=1;rank<=5;rank++){
+  app.state.coneRank=rank;app.node('hsrConeRank').value=String(rank);const bonus=[20,24,28,32,36][rank-1];
+  for(const ehr of [79.9999,80,80.0001]){app.node('hsrStat-effectHitRate').value=String(ehr);near(row().expected,ev(3000+(ehr>=80?baseAtk*bonus/100:0)));}
+  app.state.modifierInputs[baseline]=80;app.node('hsrStat-effectHitRate').value='79.9999';near(row().expected,ev(3000-baseAtk*bonus/100));app.state.modifierInputs[baseline]=70;
+ }
+ app.node('hsrStat-effectHitRate').value='80';const enhanced=ev(3000+baseAtk*.36);near(row().expected,enhanced);console.log('ROUND50 '+JSON.stringify({case:'LC21041 manual baseline70 current80 S5',independent:enhanced,actual:row().expected}));
+ app.state.modifierInputs[included]=true;app.node('hsrStat-atk').value=String(3000+baseAtk*.36);near(row().expected,enhanced);
+ app.state.modifierInputs[included]=false;app.node('hsrStat-atk').value='3000';app.node('hsrStat-effectHitRate').handlers.input();const saved=await tool(app.storage,data);near(row(saved).expected,enhanced);
+ saved.state.modifierInputs[active]=false;near(row(saved).expected,ev(3000));saved.state.modifierInputs[active]=true;saved.state.coneId='';near(row(saved).expected,ev(3000));saved.node('hsrConditionDialogOpen').handlers.click();assert.doesNotMatch(saved.node('hsrConditionList').innerHTML,/lc-21041-baseline-ehr/);saved.state.coneId='21041';near(row(saved).expected,enhanced);
+ delete saved.state.modifierInputs[baseline];near(row(saved).expected,ev(3000));assert.ok(!row(saved).applied.some(m=>m.id==='lightCone:21041:battle-ehr-attack-delta'));
+});
+
+test('Round50 UID initial ATK and selected battle EHR delta remain separate after save and reimport',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),catalog=JSON.parse(read('games/hsr/data/catalog.json')),w={};vm.runInNewContext(read('games/js/hsrProfileMapper.js'),{window:w});
+ const cone=catalog.lightCones.find(c=>c.id==='21041'),character=catalog.characters.find(c=>c.id==='1006'),raw={avatarId:1006,level:80,rank:0,equipment:{tid:21041,level:80,rank:5,_flat:{props:[{type:'BaseHP',value:cone.base.hp},{type:'BaseAttack',value:cone.base.atk},{type:'BaseDefence',value:cone.base.def}]}},skillTreeList:[{pointId:1006001,level:6},{pointId:1006002,level:10},{pointId:1006003,level:10},{pointId:1006004,level:10}],relicList:[{_flat:{props:[{type:'StatusProbabilityBase',value:.7},{type:'AttackAddedRatio',value:.12},{type:'AttackDelta',value:217.875}]}}]};
+ const profile=w.HsrProfileMapper.mapProfileResponse({detailInfo:{avatarDetailList:[raw]}},catalog).characters[0],baseAtk=character.base.atk+cone.base.atk,initial=baseAtk*1.12+217.875,near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ near(profile.stats.atk,initial);const app=await tool(undefined,data);app.window.HsrTool.applyProfileCharacter(profile);app.node('hsrEnhancementState').value='previous';
+ const row=x=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id==='100601').name),ev=atk=>atk*.36*1.025;
+ near(row(app).expected,ev(initial));app.state.modifierInputs['lc-21041-ehr-baseline-active']=true;app.state.modifierInputs['lc-21041-baseline-ehr']=70;app.node('hsrStat-effectHitRate').value='80';near(row(app).expected,ev(initial+baseAtk*.36));
+ app.node('hsrStat-effectHitRate').handlers.input();const saved=await tool(app.storage,data);near(row(saved).expected,ev(initial+baseAtk*.36));saved.window.HsrTool.applyProfileCharacter(profile);near(row(saved).expected,ev(initial));near(saved.state.stats.atk,initial);
+});
+
+
+test('Round50 LC23049 separates own-Servant DMG from allied-Servant defense ignore at all S ranks',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+ const near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b),dmgKey='lc-23049-memosprite-damage-in-final',defKey='lc-23049-memosprite-defense-ignore-in-final';
+ const app=await tool(undefined,data);
+ app.window.HsrTool.applyProfileCharacter({id:'1415',level:80,eidolon:0,lightCone:{id:'23049',level:80,rank:1},traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6}],stats:{hp:11037,atk:3000,def:2000,critRate:11,critDamage:57,damageBonus:0}});
+ for(const[k,v]of Object.entries({hp:8432,critRate:37,critDamage:143,damageBonus:19,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['memosprite:1415:'+k]=v;
+ const row=(id='1141501',x=app)=>x.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name),factor=1+.37*1.43;
+ const oracle=(dmg,ignore)=>8432*.6*(1+(19+dmg)/100)*(100/(100+100*(1-ignore/100)))*.8*.9*factor,base=oracle(0,0),caster=row('141501').expected;
+ near(row().expected,base);app.state.modifierInputs['lc-23049-nightshade-active']=true;near(row().expected,base);near(row('141501').expected,caster*1.3);
+ app.state.modifierInputs[dmgKey]=false;app.state.modifierInputs[defKey]=false;
+ for(let rank=1;rank<=5;rank++){
+  app.state.coneRank=rank;app.node('hsrConeRank').value=String(rank);const d=[30,37.5,45,52.5,60][rank-1],ignore=[20,22.5,25,27.5,30][rank-1],r=row();near(r.expected,oracle(d,ignore));near(r.nonCrit,oracle(d,ignore)/factor);near(r.crit,oracle(d,ignore)/factor*2.43);near(row('141501').expected,caster*(1+d/100));
+ }
+ console.log('ROUND50 '+JSON.stringify({case:'23049 own Demiurge S5',independent:oracle(60,30),actual:row().expected}));
+ app.state.modifierInputs[dmgKey]=true;app.state.modifierInputs[defKey]=true;app.state.modifierInputs['memosprite:1415:damageBonus']=79;app.state.modifierInputs['memosprite:1415:defenseIgnore']=30;near(row().expected,oracle(60,30));
+ app.state.modifierInputs[dmgKey]=false;app.state.modifierInputs[defKey]=false;app.state.modifierInputs['memosprite:1415:damageBonus']=19;app.state.modifierInputs['memosprite:1415:defenseIgnore']=0;
+ app.state.modifierInputs['lc-23049-nightshade-active']=false;near(row().expected,base);app.state.modifierInputs['lc-23049-nightshade-active']=true;
+ app.node('hsrStat-hp').handlers.input();const saved=await tool(app.storage,data);near(row('1141501',saved).expected,oracle(60,30));saved.state.coneId='';near(row('1141501',saved).expected,base);saved.state.coneId='23049';near(row('1141501',saved).expected,oracle(60,30));
+ // Another summoner grants only team Servant DEF ignore, never its own-Servant DMG.
+ saved.state.coneId='';saved.state.party[0]={characterId:'1413',level:80,eidolon:0,lightConeId:'23049',coneRank:1};near(row('1141501',saved).expected,oracle(0,20));near(row('141501',saved).expected,caster);
+ saved.state.party[0].coneRank=5;near(row('1141501',saved).expected,oracle(0,30));saved.state.party[1]={characterId:'1407',level:80,eidolon:0,lightConeId:'23049',coneRank:5};near(row('1141501',saved).expected,base);saved.state.party[1].characterId='8007';near(row('1141501',saved).expected,base,'an unconnected second provider cannot be ignored');
+ saved.state.party=[];near(row('1141501',saved).expected,base);
 });

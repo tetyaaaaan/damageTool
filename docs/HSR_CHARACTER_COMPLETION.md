@@ -603,7 +603,7 @@ U証拠=39Dと残C1に併存する更新順の確証、U追加実装=3C1の残�
 |補正提供元|登録|計算処理対象|表示専用|
 |---|---:|---:|---:|
 |trace|538|288|250|
-|lightCone|205|180|25|
+|lightCone|208|183|25|
 |relic|48|45|3|
 |ornament|33|25|8|
 
@@ -4156,7 +4156,7 @@ E0本人の直接攻撃は通常のみ。回復スキル/必殺/天賦を不足�
 
 ## 機械照合用フィンガープリント
 
-- runtime: `d9d053531a87ed33d3735e3a99c6faa5a2eecbd24cb1569dd2fa63a630aeb605`
+- runtime: `21fd85ffddef7bea26227e9d8ed48fb61afc4f1e1df0c0442a01b9e0f5c15018`
 - fixed skills/trees/ranks: `d3b74bb916083e42bc9cc128bc790ca3cbb6c1d142a47c093f931f7b601a89ae`
 
 元JSONのコピーは保存せず、固定SHAからメモリ上で照合する。この管理表は配信資産や計算ランタイムには使用しない。

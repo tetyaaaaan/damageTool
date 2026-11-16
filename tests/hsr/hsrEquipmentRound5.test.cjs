@@ -26,7 +26,8 @@ const stateInputs = (row, id, count = 1) => {
 test("round5 light cones are loaded and their authored values match fixed-source R1-R5", async () => {
   const { data } = await loadProductionFixture();
   for (const id of rowsByCone.keys()) {
-    const records = data.structuredModifiers.filter(row => row.source.kind === "lightCone" && row.source.id === id);
+    const authoredIds = new Set(rowsByCone.get(id).map(row => row.id));
+    const records = data.structuredModifiers.filter(row => row.source.kind === "lightCone" && row.source.id === id && authoredIds.has(row.id));
     assert.equal(records.length, rowsByCone.get(id).length, "production loader includes authored rows for " + id);
   }
   assert.equal(authored.length, 13, "12 light cones; Spring in the River has separate SPD and damage components");

@@ -326,4 +326,11 @@ LC21030の `category:baseDamageAddition` はself/def/byRefinement/always/ultimat
 
 ### 独立最終入力の既算入初期値（第48回）
 
-`finalStatsInclusion.defaultIncluded` は任意boolean。明示入力を最優先、既存legacyToggleKeyが指定済みなら従来の反転指定を使い、どちらもなければこの初期値を使う。未指定の既存登録は従来どおり。21057は常時効果だが独立精霊の入力契約が装備込み最終CDのため、既算入trueを初期値とする。未算入を明示した場合だけS別24～48%を対応する精霊スナップショットのCDへ追加する。本人向けModifierや一般的な所有者跨ぎ継承へ変換しない。適用記録は補完済みの精霊結果に付ける。303/21041のATKはUID最終値再構成の責務とし、同じ戦闘Modifierを複製しない。[追加定義](../../../games/hsr/data/calc/modifiers-equipment-round48.json)、[受入](../../HSR_COMPLETION_WORKLOAD.md#hsr-round48-equipment)を参照。
+`finalStatsInclusion.defaultIncluded` は任意boolean。明示入力を最優先、既存legacyToggleKeyが指定済みなら従来の反転指定を使い、どちらもなければこの初期値を使う。未指定の既存登録は従来どおり。21057は常時効果だが独立精霊の入力契約が装備込み最終CDのため、既算入trueを初期値とする。未算入を明示した場合だけS別24～48%を対応する精霊スナップショットのCDへ追加する。本人向けModifierや一般的な所有者跨ぎ継承へ変換しない。適用記録は補完済みの精霊結果に付ける。303/21041の恒常ATKはUID最終値再構成の責務とし、同じ恒常加算を戦闘Modifierへ複製しない。21041の明示基準からの差分は下記第50回を参照。[追加定義](../../../games/hsr/data/calc/modifiers-equipment-round48.json)、[受入](../../HSR_COMPLETION_WORKLOAD.md#hsr-round48-equipment)を参照。
+
+
+### 独立精霊の装備差分と明示EHR基準（第50回）
+
+21057と23049の専用精霊効果は、既存の独立スナップショットへ未算入分だけ補完する。21057は同じ召喚主のServant専用CD、23049は同じ装備者の精霊DMGと味方精霊のDEF無視を別登録とする。精霊側の既算入初期値はtrue。本人のCD/属性DMGを一般継承せず、混合攻撃では精霊成分だけを変更する。23049の複数提供者によるDEF無視は合成根拠が未確認のためその効果だけ条件未確定。対象IDと受入は[第50回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round50-partial-equipment)を参照。
+
+`value.kind:thresholdDeltaByRefinement` は現在EHRと、入力ATKに含まれる21041変換の基準EHRを比較し、`S別係数×(現在>=80 − 基準>=80)` を符号付きATK割合として返す限定契約。既存エンジンがキャラ＋光円錐の基礎ATKへ掛け、最終ATKへの割合乗算や再構成はしない。現在EHRは通常の効果命中欄、基準EHRは補正モーダルの明示入力。利用者が入力ATKと基準EHRの整合を確認した場合だけ有効化し、差分まで最終ATKへ含めた場合は既算入で除外する。基準未入力/不正時は当該候補だけ未確定。既定OFFは既存手動/UID最終値の責務を維持する。303のStatusProbabilityBase・イベント時点の再評価へ一般化しない。戦闘経過の自動追跡やEHR Modifier全体の依存再評価ではない。

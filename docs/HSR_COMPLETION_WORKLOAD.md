@@ -1,6 +1,47 @@
 # HSR 最終完成までの残作業測定
 
 
+<a id="hsr-round50-partial-equipment"></a>
+## 第50回：専属精霊の装備差分・明示基準EHRのATK追従（2026-11-16）
+
+開始HEAD `8a87531dd07d5b8f9ba8f51c3ce219293aacd8fe`、main。共通式の再監査やマスター再生成は行わず、既存独立精霊スナップショット、S別Modifier、最終値への既算入指定、ATK割合経路、条件入力/保存を再利用する。新しい攻撃・E0認定は追加しない。
+
+| 対象 | 今回接続した範囲 | 維持する制限 |
+|---|---|---|
+| 21057 花は忘れない | ラフトラ11402（アグライア1402）、死竜11407（キャストリス1407）、イカルン11409（ヒアンシー1409）へ専用CD24/30/36/42/48%の未算入分。既存デミウルゴス/長夜6行を維持 | 対応する独立最終入力とattackIdsのみ。同じ装備者のServantへ限定。本人恒常CD・他召喚主・未確認精霊へ一般継承しない |
+| 21041 ショーの始まり | 基準EHRを含む最終ATKから、現在EHRの80%閾値をまたいだ差分だけ自動加減。S別ATK20/24/28/32/36% | 利用者がATKと基準EHRの整合を明示。既定OFF。現在EHRは通常の入力欄、基準EHRは既存モーダル。差分まで最終ATKへ含めた場合は既算入指定。UID rawからの恒常再構成は従来どおり1回 |
+| 23049 長き夜に輝く星へ | 夜色中の装備者専属精霊DMG30/37.5/45/52.5/60%、味方の受入精霊DEF無視20/22.5/25/27.5/30%を別成分で接続 | 精霊側は既算入trueを既定。本人DMGと精霊DMGを分離。複数提供者のDEF無視はその効果だけ未確定。未接続の精霊/退場EPは別範囲 |
+| 303 汎銀河商事会社 | UID恒常変換を維持 | 実行定義はStatusProbabilityBaseをイベント/フェーズ時点で参照。任意の現在EHRへ即時追従する根拠は不足。21041のStatusProbability監視を流用しない |
+| 23042 空の虹が消えぬように | 既存の精霊スキル後・敵被DMG18～36%を維持 | 実消費HP記録→精霊攻撃後の別付加は、AttackData/DamageByAttackPropertyの最終式を未確定。S1～S5の記録係数2.5～5%やAttackType:Pursuedだけから通常ATK式へ近似しない |
+
+**固定版根拠**：StarRailRes `dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487`の光円錐ランクと、同版実行定義`6b2bc17ebf461e497ba0dd0ffd44875f1866762b`を照合。
+
+- [21057 Equip34](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Equip/Equip34.json)、blob `1dd65a516fb2f0a11addff8c0d5902be1c14bd46`：Servant判定＋GetSummoner/Caster一致→CasterServant専用CriticalDamageBase。独立所有者は既存の登録攻撃とスナップショットを照合。
+- [21041 EquipmemtAbility](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Equip/EquipmemtAbility.json)、blob `9f9d50947e473d8f1e537078054a0b1570560632`：OnAbilityPropertyChange(StatusProbability)でSkillEquip[3]閾値を監視し、AttackAddedRatio SkillEquip[4]を付与/解除。
+- [303 RelicAbility](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/RelicAbility.json)、blob `f00dd3e79c43daa543c7a91894b55fda126bce32`：Ability53031のStatusProbabilityBase参照とスキル前後/フェーズ更新。
+- [23049 Equip36](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Equip/Equip36.json)、blob `a67f14f255adbf0deb5d608dd154ccbe0208adbc`：自身のServantスキル後に夜色。Sub2は装備者＋自身Servantの与DMG、Sub3は味方ServantのDEF無視。S別係数を分離。
+- [23042 Equip33](https://github.com/DimbreathBot/TurnBasedGameData/blob/6b2bc17ebf461e497ba0dd0ffd44875f1866762b/Config/ConfigAbility/Equip/Equip33.json)、blob `bdd5120650082f8dfbaedb6d9357d4b6c9274d62`：本人通常/Skill/Ultra前に味方の実消費HPを累積、Servantの攻撃後に別AttackDataを生成し記録をリセット。イベントと対象を確認したことと最終係数の解読完了を区別する。
+
+**差分の責務**：21041は `基礎ATK×S別割合×(現在EHR>=80−基準EHR>=80)` を既存statPercentへ渡す。入力済み最終ATKを分解・割合乗算しない。減少時は負の差分。基準未入力/不正はこの補正だけ未確定。303の自動追従やEHR補正群の再帰評価を含めない。装備/Sランクを変更した場合も、入力ATKと基準EHRがその装備条件に対応することを利用者が確認する。外部コード取り込み/依存追加なし、外部ツール実数値比較・実UID通信は未実施。
+
+**独立検証**：S1～S5、ON/OFF、EHR79.9999/80/80.0001、基準側の閾値上下、基準未入力・範囲外の局所除外、最終値既算入、本人/精霊分離、混合攻撃の成分合計、装備A→B→A、別召喚主・提供者離脱・複数提供者、保存復元を確認。EHR80%の算術誤差ガードはUID再構成と同じ比率1e-12で、(0.7+0.1)×100の境界だけを整合し、79.9999%は不成立。ATK差分はマイナスも保持。UIDモックは恒常ATK→現在EHR差分→保存→再importの経路を確認し、再importで恒常変換を重ねない。既存UIの数値/トグル/既算入コントロールを再利用し、HTML/CSS・幅別レイアウト変更なし。
+
+| 代表状態（敵Lv80/RES20%/靭性あり） | 独立期待EV | 製品EV |
+|---|---:|---:|
+| 21057 S5 ラフトラSkill6（ATK5000/CR20/CD200/雷DMG20） | 3554.496 | 3554.496 |
+| 同 死竜息吹第3段（HP6000/CR80/CD200/量子DMG30） | 2848.88448 | 2848.88448 |
+| 同 イカルン（記録治癒12345/CR37/CD143/風DMG19） | 1805.21004132 | 1805.21004132 |
+| 21041 S5 銀狼通常6（基準ATK3000/EHR70→80/CR37/CD143/DMG19） | 2228.523137172461 | 2228.523137172461 |
+| 23049 S5 デミウルゴスSkill6（HP8432/CR37/CD143/氷DMG19、夜色DMG60/DEF無視30を未算入指定） | 5864.81534208 | 5864.81534208 |
+
+**件数**：限定E0 94/98、攻撃583/計算562/参考4/表示専用17は不変。Modifier本番1045/計算618→1048/621（静的原登録1046/619→1049/622、既存同一ID置換1行との差）。新規計算補正成分3（21041差分1・23049精霊2）、既存21057成分は所有者3種へ対応拡張。21057のtargetIdsは6→15（現在の登録攻撃13＋混合攻撃内部ID2）で、新規攻撃登録や15個の独立効果完成とは数えない。LC構造化141/170・計算行あり140/170・未定義29、遺物29/34、オーナメント25/28は不変。完成管理表は光円錐Modifier行数とruntime fingerprintのみ既存スクリプトで更新した。
+
+**第51回への残件**：A（今回範囲で明確な主要ダメージ誤差）は検証結果を下記へ記録し、未検証の全組合せを0件とは認定しない。Bは未接続精霊への装備差分や明示基準なしのEHR追従等。完成済み最終値で表現できる条件と、欠落する攻撃成分を分ける。Cは303の参照プロパティ/更新時点、23042記録付加の最終式、23013/21039や未認定4人の根拠待ち、特殊な多所有者合成、回復/EP/行動順。未認定4人は別管理のまま。第51回は既存94人の限定E0・敵1体・明示した最終値/事前状態を実用版の範囲として受け入れ、B/Cの制限が利用時に判別できることとAの未解決有無を確認すれば一区切りを判断できる。全98人・全装備・全状態の完成宣言には拡張しない。
+
+**最終検証・判定**：最終コードのHSR全1180/1180成功（166.55秒）。全体実行は2回：初回は新21041成分が旧Round5の固定群へ混ざるテスト前提で2件失敗し、特殊差分定義をround48へ整理・旧テストの照合を当初の効果ID群へ限定した。関連11件と製品入力6件の成功後に全体を再実行。最終レビューで精霊補完時にもattackIdsを実際に検査し、対象外IDの非適用と混合攻撃の精霊成分だけの適用記録を確認。Modifier静的問題0、攻撃38指摘は開始時と内容/順序同一、完成管理表--check成功、変更4文書/索引のローカルリンク328件に欠落なし。実画面の手動操作・実UID通信・外部ツール実数値比較は今回は未実施。UIは既存の入力描画を再利用し、HTML/CSSを変更していないため幅別再検証なし。今回の限定範囲に残る明確なA不具合は確認なし。全組合せのA母数は未集計。Bのうち21057の3所有者、21041の明示基準差分、23049の限定精霊2成分を解消し、残るB/Cは上記のとおり。
+
+変更14ファイル：本台帳、[完成管理表](HSR_CHARACTER_COMPLETION.md)、[Modifier仕様](hsr/specs/04_MODIFIER_SPEC.md)、[キャラ装備仕様](hsr/specs/06_CHARACTER_EQUIPMENT_SPEC.md)、[計算データ索引](../games/hsr/data/calc/README.md)、[Schema](../games/hsr/data/calc/modifier-contract.schema.json)、[装備46定義](../games/hsr/data/calc/modifiers-equipment-round46.json)、[装備48定義](../games/hsr/data/calc/modifiers-equipment-round48.json)、[App](../games/js/hsrApp.js)、[Modifier評価](../games/js/hsrModifierRuntime.js)、[登録検証](../scripts/validateHsrModifiers.cjs)、[EHR差分検証](../tests/hsr/hsrEhrDeltaRound50.test.cjs)、[既存装備群検証](../tests/hsr/hsrEquipmentRound5.test.cjs)、[製品入力検証](../tests/hsr/hsrToolInputs.test.cjs)。原神JSONのSHA256は開始時と同一、`.codex/`/`.codex-temp/`を変更・ステージングしない。マスター/計算エンジン/UID Mapperの変更なし、push/デプロイなし。
+
 <a id="hsr-round49-equipment-accuracy"></a>
 ## 第49回：主要攻撃×装備×支援の代表精度確認（2026-11-16）
 

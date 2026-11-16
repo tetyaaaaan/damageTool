@@ -445,6 +445,122 @@
       }
     },
     {
+      "id": "lightCone:23049:nightshade-memosprite-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "23049",
+        "wearerIds": ["1402", "1407", "1409", "1413", "1415"]
+      },
+      "name": "長き夜に輝く星へ・夜色の装備者精霊DMG",
+      "description": "精霊スキル後に夜色が有効な間、装備者本人とその専属精霊へS1～S5の与ダメージ30/37.5/45/52.5/60%。この行は装備者の独立精霊に限ります。装備込み精霊DMGへ算入済みが既定で、未算入の場合だけ専用差分を加えます。攻撃状態の時間経過は追跡しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [30, 37.5, 45, 52.5, 60]
+      },
+      "target": {
+        "owner": "memosprite",
+        "attackTypes": ["memospriteSkill", "memospriteTalent", "enhancedNormal", "enhancedSkill", "ultimate"],
+        "elements": [],
+        "attackIds": ["1140201", "140208:laftra", "1140901", "1140701", "1140702", "11407022", "1140706", "1140712", "140709:dragon", "1141301", "1141307", "141303", "1141501", "1141526", "11415012"]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23049-nightshade-active",
+        "inputLabel": "装備者の精霊スキル後、夜色が有効",
+        "conditionText": "装備者の精霊スキル後、夜色が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23049:nightshade-memosprite-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23049-memosprite-damage-in-final",
+        "inputLabel": "独立精霊の最終DMGに夜色の専用補正を算入済み",
+        "defaultIncluded": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版23049.params[0..4][2]の装備者自身と専属Servantへの効果を既存の独立精霊最終値契約へ限定接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23049.params[0..4][2]",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-16",
+        "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/Equip36.json blob a67f14f255adbf0deb5d608dd154ccbe0208adbc, Ability23049",
+        "scope": "Wearer's supported own independent Servant attacks only; final damage inclusion defaults to true."
+      }
+    },
+    {
+      "id": "lightCone:23049:nightshade-memosprite-defense-ignore",
+      "source": {
+        "kind": "lightCone",
+        "id": "23049",
+        "wearerIds": ["1402", "1407", "1409", "1413", "1415"]
+      },
+      "name": "長き夜に輝く星へ・夜色の味方精霊DEF無視",
+      "description": "装備者の精霊スキル後に夜色が有効な間、味方の記憶の精霊全体がS1～S5の防御力20/22.5/25/27.5/30%分を無視します。単一の編成提供者と、対象精霊の明示済み最終値に未算入の差分だけを扱います。複数提供者の合成は未確定で除外します。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [20, 22.5, 25, 27.5, 30]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": ["memospriteSkill", "memospriteTalent", "enhancedNormal", "enhancedSkill", "ultimate"],
+        "elements": [],
+        "attackIds": ["1140201", "140208:laftra", "1140901", "1140701", "1140702", "11407022", "1140706", "1140712", "140709:dragon", "1141301", "1141307", "141303", "1141501", "1141526", "11415012"]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23049-nightshade-active",
+        "inputLabel": "装備者の精霊スキル後、夜色が有効",
+        "conditionText": "装備者の精霊スキル後、夜色が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23049:nightshade-memosprite-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23049-memosprite-defense-ignore-in-final",
+        "inputLabel": "独立精霊の防御無視に夜色の味方精霊補正を算入済み",
+        "defaultIncluded": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版23049.params[0..4][1]の夜色中に味方Servantが得る防御無視を、既存の独立精霊敵条件入力へ限定接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23049.params[0..4][1]",
+        "gameVersion": "4.6.0",
+        "verifiedAt": "2026-11-16",
+        "mechanicsSource": "DimbreathBot/TurnBasedGameData@6b2bc17ebf461e497ba0dd0ffd44875f1866762b Config/ConfigAbility/Equip/Equip36.json blob a67f14f255adbf0deb5d608dd154ccbe0208adbc, Ability23049",
+        "scope": "One light-cone provider at a time; supported party Servant snapshots only. Multiple-provider merging is unresolved."
+      }
+    },
+    {
       "id": "lightCone:23051:guard-summon-damage",
       "source": {
         "kind": "lightCone",

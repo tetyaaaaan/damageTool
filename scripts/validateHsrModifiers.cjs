@@ -6,7 +6,7 @@ const root = path.resolve(__dirname, "..");
 const registeredData = loadHsrDataFiles(root);
 const modifiers = registeredData.modifiers;
 const allowedStatuses = new Set(["calculable", "displayOnly", "review"]);
-const allowedValueKinds = new Set(["fixed", "byLevel", "byRefinement", "perStack", "perStackByLevel", "perStackByRefinement", "perReferenceStack", "threshold", "providerStatPercentByLevel", "inputScaleByLevelPlusByLevel", "targetBasePercentCappedByProviderPercentByLevel", "linearThreshold", "missingHpScaleByLevel"]);
+const allowedValueKinds = new Set(["fixed", "byLevel", "byRefinement", "perStack", "perStackByLevel", "perStackByRefinement", "perReferenceStack", "threshold", "thresholdDeltaByRefinement", "providerStatPercentByLevel", "inputScaleByLevelPlusByLevel", "targetBasePercentCappedByProviderPercentByLevel", "linearThreshold", "missingHpScaleByLevel"]);
 const allowedStackRules = new Set(["add", "max", "replace", "nonStacking"]);
 const fieldSets = {
   root: new Set(["id", "variant", "providerScope", "source", "name", "description", "category", "stat", "unit", "value", "inputValidation", "target", "supplementalAttack", "primaryTargetOnly", "adjacentTargetOnly", "activation", "stacking", "calculation", "inputPolicy", "finalStatsInclusion", "support", "provenance", "scope"]),
@@ -133,6 +133,8 @@ function validateModifiers(records) {
     if (value.kind === "linearThreshold" && (!value.inputKey || !Number.isFinite(value.threshold) || !Number.isFinite(value.step) || !Number.isFinite(value.perStep))) issues.push(`${at}: linear threshold fields required`);
     if (value.kind === "missingHpScaleByLevel" && (!value.providerStat || !Array.isArray(value.values) || !value.values.every(Number.isFinite))) issues.push(`${at}: provider stat and numeric level values required`);
     if (value.kind === "threshold" && (!Array.isArray(value.thresholds) || !value.thresholds.length)) issues.push(`${at}: thresholds required`);
+    if (value.kind === "thresholdDeltaByRefinement" && (!Number.isFinite(value.threshold) || !value.inputKey || !Array.isArray(value.values) || value.values.length !== 5 || !value.values.every(Number.isFinite))) issues.push(`${at}: threshold delta requires a threshold, input key, and five refinement values`);
+    if (value.kind === "thresholdDeltaByRefinement" && (!inputValidation || !Number.isFinite(inputValidation.minimum) || !Number.isFinite(inputValidation.maximum) || inputValidation.maximum <= inputValidation.minimum || modifier.source?.kind !== "lightCone" || modifier.source?.id !== "21041" || modifier.category !== "statPercent" || modifier.stat !== "atk" || value.threshold !== 80 || value.reference !== undefined || modifier.activation?.mode !== "toggle" || modifier.activation.default !== false || !modifier.finalStatsInclusion || modifier.finalStatsInclusion.defaultIncluded === true)) issues.push(`${at}: threshold delta currently requires a bounded LC21041 80% EHR-to-ATK input, opt-in toggle, and final-stat inclusion input`);
   }
   return issues;
 }
