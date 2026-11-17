@@ -6,7 +6,10 @@ const {loadProductionFixture}=require('../tests/hsr/helpers/hsrDirectVerificatio
 const root=path.resolve(__dirname,'..');
 const output=path.join(root,'docs/HSR_CHARACTER_COMPLETION.md');
 const sha='dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487';
+const version47Sha='03907e798b46f9eb109a1f882055cdf49ce3d374';
 const sourceBase=`https://raw.githubusercontent.com/Mar-7th/StarRailRes/${sha}/index_new/jp/`;
+const version47Base=`https://raw.githubusercontent.com/Mar-7th/StarRailRes/${version47Sha}/index_new/jp/`;
+const version47='4.7.0';
 const cell=value=>String(value??'—').replace(/\|/g,'／').replace(/\r?\n/g,' ').replace(/</g,'&lt;');
 const sumBy=(items,key)=>items.reduce((a,x)=>{const k=key(x);a[k]=(a[k]||0)+1;return a;},{});
 const hash=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -1446,7 +1449,11 @@ function difficulty(a){
  if(a.target==='bounce'||a.hitCountInputKey||a.comparisonStates)return '中候補: 段数/状態/分配（要精査）';
  return '小～中候補: 独立検証/固有効果精査';
 }
-async function fixed(file){const response=await fetch(sourceBase+file);if(!response.ok)throw Error(`${file}: HTTP ${response.status}`);return response.json();}
+async function fixed(file,version=null){const response=await fetch((version===version47?version47Base:sourceBase)+file);if(!response.ok)throw Error(`${file}: HTTP ${response.status}`);return response.json();}
+function sourceVersion(record){return record?.sourceVersion||null;}
+function assertVersionedSource(record,label,expectedVersion){
+ if(sourceVersion(record)!==expectedVersion||record?.sourceCommit!==version47Sha)throw Error(`${label}: sourceVersion/sourceCommit mismatch`);
+}
 const batchWorkReview={A:new Set(),B:new Set(['1112','1205','1015','1201']),D:new Set(['1218','1209','1204','1005','1004','1207','1109','1106','1103','1009','1503','1406','1212','1215','1206','1006','1312','1210','1014','1302','1214'])};
 function remainingWorkClass(d){
  if(d.confirmed)return {group:'済',confidence:'E0限定条件を検証済み',reason:'星魂/装備/支援の最終完成とは別'};
@@ -1460,17 +1467,52 @@ function remainingWorkClass(d){
 function instructionForecast(){const measured=Object.values(e0CandidateAudit).filter(a=>a.status!=='confirmed'&&a.workClass==='C1').length;return [['楽観',2],['標準',1],['悲観',0.5]].map(([scenario,capacity])=>({scenario,capacity,planned:Math.ceil(measured/capacity)}));}
 const batchRun={start:"99d09fc",audited:12,confirmed:1,promoted:4,added:3,independentlyChecked:12,holds:11,phase:"第8回・工程C完了"};
 async function generate(){
- const [{data,engine},characters,skills,trees,ranks]=await Promise.all([loadProductionFixture(),fixed('characters.json'),fixed('character_skills.json'),fixed('character_skill_trees.json'),fixed('character_ranks.json')]);
- if(data.characters.length!==98||Object.keys(characters).length!==98)throw Error('固定母集団98人と不一致');
- let matchedSkills=0,matchedRanks=0;
- for(const c of data.characters){if(!characters[c.id])throw Error('固定キャラなし '+c.id);for(const s of c.skills){const f=skills[s.id];if(!f||JSON.stringify(f.params)!==JSON.stringify(s.params)||f.desc!==s.description)throw Error('固定スキル差分 '+s.id);matchedSkills++;}for(const e of c.eidolons){const r=ranks[e.id];if(!r||r.desc!==e.description||JSON.stringify(r.level_up_skills||[])!==JSON.stringify(e.levelUpSkills||[]))throw Error('固定星魂差分 '+e.id);matchedRanks++;}}
+ const [{data,engine},characters,skills,trees,ranks,characters47,skills47,trees47,ranks47,lightCones47,lightConeRanks47]=await Promise.all([loadProductionFixture(),fixed('characters.json'),fixed('character_skills.json'),fixed('character_skill_trees.json'),fixed('character_ranks.json'),fixed('characters.json',version47),fixed('character_skills.json',version47),fixed('character_skill_trees.json',version47),fixed('character_ranks.json',version47),fixed('light_cones.json',version47),fixed('light_cone_ranks.json',version47)]);
+ const baselineCharacters=data.characters.filter(c=>!sourceVersion(c));
+ const versionedCharacters=data.characters.filter(c=>sourceVersion(c)===version47);
+ const unsupportedCharacterVersions=data.characters.filter(c=>sourceVersion(c)&&sourceVersion(c)!==version47);
+ if(unsupportedCharacterVersions.length)throw Error('未対応のカタログcharacter sourceVersion '+unsupportedCharacterVersions.map(c=>c.id).join(','));
+ if(baselineCharacters.length!==Object.keys(characters).length)throw Error('旧固定母集団とカタログ基準レコード数が不一致');
+ if(data.characters.length!==baselineCharacters.length+versionedCharacters.length)throw Error('catalog character version split mismatch');
+ const baselineSkills=data.characters.flatMap(c=>c.skills).filter(s=>!sourceVersion(s));
+ const versionedSkills=data.characters.flatMap(c=>c.skills).filter(s=>sourceVersion(s)===version47);
+ const unsupportedSkills=data.characters.flatMap(c=>c.skills).filter(s=>sourceVersion(s)&&sourceVersion(s)!==version47);
+ if(unsupportedSkills.length)throw Error('未対応のカタログskill sourceVersion '+unsupportedSkills.map(s=>s.id).join(','));
+ let matchedSkills=0,matchedRanks=0,matchedVersion47Skills=0,matchedVersion47Traces=0,matchedVersion47LightCones=0;
+ for(const c of baselineCharacters){if(!characters[c.id])throw Error('固定キャラなし '+c.id);for(const s of c.skills){if(sourceVersion(s))continue;const f=skills[s.id];if(!f||JSON.stringify(f.params)!==JSON.stringify(s.params)||f.desc!==s.description)throw Error('固定スキル差分 '+s.id);matchedSkills++;}for(const e of c.eidolons){const r=ranks[e.id];if(!r||r.desc!==e.description||JSON.stringify(r.level_up_skills||[])!==JSON.stringify(e.levelUpSkills||[]))throw Error('固定星魂差分 '+e.id);matchedRanks++;}}
+ for(const c of data.characters.filter(c=>!sourceVersion(c))){
+  const oldCharacter=characters[c.id],newCharacter=characters47[c.id];if(!newCharacter)throw Error('4.7 fixed character missing '+c.id);
+  const oldSkillIds=oldCharacter.skills||[],currentSkillIds=newCharacter.skills||[];
+  if(oldSkillIds.some(id=>!currentSkillIds.includes(id)))throw Error('4.7 source removed a baseline skill '+c.id);
+  const expectedAddedIds=currentSkillIds.filter(id=>!oldSkillIds.includes(id)).sort();
+  const markedAddedIds=c.skills.filter(s=>sourceVersion(s)===version47).map(s=>s.id).sort();
+  if(JSON.stringify(expectedAddedIds)!==JSON.stringify(markedAddedIds))throw Error('4.7 skill additions/sourceVersion markers differ '+c.id);
+  for(const s of c.skills.filter(s=>sourceVersion(s)===version47)){
+   assertVersionedSource(s,`skill ${s.id}`,version47);
+   const f=skills47[s.id];if(!f||JSON.stringify(f.params)!==JSON.stringify(s.params)||f.desc!==s.description)throw Error('4.7 fixed skill mismatch '+s.id);
+   matchedVersion47Skills++;
+  }
+ }
+ for(const c of versionedCharacters){
+  assertVersionedSource(c,`character ${c.id}`,version47);
+  const f=characters47[c.id];if(!f||f.name!==c.name||f.path!==c.path||f.element!==c.element||f.rarity!==c.rarity||f.max_sp!==c.maxEnergy)throw Error('4.7 fixed character mismatch '+c.id);
+  if(JSON.stringify((f.skills||[]).slice().sort())!==JSON.stringify(c.skills.map(s=>s.id).sort())||JSON.stringify((f.skill_trees||[]).slice().sort())!==JSON.stringify((c.traces||[]).map(t=>t.id).sort())||JSON.stringify((f.ranks||[]).slice().sort())!==JSON.stringify((c.eidolons||[]).map(e=>e.id).sort()))throw Error('4.7 fixed character record ID inventory mismatch '+c.id);
+  for(const s of c.skills){assertVersionedSource(s,`skill ${s.id}`,version47);const sf=skills47[s.id];if(!sf||JSON.stringify(sf.params)!==JSON.stringify(s.params)||sf.desc!==s.description)throw Error('4.7 fixed skill mismatch '+s.id);matchedVersion47Skills++;}
+  for(const t of c.traces||[]){const tf=trees47[t.id];const properties=(tf?.levels||[]).map(x=>x.properties||[]);if(!tf||tf.name!==t.name||tf.desc!==t.description||tf.max_level!==t.maxLevel||JSON.stringify(tf.params||[])!==JSON.stringify(t.params||[])||JSON.stringify(properties)!==JSON.stringify((t.levels||[]).map(x=>x.properties||[])))throw Error('4.7 fixed trace mismatch '+t.id);matchedVersion47Traces++;}
+  for(const e of c.eidolons||[]){const r=ranks47[e.id];if(!r||r.rank!==e.rank||r.desc!==e.description||JSON.stringify(r.level_up_skills||[])!==JSON.stringify(e.levelUpSkills||[]))throw Error('4.7 fixed eidolon mismatch '+e.id);}
+ }
+ const versionedLightCones=(data.lightCones||[]).filter(l=>sourceVersion(l)===version47);
+ const unsupportedLightConeVersions=(data.lightCones||[]).filter(l=>sourceVersion(l)&&sourceVersion(l)!==version47);
+ if(unsupportedLightConeVersions.length)throw Error('未対応の光円錐 sourceVersion '+unsupportedLightConeVersions.map(l=>l.id).join(','));
+ for(const l of versionedLightCones){assertVersionedSource(l,`light cone ${l.id}`,version47);const f=lightCones47[l.id],rank=lightConeRanks47[l.id];if(!f||f.name!==l.name||f.rarity!==l.rarity||f.path!==l.path||!rank||rank.skill!==l.effect?.name||rank.desc!==l.effect?.description||JSON.stringify(rank.params||[])!==JSON.stringify(l.effect?.paramsByRank||[])||JSON.stringify(rank.properties||[])!==JSON.stringify(l.effect?.propertiesByRank||[]))throw Error('4.7 fixed light cone mismatch '+l.id);matchedVersion47LightCones++;}
+ if(baselineSkills.length!==matchedSkills)throw Error('old catalog skill split mismatch');
  const additionalBreakIds=new Set((data.specialBreakAttacks||[]).filter(a=>typeof engine.calculateAdditionalBreak==='function'&&engine.calculateAdditionalBreak({character:{id:a.characterId,level:80,eidolon:0,stats:{breakEffect:0}},enemy:{level:80,count:1,maxToughness:30,resistance:20,weakness:false},attack:{...a,traceLevel:1,multiplier:a.multipliers[0]},breakBaseDamage:data.breakBaseDamage}).supported===true).map(a=>a.id));
  const attackStatus=a=>!additionalBreakIds.has(a.id)&&engine.unsupportedAttackReason(a)?'計算不可':a.support?.status==='calculable'&&a.support?.verified?'計算対応':a.support?.status==='displayOnly'?'計算不可':'参考値';
  const counts=sumBy(data.attacks,attackStatus);
  const details=data.characters.map(c=>{
   const attacks=data.attacks.filter(a=>String(a.characterId)===c.id);
   const allRecords=attacks.concat((data.specialBreakAttacks||[]).filter(a=>String(a.characterId)===c.id));
-  const sources=c.skills.map(s=>skills[s.id]);
+  const sources=(sourceVersion(c)===version47?c.skills:c.skills.filter(s=>!sourceVersion(s))).map(s=>sourceVersion(s)===version47?skills47[s.id]:skills[s.id]);
   const required=sources.filter(s=>['直接ダメージ行動','条件付き/別成分（即時攻撃と区別）'].includes(skillRole(s)));
   const mapped=s=>allRecords.filter(a=>(a.id===s.id||a.sourceSkillId===s.id||a.triggerSkillId===s.id)&&!(a.requiredEidolon>0)&&!a.hidden);
   const absent=required.filter(s=>!mapped(s).length);
@@ -1483,17 +1525,20 @@ async function generate(){
   const eidolon=data.structuredModifiers.filter(m=>m.source?.kind==='eidolon'&&String(m.source.id)===c.id);
   return {c,attacks,sources,required,mapped,absent,pending,unknown,candidate,confirmed,eidolon,audit,hasMissingComponent};
  });
- const confirmed=details.filter(d=>d.confirmed),candidates=details.filter(d=>d.candidate);
- const missingCharacters=details.filter(d=>d.pending.length>0||d.hasMissingComponent).length;
- const pendingComposition=98-confirmed.length-missingCharacters;
- const registrationBacklog=details.filter(d=>d.pending.length>0||d.hasMissingComponent);
+ const baselineDetails=details.filter(d=>!sourceVersion(d.c));
+ const versionedDetails=details.filter(d=>sourceVersion(d.c)===version47);
+ const baselineCount=baselineDetails.length;
+ const confirmed=baselineDetails.filter(d=>d.confirmed),candidates=baselineDetails.filter(d=>d.candidate);
+ const missingCharacters=baselineDetails.filter(d=>d.pending.length>0||d.hasMissingComponent).length;
+ const pendingComposition=baselineCount-confirmed.length-missingCharacters;
+ const registrationBacklog=baselineDetails.filter(d=>d.pending.length>0||d.hasMissingComponent);
  const backlogWithUnregistered=registrationBacklog.filter(d=>d.absent.length>0||d.hasMissingComponent);
  const backlogRegistered=registrationBacklog.filter(d=>!d.absent.length&&!d.hasMissingComponent);
  const eidolon=data.structuredModifiers.filter(m=>m.source?.kind==='eidolon');
  const eidolonOwners=new Set(eidolon.map(m=>m.source.id));
- const missing=details.reduce((n,d)=>n+d.absent.length,0),unknown=details.reduce((n,d)=>n+d.unknown.length,0);
+ const missing=baselineDetails.reduce((n,d)=>n+d.absent.length,0),unknown=baselineDetails.reduce((n,d)=>n+d.unknown.length,0);
  const lines=[];const p=(...s)=>lines.push(...s);
- p('# HSR 全98キャラクター完成管理表','','この表は作業管理用です。登録状態、E0主要攻撃の構成確認、星魂/装備/支援の完成を分けます。計算対応レコードの存在だけではキャラクター全体を完成扱いにしません。','','## 更新手順','','1. `node scripts/reportHsrCompletion.cjs` で本番ローダーと固定版を再照合して更新。ネットワーク取得に失敗した場合は書き換えません。','2. `node scripts/reportHsrCompletion.cjs --check` で現在の文書と再生成結果を照合。','3. 個別攻撃の正式化はoverrideの限定条件/provenanceと独立検証テストを更新してから再生成。','4. E0主要構成を確認できた人はスクリプトのconfirmedE0へ根拠を追記。登録件数だけで追加しない。','5. E1～6、装備/パーティ、UI/UID/保存の統合確認を別途完了して初めて最終ゴールの完成認定を行う。','','## 基準と現在値','',`- 固定版: [StarRailRes ${sha}](https://github.com/Mar-7th/StarRailRes/tree/${sha}/index_new/jp)。98 ID・${matchedSkills}スキルの係数配列/説明・${matchedRanks}星魂の説明/Lv加算がカタログと一致。これは各攻撃の精度検証とは別。`,`- 本番攻撃（非表示の内部記録を含む）: ${data.attacks.length}件 = 計算対応${counts['計算対応']||0} / 参考値${counts['参考値']||0} / 計算不可${counts['計算不可']||0}。特殊撃破レコードは別枠${data.specialBreakAttacks.length}件。hidden ${data.attacks.filter(a=>a.hidden).length}件（うち計算対応${data.attacks.filter(a=>a.hidden&&attackStatus(a)==='計算対応').length}件）は画面の主要ダメージ一覧に含めない。`,`- E0主要攻撃の構成確認済み: **${confirmed.length}人** (${confirmed.map(d=>`${d.c.name} ${d.c.id}`).join('、')})。このE0限定単発範囲のみの認定であり、全星魂/全装備の完成ではない。`,`- 残るE0完成未認定: **${98-confirmed.length}人**。登録上の充足候補は全98人中${candidates.length}人（確認済みを含む）。主要候補の登録不足がある${missingCharacters}人と、登録済みでも全構成の確認待ち${pendingComposition}人を区別。`,`- 主要候補スキルIDの未登録: ${missing}件。これはマスターの明示ダメージ/条件成分からの管理候補であり、独立した未実装ダメージ数ではない。状態系の有無確認待ちは${unknown} ID。`,`- 新しい計算処理が必要な攻撃の総数: **未確定**。下表の難易度は調査入口。既存式の接続不足、新しい成分処理、新しいダメージ式を混同しない。`,`- 育成・全星魂・全装備/支援・統合QAまでの最終完成認定: **0人**（この基準の全項目を完了した記録はまだない）。既存の過去complete宣言は採用していない。`,'','分類: 主なNormal/BPSkill/Ultra/Talent/Elation/Memosprite/Assistを対象とする。秘技/フィールドは主要攻撃集計から除外。Support等でも付加/持続/確定ダメージを生む記述は別成分の要確認として残し、支援発動時の直接ダメージにしない。未知の状態/Summonを未実装攻撃と断定しない。','','## 98人一覧','','表中の対応数は登録状態。E0構成欄の「登録上充足候補」は倍率・固有効果・未登録成分まで確認済みという意味ではありません。','', '|ID・名前|通常/強化|スキル/強化|必殺技|追加/カウンター|精霊/特殊等|登録 対応/参考/不可|E0主要構成と不足|難易度|','|---|---|---|---|---|---|---:|---|---|');
+ p('# HSR キャラクター完成管理表','','この表は作業管理用です。旧固定版のE0主要攻撃認定と、4.7の追加データを分けて表示します。登録状態、構成確認、星魂/装備/支援の完成を同一視しません。','','## 更新手順','','1. `node scripts/reportHsrCompletion.cjs` で本番ローダーと固定版を再照合して更新。ネットワーク取得に失敗した場合は書き換えません。','2. `node scripts/reportHsrCompletion.cjs --check` で現在の文書と再生成結果を照合。','3. 個別攻撃の正式化はoverrideの限定条件/provenanceと独立検証テストを更新してから再生成。','4. E0主要構成を確認できた人はスクリプトのconfirmedE0へ根拠を追記。登録件数だけで追加しない。','5. E1～6、装備/パーティ、UI/UID/保存の統合確認を別途完了して初めて最終ゴールの完成認定を行う。','','## 基準と現在値','',`- 旧固定版: [StarRailRes ${sha}](https://github.com/Mar-7th/StarRailRes/tree/${sha}/index_new/jp)。旧${baselineCharacters.length}人・${matchedSkills}スキル・${matchedRanks}星魂を照合。`,`- 4.7追加記録: [StarRailRes ${version47Sha}](https://github.com/Mar-7th/StarRailRes/tree/${version47Sha}/index_new/jp)。キャラクター${versionedCharacters.length}人、追加スキル${matchedVersion47Skills}件、軌跡${matchedVersion47Traces}件、光円錐${matchedVersion47LightCones}件を4.7固定版と別照合。`,`- 現在のカタログ: ${data.characters.length}人（旧${baselineCharacters.length}人 + 4.7追加${versionedCharacters.length}人）。4.7キャラクターE0認定: **${versionedDetails.filter(d=>d.confirmed).length}/${versionedDetails.length}人**。追加分は旧固定版の認定人数に含めない。`,`- 本番攻撃（非表示の内部記録を含む）: ${data.attacks.length}件 = 計算対応${counts['計算対応']||0} / 参考値${counts['参考値']||0} / 計算不可${counts['計算不可']||0}。特殊撃破レコードは別枠${data.specialBreakAttacks.length}件。hidden ${data.attacks.filter(a=>a.hidden).length}件（うち計算対応${data.attacks.filter(a=>a.hidden&&attackStatus(a)==='計算対応').length}件）は画面の主要ダメージ一覧に含めない。`,`- 旧固定版のE0主要攻撃構成確認済み: **${confirmed.length}/${baselineCount}人** (${confirmed.map(d=>`${d.c.name} ${d.c.id}`).join('、')})。このE0限定単発範囲の認定で、全星魂/全装備の完成ではない。`,`- 旧固定版のE0完成未認定: **${baselineCount-confirmed.length}人**。登録上の充足候補は旧${baselineCount}人中${candidates.length}人（確認済みを含む）。主要候補の登録不足がある${missingCharacters}人と、登録済みでも全構成の確認待ち${pendingComposition}人を区別。`,`- 旧固定版の主要候補スキルID未登録: ${missing}件。明示ダメージ/条件成分の管理候補であり、独立した未実装ダメージ数ではない。状態系の有無確認待ちは${unknown} ID。`,`- 新しい計算処理が必要な攻撃の総数: **未確定**。下表の難易度は調査入口。既存式の接続不足、新しい成分処理、新しいダメージ式を混同しない。`,`- 育成・全星魂・全装備/支援・統合QAまでの最終完成認定: **0人**。`,'','分類: 主なNormal/BPSkill/Ultra/Talent/Elation/Memosprite/Assistを対象とする。秘技/フィールドは主要攻撃集計から除外。Support等でも付加/持続/確定ダメージを生む記述は別成分の要確認として残し、支援発動時の直接ダメージにしない。未知の状態/Summonを未実装攻撃と断定しない。','','## 旧固定版98人と4.7追加の記録','','表中の対応数は登録状態。E0構成欄の「登録上充足候補」は倍率・固有効果・未登録成分まで確認済みという意味ではありません。','', '|ID・名前|通常/強化|スキル/強化|必殺技|追加/カウンター|精霊/特殊等|登録 対応/参考/不可|E0主要構成と不足|難易度|','|---|---|---|---|---|---|---:|---|---|');
  for(const d of details){const list=types=>d.attacks.filter(a=>types.includes(category(a))).map(a=>`${a.id}[${attackStatus(a)}]`).join('、')||'—';const cs=sumBy(d.attacks,attackStatus);const gap=d.audit?.remaining||knownGaps[d.c.id]||`${d.pending.length}主要候補未充足・${d.unknown.length}状態/召喚等の有無確認待ち。固有補正/全状態は個別精査。`;p(`|${'['+cell(d.c.id+' '+d.c.name)+'](#character-'+d.c.id+')'}|${list(['通常','強化通常'])}|${list(['スキル','強化スキル'])}|${list(['必殺技'])}|${list(['追加/カウンター'])}|${list(['精霊/独立参照','固有/特殊','talent','additional','joint','assist'])}|${cs['計算対応']||0}/${cs['参考値']||0}/${cs['計算不可']||0}|${cell((d.confirmed?'確認済み':d.hasMissingComponent?'監査で成分不足を確認':d.candidate?'登録上充足候補・構成要確認':'未認定')+'。'+gap)}|${d.confirmed?'小: 統合QA/星魂へ':d.unknown.length?'要精査: 条件/召喚':'既存式候補～成分処理（未確定）'}|`);}
  p('','## 登録充足候補の継続重点監査','','固定版のスキル・追加能力・実行時行・独立検証記録を照合。登録だけでは認定しない。今回新規認定はキャラLv80・主要追加能力解放済み・敵1体・状態一定の単発範囲。E0採用Lvは通常1～6、その他1～10。全曲線のLv7/11以上の一致をE0や星魂対応の認定と混同しない。','','|ID・名前|判定|確認内容・残作業|検証根拠|','|---|---|---|---|');
  for(const[id,a]of Object.entries(e0CandidateAudit)){const name=data.characters.find(c=>c.id===id)?.name||id;p(`|${id} ${cell(name)}|${a.status==='confirmed'?'E0主要構成確認済み':a.status==='missing'?'未登録成分あり':'構成/独立検証待ち'}|${cell(a.summary+' '+a.remaining)}|${cell(a.evidence)}|`);}
@@ -1597,7 +1642,7 @@ async function generate(){
   "",
   "再調査の開始条件: 固定版に対応する新しい処理順資料、または上記条件を満たす版付き実機証拠が得られた場合のみ。証拠がない間は限定計算を維持し、別キャラクターの完成可能性を先に調べる。"
  );
- p('','## 星魂・装備・パーティの別軸管理','','効果ごとの受入状態（未実装・部分実装・実装/検証完了・根拠不足保留）、限定範囲と次作業は [残作業測定の継続開発欄](HSR_COMPLETION_WORKLOAD.md#継続開発の効果別受入2026-10-28) を管理元とする。以下の登録件数を効果完了件数へ換算しない。開発原則は [主要攻撃の対応範囲](HSR_MAIN_ATTACK_SCOPE.md#継続開発の完成基準2026-10-28) を参照。','',`- 98人に各E1～6の元データ（計${data.characters.reduce((n,c)=>n+c.eidolons.length,0)}件）。固定rank辞書全体${Object.keys(ranks).length}件とは母集団が異なる。`,`- 構造化星魂${eidolon.length}件・${eidolonOwners.size}人、計算処理対象${eidolon.filter(m=>m.support.status==='calculable').length}件、表示専用${eidolon.filter(m=>m.support.status==='displayOnly').length}件。攻撃倍率/ヒット数のoverride対応や軌跡Lv加算は別経路なので、この件数を全対応効果数とはしない。`,'- E3/E5はcatalog.eidolons[].levelUpSkillsからのLv加算処理と、各攻撃の採用曲線/上限/星魂範囲をセットで検証する。元データやUI上限の存在だけでは計算対応としない。','','|星魂|構造化記録|計算処理対象|表示専用|','|---|---:|---:|---:|');
+ p('','## 星魂・装備・パーティの別軸管理','','効果ごとの受入状態（未実装・部分実装・実装/検証完了・根拠不足保留）、限定範囲と次作業は [残作業測定の継続開発欄](HSR_COMPLETION_WORKLOAD.md#継続開発の効果別受入2026-10-28) を管理元とする。以下の登録件数を効果完了件数へ換算しない。開発原則は [主要攻撃の対応範囲](HSR_MAIN_ATTACK_SCOPE.md#継続開発の完成基準2026-10-28) を参照。','',`- 旧固定版${baselineCount}人のE1～6元データ（計${baselineCharacters.reduce((n,c)=>n+c.eidolons.length,0)}件）。固定rank辞書全体${Object.keys(ranks).length}件とは母集団が異なる。`,`- 構造化星魂${eidolon.length}件・${eidolonOwners.size}人、計算処理対象${eidolon.filter(m=>m.support.status==='calculable').length}件、表示専用${eidolon.filter(m=>m.support.status==='displayOnly').length}件。攻撃倍率/ヒット数のoverride対応や軌跡Lv加算は別経路なので、この件数を全対応効果数とはしない。`,'- E3/E5はcatalog.eidolons[].levelUpSkillsからのLv加算処理と、各攻撃の採用曲線/上限/星魂範囲をセットで検証する。元データやUI上限の存在だけでは計算対応としない。','','|星魂|構造化記録|計算処理対象|表示専用|','|---|---:|---:|---:|');
  for(let n=1;n<=6;n++){const items=eidolon.filter(m=>Number(m.source.eidolonRank)===n);p(`|E${n}|${items.length}|${items.filter(m=>m.support.status==='calculable').length}|${items.filter(m=>m.support.status==='displayOnly').length}|`);}
  p('','|補正提供元|登録|計算処理対象|表示専用|','|---|---:|---:|---:|');for(const kind of ['trace','lightCone','relic','ornament']){const a=data.structuredModifiers.filter(m=>m.source.kind===kind);p(`|${kind}|${a.length}|${a.filter(m=>m.support.status==='calculable').length}|${a.filter(m=>m.support.status==='displayOnly').length}|`);}
  p('','- 停雲、ロビン、サンデー、花火、椒丘、夏ロビン、霊砂/ギャラガーの既存補正は提供者/対象/個別軌跡/ON/OFFを維持。候補表示だけを適用済みと数えない。','- 主な不足: フォフォ121703の味方ATK支援、光円錐21056の味方撃破支援など。常時properties/最終入力と戦闘中の条件効果を分ける。','- 任意補正OFFで基礎計算、ONで必要値不足は影響する行だけ停止。精霊固有値を本人値で代用しない。','','## E0分野の継続候補（第8回の記録）','','全体の次作業は上記リンク先の継続開発欄で選定する。以下はE0分野の既存候補であり、接続可能な星魂・装備・支援より常に優先する指示ではない。','',
@@ -1611,14 +1656,15 @@ async function generate(){
  '8. 工数台帳の星魂・LC・装備・支援の層別標本を実装受入まで閉じ、完了速度を測定してから最終完成工数へ外挿。',
  '9. UID・保存・PC/モバイルの最終QAは開発完了と別に記録する。今回実UID通信は行っていない。');
  p('', '第8回の統合検証:HSR589テスト成功。飛霄/緋英/乱破/ブートヒル/夏アベンチュリンを1440/390/320pxで実操作し、72画像を作成して代表画像を目視。100万超の結果値のセル内範囲、長文/箇条書きの枠内、支援ON/OFF/提供者離脱/空欄/再読み込みを確認。JS例外・ページ横はみ出しなし。実UID通信は今回未実施。');
- for(const d of details){p(`<a id="character-${d.c.id}"></a>`, `### ${d.c.id} ${d.c.name}`,'',d.confirmed?confirmedE0[d.c.id]:d.audit?(d.audit.summary+' 残作業: '+d.audit.remaining+' 証拠: '+d.audit.evidence):knownGaps[d.c.id]||'登録一覧の全成分/固有効果は要精査。登録状態と完成認定を分ける。','', '|攻撃ID・種類・名前|登録/実行|Lv・星魂範囲|必要入力・限定条件・不足|次作業/難易度|','|---|---|---|---|---|');for(const a of d.attacks)p(`|${a.id} ${cell(category(a)+' '+a.name)}|登録・${attackStatus(a)}|${cell(bounds(a))}|${cell(a.calculationNote||a.conditionText||a.support?.reason||'個別の入力・固有補正範囲は未明示')}|${cell(difficulty(a))}|`);
+ if(versionedCharacters.length){p('','### 4.7.0追加・E0未認定','',`追加キャラクター: ${versionedCharacters.map(c=>`${c.id} ${cell(c.name)}`).join('、')}。追加スキル: ${versionedSkills.map(s=>`${s.id} (${data.characters.find(c=>c.skills.includes(s))?.id||'?'})`).join('、')||'なし'}。`,`追加光円錐: ${versionedLightCones.map(l=>`${l.id} ${cell(l.name)}`).join('、')||'なし'}。`, 'これらは4.7.0固定ソースとの照合結果であり、E0主要構成の認定ではない。');}
+ for(const d of details){const isVersioned=sourceVersion(d.c)===version47;p(`<a id="character-${d.c.id}"></a>`, `### ${d.c.id} ${d.c.name}`,'',isVersioned?`4.7.0ソース追加。旧固定版のE0認定には含めず、独立した構成確認待ち。`:d.confirmed?confirmedE0[d.c.id]:d.audit?(d.audit.summary+' 残作業: '+d.audit.remaining+' 証拠: '+d.audit.evidence):knownGaps[d.c.id]||'登録一覧の全成分/固有効果は要精査。登録状態と完成認定を分ける。','', '|攻撃ID・種類・名前|登録/実行|Lv・星魂範囲|必要入力・限定条件・不足|次作業/難易度|','|---|---|---|---|---|');for(const a of d.attacks)p(`|${a.id} ${cell(category(a)+' '+a.name)}|登録・${attackStatus(a)}|${cell(bounds(a))}|${cell(a.calculationNote||a.conditionText||a.support?.reason||'個別の入力・固有補正範囲は未明示')}|${cell(difficulty(a))}|`);
   p('','|固定版スキルID・名前|性質|対応する登録攻撃|管理上の扱い|','|---|---|---|---|');for(const s of d.sources){const mapped=d.mapped(s);const role=skillRole(s);p(`|${s.id} ${cell(s.name)}|${cell(role)}|${mapped.map(a=>a.id+' '+attackStatus(a)).join('、')||'なし'}|${role.startsWith('既存')?'既存攻撃へ統合・重複登録しない':role.startsWith('支援')?'ダメージ未実装数に含めない':role.startsWith('秘技')?'主要完成集計外':role.startsWith('召喚')?'有無/子攻撃/既存式接続を要確認':mapped.length?'成分/時点/条件の完全性を確認':'未登録候補。独立ダメージか既存行の成分か要確認'}|`);}
   p('','|星魂|構造化計算/表示|軌跡Lv加算（元データ）/残作業|','|---|---|---|');
   for(let rank=1;rank<=6;rank++){const es=d.eidolon.filter(m=>Number(m.source.eidolonRank)===rank),raw=d.c.eidolons.find(e=>Number(e.rank)===rank);const levelSkills=raw?.levelUpSkills||[];p(`|E${rank}|${es.filter(e=>e.support.status==='calculable').length}/${es.filter(e=>e.support.status==='displayOnly').length}|${levelSkills.map(x=>cell(JSON.stringify(x))).join('、')||'Lv加算なし'}。${es.length?'効果ごとの攻撃範囲/実計算を確認':'構造化記録なし。効果がないとは判断せず影響を精査'}|`);}
   p('',`星魂: 元データE1～6あり。構造化${d.eidolon.length}件（計算${d.eidolon.filter(m=>m.support.status==='calculable').length}・表示${d.eidolon.filter(m=>m.support.status==='displayOnly').length}）。E0主要攻撃と別に、各星魂の攻撃影響/軌跡Lv加算を確認する。`,'');
  }
- p('## 機械照合用フィンガープリント','',`- runtime: \`${hash({attacks:data.attacks,modifiers:data.structuredModifiers,specialBreak:data.specialBreakAttacks})}\``,`- fixed skills/trees/ranks: \`${hash({skills,trees,ranks})}\``,'','元JSONのコピーは保存せず、固定SHAからメモリ上で照合する。この管理表は配信資産や計算ランタイムには使用しない。','');
- return {text:lines.join('\n'),summary:{characters:98,attacks:data.attacks.length,counts,confirmedE0:confirmed.length,screenedCandidates:candidates.length,notCertified:98-confirmed.length,missingCharacters,pendingComposition,backlogRegistered:backlogRegistered.length,backlogWithUnregistered:backlogWithUnregistered.length,missingMasterCandidates:missing,unknownStateSkills:unknown}};
+ p('## 機械照合用フィンガープリント','',`- runtime: \`${hash({attacks:data.attacks,modifiers:data.structuredModifiers,specialBreak:data.specialBreakAttacks})}\``,`- old fixed skills/trees/ranks: \`${hash({skills,trees,ranks})}\``,`- 4.7 fixed skills/trees/light cones: \`${hash({skills:skills47,trees:trees47,lightCones:lightCones47,lightConeRanks:lightConeRanks47})}\``,'','元JSONのコピーは保存せず、固定SHAからメモリ上で照合する。この管理表は配信資産や計算ランタイムには使用しない。','');
+ return {text:lines.join('\n'),summary:{characters:data.characters.length,baselineCharacters:baselineCount,version47Characters:versionedCharacters.length,version47Skills:matchedVersion47Skills,version47Traces:matchedVersion47Traces,version47LightCones:matchedVersion47LightCones,attacks:data.attacks.length,counts,confirmedE0:confirmed.length,screenedCandidates:candidates.length,notCertified:baselineCount-confirmed.length,missingCharacters,pendingComposition,backlogRegistered:backlogRegistered.length,backlogWithUnregistered:backlogWithUnregistered.length,missingMasterCandidates:missing,unknownStateSkills:unknown}};
 }
 if(require.main===module)generate().then(({text,summary})=>{if(process.argv.includes('--check')){if(!fs.existsSync(output)||fs.readFileSync(output,'utf8')!==text)throw Error('管理表が現在データと不一致。node scripts/reportHsrCompletion.cjs で更新してください。');}else fs.writeFileSync(output,text,'utf8');console.log(JSON.stringify(summary));}).catch(error=>{console.error(error.message);process.exitCode=1;});
 module.exports={generate,skillRole,e0CandidateAudit,remainingWorkClass,instructionForecast};

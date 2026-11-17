@@ -15,7 +15,7 @@ const fieldSets = {
   inputValidation: new Set(["maximumEidolon", "levelMaximum", "levelMaximumAtEidolon", "minimum", "maximum", "integer", "whenToggle"]),
   target: new Set(["owner", "attackTypes", "excludeSelf", "attackIds", "elements"]),
   supplementalAttack: new Set(["name", "element", "type", "scalingStat", "target", "canCrit", "statReference", "triggerActor", "damageBonusInputKey", "damageBonusInputLabel", "ownerInputKey", "requiredStatReferenceId"]),
-  activation: new Set(["requiredToggleKey", "mode", "conditionText", "inputKey", "inputLabel", "threshold", "thresholdReference", "minimum", "maximum", "maximumAtEidolon", "default", "reference", "operator", "durationTurns", "comparisonDerived", "strictInput", "step", "statSource"]),
+  activation: new Set(["requiredToggleKey", "recipientInputKey", "requiredCharacterId", "requiredCharacterMaxEidolon", "mode", "conditionText", "inputKey", "inputLabel", "threshold", "thresholdReference", "minimum", "maximum", "maximumAtEidolon", "default", "reference", "operator", "durationTurns", "comparisonDerived", "strictInput", "step", "statSource"]),
   stacking: new Set(["group", "rule", "maximumStacks"]),
   calculation: new Set(["stage", "operation", "cap", "floor"]),
   finalStatsInclusion: new Set(["inputKey", "inputLabel", "legacyToggleKey", "defaultIncluded"]),

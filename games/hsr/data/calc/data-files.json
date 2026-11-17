@@ -73,7 +73,8 @@
     "attacks-cyrene-phainon-round32.json",
     "attacks-cyrene-round33.json",
     "attacks-cyrene-ocean-round34.json",
-    "attacks-cyrene-earth-round34.json"
+    "attacks-cyrene-earth-round34.json",
+    "attacks-v47-round52.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -186,6 +187,7 @@
     "modifiers-equipment-round45.json",
     "modifiers-equipment-round46.json",
     "modifiers-equipment-round47.json",
-    "modifiers-equipment-round48.json"
+    "modifiers-equipment-round48.json",
+    "modifiers-v47-round52.json"
   ]
 }

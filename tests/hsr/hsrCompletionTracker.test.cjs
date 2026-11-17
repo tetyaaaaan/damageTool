@@ -21,6 +21,13 @@ test('completion document tracks each runtime character exactly once and separat
  const ids=[...text.matchAll(/^### (\d+) /gm)].map(m=>m[1]);
  assert.equal(ids.length,data.characters.length);
  assert.deepEqual([...ids].sort(),data.characters.map(c=>c.id).sort());
+ const baseline=data.characters.filter(c=>!c.sourceVersion),version47=data.characters.filter(c=>c.sourceVersion==='4.7.0');
+ assert.equal(baseline.length,98);
+ assert.equal(version47.length,1);
+ assert.equal(version47[0].id,'1511');
+ assert.match(text,/現在のカタログ: 99人（旧98人 \+ 4\.7追加1人）。4\.7キャラクターE0認定: \*\*0\/1人\*\*/);
+ assert.match(text,/旧固定版のE0主要攻撃構成確認済み: \*\*94\/98人\*\*/);
+ assert.match(text,/### 1511 星神★アッハ[\s\S]*?4\.7\.0ソース追加。旧固定版のE0認定には含めず、独立した構成確認待ち。/);
  assert.match(text,/登録上の充足候補/);assert.match(text,/最終完成認定/);assert.match(text,/新しい計算処理が必要な攻撃の総数: \*\*未確定/);
  for(const a of data.attacks)assert.ok(text.includes('|'+a.id+' '),'registered attack detail '+a.id);
 });

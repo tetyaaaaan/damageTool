@@ -175,13 +175,19 @@
     $("hsrElationInputHelp").hidden = char?.path !== "Elation";
     $("hsrTrueDamageSettings").hidden = char?.id !== "1415";
     $("hsrSongbirdSettings").hidden = char?.id !== "1512";
-    $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010", "1501", "1506", "1503"].includes(char?.id);
+    $("hsrElationSettings").hidden = !["1505", "1502", "1513", "8009", "8010", "1501", "1506", "1503", "1511"].includes(char?.id);
     $("hsrElationContextField").hidden = char?.id !== "1502";
     $("hsrElationScope").textContent = char?.id === "1502" ? "爻光Lv80・星魂0・敵1体。初回通常アッハと、必殺による固定20の追加アッハを別行で比較します。" : "緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。";
     $("hsrPunchlineField").hidden = false;
     $("hsrFervorField").hidden = char?.id !== "1513";
+    $("hsrPunchlineLabel").textContent=char?.id==='1511'?'愉悦スキル参照時点の爽快ネタ':'攻撃時点の爆笑ネタ';
+    if(char?.id==='1511'){
+      $("hsrElationScope").textContent='星神★アッハ・Lv80/E0・未撃破の敵1体。通常/スキル/必殺は本人の褒美、愉悦スキルは爽快ネタを参照します。';
+    }
+
     if(char?.id==='1503'){$("hsrPunchlineField").hidden=true;$("hsrElationScope").textContent='パール＋爻光の2人編成、Lv80/E0・未撃破の敵1体・状態一定。本人DEF、本人CB、底本の氷愉悦と、事前の次回攻撃付加を分離します。別編成や資源/行動順の自動更新は対象外です。';}
     $("hsrPunchlineHelp").textContent = char?.id === "1502" ? "通常発動は消費済み爆笑ネタ0の初回のみ。必殺追加行は固定20で計算し、この爆笑ネタ入力を使いません。本人の大吉は補正条件の爆笑の褒美を参照します。結界・SPD由来愉悦度とA4会心ダメージは最終入力へ一度含めてください。被ダメージ増加16%は自動適用するため重複入力しないでください。愉悦度・会心等は適用対象の常時効果を含む最終値を入力してください。上笑なしは0。通常の与ダメージ補正は適用しません。" : "Lv80・星魂0・アッハタイム中の敵1体あたり1回分です。爆笑ネタと爆笑の褒美は別の値です。この攻撃では攻撃時点の爆笑ネタだけを使い、攻撃後の爆笑の褒美+5は加算しません。上笑がない場合は0を入力してください。通常の与ダメージ補正は適用しません。";
+    if(char?.id==='1511')$("hsrPunchlineHelp").textContent='この入力は愉悦スキル本体と確定成分を含む合計だけに使います。通常/スキル/必殺の褒美、願力、使令対象、事前の実ダメージ記録は補正条件で指定してください。未入力の成分だけを停止します。負債による最大HPへの作用と資源の自動更新は計算に含みません。';
     if(char?.id==='1503')$("hsrPunchlineHelp").textContent='本人の爆笑の褒美と、パール由来の付加が参照する爆笑ネタは別入力です。深層学習と次回付加の参照値を補正条件で指定します。A2 DEF変換を含む最終愉悦度を使い、上笑なしは0です。';
     if (char?.id === "1513") {
       $("hsrElationScope").textContent = "夏アベンチュリンLv80・星魂0・敵1体。通常版151320と、次のアッハタイムの強化版151321を条件別に計算します。";
@@ -1131,8 +1137,29 @@
     const fields=member?['atk','critRate','critDamage','Thunder','defenseIgnore','resistancePenetration'].map((k,i)=>{const key='party-reference:'+id+':'+k;return '<label class="genshin-condition-control"><span>'+['賜福対象の最終ATK','最終会心率（%）','最終会心ダメージ（%）','最終雷属性与ダメージ（%）','防御無視（%）','雷属性耐性貫通（%）'][i]+'</span><input class="input_num" type="number" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" step="0.1"></label>';}).join(''):'';
     return '<section class="hsr-condition-purpose" data-hsr-condition-ids="party-reference:1202"><h5>停雲本人の攻撃後に発生する賜福対象の付加</h5><p class="genshin-help">Lv80・星魂0の賜福対象の戦闘中の最終値を入力します。賜福・他の支援・装備の効果を含めた値を使い、この付加行には攻撃者側の支援を再加算しません。停雲本人の通常とは別の1回分です。</p><label class="genshin-condition-control"><span>賜福対象</span><select data-comparison-choice="party-reference-owner:1202"><option value="">パーティから選択</option>'+state.party.filter(m=>m.characterId).map(m=>'<option value="'+m.characterId+'"'+(String(m.characterId)===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
   }
+  // This target is independent of party-wide ascension and of battle-wide Aha Time.
+  function ahaReferenceControls() {
+    if (!['軌跡','パーティ'].includes(state.conditionTab) || !(state.characterId==='1511'||state.party.some(m=>m.characterId==='1511'))) return '';
+    const id=String(state.modifierInputs['aha-emanator-recipient']||''), member=state.party.find(m=>m.characterId===id), char=find('characters',id);
+    const fields=state.characterId==='1511'&&member&&char?['elation','critRate','critDamage','merrymake','certifiedBanger','defenseIgnore','resistancePenetration','resistance'].map((key,i)=>{
+      const input='aha-reference:'+id+':'+key;
+      return '<label class="genshin-condition-control"><span>'+['使令対象の最終愉悦度（%）','最終会心率（%）','最終会心ダメージ（%）','最終上笑（%）','爆笑の褒美（参照時点）','対象属性の最終防御無視（%）','対象属性の最終耐性貫通（%）','敵の対象属性耐性（%）'][i]+'</span><input class="input_num" type="number" data-structured-input="'+input+'" data-structured-strict="true" step="any" value="'+(Number.isFinite(state.modifierInputs[input])?state.modifierInputs[input]:'')+'"></label>';
+    }).join(''):'';
+    const choices=[{characterId:state.characterId},...state.party].filter((m,i,arr)=>m.characterId&&m.characterId!=='1511'&&arr.findIndex(x=>x.characterId===m.characterId)===i);
+    return '<section class="hsr-condition-purpose"><h5>「愉悦」の使令対象</h5><p class="genshin-help">昇格とは別の状態です。スキル付加は選択した味方の属性・独立した最終値を使います。支援と装備を含む値を指定し、この付加へ再加算しません。Lv80・星魂0・敵1体のみ対応。願力と爽快ネタは参照時点の値を指定し、自動で獲得・消費しません。最大HPへの負債、未対応の昇格成分・奇縁星魂は計算に含みません。</p><label class="genshin-condition-control"><span>使令として指定した味方</span><select data-comparison-choice="aha-emanator-recipient"><option value="">未指定</option>'+choices.map(m=>'<option value="'+m.characterId+'"'+(m.characterId===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
+  }
+
+  function ahaEmanatorSnapshot() {
+    const id=String(state.modifierInputs['aha-emanator-recipient']||''), member=state.party.find(m=>m.characterId===id), char=find('characters',id);
+    const get=key=>state.modifierInputs['aha-reference:'+id+':'+key];
+    const stats={elation:get('elation'),critRate:get('critRate'),critDamage:get('critDamage'),damageBonus:0};
+    const keys=['elation','critRate','critDamage','merrymake','certifiedBanger','defenseIgnore','resistancePenetration','resistance'];
+    const valid=member&&member.eidolon===0&&(member.level===undefined||member.level===80)&&id!=='1511'&&char&&keys.every(k=>Number.isFinite(get(k)))&&keys.filter(k=>k!=='resistance').every(k=>get(k)>=0)&&Number.isInteger(get('certifiedBanger'))&&get('certifiedBanger')<=10000;
+    return {element:char?.element,referenceCharacter:{id,level:member?.level||80,eidolon:member?.eidolon,stats},referenceStats:stats,referenceEnemy:{...componentSnapshots().enemy,resistances:{},resistance:get('resistance'),defenseIgnore:get('defenseIgnore'),resistancePenetration:get('resistancePenetration')},referenceElation:{context:'certifiedBanger',certifiedBanger:get('certifiedBanger'),merrymake:get('merrymake')},completedReferenceSnapshot:!!valid,ahaEmanatorId:id,damageOwnerId:id,referenceIssue:valid?'':'使令対象のLv80/E0編成と、属性に対応する独立した最終愉悦度・会心・上笑・褒美・防御/耐性補正を入力してください。補正なしは0です。',referenceCondition:{id:'aha-emanator-recipient',tab:'パーティ'}};
+  }
+
   function comparisonReferenceControls() {
-    if (["1414","1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415","1413","1407","8007","8008","1508","1510","1503"].includes(state.characterId) && state.conditionTab === "軌跡") {
+    if (["1414","1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415","1413","1407","8007","8008","1508","1510","1503","1511"].includes(state.characterId) && state.conditionTab === "軌跡") {
       const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => spec.inputKey !== 'rappa-consumed-charge' && (!spec.inputKey.startsWith('ocean-foreign-original:')||state.party.some(m=>m.characterId===spec.inputKey.split(':')[1]&&m.eidolon===0)) && !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
       return (state.characterId==='1410'?'<p class="genshin-help">海洋の他所有者DoTは編成中のE0付与者だけを対象にします。各入力はその所有者のATK・属性・防御/耐性・与ダメージ等を反映した非会心1回分です。未付与は0、未入力は当該合計のみ停止します。本人4種へ同じDoTを重複入力しないでください。黒天のアーカナ・撃破DoT・装備由来DoT・領域の追加発生はこの合計に含みません。</p>':'') + (state.characterId === '1408' ? '<p class="genshin-help">壊傷1～3層はスキルLv1～10、4層はLv1～6・10のみ対応します。4層×Lv7～9だけを対象外とし、他の攻撃は計算できます。世負いの炎付加は物理攻撃と別に炎与ダメージ・敵炎耐性を指定します。超過火種の会心ダメージを最終CDへ一度含め、形態ATKとA6は既存の算入済み指定で重複を避けてください。</p>' : '') + (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
     }
@@ -1182,7 +1209,7 @@
       return purpose.folded ? `<details class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><summary>${esc(purpose.title)}（${entries.length}件）</summary>${content}</details>`
         : `<section class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><h5>${esc(purpose.title)}</h5>${content}</section>`;
     }).join("");
-    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${himekoAccordControls()}${himekoOtherUserControls()}${partyReferenceControls()}${comparisonReferenceControls()}${purposes || '<p class="genshin-condition-card-empty">このカテゴリに設定できる効果はありません。</p>'}</section>`;
+    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${himekoAccordControls()}${himekoOtherUserControls()}${partyReferenceControls()}${ahaReferenceControls()}${comparisonReferenceControls()}${purposes || '<p class="genshin-condition-card-empty">このカテゴリに設定できる効果はありません。</p>'}</section>`;
   }
 
   // Patch facts only: replacing a numeric control on blur steals the next click/focus.
@@ -1252,7 +1279,7 @@
     if (attack.id === "1151201") return ["trace:1512:151204:fever-defense-ignore", "trace:1512:1151203:songbirds-vulnerability"].includes(item.id);
     // Match the existing engines' accepted categories; this only scopes validation/application.
     if (["8009041","8010041","800920","801020","1501041","1501042","150120"].includes(attack.id) && ((["statPercent","statFlat"].includes(item.category) && item.stat === "atk") || item.category === "progressiveTakenDamage")) return true;
-    if (attack.damageFormula === "elation") return ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"].includes(item.category);
+    if (attack.damageFormula === "elation") return ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"].includes(item.category) || attack.id==='150120'&&item.id==='v47:trace:1501:150129:elation-skill-multiplier';
     if (["break", "superBreak"].includes(attack.type)) return ["breakEffect", "breakDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage", ...(attack.type === "superBreak" ? ["breakEfficiency", "superBreakDamage"] : [])].includes(item.category);
     if ((attack.canCrit === false || attack.type === "dot") && ["critRate", "critRateOverride", "critDamage", "critTakenDamage"].includes(item.category)) return false;
     if (["statFlat", "statPercent"].includes(item.category) || item.requiredBaseStat) {
@@ -1292,6 +1319,17 @@
   }
 
   function resolvedAttack(selected) {
+    if (selected.characterId==='1511') {
+      const level=state.traceLevels[selected.traceKey],base={...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type};
+      if(selected.id==='1511021')return {...base,...ahaEmanatorSnapshot()};
+      if(selected.id==='1511022'){
+        const parts=selected.damageComponents.map(d=>resolvedAttack(state.data.attacks.find(a=>a.id===d.attackId)));
+        return {...base,sequenceAttacks:parts,referenceIssue:parts[1].referenceIssue,referenceCondition:parts[1].referenceCondition};
+      }
+      if(selected.id==='151103')return {...base,comparisonModifierInputs:{'aha-world-active':true}};
+      return base;
+    }
+
     if(['11415181','1405023'].includes(selected.id)){
       const l=state.traceLevels.skill,active=cyreneFixedState('cyrene-anaxa-extra-hits-active');
       return {...selected,traceLevel:l,multiplier:selected.multipliers[l-1],attackType:'skill',cyreneExtraHitsActive:active,referenceIssue:active?'':'キュレネE0を編成し、理性のスキル+3ヒットが有効な状態を指定してください。',referenceCondition:{id:'cyrene-anaxa-extra-hits-active',tab:'パーティ'}};
@@ -1894,6 +1932,7 @@
   }
 
   function publicAttackNote(attack) {
+    if (attack.id === "151103") return "願力8～10で発動。最初のダメージ前に昇格が成立する想定で計算します。敵1体への全6段です。";
     if (attack.id === "150301") return "強化前の通常攻撃です。強化通常は別の状態の比較値として表示し、合算しません。";
     if (attack.id === "150310") return "想定：深層学習中・残りチャージ1～3・非愉悦の味方を底本に指定・追加愉悦なしの強化通常です。敵1体分を計算します。回復やSP・EPの変動は含みません。";
     const condition = comparisonCondition(attack);
@@ -2005,6 +2044,7 @@
 
   function attackElationInputs(attack) {
     if(attack.referenceElation)return attack.referenceElation;
+    if(attack.characterId==='1511'&&['151120','1511202'].includes(attack.id))return {...state.elationInputs,context:'ahaInstant'};
     if (attack.elationContext === "certifiedBanger") return {...state.elationInputs,context:"certifiedBanger",certifiedBanger:state.modifierInputs[attack.certifiedBangerInputKey || "elation-certified-banger"]};
     if (attack.id === "150221") return {...state.elationInputs,context:"ultimateAha",punchline:20};
     if (attack.id === "151321") return { ...state.elationInputs, context: "fervorEnhancedAha", stableEnemy: true, hasOtherElation: true };
@@ -2083,7 +2123,7 @@
       if (attack.sequenceAttacks?.length) attackStateIssues(attack, fieldWarning);
       attackScopes.forEach(scope => attackStateIssues(scope, fieldWarning));
       if (attack.damageFormula === "normalAndBreak") inputWarningsForFanning(attack).forEach(warning => warnings.add(warning));
-      if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: attack.referenceCharacter || { id:state.characterId,level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, enemy: attack.referenceEnemy || state.enemy, elation: attackElationInputs(attack) }).forEach(warning => {
+      if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: attack.referenceCharacter || { id:state.characterId,level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, enemy: attack.referenceEnemy || state.enemy, modifierInputs:state.modifierInputs, elation: attackElationInputs(attack) }).forEach(warning => {
         const field = warning.includes("爆笑の褒美") ? "hsrConditionDialogOpen" : warning.includes("消費する熱気") ? "hsrFervor" : warning.includes("爆笑ネタに") ? "hsrPunchline" : warning.includes("上笑に") ? "hsrMerrymake" : "hsrElationSettings";
         fieldWarning(warning, field);
       });

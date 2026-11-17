@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 1,
+  "overrides": [
+    {
+      "id": "151101",
+      "characterId": "1511",
+      "sourceSkillId": "151101",
+      "name": "星灯す可笑しな開幕！",
+      "element": "Quantum",
+      "type": "normal",
+      "traceKey": "normal",
+      "multipliers": [
+        25.0,
+        30.0,
+        35.0,
+        40.0,
+        45.0,
+        50.0
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "character_skills.json:151101.params"
+      },
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。",
+      "version": "4.7.0",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        }
+      ]
+    },
+    {
+      "id": "151102",
+      "characterId": "1511",
+      "sourceSkillId": "151102",
+      "name": "これぞ使令・本人の追撃成分",
+      "element": "Quantum",
+      "type": "followUp",
+      "traceKey": "skill",
+      "multipliers": [
+        25.0,
+        27.5,
+        30.0,
+        32.5,
+        35.0,
+        37.5,
+        40.62,
+        43.75,
+        46.88,
+        50.0
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "character_skills.json:151102.params"
+      },
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。",
+      "version": "4.7.0",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        }
+      ]
+    },
+    {
+      "id": "1511021",
+      "characterId": "1511",
+      "sourceSkillId": "151102",
+      "name": "神々を弄ぶジョーク・使令対象の属性付加",
+      "element": "Quantum",
+      "type": "additional",
+      "traceKey": "skill",
+      "multipliers": [
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "character_skill_trees.json:1511101.params[0][0]"
+      },
+      "calculationNote": "使令対象本人の最終愉悦・会心・属性/敵補正を参照。使令の愉悦バフを含む最終値を入力。アッハ本人の値は流用しません。",
+      "version": "4.7.0"
+    },
+    {
+      "id": "1511022",
+      "characterId": "1511",
+      "sourceSkillId": "151102",
+      "name": "これぞ使令・本人追撃＋使令対象付加",
+      "element": "Quantum",
+      "type": "skill",
+      "traceKey": "skill",
+      "multipliers": [
+        25.0,
+        27.5,
+        30.0,
+        32.5,
+        35.0,
+        37.5,
+        40.62,
+        43.75,
+        46.88,
+        50.0
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "componentSequence",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "character_skills.json:151102.params"
+      },
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。",
+      "version": "4.7.0",
+      "damageComponents": [
+        {
+          "key": "aha",
+          "attackId": "151102",
+          "name": "アッハ本人の追撃"
+        },
+        {
+          "key": "emanator",
+          "attackId": "1511021",
+          "name": "使令対象の属性付加"
+        }
+      ],
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        }
+      ]
+    },
+    {
+      "id": "151103",
+      "characterId": "1511",
+      "sourceSkillId": "151103",
+      "name": "アッハ！銀河の爆笑ネタが炸裂",
+      "element": "Quantum",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "multipliers": [
+        300.0,
+        320.0,
+        340.0,
+        360.0,
+        380.0,
+        400.0,
+        425.0,
+        450.0,
+        475.0,
+        500.0
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 6,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "character_skills.json:151103.params"
+      },
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。願力8以上で発動する想定。ダメージ前に愉悦の万象が成立（E0 CR12%/DEF無視30%）。全体1回＋バウンド5回を敵1体へ合算。",
+      "version": "4.7.0",
+      "elationComponents": [
+        {
+          "name": "全体1回",
+          "count": 1,
+          "multipliers": [
+            120.0,
+            128.0,
+            136.0,
+            144.0,
+            152.0,
+            160.0,
+            170.0,
+            180.0,
+            190.0,
+            200
+          ]
+        },
+        {
+          "name": "バウンド5回",
+          "count": 5,
+          "multipliers": [
+            36.0,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48.0,
+            51.0,
+            54.0,
+            56.99999999999999,
+            60.0
+          ]
+        }
+      ],
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        },
+        {
+          "inputKey": "aha-wish",
+          "label": "必殺技を発動する直前の願力",
+          "minimum": 8,
+          "maximum": 10,
+          "integer": true
+        }
+      ]
+    },
+    {
+      "id": "151120",
+      "characterId": "1511",
+      "sourceSkillId": "151120",
+      "name": "月満ちる時に神はあり・愉悦本体",
+      "element": "Quantum",
+      "type": "elation",
+      "traceKey": "elation",
+      "multipliers": [
+        30.0,
+        33.0,
+        36.0,
+        39.0,
+        42.0,
+        45.0,
+        48.75,
+        52.5,
+        56.25,
+        60.0
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "ahaInstant",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "character_skills.json:151120.params"
+      },
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。",
+      "version": "4.7.0"
+    },
+    {
+      "id": "1511202",
+      "characterId": "1511",
+      "sourceSkillId": "151120",
+      "name": "月満ちる時に神はあり・本体＋確定合計",
+      "element": "Quantum",
+      "type": "elation",
+      "traceKey": "elation",
+      "multipliers": [
+        30.0,
+        33.0,
+        36.0,
+        39.0,
+        42.0,
+        45.0,
+        48.75,
+        52.5,
+        56.25,
+        60.0
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "ahaFinale",
+      "elationContext": "ahaInstant",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "character_skills.json:151120.params"
+      },
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。入力記録は自身の愉悦本体発動前の味方の確定以外の与ダメージ合計。本体の会心別ダメージを記録へ加えて20%の確定成分を算出。記録元の攻撃自体は合計へ加算しません。",
+      "version": "4.7.0",
+      "numericModifierInputs": [
+        {
+          "inputKey": "aha-prior-non-true-damage",
+          "label": "本体発動前のアッハタイム内・味方の確定以外の実ダメージ記録",
+          "minimum": 0,
+          "maximum": 1000000000000,
+          "integer": false
+        }
+      ]
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+  }
+}

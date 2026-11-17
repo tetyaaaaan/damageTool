@@ -56,3 +56,11 @@
 本番では `worker.js` の `/games/api/hsr-profile` を経由してEnka.Network HSR APIを利用し、同一オリジン経由が使えない場合だけAPI直結を試します。公開キャラクター、レベル、星魂、光円錐、重畳、遺物、セット、軌跡をゲーム内IDでローカルカタログへ結合します。Lv.80のHP・攻撃力・防御力と、速度・会心・撃破特効・効果命中・効果抵抗・EP回復効率・属性与ダメージは、Enkaの装備プロパティとカタログの基礎値・恒常効果から再構成します。取得後は「UID取得値」、編集後は「UID取得値を手動変更」と表示します。Lv.80以外の基礎ステータスを補間で推測しません。
 
 2026-07-28の通し確認では、Enka.NetworkからUID `802980865` の公開キャラクター8体を取得できることを確認しました。キャストリスの反映値はHP 7801.589、攻撃力1478.290、防御力1053.461、速度87.4、会心率71.004%、会心ダメージ193.548%で、Enka.Network画面の丸め表示（7801、1478、1053、87.40、71.0%、193.5%）と一致します。レスポンス正規化、装備・軌跡・セット効果の加算順、形式検証、保存、削除はfixtureによる自動テストでも確認しています。
+
+## Ver.4.7の限定追加（第52回、2026-11-17）
+
+旧4.6.0の正本は維持する。追加分だけをStarRailRes [`03907e798b46f9eb109a1f882055cdf49ce3d374`](https://github.com/Mar-7th/StarRailRes/tree/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp)（info.json:4.7.0）へ固定し、catalogのsourceVersion/sourceCommitで識別する。同版実行定義はTurnBasedGameData [`dad9155eb00fdeda31fb8456507c53590d49071f`](https://github.com/DimbreathBot/TurnBasedGameData/tree/dad9155eb00fdeda31fb8456507c53590d49071f)、OSPRODWin4.7.0_D17180467_A17176203_L17175930。Ahaの`Config/ConfigAbility/Avatar/Avatar_Nihilux_10_Ability.json` blob `51c961d55799777ec3e8453d2a680619a23c1250`で所有者、発動前後、確定以外の最終ダメージ記録を照合する。旧実行版を置換しない。
+
+[HoYoverseの4.7配信告知](https://prtimes.jp/main/html/rd/p/000000467.000096124.html)は1511星神★アッハ、対応光円錐、奇縁星魂の公開確認に使用。数値は固定JPスキル・光円錐ランクと同版実行定義を使用する。公開計算資産はFribbels `c46812262d11817bd97c7a314a995c6513f7d017`の`AeonAha.ts`と`ahaAscension.ts`を参照のみ。外部計算を同条件で実行した数値照合ではなく、コードの複製もしていない。使令対象を本人へ置き換える近似より、実行定義のOverrideAttacker/OverrideDamagePropertySourceを優先する。
+
+カタログへは1511、22009、23065、既存8形態の29スキルを限定追加。全マスター再生成なし。新画像3件は同じStarRailRes pinから取得。範囲と残件は[第52回台帳](HSR_COMPLETION_WORKLOAD.md#hsr-round52-v47)を正本とする。

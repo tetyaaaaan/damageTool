@@ -334,3 +334,11 @@ LC21030の `category:baseDamageAddition` はself/def/byRefinement/always/ultimat
 21057と23049の専用精霊効果は、既存の独立スナップショットへ未算入分だけ補完する。21057は同じ召喚主のServant専用CD、23049は同じ装備者の精霊DMGと味方精霊のDEF無視を別登録とする。精霊側の既算入初期値はtrue。本人のCD/属性DMGを一般継承せず、混合攻撃では精霊成分だけを変更する。23049の複数提供者によるDEF無視は合成根拠が未確認のためその効果だけ条件未確定。対象IDと受入は[第50回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round50-partial-equipment)を参照。
 
 `value.kind:thresholdDeltaByRefinement` は現在EHRと、入力ATKに含まれる21041変換の基準EHRを比較し、`S別係数×(現在>=80 − 基準>=80)` を符号付きATK割合として返す限定契約。既存エンジンがキャラ＋光円錐の基礎ATKへ掛け、最終ATKへの割合乗算や再構成はしない。現在EHRは通常の効果命中欄、基準EHRは補正モーダルの明示入力。利用者が入力ATKと基準EHRの整合を確認した場合だけ有効化し、差分まで最終ATKへ含めた場合は既算入で除外する。基準未入力/不正時は当該候補だけ未確定。既定OFFは既存手動/UID最終値の責務を維持する。303のStatusProbabilityBase・イベント時点の再評価へ一般化しない。戦闘経過の自動追跡やEHR Modifier全体の依存再評価ではない。
+
+### 4.7昇格と使令（第52回）
+
+`modifiers-v47-round52.json`の共通昇格状態は`aha-world-active`。アッハタイム共通機構とは別。activation.requiredCharacterIdで提供キャラの編成、requiredCharacterMaxEidolonで確認済みの提供段階を検証し、不在や対象外では無効にする。旧登録で未指定なら従来の評価のまま。必殺151103の行だけはダメージ前の昇格成立をcomparisonModifierInputsで自動採用し、一覧表示のための発動トグルを要求しない。
+
+使令は`aha-emanator-recipient`で一人を選ぶ別状態。activation.recipientInputKeyとtarget.excludeSelfで受益者を限定し、編成解除時は対象候補が失効する。常時支援・SPD閾値は自動、既に発動した天賦CD支援と戦闘中の昇格は任意状態。新光円錐22009のアッハ在場CDは昇格ON/OFFから独立し、編成から自動判定する。23065のスキル後DEF無視は発動済み状態を指定する。
+
+算入済み除外は既存finalStatsInclusionで行う。独立した使令属性付加の入力は支援・装備込み最終値なので、攻撃者側補正を再追加しない。SPD125/150によるアッハ愉悦度は既存の一段階の支援後閾値評価とmaxグループを再利用し、全Modifierの再帰評価へ拡張しない。定義・受入・保留は[第52回台帳](../../HSR_COMPLETION_WORKLOAD.md#hsr-round52-v47)を参照。

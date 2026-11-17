@@ -5040,6 +5040,106 @@ test('Round51 separate unsupported spirit components are explained only when rel
  saved.state.coneId='';near(row('1141501',saved).expected,expected);assert.doesNotMatch(saved.node('hsrResults').innerHTML,/data-hsr-equipment-scope=/);
 });
 
+test("Round52 Aha renders Wish and prior-record inputs, respects world OFF/ON, and auto-enables ascension at Ultimate", async () => {
+    const { data } = await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture();
+    const app = await tool(undefined, data);
+    app.window.HsrTool.applyProfileCharacter({ id: "1511", level: 80, eidolon: 0,
+        traces: [{ type: "Normal", level: 6 }, { type: "BPSkill", level: 10 }, { type: "Ultra", level: 10 }, { type: "Talent", level: 10 }, { type: "ElationDamage", level: 10 }],
+        stats: { atk: 3000, hp: 6000, def: 2000, speed: 130, critRate: 35, critDamage: 120, damageBonus: 0, elation: 100, merrymake: 0 } });
+    app.state.party[0] = { characterId: "1502", level: 80, eidolon: 0 };
+    app.state.modifierInputs["aha-emanator-recipient"] = "1502";
+    for (const [key, value] of Object.entries({ elation: 180, critRate: 50, critDamage: 160, merrymake: 0, certifiedBanger: 0, defenseIgnore: 0, resistancePenetration: 0, resistance: 20 })) {
+        app.state.modifierInputs[`aha-reference:1502:${key}`] = value;
+    }
+    app.node("hsrStat-elation").value = "100";
+    app.node("hsrMerrymake").value = "0";
+    app.node("hsrPunchline").value = "40";
+    app.state.modifierInputs["elation-certified-banger"] = 0;
+    app.state.modifierInputs["aha-wish"] = 8;
+    app.state.modifierInputs["aha-prior-non-true-damage"] = 125000;
+    app.state.conditionTab = "軌跡";
+    app.node("hsrConditionDialogOpen").handlers.click();
+    const conditionHtml = app.node("hsrConditionList").innerHTML;
+    assert.match(conditionHtml, /data-structured-input="aha-wish"/);
+    assert.match(conditionHtml, /data-structured-input="elation-certified-banger"/);
+    assert.match(conditionHtml, /data-structured-input="aha-prior-non-true-damage"/);
+
+    const attackName = id => data.attacks.find(attack => attack.id === id)?.name;
+    const row = (id, instance = app) => instance.calculate().find(item => item.attack?.name === attackName(id));
+    app.state.modifierInputs["aha-world-active"] = false;
+    let normal = row("151101");
+    assert.ok(normal, app.node("hsrCalculationFeedback").innerHTML);
+    assert.equal(normal.applied.some(item => item.id === "v47:aha:world-critRate"), false, "world OFF does not apply Aha's CRIT Rate ascension");
+    app.node("hsrConditionDialog").handlers.change({ target: { dataset: { structuredToggle: "aha-world-active" }, checked: true } });
+    normal = row("151101");
+    assert.ok(normal.applied.some(item => item.id === "v47:aha:world-critRate"), "world ON applies the ascension bonus");
+    assert.ok(normal.applied.some(item => item.id === "v47:aha:world-defenseIgnore"));
+
+    app.state.modifierInputs["aha-world-active"] = false;
+    const ultimate = row("151103");
+    assert.ok(ultimate, app.node("hsrCalculationFeedback").innerHTML);
+    assert.ok(ultimate.applied.some(item => item.id === "v47:aha:world-critRate"), "the Ultimate's Aha arrival activates the world effects automatically");
+    app.state.modifierInputs["aha-wish"] = 7;
+    assert.equal(row("151103"), undefined, "Wish below 8 keeps the Ultimate unavailable");
+    app.state.modifierInputs["aha-wish"] = 8;
+    const finale = row("1511202");
+    assert.ok(finale, app.node("hsrCalculationFeedback").innerHTML);
+    assert.ok(finale.components?.trueDamage, "the prior record and current body are represented as the finale's separate record component");
+
+    app.node("hsrStat-elation").handlers.input();
+    const restored = await tool(app.storage, data);
+    assert.equal(restored.state.modifierInputs["aha-wish"], 8);
+    assert.equal(restored.state.modifierInputs["aha-prior-non-true-damage"], 125000);
+    assert.equal(row("1511202", restored).expected, finale.expected, "numeric Aha inputs and final damage survive restoration");
+});
+
+test("Round52 Emanator recipient selection keeps each final snapshot isolated and stops when its owner leaves", async () => {
+    const { data } = await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture();
+    const app = await tool(undefined, data);
+    app.window.HsrTool.applyProfileCharacter({ id: "1511", level: 80, eidolon: 0,
+        traces: [{ type: "Normal", level: 6 }, { type: "BPSkill", level: 10 }, { type: "Ultra", level: 10 }, { type: "Talent", level: 10 }, { type: "ElationDamage", level: 10 }],
+        stats: { atk: 3000, hp: 6000, def: 2000, speed: 130, critRate: 35, critDamage: 120, damageBonus: 0, elation: 100, merrymake: 0 } });
+    app.state.party[0] = { characterId: "1502", level: 80, eidolon: 0 };
+    app.state.party[1] = { characterId: "1513", level: 80, eidolon: 0 };
+    app.state.modifierInputs["elation-certified-banger"] = 0;
+    app.state.conditionTab = "軌跡";
+    app.node("hsrConditionDialogOpen").handlers.click();
+    const selector = "aha-emanator-recipient";
+    assert.match(app.node("hsrConditionList").innerHTML, /data-comparison-choice="aha-emanator-recipient"/);
+    assert.match(app.node("hsrConditionList").innerHTML, /value="1502"/);
+    assert.match(app.node("hsrConditionList").innerHTML, /value="1513"/);
+    const selectRecipient = (id) => app.node("hsrConditionDialog").handlers.change({ target: { dataset: { comparisonChoice: selector }, value: id } });
+    const fill = (id, stats) => {
+        for (const [key, value] of Object.entries(stats)) {
+            const inputKey = `aha-reference:${id}:${key}`;
+            app.node("hsrConditionDialog").handlers.input({ target: { dataset: { structuredInput: inputKey, structuredStrict: "true" }, value: String(value) } });
+        }
+    };
+    const firstSnapshot = { elation: 180, critRate: 50, critDamage: 160, merrymake: 0, certifiedBanger: 0, defenseIgnore: 0, resistancePenetration: 0, resistance: 20 };
+    const secondSnapshot = { elation: 240, critRate: 25, critDamage: 210, merrymake: 10, certifiedBanger: 40, defenseIgnore: 15, resistancePenetration: 10, resistance: 30 };
+    selectRecipient("1502"); fill("1502", firstSnapshot);
+    const attackName = id => data.attacks.find(attack => attack.id === id)?.name;
+    const row = (instance = app) => instance.calculate().find(item => item.attack?.name === attackName("1511022"));
+    const firstRows = app.calculate();
+    const first = firstRows.find(item => item.attack?.name === attackName("1511022"));
+    assert.ok(first, `${app.node("hsrCalculationFeedback").innerHTML}; returned attacks: ${firstRows.map(item=>item.attack?.name).join(",")}`);
+    assert.ok(first.components.emanator.nonCrit > 0);
+    selectRecipient("1513"); fill("1513", secondSnapshot);
+    const second = row();
+    assert.ok(second, app.node("hsrCalculationFeedback").innerHTML);
+    assert.notEqual(second.components.emanator.nonCrit, first.components.emanator.nonCrit, "the selected member's independent stats determine the rider");
+    assert.equal(app.state.modifierInputs["aha-reference:1502:elation"], 180, "the old recipient snapshot remains stored under its own key");
+    assert.equal(app.state.modifierInputs["aha-reference:1513:elation"], 240);
+
+    app.node("hsrStat-elation").handlers.input();
+    const restored = await tool(app.storage, data);
+    assert.equal(restored.state.modifierInputs[selector], 1513);
+    assert.equal(row(restored).components.emanator.nonCrit, second.components.emanator.nonCrit, "selected recipient and snapshot survive save/restore");
+    restored.state.party[1] = { characterId: "", level: 80, eidolon: 0 };
+    assert.equal(row(restored), undefined, "removing the selected Emanator stops only the composite action");
+    assert.ok(restored.calculate().some(item => item.attack?.name === attackName("151102")), "Aha's independent attack remains available");
+});
+
 test('Round51 known unconnected equipment and character scopes preserve per-attack calculation',async()=>{
  const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data);
  const profile=id=>({id,level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'MemospriteSkill',level:6},{type:'MemospriteTalent',level:6}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});

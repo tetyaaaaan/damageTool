@@ -1,0 +1,838 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "hsr-v47-round52-elation-ascension-e0-a1",
+  "generatedFrom": "fixed StarRailRes 03907e798b46f9eb109a1f882055cdf49ce3d374 index_new/jp/character_skills.json",
+  "modifiers": [
+    {
+      "id": "v47:trace:1501:150129:elation-skill-multiplier",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1501",
+        "skillId": "150129"
+      },
+      "name": "「愉悦」昇格1・愉悦スキル倍率",
+      "description": "愉悦スキルの元のダメージ倍率を15%増加。星魂0・昇格効果Lv1のみ。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "elation"
+        ],
+        "elements": [],
+        "attackIds": [
+          "150120"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "aha-world-active",
+        "requiredCharacterId": "1511",
+        "requiredCharacterMaxEidolon": 0,
+        "inputLabel": "「愉悦」の昇格効果が有効",
+        "default": false,
+        "conditionText": "固定4.7版の「愉悦」昇格効果Lv1。元の愉悦スキル倍率に15%を乗算。"
+      },
+      "stacking": {
+        "group": "trace:1501:150129:elation-skill-multiplier",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "attackMultiplier",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "4.7固定版の昇格スキル150129第1段階。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150129.params[0][0]",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-18",
+        "scope": "星魂0・愉悦昇格効果Lv1。攻撃ID150120の愉悦スキルのみ。元倍率の15%増加。",
+        "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
+      }
+    },
+    {
+      "id": "v47:trace:1501:150129:party-defense-ignore",
+      "source": {
+        "kind": "trace",
+        "id": "1501",
+        "skillId": "150129"
+      },
+      "name": "「愉悦」昇格1・味方全体の防御無視",
+      "description": "味方がダメージを与える時、敵の防御力を10%無視。星魂0・昇格効果Lv1のみ。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "aha-world-active",
+        "requiredCharacterId": "1511",
+        "requiredCharacterMaxEidolon": 0,
+        "inputLabel": "「愉悦」の昇格効果が有効",
+        "default": false,
+        "conditionText": "固定4.7版の「愉悦」昇格効果Lv1。味方全体の攻撃に適用。"
+      },
+      "stacking": {
+        "group": "trace:1501:150129:party-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add",
+        "cap": 100
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "4.7固定版の昇格スキル150129第1段階。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150129.params[0][1]",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-18",
+        "scope": "星魂0・愉悦昇格効果Lv1。味方全体の攻撃に10%防御無視。",
+        "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
+      }
+    },
+    {
+      "id": "v47:trace:1505:150529:party-defense-ignore",
+      "source": {
+        "kind": "trace",
+        "id": "1505",
+        "skillId": "150529"
+      },
+      "name": "「愉悦」昇格1・味方全体の防御無視",
+      "description": "味方がダメージを与える時、敵の防御力を10%無視。星魂0・昇格効果Lv1のみ。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "aha-world-active",
+        "requiredCharacterId": "1511",
+        "requiredCharacterMaxEidolon": 0,
+        "inputLabel": "「愉悦」の昇格効果が有効",
+        "default": false,
+        "conditionText": "固定4.7版の「愉悦」昇格効果Lv1。味方全体の攻撃に適用。"
+      },
+      "stacking": {
+        "group": "trace:1505:150529:party-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add",
+        "cap": 100
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "4.7固定版の昇格スキル150529第1段階。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150529.params[0][1]",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-18",
+        "scope": "星魂0・愉悦昇格効果Lv1。味方全体の攻撃に10%防御無視。",
+        "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
+      }
+    },
+    {
+      "id": "v47:trace:1506:150629:crit-damage",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1506",
+        "skillId": "150629"
+      },
+      "name": "「愉悦」昇格1・会心ダメージ",
+      "description": "会心ダメージ+40%。星魂0・昇格効果Lv1のみ。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 40
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "aha-world-active",
+        "requiredCharacterId": "1511",
+        "requiredCharacterMaxEidolon": 0,
+        "inputLabel": "「愉悦」の昇格効果が有効",
+        "default": false,
+        "conditionText": "固定4.7版の「愉悦」昇格効果Lv1。会心ダメージ+40%。"
+      },
+      "stacking": {
+        "group": "trace:1506:150629:crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "4.7固定版の昇格スキル150629第1段階。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150629.params[0][2]",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-18",
+        "scope": "星魂0・愉悦昇格効果Lv1。本人の会心ダメージ+40%。",
+        "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
+      }
+    },
+    {
+      "id": "v47:trace:1513:151329:party-speed",
+      "source": {
+        "kind": "trace",
+        "id": "1513",
+        "skillId": "151329"
+      },
+      "name": "「愉悦」昇格1・味方全体の速度",
+      "description": "指定された昇格時の追加効果が有効な場合、味方全体の速度+15%。星魂0・昇格効果Lv1のみ。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "aha-world-active",
+        "requiredCharacterId": "1511",
+        "requiredCharacterMaxEidolon": 0,
+        "inputLabel": "「愉悦」の昇格効果が有効",
+        "default": false,
+        "conditionText": "固定4.7版の「愉悦」昇格効果Lv1で指定された編成条件を満たす。"
+      },
+      "stacking": {
+        "group": "trace:1513:151329:party-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "4.7固定版の昇格スキル151329第1段階。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:151329.params[0][1]",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-18",
+        "scope": "星魂0・愉悦昇格効果Lv1。条件成立時、味方全体の速度+15%。",
+        "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
+      }
+    },
+    {
+      "id": "v47:lightCone:23065:party-defense-ignore",
+      "source": {
+        "kind": "lightCone",
+        "id": "23065"
+      },
+      "name": "即興芝居・味方全体の防御無視",
+      "description": "装備者が自身以外の味方単体に戦闘スキルを発動した後、味方全体の攻撃が敵の防御力を16/18/20/22/24%無視。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          16,
+          18,
+          20,
+          22,
+          24
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23065-after-ally-skill-active",
+        "inputLabel": "装備者が自身以外の味方単体へ戦闘スキルを発動済み",
+        "default": false,
+        "conditionText": "発動後から今回の戦闘終了まで有効。累積しない。"
+      },
+      "stacking": {
+        "group": "v47:lightCone:23065:party-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add",
+        "cap": 100
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "4.7固定版の光円錐ランク別効果を確認。発動状態は手動指定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23065.params[0..4][3]",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-18",
+        "scope": "装備者が自身以外の味方単体へ戦闘スキルを発動後。味方全体・今回の戦闘中。ランク1～5。",
+        "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
+      }
+    },
+    {
+      "id": "v47:lightCone:22009:elation-party-count-crit-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "22009"
+      },
+      "name": "イタズラ仲間・愉悦キャラ数による会心ダメージ",
+      "description": "パーティの「愉悦」の運命を歩むキャラ1名につき、装備者の会心ダメージ+6/7/8/9/10%。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perReferenceStack",
+        "reference": "party.elationCount",
+        "values": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "minimum": 0,
+        "maximum": 4
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "パーティの愉悦の運命を歩むキャラ数を参照。"
+      },
+      "stacking": {
+        "group": "v47:lightCone:22009:elation-party-count-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "4.7固定版のランク別会心ダメージ係数を確認。パーティ運命構成は既存の明示入力から参照。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:22009.params[0..4][0]",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-18",
+        "scope": "装備者自身・各攻撃。愉悦キャラ数は最大4。ランク1～5。",
+        "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
+      }
+    },
+    {
+      "id": "v47:lightCone:22009:aha-field-crit-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "22009"
+      },
+      "name": "イタズラ仲間・アッハ出現中の会心ダメージ",
+      "description": "星神★アッハがフィールド上にいる時、装備者の会心ダメージ+12/14/16/18/20%。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          14,
+          16,
+          18,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "inputLabel": "星神★アッハがフィールド上にいる",
+        "requiredCharacterId": "1511",
+        "conditionText": "星神★アッハがフィールド上にいる間。"
+      },
+      "stacking": {
+        "group": "v47:lightCone:22009:aha-field-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "4.7固定版のランク別会心ダメージ係数を確認。アッハ出現状態は明示入力。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:22009.params[0..4][1]",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-18",
+        "scope": "装備者自身・各攻撃。星神★アッハがフィールド上にいる状態。ランク1～5。",
+        "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
+      }
+    },
+    {
+      "id": "v47:aha:world-critRate",
+      "source": {
+        "kind": "trace",
+        "id": "1511",
+        "skillId": "151129"
+      },
+      "name": "愉悦の万象・会心率",
+      "description": "愉悦の万象・会心率。固定4.7/E0・選択済みの状態のみ。最終値へ含めた場合は算入済みで除外。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "aha-world-active",
+        "default": false,
+        "conditionText": "アッハE0の愉悦の万象が成立済み",
+        "requiredCharacterId": "1511",
+        "requiredCharacterMaxEidolon": 0
+      },
+      "stacking": {
+        "group": "aha:world-critRate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "151129"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "aha:world-critRate-in-final",
+        "inputLabel": "愉悦の万象・会心率を最終値へ反映済み"
+      }
+    },
+    {
+      "id": "v47:aha:world-defenseIgnore",
+      "source": {
+        "kind": "trace",
+        "id": "1511",
+        "skillId": "151129"
+      },
+      "name": "愉悦の万象・防御無視",
+      "description": "愉悦の万象・防御無視。固定4.7/E0・選択済みの状態のみ。最終値へ含めた場合は算入済みで除外。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 30
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "aha-world-active",
+        "default": false,
+        "conditionText": "アッハE0の愉悦の万象が成立済み",
+        "requiredCharacterId": "1511",
+        "requiredCharacterMaxEidolon": 0
+      },
+      "stacking": {
+        "group": "aha:world-defenseIgnore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "151129"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "aha:world-defenseIgnore-in-final",
+        "inputLabel": "愉悦の万象・防御無視を最終値へ反映済み"
+      }
+    },
+    {
+      "id": "v47:aha:speed-elation-125",
+      "source": {
+        "kind": "trace",
+        "id": "1511",
+        "traceId": "1511103"
+      },
+      "name": "箱の中に秘められた世界・愉悦度120%",
+      "description": "箱の中に秘められた世界・愉悦度120%。固定4.7/E0・選択済みの状態のみ。最終値へ含めた場合は算入済みで除外。",
+      "category": "elation",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 120
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "self.speed",
+        "statSource": "effective",
+        "operator": ">=",
+        "threshold": 125,
+        "conditionText": "支援後SPD125以上"
+      },
+      "stacking": {
+        "group": "aha:speed-elation",
+        "rule": "max"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "1511103"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "aha:speed-elation-125-in-final",
+        "inputLabel": "箱の中に秘められた世界・愉悦度120%を最終値へ反映済み"
+      }
+    },
+    {
+      "id": "v47:aha:speed-elation-150",
+      "source": {
+        "kind": "trace",
+        "id": "1511",
+        "traceId": "1511103"
+      },
+      "name": "箱の中に秘められた世界・愉悦度150%",
+      "description": "箱の中に秘められた世界・愉悦度150%。固定4.7/E0・選択済みの状態のみ。最終値へ含めた場合は算入済みで除外。",
+      "category": "elation",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 150
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "self.speed",
+        "statSource": "effective",
+        "operator": ">=",
+        "threshold": 150,
+        "conditionText": "支援後SPD150以上"
+      },
+      "stacking": {
+        "group": "aha:speed-elation",
+        "rule": "max"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "1511103"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "aha:speed-elation-150-in-final",
+        "inputLabel": "箱の中に秘められた世界・愉悦度150%を最終値へ反映済み"
+      }
+    },
+    {
+      "id": "v47:aha:talent-party-cd",
+      "source": {
+        "kind": "trace",
+        "id": "1511",
+        "skillId": "151104"
+      },
+      "name": "其との共演・味方会心ダメージ",
+      "description": "其との共演・味方会心ダメージ。固定4.7/E0・選択済みの状態のみ。最終値へ含めた場合は算入済みで除外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          20.0,
+          22.0,
+          24.0,
+          26.0,
+          28.000000000000004,
+          30.0,
+          32.5,
+          35.0,
+          37.5,
+          40.0
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "aha-talent-cd-active",
+        "default": false,
+        "conditionText": "爆笑の褒美40到達で付与された天賦CD支援が有効"
+      },
+      "stacking": {
+        "group": "aha:talent-party-cd",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "151104"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "aha:talent-party-cd-in-final",
+        "inputLabel": "其との共演・味方会心ダメージを最終値へ反映済み"
+      }
+    },
+    {
+      "id": "v47:aha:emanator-elation",
+      "source": {
+        "kind": "trace",
+        "id": "1511",
+        "skillId": "151102"
+      },
+      "name": "愉悦の使令・対象の愉悦度",
+      "description": "愉悦の使令・対象の愉悦度。固定4.7/E0・選択済みの状態のみ。最終値へ含めた場合は算入済みで除外。",
+      "category": "elation",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          10.0,
+          11.0,
+          12.0,
+          13.0,
+          14.000000000000002,
+          15.0,
+          16.25,
+          17.5,
+          18.75,
+          20.0
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "excludeSelf": true
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "アッハ以外の指定した味方が使令状態",
+        "recipientInputKey": "aha-emanator-recipient"
+      },
+      "stacking": {
+        "group": "aha:emanator-elation",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-17",
+        "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
+        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "151102"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "aha:emanator-elation-in-final",
+        "inputLabel": "愉悦の使令・対象の愉悦度を最終値へ反映済み"
+      }
+    }
+  ]
+}

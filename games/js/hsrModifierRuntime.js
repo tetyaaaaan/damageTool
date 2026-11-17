@@ -322,6 +322,13 @@
       if (!selection.selected) return [];
       const providerContext = { ...context, providerId: selection.providerId || context.characterId };
       let activation = activationState(record, providerContext, inputs);
+      if(record.activation?.recipientInputKey && (String(inputs[record.activation.recipientInputKey]||'')!==String(context.characterId)||record.target?.excludeSelf&&String(providerContext.providerId)===String(context.characterId)))activation={...activation,active:false,unresolved:false};
+      if(record.activation?.requiredCharacterId){
+        const id=String(record.activation.requiredCharacterId),present=[String(context.characterId),...(context.partyIds||[]).map(String)].includes(id);
+        const rank=id===String(context.characterId)?context.eidolon:context.partyEidolons?.[id];
+        if(!present||record.activation.requiredCharacterMaxEidolon!==undefined&&(!Number.isInteger(rank)||rank>record.activation.requiredCharacterMaxEidolon))activation={...activation,active:false,unresolved:false};
+      }
+
       if (record.source?.kind === "ornament" && record.activation?.reference?.startsWith("provider.")) {
         const count = Number(String(context.ornamentId || "") === String(record.source.id) && !record.target?.excludeSelf)
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
