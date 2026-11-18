@@ -148,13 +148,13 @@
         const warnings = [];
         if(input.attack?.characterId==='1511'){
             const a=input.attack,l=a.traceLevel,curve=a.id==='151120'?[30,33,36,39,42,45,48.75,52.5,56.25,60]:certifiedBangerCurve(a);
-            if(input.enemy?.count!==1||input.enemy?.toughnessActive!==true||a.multiplier!==curve[l-1]||!Number.isInteger(l)||l<1||l>(a.id==='151101'?6:10)||a.id!=='1511021'&&(character.id!=='1511'||a.element!=='Quantum')||a.id==='1511021'&&(!a.completedReferenceSnapshot||!a.ahaEmanatorId||a.ahaEmanatorId!==character.id||a.damageOwnerId!==character.id||!['Physical','Fire','Ice','Thunder','Wind','Quantum','Imaginary'].includes(a.element)))warnings.push('アッハのE0・未撃破の敵1体・固定4.7倍率と所有者別最終値を指定してください。');
+            if(input.enemy?.count!==1||input.enemy?.toughnessActive!==true||a.multiplier!==curve[l-1]||!Number.isInteger(l)||l<1||l>(a.id==='151101'?6:10)||a.id!=='1511021'&&(character.id!=='1511'||a.element!=='Quantum')||a.id==='1511021'&&(a.ahaEmanatorId==='1511'||!a.completedReferenceSnapshot||!a.ahaEmanatorId||a.ahaEmanatorId!==character.id||a.damageOwnerId!==character.id||!['Physical','Fire','Ice','Thunder','Wind','Quantum','Imaginary'].includes(a.element)))warnings.push('アッハのE0・未撃破の敵1体・固定4.7倍率と所有者別最終値を指定してください。');
             if(a.id==='151103'){
                 const parts=elationComponents(a),aoe=[120,128,136,144,152,160,170,180,190,200],bounce=[36,38.4,40.8,43.2,45.6,48,51,54,57,60];
                 if(parts.length!==2||parts[0].count!==1||parts[1].count!==5||Math.abs(parts[0].multiplierPercent-aoe[l-1])>1e-8||Math.abs(parts[1].multiplierPercent-bounce[l-1])>1e-8)warnings.push('必殺の全体1回＋バウンド5回を確認してください。');
             }
             if((input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(m.category==='progressiveTakenDamage'||a.id==='1511021'&&!['enemySingle','enemyAll'].includes(m.target?.owner))))warnings.push('段間の補正更新や使令対象の最終値へ算入済みの補正の再加算は行いません。');
-            if(a.id==='151103'&&(!Number.isInteger(input.modifierInputs?.['aha-wish'])||input.modifierInputs['aha-wish']<8||input.modifierInputs['aha-wish']>10))warnings.push('必殺技の発動前願力に8～10を入力してください。');
+            if(a.id==='151103'&&(!Number.isInteger(input.modifierInputs?.['aha-wish'])||input.modifierInputs['aha-wish']<8||input.modifierInputs['aha-wish']>18))warnings.push('必殺技の発動前願力（基本枠8＋超過枠10）に8～18を入力してください。');
             if(a.elationContext==='certifiedBanger'&&(values.context!=='certifiedBanger'||!Number.isInteger(values.certifiedBanger)||values.certifiedBanger<0||values.certifiedBanger>10000))warnings.push('攻撃時点の爆笑/大爆笑の褒美に0～10000の整数を入力してください。');
         }
         if(input.attack?.id==='1503081' &&(character.id!=='1503'||input.enemy?.toughnessActive!==true||input.attack.traceLevel>6||values.certifiedBanger>50||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(m.category==='progressiveTakenDamage'||['statPercent','statFlat'].includes(m.category)&&m.stat==='def'))))warnings.push('パール本人の最終愉悦度へDEF変換を一度含め、爆笑の褒美1～50を指定してください。未撃破の敵1体・通常Lv1～6のみ対応です。');
@@ -468,11 +468,35 @@ function calculateFanning(input) {
         if(a.id!=='1511202'||!Number.isFinite(prior)||prior<0||prior>1e12)return {supported:false,reason:'本体発動前のアッハタイム内・味方の確定以外の与ダメージ記録を0以上で入力してください。'};
         const direct=calculate({...input,attack:{...a,id:'151120',damageFormula:'elation'}});
         if(direct.supported===false)return direct;
-        const extra={attack:{name:'記録に基づく確定成分',canCrit:false},nonCrit:(prior+direct.nonCrit)*.2,crit:(prior+direct.crit)*.2,expected:(prior+direct.expected)*.2,applied:[],skipped:[],breakdown:{damageFormula:'trueDamage',sourceKind:'ahaInstantNonTrueDamage',originalDamage:prior+direct.nonCrit,multiplierPercent:20,condition:'本体後の記録×20%。確定成分自体は会心せず、本体の会心別に記録が変化。'}};
-        return {...direct,attack:{...direct.attack,name:a.name},nonCrit:direct.nonCrit+extra.nonCrit,crit:direct.crit+extra.crit,expected:direct.expected+extra.expected,components:{direct,trueDamage:extra},breakdown:{damageFormula:'componentSequence',componentLabel:'本体＋同じ愉悦スキル内の確定成分',priorNonTrueDamage:prior}};
+        const extra={attack:{name:'記録に基づく確定成分',canCrit:false},nonCrit:(prior+direct.nonCrit)*.2,crit:(prior+direct.crit)*.2,expected:(prior+direct.expected)*.2,applied:[],skipped:[],breakdown:{damageFormula:'trueDamage',sourceKind:'ahaInstantNonTrueDamage',correlatedCritBranches:true,recordBefore:prior,recordAfter:{nonCrit:prior+direct.nonCrit,crit:prior+direct.crit,expected:prior+direct.expected},originalDamage:prior+direct.nonCrit,multiplierPercent:20,condition:'本体後の記録×20%。確定成分自体は会心せず、本体の会心別に記録が変化。'}};
+        return {...direct,attack:{...direct.attack,name:a.name},nonCrit:direct.nonCrit+extra.nonCrit,crit:direct.crit+extra.crit,expected:direct.expected+extra.expected,components:{direct,trueDamage:extra},breakdown:{damageFormula:'componentSequence',componentLabel:'本体＋同じ愉悦スキル内の確定成分',componentNames:['アッハの愉悦本体','記録に基づく確定成分'],totalLabel:'愉悦本体＋記録確定成分の合計',condition:'事前記録は参照値であり、その値自体を合計へ加算しません。確定成分は本体の会心別の記録から求めます。',priorNonTrueDamage:prior}};
+    }
+
+    // DirtyHP is a separate property, not another hit or a MaxHP stat modifier.
+    // This bounded snapshot never models shared HP, layer transitions or mortality callbacks.
+    function withAhaDebtSnapshot(input, result) {
+        const snapshot=input.ahaDebtSnapshot;
+        if(snapshot?.requested!==true || result.supported===false || !['151101','151102','1511021','1511022','151103','151120','1511202'].includes(input.attack?.id))return result;
+        const fail=reason=>({...result,ahaDebt:{supported:false,reason}});
+        if(snapshot.singleLayerNoShare!==true)return fail('HP内訳は単一HP・共有HP/バリアなしの対象に限定します。');
+        const maxHp=input.enemy?.maxHp,hpPercent=input.enemy?.hpPercent,prior=snapshot.priorDebtPercent;
+        if(!Number.isFinite(maxHp)||maxHp<=0||maxHp>1e12||!Number.isFinite(hpPercent)||hpPercent<=0||hpPercent>100||!Number.isFinite(prior)||prior<0||prior>=100)return fail('敵最大HP・現在HP割合と、攻撃前の負債比率0%以上100%未満を明示してください。負債なしは0です。');
+        const initialHp=maxHp*hpPercent/100,priorDebtHp=maxHp*prior/100;
+        if(initialHp+priorDebtHp>maxHp+maxHp*1e-12)return fail('このHP内訳は、現在HPと負債の占有領域が重ならない事前状態に限定します。');
+        const branches={};
+        for(const key of ['nonCrit','crit','expected']) {
+            const loss=result[key],debtPercentAfter=prior+25*loss/maxHp;
+            if(!Number.isFinite(loss)||loss<0||loss>=initialHp||debtPercentAfter>=100)return fail('死亡または負債100%の境界に達する枝があります。HP内訳だけを停止し、固定敵条件での理論攻撃値を表示します。');
+            branches[key]={normalHpLoss:loss,additionalHitDamage:0,hpAfter:initialHp-loss,debtPercentAfter,debtHpAfter:maxHp*debtPercentAfter/100};
+        }
+        return {...result,ahaDebt:{supported:true,kind:'dirtyHPRatio',maxHp,initialHp,priorDebtPercent:prior,priorDebtHp,ratioPerHpLost:.25,branches}};
     }
 
     function calculate(input) {
+        return withAhaDebtSnapshot(input,calculateAttack(input));
+    }
+
+    function calculateAttack(input) {
         if(['1511022','1511202'].includes(input.attack?.id))return calculateAhaSequence(input);
         if(['1414031','1414032','14141031'].includes(input.attack?.id)){
             const a=input.attack,c=input.character||{},e=input.enemy||{},l=a.traceLevel,extra=a.id==='14141031',profile=a.id==='1414031'?'dragon':'additional',curve=extra?[40]:[40,44,48,52,56,60,65,70,75,80];

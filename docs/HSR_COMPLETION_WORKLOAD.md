@@ -2708,3 +2708,79 @@ Modifierは10意味群・14成分行。自動/数値・対象選択から決定�
 既存UIDモックの取得応答→再構成→入力反映→計算→保存復元も全体回帰で成功。実UID通信は未実施。外部計算ツールの同条件実行・実ゲーム照合は未実施。
 
 変更27ファイル：出典/完成管理/本台帳/攻撃範囲と仕様03・04・06（7文書）、catalog・image-manifest・calc/data-files・modifier schema・新attack/modifier定義（6データ）、HSR index.html（1画面）、hsrApp/hsrCalcEngine/hsrCharacterOrder/hsrModifierRuntime（4モジュール）、reportHsrCompletion/validateHsrModifiers（2スクリプト）、CompletionTracker/ToolInputs/AhaRound52/AscensionRound52（4テスト）、1511/22009/23065のWebP（3画像）。原神JSONは開始時SHA256 `533226bb1ed0e69bdb16a8d22fe93d1c4451dd32ac4787b08a764c19077bb7f3`と一致、.codex/.codex-tempは変更・ステージング対象外。push・デプロイなし。
+
+
+<a id="hsr-round53-aha"></a>
+## 第53回：アッハの資源入力・記録内訳と負債の実行定義照合（2026-11-18）
+
+開始HEAD `2a51209af1724da226b78807d969d59f3028e764`、main。旧4.6/新4.7の固定SHAを維持。固定版の追加確認だけを行い、マスター・装備を再生成していない。
+
+### 実装・修正した計算範囲
+
+- 必殺151103の事前願力を8～18へ修正。前回の8～10は基本枠と超過枠の混同で、151104の基本8/超過10と`Nihilux_RefreshWishPoint`の`CurrentSpecialSP + CurExtraSpecialSP`から訂正した。11～18の8状態を同じ主要攻撃へ接続し、新規攻撃として数えない。必殺後の超過分保存/復元は実行定義で確認したが、消費後の最終値を事前入力へ自動上書きしない。未知の事後状態から次の行動を自動実行しない。
+- 使令属性付加1511021はアッハ自身を受益者にできないため、既存UIの自己選択除外に加え、エンジンへの直接リクエストでも1511自己参照を拒否する。適格な別所有者の独立最終値は維持した。
+- 記録確定成分は本体の会心別で参照値が変わる。計算済み3枝を内訳にも表示し、確定成分自体が会心するとの誤認を防ぐ。事前記録/本体後の記録/20%変換/同一スキル合計を分離し、英語の内部キーや「スキル本体＋追加攻撃」という誤った合計名も置換した。事前記録値そのものを合計へ加算しない。
+- 負債は既存7行に別のHP内訳として接続した。対象の単一HP・共有HP/バリアなし・補正状態一定を明示し、事前負債比率、既存の最大HP/現在HP割合から計算する。チェックはHP内訳の対象条件で、負債の発動ON/OFFではない。未指定・不正値・死亡境界等はHP内訳だけを局所停止する。未計算を0や通常ダメージとして表示せず、アッハ解除で注記も解除する。
+
+### 固定版の一次根拠
+
+全てTBGD `dad9155eb00fdeda31fb8456507c53590d49071f`。日本語係数はStarRailRes `03907e798b46f9eb109a1f882055cdf49ce3d374`を維持。
+
+|ファイル・blob|照合内容|
+|---|---|
+|`Config/ConfigCharacter/Avatar/Avatar_Nihilux_10_Config.json` / `5152ec9989d5dd5202a7ab10531df9b3a6a65214`|SkillAeon→151131の接続、Skill03/SkillP01/Skill04パラメータの索引|
+|`Config/ConfigAbility/Avatar/Avatar_Nihilux_10_Ability.json` / `51c961d55799777ec3e8453d2a680619a23c1250`|願力表示、超過分保持、HP操作、記録と確定成分の処理順|
+|`Config/ConfigAbility/Avatar/GlobalSkill/Avatar_GlobalSkill_Nihilux_10_Ability.json` / `c5694a7872a5ff82a185e3a9ccc62a947c4d8c29`|共通処理・アッハタイム開始時の記録初期化と照合|
+
+`Skill04_Phase02`は愉悦本体→確定成分→記録リセット。記録側は`OnListenAfterHitAll`・アッハタイム中・味方側・TrueDamage以外の`Result_FinalDamageBase`を蓄積する。確定式のDynamicHashesは、名前とハッシュの5組で一致を検証したC#の文字列ハッシュにより、`_AccumulatedDamage`・`_TrueDamageRatio`・関数`max`・`_EnemyCountForTrueDamage`へ対応付けた。opcode16の後続バイトは関数の引数数。式は `record × ratio / max(1, count)`、E0 ratio=.2。生存敵数を使う通常分岐と、生存0時の全対象分岐を区別し、敵1体の既存対応範囲を維持する。外部コンテキスト値を根拠なく0とした解読ではない。
+
+### 昇格の追加候補の検証
+
+既存の火花元倍率×1.15/DEF無視、緋英DEF無視、SW999 CD、夏アベンチュリンSPDは維持。追加Modifierの正式化は行っていない。
+
+爻光150229の大吉元倍率+20%と、`Avatar_YaoGuang_00_Ability.json` blob `b9fa96506bebcc62ffa43c3b491d3e0ef4069fc4`にある必殺追加アッハ中の`MAvatar_YaoGuang_00_BE_ModifyDam_ToBE`は同一と判断しない。後者の1686351920はRank04/E4のゲートで、E0昇格として150221へ一律×1.2を接続する根拠にはならない。1502041または別の大吉成分へ150229が作用する実行フックの受入を残す。
+
+緋英150529の累積480→次必殺/天賦元倍率+75%は、現在の褒美480下限と別のカウンターである。取得・待機・消費フラグから既存の本体/天賦成分へ結ぶ実行経路が確定できていないため、同じ入力で代用しない。SW999の本人全体E0未認定も維持する。奇縁星魂・パールE3・装備網羅は本回対象外。
+
+### 受入値と件数
+
+新規攻撃行/Modifier行/装備種類は0。キャラ99、旧E0 94/98、新アッハ0/1、攻撃590/569、Modifier本番1062/635（原登録1063/636）、LC172/143/142を維持。認定と登録行数の水増しなし。
+
+例：最終愉悦100/CR35/CD120、Lv80、敵Lv80・耐性20・未撃破、爽快ネタ20、事前記録10000。本体の非会心4507.153233230769/会心9915.737113107693/期待値6400.157591187693に対し、確定成分は2901.430646646154/3983.147422621539/3280.031518237539、合計7408.583879876924/13898.884535729232/9680.189109425231。独立式との差は浮動小数誤差以内。願力18の必殺は願力8と同じダメージ式で、19だけを局所停止し通常・愉悦等を維持する。全採用Lv、記録0/1/小数/入力上限、欠落・不正値、保存復元を確認。
+
+### 負債の確定範囲と残る認定阻害要因
+
+151131→ConfigのSkillAeon→`Avatar_Nihilux_10_SkillAeon`の接続を確認。`SkillAeon_DirtyHP`の通常`OnHPChange`は、適格なダメージによるHP減少Dに対して`MDF_CurrentDamageConvertDirtyHPValue = 0.25 × max(0, -ChangeValue)`を求め、`SkillAeon_DirtyHP_Property.MDF_DirtyHPRatio`へ`value / MaxHP`をAddする。付随Property modifierがstackするのはDirtyHPRatioであり、MaxHPではない。HP operandは固定ソースの`_MaxHPPerLayer`算定とも照合した。ゲートはCanAddDirtyHP=1、IsHPChangeByDamage、対象AliveOrLimbo、攻撃者の実所有者TeamLight、非BattleEvent。TrueDamageという種類だけを除く条件はなく、確定攻撃がこのHP減少条件を満たす場合は負債の対象となる。一方、別の実ダメージ記録はTrueDamageを除外するので二重計上しない。
+
+単一HP・非致死の通常分岐は`r_after = r_before + 0.25D/MaxHP`、`HP_after = HP_before - D`、`MaxHP_after = MaxHP_before`。追加ヒットダメージは0で、負債HP相当は`MaxHP × r_after`という別状態。例えばMaxHP100000、HP80000、事前r=.1、D4000なら、HP76000、r=.11、負債HP相当11000となる。その場で1000の追加ダメージを与えたり、MaxHPを89000へ書き換えたりしない。表示内訳は会心/非会心/期待値の各Dに同じ線形式を適用する。全枝を非致死とし、敵条件を固定するので期待値も線形に一致する。複合スキル/愉悦合計では合計Dに一度適用し、子成分のHP内訳を重複表示しない。事前記録はDへ直接加えない。
+
+0.1のパラメータは`MDF_PhaseKeepMaxRatio`へ入る別のHP層・段階保持用であり、通常OnHPChangeにこのclampはない。現在の負債を10%までに切り詰める実装は禁止する。HP層の多い分岐の`Nihilux_DirtyHPDamageOnNormalHPLose`には層ループや`SetHP(max(min(H,1), H-total), ChangeReason:DirtyHPDamage, Strength:AntiWeak)`があり、DirtyHPDamage再帰抑止もあるが、この別分岐を単一HPへ一般化していない。
+
+共有HP、複数HP層、段階移行時の保持/初期化、回復、死亡境界を跨ぐ成分、負債100%や占有領域重複状態の正確な受入は残る。該当するHP内訳は理由付きで停止し、通常の理論攻撃計算と区別する。これらの重要状態を恣意的に認定範囲から除かず、アッハE0認定は0/1のまま保留。次回は既に解読した層ループ/回復/死亡経路と独立した層・段階スナップショットの受入を行い、同じ通常1層の調査を反復しない。
+
+### 最終検証・管理
+
+負債の解読が進む前の資源/表示修正時に1201テストを実行し成功した。その後、確定した単一HP負債と自己参照拒否を追加したため、最終計算コードでHSR全1207テストを再実行して成功（157.08秒）。期待値には独立した愉悦式と25%変換式を使い、エンジン出力の流用を避けた。4000および4000.5の独立例で中間丸めを追加せず、通常分岐で10%を超える負債を保持することを確認。20関連計算テストとRound53の状態/保存/表示テストも成功した。
+
+最終全体実行後、編成にアッハがいるだけの他キャラにはHP内訳入力を案内しないよう、範囲説明文の1分岐だけ修正。計算式は変更せず、Round52/53と既存範囲表示の関連ToolInputs 5テストを再実行して成功した。これを最終製品コードに対する再実行範囲とする。
+
+Modifier静的問題0、攻撃静的38指摘は開始時と内容・順序とも一致、完成管理表--check成功。1440/390/320pxで超過願力、記録枝、負債入力とHP内訳を確認。HP境界の局所停止・保存復元も自動検証し、実画面の再読込後も同じHP内訳を確認した。最終全体回帰には既存UIDモックの取得応答/再構成/計算/保存復元も含む。実UID通信・同条件の外部数値実行・実ゲーム照合は未実施。確認用サーバー・タブ・画面幅指定は終了。
+
+旧94/98と新アッハ0/1の認定、攻撃/Modifier/装備の登録数は維持。新規のHP状態計算1方式を既存7行へ接続したが、新しいダメージ攻撃やModifier行として加算しない。残件の正本は本節、主要範囲は攻撃範囲資料、計算契約は仕様03、受入観点は仕様07へ反映した。
+
+変更ファイル（12件）：
+
+- `docs/HSR_CHARACTER_COMPLETION.md`
+- `docs/HSR_COMPLETION_WORKLOAD.md`
+- `docs/HSR_MAIN_ATTACK_SCOPE.md`
+- `docs/hsr/specs/03_CALCULATION_SPEC.md`
+- `docs/hsr/specs/07_TEST_SPEC.md`
+- `games/hsr/data/calc/attacks-v47-round52.json`
+- `games/js/hsrApp.js`
+- `games/js/hsrCalcEngine.js`
+- `tests/hsr/hsrAhaRound52.test.cjs`
+- `tests/hsr/hsrAhaRound53.test.cjs`
+- `tests/hsr/hsrAhaDebtRound53.test.cjs`
+- `tests/hsr/hsrToolInputs.test.cjs`
+
+原神JSONは開始時SHA256 `533226bb1ed0e69bdb16a8d22fe93d1c4451dd32ac4787b08a764c19077bb7f3`と一致。原神CurrentCalc、.codex/.codex-tempは変更・ステージング対象外。mainへ検証済み変更のみローカルcommitし、push/デプロイなし。

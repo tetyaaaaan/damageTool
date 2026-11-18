@@ -258,10 +258,11 @@
         "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
         "gameVersion": "4.7.0",
-        "verifiedAt": "2026-11-17",
+        "verifiedAt": "2026-11-18",
         "mechanicsSource": "TurnBasedGameData@dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Nihilux_10_Ability.json blob51c961d55799777ec3e8453d2a680619a23c1250",
-        "verification": "tests/hsr/hsrAhaRound52.test.cjs",
-        "sourceFile": "character_skills.json:151103.params"
+        "verification": "tests/hsr/hsrAhaRound53.test.cjs; tests/hsr/hsrAhaRound52.test.cjs",
+        "sourceFile": "character_skills.json:151103.params",
+        "resourceMechanics": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Config/ConfigCharacter/Avatar/Avatar_Nihilux_10_Config.json blob5152ec9989d5dd5202a7ab10531df9b3a6a65214: Skill03 Index0=8, SkillP01 Index10=10; Nihilux_RefreshWishPoint sums CurrentSpecialSP+CurExtraSpecialSP."
       },
       "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。願力8以上で発動する想定。ダメージ前に愉悦の万象が成立（E0 CR12%/DEF無視30%）。全体1回＋バウンド5回を敵1体へ合算。",
       "version": "4.7.0",
@@ -311,7 +312,7 @@
           "inputKey": "aha-wish",
           "label": "必殺技を発動する直前の願力",
           "minimum": 8,
-          "maximum": 10,
+          "maximum": 18,
           "integer": true
         }
       ]

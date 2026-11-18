@@ -187,7 +187,7 @@
 
     if(char?.id==='1503'){$("hsrPunchlineField").hidden=true;$("hsrElationScope").textContent='パール＋爻光の2人編成、Lv80/E0・未撃破の敵1体・状態一定。本人DEF、本人CB、底本の氷愉悦と、事前の次回攻撃付加を分離します。別編成や資源/行動順の自動更新は対象外です。';}
     $("hsrPunchlineHelp").textContent = char?.id === "1502" ? "通常発動は消費済み爆笑ネタ0の初回のみ。必殺追加行は固定20で計算し、この爆笑ネタ入力を使いません。本人の大吉は補正条件の爆笑の褒美を参照します。結界・SPD由来愉悦度とA4会心ダメージは最終入力へ一度含めてください。被ダメージ増加16%は自動適用するため重複入力しないでください。愉悦度・会心等は適用対象の常時効果を含む最終値を入力してください。上笑なしは0。通常の与ダメージ補正は適用しません。" : "Lv80・星魂0・アッハタイム中の敵1体あたり1回分です。爆笑ネタと爆笑の褒美は別の値です。この攻撃では攻撃時点の爆笑ネタだけを使い、攻撃後の爆笑の褒美+5は加算しません。上笑がない場合は0を入力してください。通常の与ダメージ補正は適用しません。";
-    if(char?.id==='1511')$("hsrPunchlineHelp").textContent='この入力は愉悦スキル本体と確定成分を含む合計だけに使います。通常/スキル/必殺の褒美、願力、使令対象、事前の実ダメージ記録は補正条件で指定してください。未入力の成分だけを停止します。負債による最大HPへの作用と資源の自動更新は計算に含みません。';
+    if(char?.id==='1511')$("hsrPunchlineHelp").textContent='この入力は愉悦スキル本体と確定成分を含む合計だけに使います。通常/スキル/必殺の褒美、願力、使令対象、事前の実ダメージ記録は補正条件で指定してください。未入力の成分だけを停止します。負債のHP占有状態は補正条件から別内訳で確認できます。資源の自動更新は計算しません。';
     if(char?.id==='1503')$("hsrPunchlineHelp").textContent='本人の爆笑の褒美と、パール由来の付加が参照する爆笑ネタは別入力です。深層学習と次回付加の参照値を補正条件で指定します。A2 DEF変換を含む最終愉悦度を使い、上笑なしは0です。';
     if (char?.id === "1513") {
       $("hsrElationScope").textContent = "夏アベンチュリンLv80・星魂0・敵1体。通常版151320と、次のアッハタイムの強化版151321を条件別に計算します。";
@@ -1138,6 +1138,16 @@
     return '<section class="hsr-condition-purpose" data-hsr-condition-ids="party-reference:1202"><h5>停雲本人の攻撃後に発生する賜福対象の付加</h5><p class="genshin-help">Lv80・星魂0の賜福対象の戦闘中の最終値を入力します。賜福・他の支援・装備の効果を含めた値を使い、この付加行には攻撃者側の支援を再加算しません。停雲本人の通常とは別の1回分です。</p><label class="genshin-condition-control"><span>賜福対象</span><select data-comparison-choice="party-reference-owner:1202"><option value="">パーティから選択</option>'+state.party.filter(m=>m.characterId).map(m=>'<option value="'+m.characterId+'"'+(String(m.characterId)===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
   }
   // This target is independent of party-wide ascension and of battle-wide Aha Time.
+  function ahaDebtSnapshotInput() {
+    return {requested:state.characterId==='1511'&&state.modifierInputs['aha-debt-ordinary-target']===true,singleLayerNoShare:true,priorDebtPercent:state.modifierInputs['aha-debt-prior-percent']};
+  }
+
+  function ahaDebtControls() {
+    if(state.characterId!=='1511')return '';
+    const active=state.modifierInputs['aha-debt-ordinary-target']===true,value=state.modifierInputs['aha-debt-prior-percent'];
+    return '<section class="hsr-condition-purpose"><h5>負債のHP内訳</h5><p class="genshin-help">負債は常時効果です。ここではHP内訳を計算する対象条件を指定します。単一HP・共有HP/バリアなし・途中の回復やHP段階変更なし・補正状態一定の敵に限定します。敵最大HPと現在HP割合は敵情報欄を使います。負債は別の占有状態で、最大HPの変更や追加ダメージとして合算しません。死亡・負債100%の境界はHP内訳だけを停止します。</p><label class="genshin-condition-control"><input type="checkbox" data-structured-toggle="aha-debt-ordinary-target"'+(active?' checked':'')+'><span>単一HP・共有HP/バリアなしのHP内訳を計算する</span></label><label class="genshin-condition-control"><span>攻撃前の負債比率（%）</span><input class="input_num" type="number" data-structured-input="aha-debt-prior-percent" data-structured-strict="true" min="0" max="100" step="any" value="'+(Number.isFinite(value)?value:'')+'"></label><p class="genshin-help">現在HPから負債比率を逆算しません。負債なしと確認できる場合は0を入力してください。各攻撃を同じ事前状態から比較し、結果で入力値を更新しません。</p></section>';
+  }
+
   function ahaReferenceControls() {
     if (!['軌跡','パーティ'].includes(state.conditionTab) || !(state.characterId==='1511'||state.party.some(m=>m.characterId==='1511'))) return '';
     const id=String(state.modifierInputs['aha-emanator-recipient']||''), member=state.party.find(m=>m.characterId===id), char=find('characters',id);
@@ -1146,7 +1156,7 @@
       return '<label class="genshin-condition-control"><span>'+['使令対象の最終愉悦度（%）','最終会心率（%）','最終会心ダメージ（%）','最終上笑（%）','爆笑の褒美（参照時点）','対象属性の最終防御無視（%）','対象属性の最終耐性貫通（%）','敵の対象属性耐性（%）'][i]+'</span><input class="input_num" type="number" data-structured-input="'+input+'" data-structured-strict="true" step="any" value="'+(Number.isFinite(state.modifierInputs[input])?state.modifierInputs[input]:'')+'"></label>';
     }).join(''):'';
     const choices=[{characterId:state.characterId},...state.party].filter((m,i,arr)=>m.characterId&&m.characterId!=='1511'&&arr.findIndex(x=>x.characterId===m.characterId)===i);
-    return '<section class="hsr-condition-purpose"><h5>「愉悦」の使令対象</h5><p class="genshin-help">昇格とは別の状態です。スキル付加は選択した味方の属性・独立した最終値を使います。支援と装備を含む値を指定し、この付加へ再加算しません。Lv80・星魂0・敵1体のみ対応。願力と爽快ネタは参照時点の値を指定し、自動で獲得・消費しません。最大HPへの負債、未対応の昇格成分・奇縁星魂は計算に含みません。</p><label class="genshin-condition-control"><span>使令として指定した味方</span><select data-comparison-choice="aha-emanator-recipient"><option value="">未指定</option>'+choices.map(m=>'<option value="'+m.characterId+'"'+(m.characterId===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
+    return '<section class="hsr-condition-purpose"><h5>「愉悦」の使令対象</h5><p class="genshin-help">昇格とは別の状態です。スキル付加は選択した味方の属性・独立した最終値を使います。支援と装備を含む値を指定し、この付加へ再加算しません。Lv80・星魂0・敵1体のみ対応。願力は基本枠8＋超過枠10の参照前合計、爽快ネタは参照時点の値を指定します。必殺後の超過分保持や、行動による獲得をこの入力へ自動上書きしません。負債は専用のHP内訳で扱い、与ダメージへ合算しません。未対応の昇格成分・奇縁星魂は計算に含みません。</p><label class="genshin-condition-control"><span>使令として指定した味方</span><select data-comparison-choice="aha-emanator-recipient"><option value="">未指定</option>'+choices.map(m=>'<option value="'+m.characterId+'"'+(m.characterId===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
   }
 
   function ahaEmanatorSnapshot() {
@@ -1209,7 +1219,7 @@
       return purpose.folded ? `<details class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><summary>${esc(purpose.title)}（${entries.length}件）</summary>${content}</details>`
         : `<section class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><h5>${esc(purpose.title)}</h5>${content}</section>`;
     }).join("");
-    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${himekoAccordControls()}${himekoOtherUserControls()}${partyReferenceControls()}${ahaReferenceControls()}${comparisonReferenceControls()}${purposes || '<p class="genshin-condition-card-empty">このカテゴリに設定できる効果はありません。</p>'}</section>`;
+    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${himekoAccordControls()}${himekoOtherUserControls()}${partyReferenceControls()}${ahaReferenceControls()}${state.conditionTab==="軌跡"?ahaDebtControls():""}${comparisonReferenceControls()}${purposes || '<p class="genshin-condition-card-empty">このカテゴリに設定できる効果はありません。</p>'}</section>`;
   }
 
   // Patch facts only: replacing a numeric control on blur steals the next click/focus.
@@ -1813,18 +1823,30 @@
   }
 
   function damageValues(result) {
-    const values = result.attack.canCrit ? [["非会心", result.nonCrit], ["会心", result.crit], ["期待値", result.expected]] : [[result.breakdown.damageFormula === "trueDamage" ? "追加確定ダメージ" : "ダメージ", result.nonCrit]];
-    return `<div class="hsr-attack-result-values${result.attack.canCrit ? "" : " hsr-attack-result-values--single"}">${values.map(([label, value]) => `<div><span>${label}（${result.breakdown.damageFormula === "trueDamage" ? "1回分" : "合計"}）</span><strong>${fmt(value)}</strong></div>`).join("")}</div>`;
+    const correlated=result.breakdown.sourceKind==='ahaInstantNonTrueDamage'&&result.breakdown.correlatedCritBranches===true;
+    const values = correlated ? [["本体が非会心の場合",result.nonCrit],["本体が会心の場合",result.crit],["本体の期待値に対応",result.expected]] : result.attack.canCrit ? [["非会心", result.nonCrit], ["会心", result.crit], ["期待値", result.expected]] : [[result.breakdown.damageFormula === "trueDamage" ? "追加確定ダメージ" : "ダメージ", result.nonCrit]];
+    return `<div class="hsr-attack-result-values${result.attack.canCrit || correlated ? "" : " hsr-attack-result-values--single"}">${values.map(([label, value]) => `<div><span>${label}（${result.breakdown.damageFormula === "trueDamage" ? "1回分" : "合計"}）</span><strong>${fmt(value)}</strong></div>`).join("")}</div>`;
   }
 
   const detailNumber = (value) => Number(value).toLocaleString("ja-JP", { maximumFractionDigits: 6 });
   const SCALING_LABELS = { atk: "攻撃力", hp: "HP", def: "防御力", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度", healingRecord: "攻撃直前の累計治癒量" };
 
-  function damageBreakdown(result, targetLabel) {
+  function ahaDebtBreakdown(debt) {
+    if(!debt)return '';
+    if(!debt.supported)return '<section class="hsr-target-breakdown"><h4>負債のHP内訳・計算対象外</h4><p>'+esc(debt.reason)+'</p></section>';
+    const rows=[['最大HP（変更なし）',debt.maxHp],['攻撃前の現在HP',debt.initialHp],['攻撃前の負債比率（%）',debt.priorDebtPercent],['攻撃前の負債HP相当',debt.priorDebtHp]];
+    return '<section class="hsr-target-breakdown"><h4>負債のHP内訳・単一HPの敵</h4><p>負債はHP占有状態です。通常ダメージや記録確定成分へ追加しません。最大HPを変更せず、この分岐では負債による追加の即時HP減少もありません。</p><dl>'+rows.map(([label,value])=>'<div><dt>'+label+'</dt><dd>'+detailNumber(value)+'</dd></div>').join('')+'</dl>'+[['nonCrit','非会心の場合'],['crit','会心の場合'],['expected','期待値の場合']].map(([key,label])=>{const b=debt.branches[key];return '<h5>'+label+'</h5><dl>'+[['攻撃によるHP減少',b.normalHpLoss],['攻撃後の現在HP',b.hpAfter],['攻撃後の負債比率（%）',b.debtPercentAfter],['攻撃後の負債HP相当',b.debtHpAfter]].map(([name,value])=>'<div><dt>'+name+'</dt><dd>'+detailNumber(value)+'</dd></div>').join('')+'</dl>';}).join('')+'<p>比率増分＝攻撃によるHP減少×25%÷最大HP。10%はこの通常HP減少分岐の上限ではありません。次のHP層・段階への持越しや回復は計算対象外です。</p></section>';
+  }
+
+  function damageBreakdown(result, targetLabel, component=false) {
+    return damageBreakdownCore(result,targetLabel)+(component?'':ahaDebtBreakdown(result.ahaDebt));
+  }
+
+  function damageBreakdownCore(result, targetLabel) {
     const b = result.breakdown;
     if (b.damageFormula === "componentSequence") {
       const componentNames = b.componentNames || [];
-      const componentDetails = Object.entries(result.components || {}).map(([key, component], index) => `<h4>${esc(componentNames[index] || component.componentName || key)}</h4>${damageBreakdown(component, "同一対象・各成分")}`).join("");
+      const componentDetails = Object.entries(result.components || {}).map(([key, component], index) => `<h4>${esc(componentNames[index] || component.componentName || key)}</h4>${damageBreakdown(component, "同一対象・各成分", true)}`).join("");
       return `<section class="hsr-target-breakdown"><h4>構成成分と合計</h4><p class="hsr-formula-note">${esc(b.condition || "各成分を個別計算し、同一対象の結果を合算します。")}</p>${componentDetails}<h4>${esc(b.totalLabel || "スキル本体＋追加攻撃の合計")}</h4>${damageValues(result)}</section>`;
     }
     if (b.damageFormula === "normalAndBreak") {
@@ -1835,6 +1857,7 @@
     if (b.damageFormula === "breakComponent" && b.kind === "break") return '<section class="hsr-target-breakdown"><h4>天賦追加撃破・会心不可</h4><dl>'+[['最終戦闘撃破特効（%）',b.finalBreakEffect],['消費チャージ',b.charge],['天賦追加撃破倍率（%）',b.coefficient],['撃破基礎値',b.base],['属性・攻撃倍率',b.multiplier],['撃破特効倍率',b.effect],['撃破与ダメージ倍率',b.breakDamageMultiplier],['最大靭性倍率',b.toughnessScale],['防御倍率',b.defense],['耐性倍率',b.resistance],['被ダメージ倍率',b.vulnerability],['追加撃破ダメージ',b.value]].map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+detailNumber(v)+'</dd></div>').join('')+'</dl>'+damageValues(result)+'</section>';
     if (b.damageFormula === "breakComponent") return '<section class="hsr-target-breakdown"><h4>本人の超撃破・会心不可</h4><dl>'+[['最終戦闘撃破特効（%）',b.finalBreakEffect],['発生倍率',b.conversionMultiplier],['基礎削靭（通常攻撃10の単位）',b.toughnessDamage],['撃破効率倍率',b.breakEfficiency],['有効削靭',b.effectiveToughnessDamage],['防御倍率',b.defense],['耐性倍率',b.resistance],['被ダメージ倍率',b.vulnerability],['超撃破ダメージ',b.value]].map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+detailNumber(v)+'</dd></div>').join('')+'</dl>'+damageValues(result)+'</section>';
     if (b.damageFormula === "resolvedDamageMultiplier") return '<section class="hsr-target-breakdown"><h4>'+(b.dataOwnerId==='1410'?'本人の事前DoT起爆':'事前DoTの起爆')+'</h4><p>'+esc(b.condition)+'</p><dl><div><dt>所有DoTの補正済み1回分</dt><dd>'+detailNumber(b.referenceValue)+'</dd></div><div><dt>起爆倍率</dt><dd>'+detailNumber(b.multiplier)+'%</dd></div></dl>'+damageValues(result)+'</section>';
+    if(b.damageFormula==='trueDamage'&&b.sourceKind==='ahaInstantNonTrueDamage')return `<section class="hsr-target-breakdown"><h4>同じ愉悦スキルの記録確定成分</h4><p>この成分自体は会心しません。本体の会心によって参照記録が変わるため、各場合を分けて表示します。防御・耐性等は再適用せず、事前記録値自体は合計に足しません。</p><dl><div><dt>本体発動前の確定以外の実ダメージ記録</dt><dd>${detailNumber(b.recordBefore)}</dd></div>${[['nonCrit','本体が非会心の場合の記録'],['crit','本体が会心の場合の記録'],['expected','本体の期待値に対応する記録']].map(([key,label])=>`<div><dt>${label}</dt><dd>${detailNumber(b.recordAfter[key])}</dd></div>`).join('')}<div><dt>確定成分への変換倍率</dt><dd>20%</dd></div></dl>${damageValues(result)}</section>`;
     if (b.damageFormula === "trueDamage") return `<section class="hsr-target-breakdown"><h4>敵1体・追加確定ダメージ1回分</h4><dl><div><dt>${b.sourceKind === "cipherRecord" ? "この成分が参照する記録値" : "参照元ダメージ（補正適用後）"}</dt><dd>${detailNumber(b.originalDamage)}</dd></div><div><dt>確定ダメージ倍率</dt><dd>${detailNumber(b.multiplierPercent)}%</dd></div><div><dt>追加確定ダメージ</dt><dd>${detailNumber(result.nonCrit)}</dd></div><div><dt>適用条件</dt><dd>${esc(b.condition)}</dd></div></dl><p>${b.sourceKind === "cipherRecord" ? "記録値 × 確定ダメージ倍率。会心・防御・耐性・与ダメージ等は再適用せず、記録値自体を合計へ足しません。" : "元ダメージ × 確定ダメージ倍率。会心・防御・耐性・与ダメージ・靭性等は再適用しません。元ダメージとの合算は行いません。"}</p>${damageValues(result)}</section>`;
     const row = (label, value) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`;
     const nativeCrit = result.applied.find(item => item.id === "trace:1221:122103:slash-critical-damage");
@@ -1903,6 +1926,8 @@
     const cone=find('lightCones',state.coneId),compatible=cone&&cone.path===character()?.path;
     const notes=[];
     const add=(id,text)=>notes.push(`<li data-hsr-equipment-scope="${id}">${esc(text)}</li>`);
+    if(results.length&&(state.characterId==='1511'||state.party.some(m=>m.characterId==='1511')))add('aha-debt',results.some(x=>x.result?.ahaDebt?.supported)?'負債は別のHP占有状態として各攻撃の内訳へ表示します。単一HP・共有HP/バリアなしの非致死分岐に限定し、死亡・HP段階移行・他キャラ攻撃全般のHP推移は計算対象外です。':state.characterId==='1511'?'アッハの「愉悦の負債」によるHP操作は未計算です。単一HPの対象は補正条件で事前状態を指定するとHP内訳を確認できます。表示する理論攻撃値へ負債HP相当を追加せず、死亡・HP段階変更をまたぐ実ダメージ合計は計算対象外です。':'アッハ編成中の他キャラ攻撃は、負債のHP内訳の計算対象外です。現在の理論攻撃値へ負債HP相当を追加していません。負債のHP内訳はアッハを計算対象にした対応攻撃で確認できます。');
+
     if(compatible&&usesAtk&&state.coneId==='21041'){
       const delta=structuredSourceConditions().find(m=>m.id==='lightCone:21041:battle-ehr-attack-delta');
       add('21041',delta?.activation.unresolved?'ショーの始まり：基準効果命中を確認できないため、戦闘中のATK差分は含みません。基準効果命中を補正条件で入力するか、差分を含む最終ATKを入力してください。':delta?.includedInFinalStats?'ショーの始まり：戦闘中のATK差分は最終ATKへ反映済みとして再加算しません。':'ショーの始まり：入力ATKは装備込み最終値です。現在の効果命中からATK差分を更新する場合は、補正条件でATKに対応する基準効果命中を指定してください。');
@@ -1932,7 +1957,7 @@
   }
 
   function publicAttackNote(attack) {
-    if (attack.id === "151103") return "願力8～10で発動。最初のダメージ前に昇格が成立する想定で計算します。敵1体への全6段です。";
+    if (attack.id === "151103") return "願力8～18（基本枠8＋超過枠10）で発動。最初のダメージ前に昇格が成立する想定で計算します。敵1体への全6段です。";
     if (attack.id === "150301") return "強化前の通常攻撃です。強化通常は別の状態の比較値として表示し、合算しません。";
     if (attack.id === "150310") return "想定：深層学習中・残りチャージ1～3・非愉悦の味方を底本に指定・追加愉悦なしの強化通常です。敵1体分を計算します。回復やSP・EPの変動は含みません。";
     const condition = comparisonCondition(attack);
@@ -2189,7 +2214,7 @@
       return;
     }
     const snapshots=componentSnapshots();
-    const baseRequest = { character: {...snapshots.character,baseStats}, enemy: snapshots.enemy, elation: state.elationInputs, trueDamage: state.trueDamageInputs };
+    const baseRequest = { character: {...snapshots.character,baseStats}, enemy: snapshots.enemy, ahaDebtSnapshot:ahaDebtSnapshotInput(), elation: state.elationInputs, trueDamage: state.trueDamageInputs };
     let results = attacks.map((selected) => {
       const attackEnemy=selected.requiredWeaknessCount?{...baseRequest.enemy,weakness:true,weaknessCount:selected.requiredWeaknessCount}:baseRequest.enemy;
       const request = { ...baseRequest, modifierInputs:state.modifierInputs, character:selected.referenceCharacter || (selected.referenceStats ? {...baseRequest.character,stats:selected.referenceStats}:baseRequest.character), enemy:selected.referenceEnemy || attackEnemy, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, trueDamage:selected.referenceTrueDamage || baseRequest.trueDamage,modifiers: modifiers(selected), breakModifiers: selected.damageFormula === "nativeBreakSequence" ? modifiers({...selected,type:"superBreak",attackType:"superBreak"}) : selected.damageFormula === "normalAndBreak" ? modifiers({...selected,type:"break",attackType:"break"}) : undefined, breakBaseDamage: state.data.breakBaseDamage };

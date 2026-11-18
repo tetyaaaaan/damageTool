@@ -49,8 +49,9 @@ test("Round52 Aha adopted basic, follow-up, ultimate, Emanator rider, and Aha In
             ] : [];
             const input = attackInput(source, level, {
                 modifiers,
+                character: id === "1511021" ? MEMBER : AHA,
                 modifierInputs: id === "151103" ? { "aha-wish": 8 + (level % 3) } : {},
-                attack: id === "1511021" ? { completedReferenceSnapshot: true, ahaEmanatorId: "1511", damageOwnerId: "1511" } : {}
+                attack: id === "1511021" ? { completedReferenceSnapshot: true, ahaEmanatorId: "1502", damageOwnerId: "1502", element: "Physical" } : {}
             });
             input.elation.certifiedBanger = 0; // Zero is a valid CB snapshot.
             input.elation.punchline = id === "151120" ? 40 : 0;
@@ -59,17 +60,17 @@ test("Round52 Aha adopted basic, follow-up, ultimate, Emanator rider, and Aha In
             const componentMultiplier = id === "151103"
                 ? source.elationComponents.reduce((sum, item) => sum + item.count * item.multipliers[level - 1], 0)
                 : source.multipliers[level - 1];
-            const expected = expectedElation(componentMultiplier, AHA, ENEMY, input.elation.punchline, modifiers);
+            const expected = expectedElation(componentMultiplier, input.character, ENEMY, input.elation.punchline, modifiers);
             for (const key of ["nonCrit", "crit", "expected"]) assertClose(result[key], expected[key], `${id} Lv${level} ${key}`);
             if (id === "151103") assert.equal(result.breakdown.certifiedBanger, 0);
         }
     }
 });
 
-test("Round52 Aha Instant ultimate requires Wish 8–10 and all E0 damage actions reject later eidolons", async () => {
+test("Round52 Aha Instant ultimate requires Wish 8–18 and all E0 damage actions reject later eidolons", async () => {
     const { data, engine } = await loadProductionFixture();
     const ultimate = attackOf(data, "151103");
-    for (const wish of [8, 9, 10]) {
+    for (const wish of [8, 9, 10, 11, 17, 18]) {
         const input = attackInput(ultimate, 10, { modifierInputs: { "aha-wish": wish }, modifiers: [
             { id: "aha-e0-crit", category: "critRate", value: 12, enabled: true, applicable: true },
             { id: "aha-e0-def-ignore", category: "defenseIgnore", value: 30, enabled: true, applicable: true }
@@ -77,7 +78,7 @@ test("Round52 Aha Instant ultimate requires Wish 8–10 and all E0 damage action
         const result = engine.calculate(input);
         assert.notEqual(result.supported, false, `Wish ${wish}: ${result.reason || ""}`);
     }
-    for (const wish of [7, 11, 8.5, NaN]) {
+    for (const wish of [7, 19, 8.5, NaN]) {
         const input = attackInput(ultimate, 10, { modifierInputs: { "aha-wish": wish } });
         assert.equal(engine.calculate(input).supported, false, `Wish ${wish} must be outside the verified boundary`);
     }
@@ -102,7 +103,7 @@ test("Round52 Emanator sequence uses the recipient's own final stats and rejects
     const { data, engine } = await loadProductionFixture();
     const rootAttack = attackOf(data, "1511022");
     const own = attackInput(attackOf(data, "151102"), 10);
-    const memberAttack = { ...attackOf(data, "1511021"), traceLevel: 10, multiplier: 20, attackType: "additional", completedReferenceSnapshot: true, ahaEmanatorId: "1502", damageOwnerId: "1502", element: "Fire" };
+    const memberAttack = { ...attackOf(data, "1511021"), traceLevel: 10, multiplier: 20, attackType: "additional", completedReferenceSnapshot: true, ahaEmanatorId: "1502", damageOwnerId: "1502", element: "Physical" };
     const member = { character: structuredClone(MEMBER), enemy: structuredClone(ENEMY), modifiers: [], modifierInputs: {}, elation: { context: "certifiedBanger", certifiedBanger: 0, punchline: 0, merrymake: 0 }, attack: memberAttack };
     const input = { character: structuredClone(AHA), enemy: structuredClone(ENEMY), attack: { ...rootAttack, traceLevel: 10, multiplier: rootAttack.multipliers[9] }, modifierInputs: {}, sequenceComponents: [
         { key: "aha", name: "Aha follow-up", input: own },

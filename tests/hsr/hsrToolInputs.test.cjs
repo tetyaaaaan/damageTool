@@ -5148,3 +5148,36 @@ test('Round51 known unconnected equipment and character scopes preserve per-atta
  assert.ok(app.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==='1800701').name));assert.match(app.node('hsrResults').innerHTML,/data-hsr-equipment-scope="21057"/);
  app.window.HsrTool.applyProfileCharacter(profile('1214'));assert.ok(app.calculate().length);assert.match(app.node('hsrResults').innerHTML,/data-hsr-equipment-scope="character"/);assert.match(app.node('hsrResults').innerHTML,/計算可能の表示は攻撃ごとの対応範囲/);
 });
+
+
+test('Round53 Aha preserves overflow input, shows record branches, and identifies uncalculated HP debt',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data);
+ app.window.HsrTool.applyProfileCharacter({id:'1511',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{hp:6000,atk:3000,def:2000,speed:100,elation:100,critRate:35,critDamage:120,damageBonus:0}});
+ app.node('hsrStat-elation').value='100';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';
+ Object.assign(app.state.modifierInputs,{'aha-wish':18,'elation-certified-banger':40,'aha-prior-non-true-damage':10000});
+ const name=id=>data.attacks.find(a=>a.id===id).name;const rows=app.calculate(),u=rows.find(r=>r.attack?.name===name('151103')),f=rows.find(r=>r.attack?.name===name('1511202'));
+ assert.ok(u);assert.ok(f);assert.equal(app.state.modifierInputs['aha-wish'],18);
+ assert.match(app.node('hsrResults').innerHTML,/本体が会心の場合/);assert.match(app.node('hsrResults').innerHTML,/愉悦本体＋記録確定成分の合計/);assert.match(app.node('hsrResults').innerHTML,/data-hsr-equipment-scope="aha-debt"/);assert.match(app.node('hsrResults').innerHTML,/HP操作は未計算/);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/max="18"/);
+ app.node('hsrStat-elation').handlers.input();const restored=await tool(app.storage,data);assert.equal(restored.state.modifierInputs['aha-wish'],18);const saved=restored.calculate().find(r=>r.attack?.name===name('1511202'));assert.equal(saved.expected,f.expected);
+ restored.state.modifierInputs['aha-wish']=19;const partial=restored.calculate();assert.equal(partial.some(r=>r.attack?.name===name('151103')),false);assert.ok(partial.some(r=>r.attack?.name===name('151101')));
+ restored.window.HsrTool.applyProfileCharacter({id:'1501',level:80,eidolon:0,traces:[{type:'Normal',level:6}],stats:{hp:6000,atk:3000,def:2000,speed:100,elation:100,critRate:35,critDamage:120,damageBonus:0}});restored.state.party=[];restored.calculate();assert.doesNotMatch(restored.node('hsrResults').innerHTML,/data-hsr-equipment-scope="aha-debt"/);
+});
+
+
+test('Round53 single-layer Aha debt is a saved HP sidecar and never another damage component',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data);
+ app.window.HsrTool.applyProfileCharacter({id:'1511',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{hp:6000,atk:3000,def:2000,speed:100,elation:100,critRate:35,critDamage:120,damageBonus:0}});
+ app.node('hsrStat-elation').value='100';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';app.node('hsrEnemyMaxHp').value='1000000';app.node('hsrEnemyHpPercent').value='80';Object.assign(app.state.modifierInputs,{'aha-wish':18,'elation-certified-banger':40,'aha-prior-non-true-damage':10000});
+ const name=data.attacks.find(a=>a.id==='1511202').name,find=instance=>instance.calculate().find(r=>r.attack?.name===name),before=find(app);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/aha-debt-ordinary-target/);assert.match(app.node('hsrConditionList').innerHTML,/aha-debt-prior-percent/);
+ const change=(key,value,checked)=>checked===undefined?app.node('hsrConditionDialog').handlers.input({target:{dataset:{structuredInput:key,structuredStrict:'true'},value:String(value)}}):app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:key},checked}});
+ change('aha-debt-ordinary-target',true,true);let missing=find(app);assert.ok(missing);assert.equal(missing.ahaDebt.supported,false,'unknown prior debt is never assumed zero');
+ change('aha-debt-prior-percent',10);const after=find(app);assert.equal(after.nonCrit,before.nonCrit);assert.equal(after.expected,before.expected);assert.equal(after.ahaDebt.supported,true);assert.equal(after.ahaDebt.maxHp,1000000);assert.match(app.node('hsrResults').innerHTML,/負債のHP内訳・単一HPの敵/);assert.doesNotMatch(app.node('hsrResults').innerHTML,/HP操作は未計算/);
+ assert.ok(Math.abs(after.ahaDebt.branches.nonCrit.hpAfter-(800000-before.nonCrit))<1e-8);assert.ok(Math.abs(after.ahaDebt.branches.nonCrit.debtPercentAfter-(10+25*before.nonCrit/1000000))<1e-8);assert.equal(after.ahaDebt.branches.nonCrit.additionalHitDamage,0);assert.equal(Object.keys(after.components).join(','),'direct,trueDamage');
+ const restored=await tool(app.storage,data),saved=find(restored);assert.equal(restored.state.modifierInputs['aha-debt-ordinary-target'],true);assert.equal(saved.ahaDebt.branches.nonCrit.debtPercentAfter,after.ahaDebt.branches.nonCrit.debtPercentAfter);
+ restored.node('hsrEnemyHpPercent').value='0.001';const boundary=find(restored);assert.ok(boundary);assert.equal(boundary.ahaDebt.supported,false,'only the HP sidecar stops at a death boundary');assert.equal(boundary.expected,before.expected);assert.match(restored.node('hsrResults').innerHTML,/死亡または負債100%/);
+ restored.state.modifierInputs['aha-debt-ordinary-target']=false;assert.equal(find(restored).ahaDebt,undefined,'disabling HP details never toggles passive damage or mutates enemy');
+ restored.window.HsrTool.applyProfileCharacter({id:'1501',level:80,eidolon:0,traces:[{type:'Normal',level:6}],stats:{hp:6000,atk:3000,def:2000,speed:100,elation:100,critRate:35,critDamage:120,damageBonus:0}});restored.state.party[0]={characterId:'1511',level:80,eidolon:0};restored.calculate();assert.match(restored.node('hsrResults').innerHTML,/アッハ編成中の他キャラ攻撃は、負債のHP内訳の計算対象外/);assert.doesNotMatch(restored.node('hsrResults').innerHTML,/単一HPの対象は補正条件で事前状態を指定/);
+
+});
