@@ -5217,3 +5217,29 @@ test('Round54 healing and explicit phase restore use saved independent states wi
  app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/aha-debt-phase-saved-percent/);assert.doesNotMatch(app.node('hsrConditionList').innerHTML,/data-structured-input="aha-debt-event-change"/);
  const restored=await tool(app.storage,data),saved=find(restored);assert.equal(saved.ahaDebt.update.hpAfter,190000);assert.equal(saved.expected,phase.expected);assert.equal(restored.state.modifierInputs['aha-debt-phase-saved-percent'],30);assert.equal(restored.state.modifierInputs['aha-debt-prior-percent'],0,'result never overwrites supplied prior snapshot');
 });
+
+test('Round56 Silver Wolf CB and realized non-sword sequence reach the App and restore independently of Punchline',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1506',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,elation:100}});
+ app.node('hsrStat-elation').value='100';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';
+ const row=(id,instance=app)=>instance.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ assert.ok(!row('1506012'));assert.ok(row('150601'));
+ Object.assign(app.state.modifierInputs,{'elation-certified-banger':40,'silver-wolf-secret-score':240,'silver-wolf-sword-box-count':0,'silver-wolf-no-break-confirmed':1});
+ const common=7535.107*2*(1+200/280)*.36;
+ near(row('1506012').nonCrit,1080+common*.4);const combined=row('150608');assert.ok(combined,app.node('hsrResults').innerHTML);near(combined.nonCrit,common*(3.4+2.7)*1.3);assert.equal(combined.components.shots.attack.hitCount,101);assert.equal(combined.components.boxes.attack.hitCount,3);
+ app.node('hsrPunchline').value='100';near(row('150608').nonCrit,combined.nonCrit,'CB is independent of Punchline');
+ app.state.party[0]={characterId:'1511',level:80,eidolon:0};app.state.modifierInputs['aha-world-active']=false;near(row('150608').expected,combined.expected);
+ app.state.modifierInputs['aha-world-active']=true;assert.ok(!row('150608'),'old score is not silently replaced by ascended cap');app.state.modifierInputs['silver-wolf-secret-score']=360;const on=row('150608');assert.ok(on);near(on.crit,on.nonCrit*2.4);
+ app.node('hsrStat-elation').handlers.input();const restored=await tool(app.storage,data);near(row('150608',restored).expected,on.expected);assert.equal(restored.state.modifierInputs['silver-wolf-secret-score'],360);
+ restored.state.modifierInputs['silver-wolf-sword-box-count']=1;assert.ok(!row('150608',restored));assert.ok(row('150601',restored),'unresolved sword does not block ordinary attack');
+ restored.state.modifierInputs['silver-wolf-sword-box-count']=0;restored.state.party[0].characterId='';assert.ok(!row('150608',restored));restored.state.modifierInputs['silver-wolf-secret-score']=240;near(row('150608',restored).expected,combined.expected);
+});
+
+test('Round56 Hiyu prepared ascension applies to both Ultimate components and saves without affecting Skill',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1505',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,elation:100}});
+ app.node('hsrStat-elation').value='100';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';app.state.party[0]={characterId:'1511',level:80,eidolon:0};Object.assign(app.state.modifierInputs,{'aha-world-active':true,'hiyu-certified-banger':480,'hiyu-prior-vulnerability':true,'hiyu-prior-fox-vulnerability':true});
+ const row=(id,instance=app)=>instance.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name),before=row('1505032'),skill=row('1505022');assert.ok(before);assert.ok(skill);
+ app.state.modifierInputs['hiyu-ascension-next-ultimate-active']=true;const after=row('1505032');assert.ok(after);near(after.nonCrit,before.nonCrit*1.75);near(after.components.direct.nonCrit,before.components.direct.nonCrit*1.75);near(after.components.banger.nonCrit,before.components.banger.nonCrit*1.75);near(row('1505022').nonCrit,skill.nonCrit);
+ app.node('hsrStat-elation').handlers.input();const restored=await tool(app.storage,data);near(row('1505032',restored).expected,after.expected);restored.state.modifierInputs['hiyu-ascension-next-ultimate-active']=false;near(row('1505032',restored).expected,before.expected);
+});

@@ -329,6 +329,12 @@
         if(!present||record.activation.requiredCharacterMaxEidolon!==undefined&&(!Number.isInteger(rank)||rank>record.activation.requiredCharacterMaxEidolon))activation={...activation,active:false,unresolved:false};
       }
 
+      if(record.id==='v47:trace:1513:151329:party-speed'&&activation.active){
+        const others=[...new Set([String(context.characterId),...(context.partyIds||[]).map(String)])].filter(id=>id!==providerContext.providerId);
+        const paths=context.partyPaths||{};
+        if(others.some(id=>id!=='1511'&&(!paths[id]||paths[id]==='Elation')))activation={...activation,active:false,unresolved:true,unresolvedReason:'この昇格SPDは他の愉悦キャラがアッハのみの編成に限定対応です。他の愉悦キャラ/運命不明を含む条件は確認できません。'};
+      }
+
       if (record.source?.kind === "ornament" && record.activation?.reference?.startsWith("provider.")) {
         const count = Number(String(context.ornamentId || "") === String(record.source.id) && !record.target?.excludeSelf)
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;

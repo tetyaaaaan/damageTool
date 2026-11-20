@@ -12,12 +12,12 @@
         "skillId": "150129"
       },
       "name": "「愉悦」昇格1・愉悦スキル倍率",
-      "description": "愉悦スキルの元のダメージ倍率を15%増加。星魂0・昇格効果Lv1のみ。",
+      "description": "愉悦スキルの元のダメージ倍率を50%増加。星魂0・昇格効果Lv1のみ。",
       "category": "multiplierAddition",
       "unit": "percent",
       "value": {
         "kind": "fixed",
-        "fixed": 15
+        "fixed": 50
       },
       "target": {
         "owner": "self",
@@ -36,7 +36,7 @@
         "requiredCharacterMaxEidolon": 0,
         "inputLabel": "「愉悦」の昇格効果が有効",
         "default": false,
-        "conditionText": "固定4.7版の「愉悦」昇格効果Lv1。元の愉悦スキル倍率に15%を乗算。"
+        "conditionText": "固定4.7版の「愉悦」昇格効果Lv1。元の愉悦スキル倍率に50%を乗算。"
       },
       "stacking": {
         "group": "trace:1501:150129:elation-skill-multiplier",
@@ -56,10 +56,10 @@
         "sourceName": "Mar-7th/StarRailRes",
         "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
-        "sourceFile": "character_skills.json:150129.params[0][0]",
+        "sourceFile": "character_skills.json:150129.params[0][4]",
         "gameVersion": "4.7.0",
-        "verifiedAt": "2026-11-18",
-        "scope": "星魂0・愉悦昇格効果Lv1。攻撃ID150120の愉悦スキルのみ。元倍率の15%増加。",
+        "verifiedAt": "2026-11-21",
+        "scope": "星魂0・愉悦昇格効果Lv1。攻撃ID150120の愉悦スキルのみ。元倍率の50%増加。",
         "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
       }
     },
@@ -71,12 +71,12 @@
         "skillId": "150129"
       },
       "name": "「愉悦」昇格1・味方全体の防御無視",
-      "description": "味方がダメージを与える時、敵の防御力を10%無視。星魂0・昇格効果Lv1のみ。",
+      "description": "味方がダメージを与える時、敵の防御力を15%無視。星魂0・昇格効果Lv1のみ。",
       "category": "defenseIgnore",
       "unit": "percent",
       "value": {
         "kind": "fixed",
-        "fixed": 10
+        "fixed": 15
       },
       "target": {
         "owner": "partyAll",
@@ -113,10 +113,10 @@
         "sourceName": "Mar-7th/StarRailRes",
         "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
-        "sourceFile": "character_skills.json:150129.params[0][1]",
+        "sourceFile": "character_skills.json:150129.params[0][0]",
         "gameVersion": "4.7.0",
-        "verifiedAt": "2026-11-18",
-        "scope": "星魂0・愉悦昇格効果Lv1。味方全体の攻撃に10%防御無視。",
+        "verifiedAt": "2026-11-21",
+        "scope": "星魂0・愉悦昇格効果Lv1。味方全体の攻撃に15%防御無視。",
         "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
       }
     },
@@ -232,6 +232,10 @@
         "verifiedAt": "2026-11-18",
         "scope": "星魂0・愉悦昇格効果Lv1。本人の会心ダメージ+40%。",
         "verification": "tests/hsr/hsrAscensionRound52.test.cjs"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "silver-wolf-ascension-cd-in-final",
+        "inputLabel": "銀狼LV.999の昇格会心ダメージ40%を最終値へ反映済み"
       }
     },
     {
@@ -264,7 +268,7 @@
         "requiredCharacterMaxEidolon": 0,
         "inputLabel": "「愉悦」の昇格効果が有効",
         "default": false,
-        "conditionText": "固定4.7版の「愉悦」昇格効果Lv1で指定された編成条件を満たす。"
+        "conditionText": "固定4.7・本人以外の愉悦キャラがアッハのみの編成。追加の愉悦キャラ/運命不明を含む場合は局所保留。"
       },
       "stacking": {
         "group": "trace:1513:151329:party-speed",
@@ -278,7 +282,7 @@
       "support": {
         "status": "calculable",
         "verified": true,
-        "reason": "4.7固定版の昇格スキル151329第1段階。"
+        "reason": "同版JP151329の明示した編成条件に限定。通常戦闘の追加愉悦同居時の内部フラグは根拠不足。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",
@@ -832,6 +836,69 @@
       "finalStatsInclusion": {
         "inputKey": "aha:emanator-elation-in-final",
         "inputLabel": "愉悦の使令・対象の愉悦度を最終値へ反映済み"
+      }
+    },
+    {
+      "id": "v47:trace:1505:150529:next-ultimate-multiplier",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1505",
+        "skillId": "150529"
+      },
+      "name": "大爆笑480累計・次の必殺倍率",
+      "description": "累計大爆笑480で既に準備された次必殺の元倍率+75%。今回の必殺本体と、その必殺に伴う天賦愉悦だけ。現在の褒美480下限とは別状態。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 75
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [],
+        "attackIds": [
+          "150503",
+          "1505042"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "hiyu-ascension-next-ultimate-active",
+        "requiredCharacterId": "1511",
+        "requiredCharacterMaxEidolon": 0,
+        "inputLabel": "累計大爆笑480による次必殺強化が準備済み",
+        "default": false,
+        "conditionText": "アッハE0の昇格中で、累計大爆笑480による次必殺強化が攻撃前に準備済み。今回の必殺で消費する状態。",
+        "requiredToggleKey": "aha-world-active"
+      },
+      "stacking": {
+        "group": "v47:hiyu:next-ultimate-original-multiplier",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "attackMultiplier",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7の元倍率+75%。消費済み状態/昇格OFF/アッハ不在では適用しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "sourceFile": "150529.params[0][0,3]",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-21",
+        "scope": "E0昇格Lv1・準備済み状態の必殺本体と同必殺の天賦愉悦。",
+        "verification": "tests/hsr/hsrAscensionRound56.test.cjs",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_Evanescia_00_Ability.json blob59beceefd14eb60633ffd426ad91353f6adfc614 Skill03_Phase02/NextUltraBoost/UltraBoostActive"
       }
     }
   ]

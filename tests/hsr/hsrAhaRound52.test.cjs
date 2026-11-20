@@ -155,7 +155,7 @@ test("Round52 finale adds 20% of the prior record and the current Aha body once,
     }
 });
 
-test("Round52 Sparxie Elation skill ascension changes the original multiplier by 15% and keeps party DEF ignore separate", async () => {
+test("Round52 Sparxie Elation skill ascension increases the original multiplier by 50% and keeps party DEF ignore separate", async () => {
     const { data, engine } = await loadProductionFixture();
     const attack = attackOf(data, "150120");
     const activeIds = ["1511", "1501"];
@@ -202,12 +202,12 @@ test("Round52 Sparxie Elation skill ascension changes the original multiplier by
     const onCandidates = candidates(true);
     const multiplier = onCandidates.find((item) => item.id === "v47:trace:1501:150129:elation-skill-multiplier");
     const defense = onCandidates.find((item) => item.id === "v47:trace:1501:150129:party-defense-ignore");
-    assert.equal(multiplier.value, 15);
-    assert.equal(defense.value, 10);
+    assert.equal(multiplier.value, 50);
+    assert.equal(defense.value, 15);
     const active = engine.calculate(make(onCandidates));
     assert.notEqual(active.supported, false, active.reason || "");
-    const activeExpected = expectedElation(attack.multipliers[9] * 1.15, baselineInput.character, ENEMY, 20, [defense]);
+    const activeExpected = expectedElation(attack.multipliers[9] * 1.5, baselineInput.character, ENEMY, 20, [defense]);
     for (const key of ["nonCrit", "crit", "expected"]) assertClose(active[key], activeExpected[key], `active Sparxie ${key}`);
-    assertClose(active.breakdown.multiplierPercent, attack.multipliers[9] * 1.15, "only the original Elation multiplier receives the 15% increase");
-    assertClose(active.breakdown.defenseIgnorePercent, 10, "party DEF ignore remains a separate modifier");
+    assertClose(active.breakdown.multiplierPercent, attack.multipliers[9] * 1.5, "only the original Elation multiplier receives the 50% increase");
+    assertClose(active.breakdown.defenseIgnorePercent, 15, "party DEF ignore remains a separate modifier");
 });

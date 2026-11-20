@@ -4,6 +4,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const runtime = require("../../games/js/hsrModifierRuntime.js");
 const records = require("../../games/hsr/data/calc/modifiers-v47-round52.json").modifiers;
+const catalog = require("../../games/hsr/data/catalog.json");
 
 const context = (characterId, extra = {}) => ({
   characterId,
@@ -26,7 +27,7 @@ function candidate(id, characterId, attack, active, extra = {}) {
 test("Round52 Sparxie multiplier ascension is gated, proportional, and limited to her Elation Skill", () => {
   const id = "v47:trace:1501:150129:elation-skill-multiplier";
   const record = records.find((item) => item.id === id);
-  assert.equal(record.value.fixed, 15, "percent of the original multiplier");
+  assert.equal(record.value.fixed, 50, "percent increase to the original multiplier");
   assert.deepEqual(record.target.attackIds, ["150120"]);
   const skill = { id: "150120", type: "elation", element: "Imaginary" };
   const other = { id: "150121", type: "elation", element: "Imaginary" };
@@ -35,7 +36,7 @@ test("Round52 Sparxie multiplier ascension is gated, proportional, and limited t
   const active = candidate(id, "1501", skill, true);
   assert.equal(active.enabled, true);
   assert.equal(active.applicable, true);
-  assert.equal(active.value, 15);
+  assert.equal(active.value, 50);
   assert.equal(candidate(id, "1501", other, true).applicable, false);
   assert.equal(candidate(id, "1502", skill, true), undefined, "self-only source cannot be borrowed by another character");
   const absentAha = candidate(id, "1501", skill, true, { partyIds: [], partyEidolons: {} });
@@ -44,10 +45,27 @@ test("Round52 Sparxie multiplier ascension is gated, proportional, and limited t
   assert.equal(higherAha.enabled, false, "only the E0 Aha snapshot is supported");
 });
 
+test("Round52 Sparxie ascension values bind to the matching pinned params indices", () => {
+  const skill = catalog.characters.find((item) => item.id === "1501")?.skills?.find((item) => item.id === "150129");
+  assert.ok(skill, "fixed catalog includes Sparxie's ascension skill");
+  assert.equal(skill.sourceCommit, "03907e798b46f9eb109a1f882055cdf49ce3d374");
+  assert.match(skill.description, /本来の倍率の#5\[i\]%分アップ/);
+  assert.match(skill.description, /敵の防御力を#1\[i\]%無視/);
+  assert.equal(skill.params[0][4], 0.5, "#5 is the 50% original-multiplier increase");
+  assert.equal(skill.params[0][0], 0.15, "#1 is the 15% defense ignore");
+
+  const multiplier = records.find((item) => item.id === "v47:trace:1501:150129:elation-skill-multiplier");
+  const defense = records.find((item) => item.id === "v47:trace:1501:150129:party-defense-ignore");
+  assert.equal(multiplier.provenance.sourceFile, "character_skills.json:150129.params[0][4]");
+  assert.equal(defense.provenance.sourceFile, "character_skills.json:150129.params[0][0]");
+  assert.equal(multiplier.value.fixed, skill.params[0][4] * 100);
+  assert.equal(defense.value.fixed, skill.params[0][0] * 100);
+});
+
 test("Round52 party defense-ignore ascensions apply only when the world toggle is active", () => {
-  for (const [id, provider] of [
-    ["v47:trace:1501:150129:party-defense-ignore", "1501"],
-    ["v47:trace:1505:150529:party-defense-ignore", "1505"]
+  for (const [id, provider, expected] of [
+    ["v47:trace:1501:150129:party-defense-ignore", "1501", 15],
+    ["v47:trace:1505:150529:party-defense-ignore", "1505", 10]
   ]) {
     const attack = { id: "ally-basic", type: "normal", element: "Physical" };
     const off = candidate(id, "1001", attack, false, { partyIds: ["1511", provider] });
@@ -57,7 +75,7 @@ test("Round52 party defense-ignore ascensions apply only when the world toggle i
     assert.ok(on, `${provider} row should be selected for an ally attack`);
     assert.equal(on.enabled, true);
     assert.equal(on.applicable, true);
-    assert.equal(on.value, 10);
+    assert.equal(on.value, expected);
     assert.equal(on.providerId, provider);
   }
 });
@@ -94,7 +112,10 @@ test("Round52 Silver Wolf 999 self CRIT DMG and Summer Aventurine party SPD are 
   assert.equal(candidate(silverId, "1502", { id: "150620", type: "elation", element: "Quantum" }, true), undefined);
 
   const speedId = "v47:trace:1513:151329:party-speed";
-  const speed = candidate(speedId, "1001", { id: "ally-basic", type: "normal", element: "Physical" }, true, { partyIds: ["1511", "1513"] });
+  const speed = candidate(speedId, "1001", { id: "ally-basic", type: "normal", element: "Physical" }, true, {
+    partyIds: ["1511", "1513"],
+    partyPaths: { "1001": "Hunt", "1511": "Elation", "1513": "Elation" }
+  });
   assert.ok(speed);
   assert.equal(speed.enabled, true);
   assert.equal(speed.value, 15);
@@ -103,7 +124,7 @@ test("Round52 Silver Wolf 999 self CRIT DMG and Summer Aventurine party SPD are 
 
 test("Round52 ascension rows use the first effect tier and require Aha E0", () => {
   const ascensions = records.filter((item) => item.source.kind === "trace" && ["1501", "1505", "1506", "1513"].includes(item.source.id));
-  assert.equal(ascensions.length, 5);
+  assert.equal(ascensions.length, 6, "Hiyu's next-Ultimate multiplier is now a sixth verified ascension row");
   for (const record of ascensions) {
     assert.match(record.source.skillId, /29$/, "the effect comes from the ascension skill record");
     assert.equal(record.activation.requiredCharacterId, "1511");
@@ -111,8 +132,8 @@ test("Round52 ascension rows use the first effect tier and require Aha E0", () =
     assert.equal(record.provenance.sourceCommit, "03907e798b46f9eb109a1f882055cdf49ce3d374");
     assert.equal(record.support.verified, true);
   }
-  assert.equal(ascensions.find((item) => item.id === "v47:trace:1501:150129:elation-skill-multiplier").value.fixed, 15);
-  assert.equal(ascensions.find((item) => item.id === "v47:trace:1501:150129:party-defense-ignore").value.fixed, 10);
+  assert.equal(ascensions.find((item) => item.id === "v47:trace:1501:150129:elation-skill-multiplier").value.fixed, 50);
+  assert.equal(ascensions.find((item) => item.id === "v47:trace:1501:150129:party-defense-ignore").value.fixed, 15);
   assert.equal(ascensions.find((item) => item.id === "v47:trace:1505:150529:party-defense-ignore").value.fixed, 10);
   assert.equal(ascensions.find((item) => item.id === "v47:trace:1506:150629:crit-damage").value.fixed, 40);
   assert.equal(ascensions.find((item) => item.id === "v47:trace:1513:151329:party-speed").value.fixed, 15);
@@ -187,7 +208,7 @@ test("Round52 provider release and final-stat inclusion use the existing candida
   }, { "aha-world-active": true })[0];
   assert.equal(released.providerId, "1501");
   assert.equal(released.enabled, true);
-  assert.equal(released.value, 10);
+  assert.equal(released.value, 15);
 
   const crit = records.find((item) => item.id === "v47:aha:world-critRate");
   const baseContext = { characterId: "1511", eidolon: 0, partyIds: [], partyEidolons: {}, stats: { critRate: 20 }, traceLevelFor: () => 1 };

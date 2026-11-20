@@ -198,8 +198,8 @@
       $("hsrPunchlineHelp").textContent="この爆笑ネタはアッハタイムだけに使用。スキル追加は補正条件の本人の爆笑の褒美を参照します。A2のATK由来愉悦度とA4会心率を最終値へ1回含めてください。ATK支援を追加計算する場合、この愉悦結果は再換算せず除外します。上笑なしは0。";
     }
     if(char?.id==='1506'){
-      $('hsrElationScope').textContent='銀狼LV.999・Lv80/E0・事前無敵プレイヤー/スコア240・未撃破の敵1体への愉悦6段。';
-      $('hsrPunchlineHelp').textContent='現在の爆笑ネタを使用。スコア由来会心とSPD由来愉悦は最終値へ一度含めてください。スコア240上限の比較で、SSS供給箱・強化通常の合計や資源更新は含みません。';
+      $('hsrElationScope').textContent='銀狼LV.999・Lv80/E0・未撃破の敵1体。通常/スキル追加愉悦と、CB変換強化通常（スコア上限・非剣SSS3箱）を別に比較します。';
+      $('hsrPunchlineHelp').textContent='現在の爆笑ネタを使用。スコア由来会心とSPD由来愉悦は最終値へ一度含めてください。愉悦6段は従来のスコア240固定。強化通常は全ヒット未撃破を確認し、スコア上限240（昇格中360）・実現した剣箱0に限定。剣箱、途中死亡、資源自動更新は含みません。';
     }
     if(char?.id==='1501'){
       $("hsrElationScope").textContent='火花Lv80/E0・未撃破の敵1体。通常アッハタイム21段と、本人CBによる強化通常/必殺の追加愉悦を別に比較します。';
@@ -1175,7 +1175,7 @@
   }
 
   function comparisonReferenceControls() {
-    if (["1414","1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415","1413","1407","8007","8008","1508","1510","1503","1511"].includes(state.characterId) && state.conditionTab === "軌跡") {
+    if (["1414","1408","1406","1321","1410","1314","1504","8009","8010","1317","1501","1502","1409","1415","1413","1407","8007","8008","1508","1510","1503","1511","1506"].includes(state.characterId) && state.conditionTab === "軌跡") {
       const inputs = new Map(availableAttacks().flatMap(a => a.numericModifierInputs || []).filter(spec => spec.inputKey !== 'rappa-consumed-charge' && (!spec.inputKey.startsWith('ocean-foreign-original:')||state.party.some(m=>m.characterId===spec.inputKey.split(':')[1]&&m.eidolon===0)) && !conditionReferenceInputs.has('stack:'+spec.inputKey)).map(spec => [spec.inputKey,spec]));
       return (state.characterId==='1410'?'<p class="genshin-help">海洋の他所有者DoTは編成中のE0付与者だけを対象にします。各入力はその所有者のATK・属性・防御/耐性・与ダメージ等を反映した非会心1回分です。未付与は0、未入力は当該合計のみ停止します。本人4種へ同じDoTを重複入力しないでください。黒天のアーカナ・撃破DoT・装備由来DoT・領域の追加発生はこの合計に含みません。</p>':'') + (state.characterId === '1408' ? '<p class="genshin-help">壊傷1～3層はスキルLv1～10、4層はLv1～6・10のみ対応します。4層×Lv7～9だけを対象外とし、他の攻撃は計算できます。世負いの炎付加は物理攻撃と別に炎与ダメージ・敵炎耐性を指定します。超過火種の会心ダメージを最終CDへ一度含め、形態ATKとA6は既存の算入済み指定で重複を避けてください。</p>' : '') + (state.characterId === "1314" ? '<p class="genshin-help">追撃の質草は、ダメージ参照時点で有効な層数を下の既存入力で指定してください。今回の獲得5層を自動では加算しません。</p>' : '') + [...inputs.values()].map(spec => `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(spec.label)}</strong><small>この成分が参照する時点の値を指定します。未入力を最大値に置き換えません。</small></span><input type="number" class="input_num" data-structured-input="${esc(spec.inputKey)}" data-structured-strict="true" min="${spec.minimum}" max="${spec.maximum}" step="${spec.integer ? 1 : 'any'}" value="${Number.isFinite(state.modifierInputs[spec.inputKey]) ? state.modifierInputs[spec.inputKey] : ''}"></label>`).join('');
     }
@@ -1286,7 +1286,7 @@
   function modifierTargetsCalculation(item, attack) {
     if(['1503081','1503080','150308','150320'].includes(attack.id)&&(item.category==='progressiveTakenDamage'||['statPercent','statFlat'].includes(item.category)&&item.stat==='def'))return true;
     if(state.characterId==='1402'&&!attack.requiresIndependentLaftra&&['statFlat','statPercent'].includes(item.category)&&item.stat==='speed')return true;
-    if(attack.id==='150621'&&(item.category==='progressiveTakenDamage'||['critRate','critRateOverride'].includes(item.category)||['statFlat','statPercent'].includes(item.category)&&item.stat==='speed'))return true;
+    if(['150621','1506041','1506042','1506081','1506082'].includes(attack.id)&&(item.category==='progressiveTakenDamage'||['critRate','critRateOverride'].includes(item.category)||['statFlat','statPercent'].includes(item.category)&&item.stat==='speed'))return true;
     if (attack.fixedCritStats && ["critRate","critRateOverride","critDamage"].includes(item.category)) return false;
     if (attack.damageFormula === "trueDamage") return false;
     if (state.characterId === "1205" && attack.type === "normal" && item.activation?.inputKey === "blade-hellscape-active") return false;
@@ -1295,7 +1295,7 @@
     if (attack.id === "1151201") return ["trace:1512:151204:fever-defense-ignore", "trace:1512:1151203:songbirds-vulnerability"].includes(item.id);
     // Match the existing engines' accepted categories; this only scopes validation/application.
     if (["8009041","8010041","800920","801020","1501041","1501042","150120"].includes(attack.id) && ((["statPercent","statFlat"].includes(item.category) && item.stat === "atk") || item.category === "progressiveTakenDamage")) return true;
-    if (attack.damageFormula === "elation") return ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"].includes(item.category) || attack.id==='150120'&&item.id==='v47:trace:1501:150129:elation-skill-multiplier';
+    if (attack.damageFormula === "elation") return ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"].includes(item.category) || attack.id==='150120'&&item.id==='v47:trace:1501:150129:elation-skill-multiplier'||attack.id==='1505042'&&item.id==='v47:trace:1505:150529:next-ultimate-multiplier';
     if (["break", "superBreak"].includes(attack.type)) return ["breakEffect", "breakDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage", ...(attack.type === "superBreak" ? ["breakEfficiency", "superBreakDamage"] : [])].includes(item.category);
     if ((attack.canCrit === false || attack.type === "dot") && ["critRate", "critRateOverride", "critDamage", "critTakenDamage"].includes(item.category)) return false;
     if (["statFlat", "statPercent"].includes(item.category) || item.requiredBaseStat) {
@@ -1335,6 +1335,11 @@
   }
 
   function resolvedAttack(selected) {
+    if(selected.id==='150608'&&selected.damageFormula==='componentSequence'&&Array.isArray(selected.damageComponents)){
+      const level=state.traceLevels.normal,parts=selected.damageComponents.map(d=>resolvedAttack(state.data.attacks.find(a=>a.id===d.attackId)));
+      return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:'enhancedNormal',ultimateTraceLevel:state.traceLevels.ultimate,sequenceAttacks:parts,traceLevelLabel:`通常Lv${level}＋必殺Lv${state.traceLevels.ultimate}`};
+    }
+
     if (selected.characterId==='1511') {
       const level=state.traceLevels[selected.traceKey],base={...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type};
       if(selected.id==='1511021')return {...base,...ahaEmanatorSnapshot()};
@@ -1558,7 +1563,7 @@
       const body=state.data.attacks.find(a=>a.id==="1509051"),wind=supplementalAttacks().find(a=>a.sourceModifierId==="trace:1509:150905:saber-wind-followup"),level=state.traceLevels.talent;
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:"followUp",sequenceAttacks:body&&wind?[resolvedAttack(body),{...wind,characterId:"1014",sourceSkillId:"150905",damageFormula:"statMultiplier"}]:[],referenceIssue:wind?.referenceIssue || (!wind?"セイバーを編成し、独立した完成済み戦闘値と敵の風耐性を入力してください。":""),referenceCondition:wind?.referenceCondition || {id:"party-reference:1014",tab:"軌跡"}};
     }
-    if (["1505022","1505032","1505044","1513022","1513032","8009022","8010022","1501082","1501032","1502012"].includes(selected.id) && selected.damageFormula === "componentSequence") {
+    if (["1506012","1506022","1505022","1505032","1505044","1513022","1513032","8009022","8010022","1501082","1501032","1502012"].includes(selected.id) && selected.damageFormula === "componentSequence") {
       const prior=state.modifierInputs["hiyu-prior-vulnerability"]===true || state.modifierInputs["hiyu-prior-fox-vulnerability"]===true;
       const sequenceAttacks=selected.damageComponents.map(d=>{
         const source=state.data.attacks.find(a=>a.id===d.attackId && a.characterId===selected.characterId);
@@ -1568,7 +1573,7 @@
       }).filter(Boolean);
       const hasOtherElation=state.party.some(m=>String(m.characterId)!==String(state.characterId) && find("characters",m.characterId)?.path==="Elation");
       const level=state.traceLevels[selected.traceKey];
-      return {...selected,hasOtherElation,sequenceAttacks,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,traceLevelLabel:`本体Lv${level}＋天賦Lv${state.traceLevels.talent}`};
+      return {...selected,...(selected.characterId==="1506"?{talentTraceLevel:state.traceLevels.talent}:{}),hasOtherElation,sequenceAttacks,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:selected.type,traceLevelLabel:`本体Lv${level}＋天賦Lv${state.traceLevels.talent}`};
     }
     if (["1005029","1005039","11005029","11005039","11005049"].includes(selected.id) && selected.damageFormula === "componentSequence") {
       const sequenceAttacks=selected.damageComponents.map((d,i)=>{
@@ -1883,6 +1888,7 @@
     const components = b.elationComponents;
     const scaling = isElation
       ? row("Lv80の愉悦基礎値 × 攻撃倍率", `${detailNumber(b.levelBase)} × ${detailNumber(b.multiplierPercent)}%`)
+        + (b.skill11BaseMultiplier > 1 ? row("シークレットスコアの基礎倍率", "×"+detailNumber(b.skill11BaseMultiplier)) : "")
         + row("愉悦度", `${detailNumber(b.elationPercent)}%／×${detailNumber(b.elationMultiplier)}`)
         + (b.minimumCertifiedBanger ? row("入力した褒美／必殺技の参照下限", `${detailNumber(b.inputCertifiedBanger)}／${detailNumber(b.minimumCertifiedBanger)}`) : "")
         + row(b.punchlineSource === "certifiedBanger" ? "爆笑の褒美（攻撃時点）" : b.punchlineSource === "fixedTalent" ? "爆笑ネタ（天賦固定値）" : "爆笑ネタ（攻撃時点）", `${detailNumber(b.punchline)}／×${detailNumber(b.punchlineMultiplier)}`)

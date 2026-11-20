@@ -1,0 +1,524 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "v47-silverwolf999-round56",
+  "overrides": [
+    {
+      "id": "1506041",
+      "characterId": "1506",
+      "sourceSkillId": "150604",
+      "name": "私がいればヌルゲー・通常後の追加愉悦",
+      "element": "Imaginary",
+      "type": "elation",
+      "traceKey": "talent",
+      "multipliers": [
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32.5,
+        35,
+        37.5,
+        40
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7の本体後の別ヒット。CBと完成済み最終値を指定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-21",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 AbilityList[1]/[3] ElationEchoPoint後続ヒット",
+        "verification": "tests/hsr/hsrSilverwolf999Round56.test.cjs",
+        "sourceFile": "150604.params[0..9][2]"
+      },
+      "calculationNote": "Lv80/E0・未撃破の敵1体・状態一定。本人の爆笑/大爆笑の褒美1～10000。スコア由来CR/CDとSPD由来愉悦は最終入力へ一度含めます。元の通常/スキル倍率へ加えず別式で計算。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ]
+    },
+    {
+      "id": "1506012",
+      "characterId": "1506",
+      "sourceSkillId": "150601",
+      "name": "鉄拳制裁！・本体＋追加愉悦",
+      "element": "Imaginary",
+      "type": "normal",
+      "traceKey": "normal",
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "150601",
+          "name": "本体の通常ダメージ"
+        },
+        {
+          "key": "banger",
+          "attackId": "1506041",
+          "name": "本人の追加愉悦"
+        }
+      ],
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7の本人本体と直後のCB追加を同じ事前状態から合算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-21",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 AbilityList[1]/[3] ElationEchoPoint後続ヒット",
+        "verification": "tests/hsr/hsrSilverwolf999Round56.test.cjs",
+        "sourceFile": "150601;150604.params"
+      },
+      "calculationNote": "通常の本体と天賦Lvによる追加愉悦を別計算して合算。CB未入力は推定せずこの合計だけ停止。途中のスコア/最終値変化は含めません。"
+    },
+    {
+      "id": "1506042",
+      "characterId": "1506",
+      "sourceSkillId": "150604",
+      "name": "私がいればヌルゲー・スキル後の追加愉悦",
+      "element": "Imaginary",
+      "type": "elation",
+      "traceKey": "talent",
+      "multipliers": [
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32.5,
+        35,
+        37.5,
+        40
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7の本体後の別ヒット。CBと完成済み最終値を指定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-21",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 AbilityList[1]/[3] ElationEchoPoint後続ヒット",
+        "verification": "tests/hsr/hsrSilverwolf999Round56.test.cjs",
+        "sourceFile": "150604.params[0..9][2]"
+      },
+      "calculationNote": "Lv80/E0・未撃破の敵1体・状態一定。本人の爆笑/大爆笑の褒美1～10000。スコア由来CR/CDとSPD由来愉悦は最終入力へ一度含めます。元の通常/スキル倍率へ加えず別式で計算。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ]
+    },
+    {
+      "id": "1506022",
+      "characterId": "1506",
+      "sourceSkillId": "150602",
+      "name": "Shootモードオン・本体＋追加愉悦",
+      "element": "Imaginary",
+      "type": "skill",
+      "traceKey": "skill",
+      "multipliers": [
+        80,
+        88,
+        96,
+        104,
+        112,
+        120,
+        130,
+        140,
+        150,
+        160
+      ],
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "damageComponents": [
+        {
+          "key": "direct",
+          "attackId": "150602",
+          "name": "本体の通常ダメージ"
+        },
+        {
+          "key": "banger",
+          "attackId": "1506042",
+          "name": "本人の追加愉悦"
+        }
+      ],
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7の本人本体と直後のCB追加を同じ事前状態から合算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-21",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 AbilityList[1]/[3] ElationEchoPoint後続ヒット",
+        "verification": "tests/hsr/hsrSilverwolf999Round56.test.cjs",
+        "sourceFile": "150602;150604.params"
+      },
+      "calculationNote": "通常の本体と天賦Lvによる追加愉悦を別計算して合算。CB未入力は推定せずこの合計だけ停止。途中のスコア/最終値変化は含めません。"
+    },
+    {
+      "id": "1506081",
+      "characterId": "1506",
+      "sourceSkillId": "150608",
+      "name": "ウルフロードタイム・CB変換100段＋最後撃",
+      "element": "Imaginary",
+      "type": "elation",
+      "traceKey": "normal",
+      "multipliers": [
+        170,
+        204,
+        238,
+        272,
+        306,
+        340
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 101,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7の本体後の別ヒット。CBと完成済み最終値を指定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-21",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 Skill11 CB分岐/100段/最後撃、Item2/Item3、OnBeforeHitAll基礎倍率",
+        "verification": "tests/hsr/hsrSilverwolf999Round56.test.cjs",
+        "sourceFile": "150608.params[0..5][0,2,3,4,5,6,7];150603.params[0..9][2];150629.params[0][0]"
+      },
+      "calculationNote": "CB所持・事前無敵・事前スコア上限240（昇格中360）・敵1体・補正一定。100段と最後撃を愉悦へ変換。スコア2層の基礎倍率×1.3。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-secret-score",
+          "label": "銀狼LV.999の事前シークレットスコア",
+          "minimum": 0,
+          "maximum": 360,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-sword-box-count",
+          "label": "今回実現した剣箱の数（0のみ計算対応）",
+          "minimum": 0,
+          "maximum": 3,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-no-break-confirmed",
+          "label": "全ヒットで弱点撃破が発生しない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        }
+      ],
+      "hidden": true,
+      "silverWolfSkill11": true,
+      "elationComponents": [
+        {
+          "name": "100段の1段分",
+          "count": 100,
+          "multipliers": [
+            1.2,
+            1.44,
+            1.68,
+            1.92,
+            2.16,
+            2.4
+          ]
+        },
+        {
+          "name": "最後撃",
+          "count": 1,
+          "multipliers": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1506082",
+      "characterId": "1506",
+      "sourceSkillId": "150603",
+      "name": "ウルフロードタイム・実現した非剣SSS3箱",
+      "element": "Imaginary",
+      "type": "elation",
+      "traceKey": "ultimate",
+      "multipliers": [
+        135,
+        148.5,
+        162,
+        175.5,
+        189,
+        202.5,
+        219.36,
+        236.25,
+        253.14,
+        270
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 3,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7の本体後の別ヒット。CBと完成済み最終値を指定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-21",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 Skill11 CB分岐/100段/最後撃、Item2/Item3、OnBeforeHitAll基礎倍率",
+        "verification": "tests/hsr/hsrSilverwolf999Round56.test.cjs",
+        "sourceFile": "150608.params[0..5][0,2,3,4,5,6,7];150603.params[0..9][2];150629.params[0][0]"
+      },
+      "calculationNote": "実現した箱3個がすべてエッグ/ビーンである事前指定。各箱の共通愉悦を必殺Lvで計算。剣の確定成分・外部反応ダメージは含めない。スコア2層×1.3。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-secret-score",
+          "label": "銀狼LV.999の事前シークレットスコア",
+          "minimum": 0,
+          "maximum": 360,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-sword-box-count",
+          "label": "今回実現した剣箱の数（0のみ計算対応）",
+          "minimum": 0,
+          "maximum": 3,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-no-break-confirmed",
+          "label": "全ヒットで弱点撃破が発生しない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        }
+      ],
+      "hidden": true,
+      "silverWolfSkill11": true,
+      "elationComponents": [
+        {
+          "name": "非剣SSS1箱",
+          "count": 3,
+          "multipliers": [
+            45,
+            49.5,
+            54,
+            58.5,
+            63,
+            67.5,
+            73.12,
+            78.75,
+            84.38,
+            90
+          ]
+        }
+      ]
+    },
+    {
+      "id": "150608",
+      "characterId": "1506",
+      "sourceSkillId": "150608",
+      "name": "ウルフロードタイム（CB変換・非剣SSS3箱）",
+      "element": "Imaginary",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "multipliers": [
+        170,
+        204,
+        238,
+        272,
+        306,
+        340
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "componentSequence",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "damageComponents": [
+        {
+          "key": "shots",
+          "attackId": "1506081",
+          "name": "CB変換100段＋最後撃"
+        },
+        {
+          "key": "boxes",
+          "attackId": "1506082",
+          "name": "非剣SSS3箱"
+        }
+      ],
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7の本人本体と直後のCB追加を同じ事前状態から合算。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-21",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 Skill11 CB分岐/100段/最後撃、Item2/Item3、OnBeforeHitAll基礎倍率",
+        "verification": "tests/hsr/hsrSilverwolf999Round56.test.cjs",
+        "sourceFile": "150608.params[0..5][0,2,3,4,5,6,7];150603.params[0..9][2];150629.params[0][0]"
+      },
+      "calculationNote": "Lv80/E0・未撃破の敵1体・全段非致死・全ヒットで未撃破を維持（十分な残り靭性を確認）・CB所持・事前無敵。スコアは通常上限240/昇格中360で最終CR/CD/SPD由来愉悦を入力済み。実現した剣箱0、他はエッグ/ビーン3箱に限定。剣箱・途中死亡/再開・外部反応や資源自動推移は計算対象外。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-secret-score",
+          "label": "銀狼LV.999の事前シークレットスコア",
+          "minimum": 0,
+          "maximum": 360,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-sword-box-count",
+          "label": "今回実現した剣箱の数（0のみ計算対応）",
+          "minimum": 0,
+          "maximum": 3,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-no-break-confirmed",
+          "label": "全ヒットで弱点撃破が発生しない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        }
+      ]
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定4.7の通常/スキル直後の本人CB追加と同一行動の合計。"
+  }
+}
