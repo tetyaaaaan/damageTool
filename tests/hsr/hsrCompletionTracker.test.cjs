@@ -25,9 +25,9 @@ test('completion document tracks each runtime character exactly once and separat
  assert.equal(baseline.length,98);
  assert.equal(version47.length,1);
  assert.equal(version47[0].id,'1511');
- assert.match(text,/現在のカタログ: 99人（旧98人 \+ 4\.7追加1人）。4\.7キャラクターE0認定: \*\*0\/1人\*\*/);
+ assert.match(text,/現在のカタログ: 99人（旧98人 \+ 4\.7追加1人）。4\.7キャラクターE0認定: \*\*1\/1人\*\*/);
  assert.match(text,/旧固定版のE0主要攻撃構成確認済み: \*\*94\/98人\*\*/);
- assert.match(text,/### 1511 星神★アッハ[\s\S]*?4\.7\.0ソース追加。旧固定版のE0認定には含めず、独立した構成確認待ち。/);
+ assert.match(text,/### 1511 星神★アッハ[\s\S]*?4\.7\.0固定版の限定E0主要構成確認済み。旧98人と分けて認定。/);
  assert.match(text,/登録上の充足候補/);assert.match(text,/最終完成認定/);assert.match(text,/新しい計算処理が必要な攻撃の総数: \*\*未確定/);
  for(const a of data.attacks)assert.ok(text.includes('|'+a.id+' '),'registered attack detail '+a.id);
 });
@@ -42,7 +42,8 @@ test('the three E0 composition-confirmed supports independently verify their sol
 test('candidate audit keeps missing damage components distinct from registered source skills',async()=>{
  const {e0CandidateAudit}=require('../../scripts/reportHsrCompletion.cjs');
  const audits=Object.values(e0CandidateAudit);
- assert.equal(audits.length,94);
+ assert.equal(audits.length,95);
+ assert.equal(Object.keys(e0CandidateAudit).filter(id=>id!=='1511').length,94,'old-cohort audit inventory is unchanged');
  assert.equal(e0CandidateAudit["1406"].status,"confirmed","Round12 explicit-record major composition acceptance");
  assert.equal(e0CandidateAudit["1215"].status,"confirmed","Round11 stable native-support acceptance");
  for(const id of ["1206","1312"])assert.equal(e0CandidateAudit[id].status,"confirmed","Round10 stable-state major composition");
@@ -77,4 +78,38 @@ test('candidate audit keeps missing damage components distinct from registered s
  for(const a of audits)if(a.missingComponents?.length)assert.equal(a.status,'missing');
  for(const a of audits){assert.ok(a.evidence);assert.ok(a.remaining);if(a.status==='confirmed')assert.ok(a.majorSourceIds.length);}
  const {data}=await loadProductionFixture();for(const [id,a]of Object.entries(e0CandidateAudit))for(const attackId of a.requiredAttackIds||[]){const attack=[...data.attacks,...data.specialBreakAttacks].find(x=>x.id===attackId&&x.characterId===id&&!x.hidden);assert.ok(attack,attackId+' mandatory damage component');assert.equal(attack.support.status,'calculable');}
+});
+
+
+test('Round55 Aha certification requires all seven verified rows and distinguishes resource buffs and HP operations from hits',async()=>{
+ const {data}=await loadProductionFixture(),{e0CandidateAudit}=require('../../scripts/reportHsrCompletion.cjs'),audit=e0CandidateAudit['1511'];
+ assert.equal(audit.status,'confirmed');assert.deepEqual(audit.majorSourceIds,['151101','151102','151103','151120']);
+ assert.deepEqual(audit.requiredAttackIds,['151101','151102','1511021','1511022','151103','151120','1511202']);
+ for(const id of audit.requiredAttackIds){const a=data.attacks.find(a=>a.id===id);assert.ok(a&&!a.hidden&&a.support.verified&&a.support.status==='calculable',id);assert.equal(a.maximumEidolon,0);}
+ for(const id of ['151104','151129','151131'])assert.match(skillRole({id}),/^支援\//);
+ assert.match(audit.sourceRoleOverrides['151131'],/HP占有操作/);assert.deepEqual(audit.missingComponents,[]);
+ assert.match(audit.remaining,/全ヒット非致死/);assert.match(audit.remaining,/致死\/死亡回避\/HPロック/);assert.match(audit.remaining,/通常ダメージ\/記録に合算しない/);
+ const text=fs.readFileSync(path.join(__dirname,'../../docs/HSR_CHARACTER_COMPLETION.md'),'utf8');assert.match(text,/限定E0確認済みは1\/1人/);assert.doesNotMatch(text,/### 4\.7\.0追加・E0未認定/);
+});
+
+test('Round55 Aha Talent support changes ally crit damage at every E0 level without double counting or surviving provider removal',async()=>{
+ const {data,engine}=await loadProductionFixture(),runtime=require('../../games/js/hsrModifierRuntime.js');
+ const record=data.structuredModifiers.find(m=>m.id==='v47:aha:talent-party-cd'),a=data.attacks.find(a=>a.id==='100201');
+ const curve=[20,22,24,26,28,30,32.5,35,37.5,40];
+ for(let level=1;level<=10;level++){
+  const context={characterId:'1002',eidolon:0,partyIds:['1511'],partyEidolons:{'1511':0},traceLevelFor:()=>level,attack:a};
+  const states=[{active:false,included:false},{active:true,included:false},{active:true,included:true},{active:true,included:false,released:true}];
+  for(const state of states){
+   const inputs={'aha-talent-cd-active':state.active,'aha:talent-party-cd-in-final':state.included};
+   const modifiers=runtime.buildCandidates([record],{...context,partyIds:state.released?[]:['1511']},inputs).map(m=>({...m,applicable:runtime.applicableToAttack(m,a)}));
+   const config={atk:3123.5,critRate:37.5,critDamage:83.25+(state.included?curve[level-1]:0),damageBonus:11.5,enemyLevel:82,resistance:27.5,defenseReduction:13.5};
+   const input=makeRequest(a,6,config,modifiers);input.character.id='1002';
+   const out=engine.calculate(input),n=3123.5*1.115*100/(100+102*.865)*.725*.9;
+   const cd=(83.25+((state.active&&!state.released)?curve[level-1]:0))/100;
+   assert.notEqual(out.supported,false,out.reason);
+   assertClose(out.nonCrit,n,'ally noncrit');assertClose(out.crit,n*(1+cd),'ally crit');assertClose(out.expected,n*(1+.375*cd),'ally expectation');
+   if(state.released)assert.equal(modifiers.length,0,'Aha leaves the party');
+   else {assert.equal(modifiers[0].providerId,'1511');assert.equal(modifiers[0].enabled,state.active&&!state.included);assertClose(modifiers[0].value,curve[level-1],'fixed E0 talent coefficient');}
+  }
+ }
 });
