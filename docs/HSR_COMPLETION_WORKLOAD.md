@@ -2784,3 +2784,77 @@ Modifier静的問題0、攻撃静的38指摘は開始時と内容・順序とも
 - `tests/hsr/hsrToolInputs.test.cjs`
 
 原神JSONは開始時SHA256 `533226bb1ed0e69bdb16a8d22fe93d1c4451dd32ac4787b08a764c19077bb7f3`と一致。原神CurrentCalc、.codex/.codex-tempは変更・ステージング対象外。mainへ検証済み変更のみローカルcommitし、push/デプロイなし。
+
+
+<a id="hsr-round54-aha-hp"></a>
+## 第54回：アッハ負債の実HPイベント・複数層・回復・段階処理（2026-11-20）
+
+開始HEAD `4287a36259b8ae8e3838675731cf099f69b1f351`、main。原神JSONの開始時差分、.codex/.codex-tempを保護し、マスター再生成・CurrentCalc変更・装備網羅追加なし。
+
+### 実装範囲と責務
+
+第53回の単一HP・共有HP/バリアなし・全枝非致死の比較は維持する。既存7攻撃の理論非会心/会心/期待値と別に、入力した1回の実HPイベントを処理する方式を追加した。入力した現在HP・負債を結果で上書きせず、致死/層境界で理論攻撃値を実HP減少へ転用しない。
+
+- **共有HP**：生存中のMain自身が持つ最大HP・現在HP・層数・負債と、Mainへ発生した1回の実HP変化を入力する。Subは生存Mainがいる間は負債の独立所有者にならないため局所拒否し、表示用の子へ二重適用しない。共有先の変更やSubからMainへの負債移管履歴は自動生成しない。
+- **複数HP層**：全層最大HP/Nを1層最大HPとし、事前の層内HP→層消費→負債変換→上限付き持越し→次層の負債HP操作→残量変換の順で処理する。E0の25%/維持率1/保持上限10%を使用。保持上限は層移動時だけで、最終層の通常増分を10%で切り捨てない。floorによる一括層処理、境界の>=、HP=1の下限を維持する。
+- **回復**：実際の通常回復が正で負債がある複数層だけ、回復した層数×1層最大HP×比率を加算した後、現在層の負債占有上限へ調整する。比率は減算しない。単一層は実回復後も占有領域が重ならない範囲で実回復と比率維持を返す。
+- **段階処理**：退避直前の比率を保存して0にする単独処理と、変更後の既知HP状態から保存比率を復元する単独処理を接続。復元比率は`max(現在比率,min(保存比率,10%))`、保存値を0にした後、現在層HPを占有上限へ調整する。死亡から新段階までを合成したシミュレーションではない。
+- **表示/保存**：既存モーダルに計算方式・所有者・層数・符号付き実HP変化・退避比率を接続。通常ダメージ、通常変化直後HP、負債処理後HP、比率、HP相当、適用された追加HP減少/回復を分離する。実HPイベントは会心別予測とせず、攻撃合計/記録確定へ追加しない。DirtyHPDamage/DirtyHPHealの再帰を除外し、種類と理由が矛盾した直接入力も局所拒否する。
+
+### 固定4.7の根拠
+
+旧4.6 pinを維持。計算係数はStarRailRes `03907e798b46f9eb109a1f882055cdf49ce3d374`、実行定義はTBGD `dad9155eb00fdeda31fb8456507c53590d49071f`。
+
+- [`Avatar_Nihilux_10_Ability.json`](https://github.com/DimbreathBot/TurnBasedGameData/blob/dad9155eb00fdeda31fb8456507c53590d49071f/Config/ConfigAbility/Avatar/Avatar_Nihilux_10_Ability.json)、blob `51c961d55799777ec3e8453d2a680619a23c1250`。`AbilityList[16].Modifiers.MAvatar_Nihilux_10_SkillAeon_DirtyHP_Property_ForPluralityHP`の`_CallbackList[1]`（OnHPChange）、`TaskListTemplate[3]`（Nihilux_DirtyHPDamageOnNormalHPLose）、`[2]`（Nihilux_DirtyHPHealOnNormalHPHeal）、`[1]`（Nihilux_HPDamageOnDirtyHPChange）、`_CallbackList[2]`（対象一致・enum4/value13の退避、value8の復元）を照合。内部HP操作の理由と再帰除外もこの経路で確認した。
+- 同Abilityの`Nihilux_RefreshCanAddDirtyHP`は生存Mainを持つHPShare SubのCanAddを0にし比率を消去する。`Nihilux_RefreshDirtyHPStatus`は論理的所有者とSubへの表示を分ける。MaxHP/HPの生ハッシュは名前のないGlobalAliasだが、MaxHP/N・比率分母・変化後HPから事前HPを復元する式内の役割を照合した。第53回に一致確認済みのハッシュ方式とRPN opcode（NEG、関数呼出しと引数数）で式を解読し、名称から式を推測していない。
+- 同Abilityの通常`DirtyHP._CallbackList[1]`（OnBeforeMortallyWonded）は適格性判定後、現在HP×25%を`MCommon_Gluttony_AddDirtyHPDelta_External`へ渡す。これ自体は追加ヒット/SetHPではない。
+- [`GlobalTaskListTemplate_Gluttony.json`](https://github.com/DimbreathBot/TurnBasedGameData/blob/dad9155eb00fdeda31fb8456507c53590d49071f/Config/ConfigGlobalTaskListTemplate/GlobalTaskListTemplate_Gluttony.json)、blob `36cf9c880085bdb9f7ec97e1e5f75e30fb3fa770`、および[`GlobalModifier_Common_Gluttony.json`](https://github.com/DimbreathBot/TurnBasedGameData/blob/dad9155eb00fdeda31fb8456507c53590d49071f/Config/ConfigGlobalModifier/GlobalModifier_Common_Gluttony.json)、blob `47f9ab02f511fb35de9e1a7678843e3b1904bdb5`。共通側の死亡直前Priority100、HPロック・初回発動・敵段階・外部加算のリセットが関わる。Aha側コールバックとのスケジューラ順序や、実HP損失/死亡回避結果を理論ダメージだけでは確定できない。
+
+### 独立受入値
+
+|事前状態/入力|独立期待値・エンジン結果（浮動小数誤差以内）|
+|---|---|
+|単一層 MaxHP100000/HP80000/負債10%/損失4000|HP76000、負債11%、追加ヒット0、MaxHP不変（第53回回帰）|
+|3層 MaxHP300000/HP250000/負債10%/実変化-60000|通常変化後190000→負債処理後180000、負債12.5%、HP操作10000|
+|3層 MaxHP300000/HP230000/負債0%/実変化-50000|通常変化後180000→172500、負債12.5%、HP操作7500（保持上限未満の経路）|
+|2層 MaxHP100000/HP40000/負債10%/実回復+20000|通常回復後60000→65000、比率10%維持、追加HP回復5000|
+|同上、実回復+4999/+5000/+5001|最終HP44999/45000/50001。固定floor/ceilと層境界を維持|
+|2層 MaxHP200000/新段階HP200000/現在負債0%/退避比率30%|復元比率10%、HP190000、保存比率0。退避8%なら比率8%/HP192000|
+
+数値を丸めて本番式へ戻さず、理論ダメージを期待HP値の生成元にしていない。通常ダメージの既存7行・願力8～18・記録確定・使令対象の所有者分離・昇格OFF/不在の受入を維持する。
+
+### E0再判定・未対応の具体的要因
+
+アッハ0/1・部分対応を維持。HPイベントの計算可能範囲は増えたが、次は依然として重要な未対応条件であり、認定対象から恣意的に除外しない。
+
+1. **致死/死亡回避/HPロック**：Gluttony各段階の状態、OnBeforeMortallyWonded間の実行順、ロック後に確定するHP変化が必要。理論オーバーキルを実損失とせず、HP<=0の内訳は局所停止する。
+2. **共有先切替/負債移管**：SubのBeforeClear値、Main/Subの生存と関連グループ更新順が必要。今回受け付けるのは変更が済んだ生存Main自身の固定状態だけ。
+3. **超過回復**：通常回復前後の実量に加えて、DirtyHPHealのSetHP要求が全層MaxHPを超えた場合のネイティブ上限制御が必要。要求値だけから実回復を確定しない。該当HP内訳のみ停止する。
+4. **自動連鎖**：致死→段階HP再設定→退避/復元の全自動再現や敵の全ターン推移は作らない。対応済みの復元処理には、その直前HP/層数/現在比率/保存比率を明示する。
+
+キャラ99、旧認定94/98、アッハ0/1、攻撃590/569（参考値4/計算不可17）、本番Modifier1062/635（静的原登録1063/636）、LC172/143/142、遺物29/34、オーナメント25/28は全て変更なし。新規攻撃行/内部ダメージ成分/Modifier行/装備種類の増分0。HPイベント4種の対応をダメージ攻撃や完成効果群の増加として数えない。生成完成管理表は既存7行の範囲説明だけを更新する。
+
+### 変更ファイル
+
+- `games/js/hsrCalcEngine.js`：負債の実HPイベントを独立評価。
+- `games/js/hsrApp.js`：既存モーダルの状態入力とHP操作の別表示。
+- `games/hsr/data/calc/attacks-v47-round52.json`：既存7行の対応範囲を訂正。倍率/分類は不変。
+- `tests/hsr/hsrAhaDebtRound54.test.cjs`：層配分・共有HP・HP下限・入力不正・再帰除外。
+- `tests/hsr/hsrAhaDebtHealingRound54.test.cjs`：回復配分・境界・比率維持。
+- `tests/hsr/hsrAhaDebtPhaseRound54.test.cjs`：退避/復元・占有上限の独立検証。
+- `tests/hsr/hsrToolInputs.test.cjs`：計算方法切替・局所停止・表示・保存復元。
+- `docs/HSR_CHARACTER_COMPLETION.md`：生成済み範囲説明。
+- `docs/HSR_MAIN_ATTACK_SCOPE.md`：既存攻撃のHP内訳拡張。
+- `docs/hsr/specs/03_CALCULATION_SPEC.md`：実HPイベント/HP操作と理論攻撃の契約。
+- `docs/hsr/specs/07_TEST_SPEC.md`：変更した計算方式の受入観点。
+- `docs/HSR_COMPLETION_WORKLOAD.md`：本節の根拠・受入・残件。
+
+### 最終検証
+
+最終製品コードでHSR全1222テスト成功（170.24秒、失敗/skipとも0）。第53回1207件から新規15件（実HP減少/所有者/入力検証6、回復5、段階2、App入力/保存2）を追加した。関連チェックを先行し、全体テストは最終段階で1回実行。全体実行後の変更はこの検証記録とテスト末尾の空行整形のみで、計算・画面コード・登録データ・テストの処理内容を変更していない。既存7行、単一HP4000→76000/11%、願力/記録/所有者分離、従来昇格OFF/不在、装備/補正切替、UIDモック→入力反映→計算→保存復元を含む既存回帰が成功。旧94人の全計算再監査を行ったとの意味ではない。
+
+Modifier静的問題0。攻撃静的検証は既存38指摘のため終了値1だが、開始時と内容・順序が完全一致し新規指摘0。reportHsrCompletion --check成功。変更文書の新規ローカルリンク切れなし、git diff --check成功。
+
+1440/390/320pxで追加した数値欄・所有者選択・計算方法の表示を確認。実画面で共有HP本体の300000/250000/3層/10%/-60000が180000/12.5%となる表示と、再読込後に同じ入力・HP結果を復元することを確認した。確認用タブ・幅指定・ローカルサーバーは終了。実UID通信、同条件での外部計算実行、実ゲーム数値照合は未実施。
+
+原神JSONのSHA256は開始時と同じ`533226bb1ed0e69bdb16a8d22fe93d1c4451dd32ac4787b08a764c19077bb7f3`。保護フォルダーは作業/ステージング対象外。検証済み12ファイルだけをmainへローカルcommitし、push・デプロイなし。

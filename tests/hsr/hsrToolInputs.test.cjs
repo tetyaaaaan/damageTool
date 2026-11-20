@@ -5181,3 +5181,39 @@ test('Round53 single-layer Aha debt is a saved HP sidecar and never another dama
  restored.window.HsrTool.applyProfileCharacter({id:'1501',level:80,eidolon:0,traces:[{type:'Normal',level:6}],stats:{hp:6000,atk:3000,def:2000,speed:100,elation:100,critRate:35,critDamage:120,damageBonus:0}});restored.state.party[0]={characterId:'1511',level:80,eidolon:0};restored.calculate();assert.match(restored.node('hsrResults').innerHTML,/アッハ編成中の他キャラ攻撃は、負債のHP内訳の計算対象外/);assert.doesNotMatch(restored.node('hsrResults').innerHTML,/単一HPの対象は補正条件で事前状態を指定/);
 
 });
+
+
+test('Round54 observed HP events stay separate from damage and restore mode, owner, layers and inputs',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data);
+ app.window.HsrTool.applyProfileCharacter({id:'1511',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{hp:6000,atk:3000,def:2000,speed:100,elation:100,critRate:35,critDamage:120,damageBonus:0}});
+ app.node('hsrStat-elation').value='100';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';app.node('hsrEnemyMaxHp').value='300000';app.node('hsrEnemyHpPercent').value=String(250000/300000*100);
+ Object.assign(app.state.modifierInputs,{'aha-wish':18,'elation-certified-banger':40,'aha-prior-non-true-damage':10000});
+ const name=data.attacks.find(a=>a.id==='151101').name,find=instance=>instance.calculate().find(r=>r.attack?.name===name),before=find(app);
+ const choice=(instance,key,value)=>instance.node('hsrConditionDialog').handlers.change({target:{dataset:{comparisonChoice:key},value:String(value)}});
+ const number=(instance,key,value)=>instance.node('hsrConditionDialog').handlers.input({target:{dataset:{structuredInput:key,structuredStrict:'true'},value:String(value)}});
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'aha-debt-ordinary-target'},checked:true}});
+ choice(app,'aha-debt-event-mode',1);choice(app,'aha-debt-hp-owner',1);number(app,'aha-debt-prior-percent',10);number(app,'aha-debt-layers',3);
+ assert.equal(find(app).ahaDebt.supported,false,'missing actual HP change stays local');number(app,'aha-debt-event-change',-60000);
+ const result=find(app);assert.equal(result.nonCrit,before.nonCrit);assert.equal(result.expected,before.expected);assert.equal(result.ahaDebt.kind,'hpEvent');assert.ok(Math.abs(result.ahaDebt.update.hpAfter-180000)<1e-8);assert.ok(Math.abs(result.ahaDebt.update.debtPercentAfter-12.5)<1e-10);assert.equal(result.ahaDebt.hpOwner,'shareMain');
+ assert.match(app.node('hsrResults').innerHTML,/指定した実HPイベント/);assert.match(app.node('hsrResults').innerHTML,/上の理論攻撃値から換算した結果/);assert.match(app.node('hsrResults').innerHTML,/共有HP本体/);
+ const restored=await tool(app.storage,data),saved=find(restored);assert.ok(Math.abs(saved.ahaDebt.update.debtPercentAfter-12.5)<1e-10);assert.equal(restored.state.modifierInputs['aha-debt-event-change'],-60000);assert.equal(saved.expected,before.expected);
+ choice(restored,'aha-debt-hp-owner',2);assert.equal(find(restored).ahaDebt.supported,false,'display sub is never an independent debt owner');choice(restored,'aha-debt-hp-owner',1);
+ number(restored,'aha-debt-event-change',-250001);const dead=find(restored);assert.equal(dead.ahaDebt.supported,false);assert.equal(dead.nonCrit,before.nonCrit);
+ restored.state.modifierInputs['aha-debt-ordinary-target']=false;assert.equal(find(restored).ahaDebt,undefined);assert.equal(find(restored).expected,before.expected);
+});
+
+test('Round54 healing and explicit phase restore use saved independent states without inventing a lethal transition',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data);
+ app.window.HsrTool.applyProfileCharacter({id:'1511',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{hp:6000,atk:3000,def:2000,speed:100,elation:100,critRate:35,critDamage:120,damageBonus:0}});
+ app.node('hsrStat-elation').value='100';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';app.node('hsrEnemyMaxHp').value='100000';app.node('hsrEnemyHpPercent').value='40';
+ Object.assign(app.state.modifierInputs,{'aha-debt-ordinary-target':true,'aha-debt-event-mode':2,'aha-debt-hp-owner':0,'aha-debt-layers':2,'aha-debt-prior-percent':10,'aha-debt-event-change':20000,'aha-wish':8,'elation-certified-banger':40});
+ const name=data.attacks.find(a=>a.id==='151101').name,find=instance=>instance.calculate().find(r=>r.attack?.name===name),heal=find(app);
+ assert.equal(heal.ahaDebt.update.hpAfter,65000);assert.equal(heal.ahaDebt.update.debtPercentAfter,10);assert.equal(heal.ahaDebt.update.dirtyHpHeal,5000);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/aha-debt-event-change/);
+ app.node('hsrEnemyMaxHp').value='200000';app.node('hsrEnemyHpPercent').value='100';Object.assign(app.state.modifierInputs,{'aha-debt-event-mode':4,'aha-debt-prior-percent':0});
+ assert.equal(find(app).ahaDebt.supported,false,'saved pre-phase debt is required, never inferred');
+ app.node('hsrConditionDialog').handlers.input({target:{dataset:{structuredInput:'aha-debt-phase-saved-percent',structuredStrict:'true'},value:'30'}});
+ const phase=find(app);assert.equal(phase.ahaDebt.update.hpAfter,190000);assert.equal(phase.ahaDebt.update.debtPercentAfter,10);assert.equal(phase.ahaDebt.event.storedDebtPercent,0);
+ app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/aha-debt-phase-saved-percent/);assert.doesNotMatch(app.node('hsrConditionList').innerHTML,/data-structured-input="aha-debt-event-change"/);
+ const restored=await tool(app.storage,data),saved=find(restored);assert.equal(saved.ahaDebt.update.hpAfter,190000);assert.equal(saved.expected,phase.expected);assert.equal(restored.state.modifierInputs['aha-debt-phase-saved-percent'],30);assert.equal(restored.state.modifierInputs['aha-debt-prior-percent'],0,'result never overwrites supplied prior snapshot');
+});

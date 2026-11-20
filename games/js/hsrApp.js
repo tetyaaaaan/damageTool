@@ -1139,13 +1139,19 @@
   }
   // This target is independent of party-wide ascension and of battle-wide Aha Time.
   function ahaDebtSnapshotInput() {
-    return {requested:state.characterId==='1511'&&state.modifierInputs['aha-debt-ordinary-target']===true,singleLayerNoShare:true,priorDebtPercent:state.modifierInputs['aha-debt-prior-percent']};
+    const values=state.modifierInputs,mode=values['aha-debt-event-mode'];
+    const snapshot={requested:state.characterId==='1511'&&values['aha-debt-ordinary-target']===true,singleLayerNoShare:true,priorDebtPercent:values['aha-debt-prior-percent']};
+    if([1,2,3,4].includes(mode))snapshot.hpEvent={kind:['','damage','heal','phaseClear','phaseRestore'][mode],change:mode>=3?0:values['aha-debt-event-change'],layerCount:values['aha-debt-layers'],hpOwner:['independent','shareMain','shareSub'][values['aha-debt-hp-owner']],reason:'normal',savedDebtPercent:values['aha-debt-phase-saved-percent']};
+    return snapshot;
   }
 
   function ahaDebtControls() {
     if(state.characterId!=='1511')return '';
-    const active=state.modifierInputs['aha-debt-ordinary-target']===true,value=state.modifierInputs['aha-debt-prior-percent'];
-    return '<section class="hsr-condition-purpose"><h5>負債のHP内訳</h5><p class="genshin-help">負債は常時効果です。ここではHP内訳を計算する対象条件を指定します。単一HP・共有HP/バリアなし・途中の回復やHP段階変更なし・補正状態一定の敵に限定します。敵最大HPと現在HP割合は敵情報欄を使います。負債は別の占有状態で、最大HPの変更や追加ダメージとして合算しません。死亡・負債100%の境界はHP内訳だけを停止します。</p><label class="genshin-condition-control"><input type="checkbox" data-structured-toggle="aha-debt-ordinary-target"'+(active?' checked':'')+'><span>単一HP・共有HP/バリアなしのHP内訳を計算する</span></label><label class="genshin-condition-control"><span>攻撃前の負債比率（%）</span><input class="input_num" type="number" data-structured-input="aha-debt-prior-percent" data-structured-strict="true" min="0" max="100" step="any" value="'+(Number.isFinite(value)?value:'')+'"></label><p class="genshin-help">現在HPから負債比率を逆算しません。負債なしと確認できる場合は0を入力してください。各攻撃を同じ事前状態から比較し、結果で入力値を更新しません。</p></section>';
+    const values=state.modifierInputs,active=values['aha-debt-ordinary-target']===true,mode=values['aha-debt-event-mode'];
+    const number=(key,label,min,max)=>'<label class="genshin-condition-control"><span>'+label+'</span><input class="input_num" type="number" data-structured-input="'+key+'" data-structured-strict="true"'+(min!==undefined?' min="'+min+'"':'')+(max!==undefined?' max="'+max+'"':'')+' step="any" value="'+(Number.isFinite(values[key])?values[key]:'')+'"></label>';
+    const choice=(key,label,options)=>'<label class="genshin-condition-control"><span>'+label+'</span><select data-comparison-choice="'+key+'">'+options.map(([value,text])=>'<option value="'+value+'"'+(values[key]===value?' selected':'')+'>'+text+'</option>').join('')+'</select></label>';
+    const eventControls=[1,2,3,4].includes(mode)?choice('aha-debt-hp-owner','HPと負債を持つ対象',[[NaN,'未指定'],[0,'独立した敵'],[1,'生存している共有HP本体'],[2,'共有HPの表示用の子（対象外）']])+number('aha-debt-layers','対象のHP層数',1,1000)+(mode<3?number('aha-debt-event-change','実際のHP変化量（減少は負・回復は正）'):mode===4?number('aha-debt-phase-saved-percent','段階変更前に退避された負債比率（%）',0,100):'')+'<p class="genshin-help">敵情報欄にはHPを持つ本体の全層の最大HPと変化直前の現在HP割合を指定します。事前負債は現在の層の比率です。適格な味方ダメージによる実HP減少、または通常回復の1イベントを入力します。攻撃の理論値や超過ダメージ・超過回復量を代用しません。段階処理は、退避直前または新しい段階の復元直前のHP・負債を指定します。死亡回避・致死からの段階移行・共有先切替を自動再現しません。</p>':'';
+    return '<section class="hsr-condition-purpose"><h5>負債のHP内訳</h5><p class="genshin-help">負債は常時効果です。ここでは星魂0のHP内訳を計算する対象条件を指定します。最大HPの変更や追加ヒットダメージとして合算せず、結果で入力値を更新しません。未指定・死亡境界はHP内訳だけを停止します。</p><label class="genshin-condition-control"><input type="checkbox" data-structured-toggle="aha-debt-ordinary-target"'+(active?' checked':'')+'><span>負債のHP内訳を計算する</span></label>'+choice('aha-debt-event-mode','HP内訳の計算方法',[[0,'各攻撃の単一HP・非致死比較'],[1,'実際のHP減少を指定'],[2,'実際の回復を指定'],[3,'段階変更前の負債退避'],[4,'段階変更後の負債復元']])+number('aha-debt-prior-percent','HP処理前の負債比率（%）',0,100)+eventControls+'<p class="genshin-help">現在HPから負債を逆算しません。負債なしと確認できる場合は0を入力してください。単一HP比較は共有HP・バリア・途中の回復なし、全ヒット非致死・補正状態一定の敵に限定します。HP層を越える場合は実際のHP変化を指定する方式を使います。</p></section>';
   }
 
   function ahaReferenceControls() {
@@ -1834,6 +1840,12 @@
   function ahaDebtBreakdown(debt) {
     if(!debt)return '';
     if(!debt.supported)return '<section class="hsr-target-breakdown"><h4>負債のHP内訳・計算対象外</h4><p>'+esc(debt.reason)+'</p></section>';
+    if(debt.kind==='hpEvent') {
+      const b=debt.update;
+      const rows=[['HPの所有者',debt.hpOwner==='shareMain'?'生存している共有HP本体':'独立した敵'],['全層の最大HP（変更なし）',debt.maxHp],['HP層数',debt.layerCount],['1層あたりの最大HP',debt.maxHpPerLayer],['変化前の現在HP',debt.initialHp],['変化前の負債比率（%）',debt.priorDebtPercent],['指定した実HP変化量',debt.event.change],['通常のHP変化直後',b.normalHpAfter],['負債処理後の現在HP',b.hpAfter],['処理後の負債比率（%）',b.debtPercentAfter],['現在層の負債HP相当',b.debtHpAfter],['負債処理内の層移動数',b.crossedLayers],['負債による追加HP減少（適用量）',b.actualDirtyHpLoss],['負債による追加HP回復',b.dirtyHpHeal]];
+      if(Number.isFinite(debt.event.storedDebtPercent))rows.push(['処理後に退避されている負債比率（%）',debt.event.storedDebtPercent]);
+      return '<section class="hsr-target-breakdown"><h4>負債のHP内訳・指定した実HPイベント</h4><p>このHP内訳は入力した1回の実HP変化から計算します。上の理論攻撃値から換算した結果や会心別の予測ではありません。共有HPは本体の状態だけを更新し、表示用の子へ重複適用しません。</p><dl>'+rows.map(([label,value])=>'<div><dt>'+label+'</dt><dd>'+(typeof value==='number'?detailNumber(value):esc(value))+'</dd></div>').join('')+'</dl><p>層境界では持越し上限10%を使い、その後の同じ層への増分は別に加えます。HP操作はヒットや確定成分の記録へ加算しません。段階の退避・復元は指定した処理直前からのみ算出します。死亡・致死からの段階移行・共有先の切替を自動再現しません。</p></section>';
+    }
     const rows=[['最大HP（変更なし）',debt.maxHp],['攻撃前の現在HP',debt.initialHp],['攻撃前の負債比率（%）',debt.priorDebtPercent],['攻撃前の負債HP相当',debt.priorDebtHp]];
     return '<section class="hsr-target-breakdown"><h4>負債のHP内訳・単一HPの敵</h4><p>負債はHP占有状態です。通常ダメージや記録確定成分へ追加しません。最大HPを変更せず、この分岐では負債による追加の即時HP減少もありません。</p><dl>'+rows.map(([label,value])=>'<div><dt>'+label+'</dt><dd>'+detailNumber(value)+'</dd></div>').join('')+'</dl>'+[['nonCrit','非会心の場合'],['crit','会心の場合'],['expected','期待値の場合']].map(([key,label])=>{const b=debt.branches[key];return '<h5>'+label+'</h5><dl>'+[['攻撃によるHP減少',b.normalHpLoss],['攻撃後の現在HP',b.hpAfter],['攻撃後の負債比率（%）',b.debtPercentAfter],['攻撃後の負債HP相当',b.debtHpAfter]].map(([name,value])=>'<div><dt>'+name+'</dt><dd>'+detailNumber(value)+'</dd></div>').join('')+'</dl>';}).join('')+'<p>比率増分＝攻撃によるHP減少×25%÷最大HP。10%はこの通常HP減少分岐の上限ではありません。次のHP層・段階への持越しや回復は計算対象外です。</p></section>';
   }
@@ -1926,7 +1938,7 @@
     const cone=find('lightCones',state.coneId),compatible=cone&&cone.path===character()?.path;
     const notes=[];
     const add=(id,text)=>notes.push(`<li data-hsr-equipment-scope="${id}">${esc(text)}</li>`);
-    if(results.length&&(state.characterId==='1511'||state.party.some(m=>m.characterId==='1511')))add('aha-debt',results.some(x=>x.result?.ahaDebt?.supported)?'負債は別のHP占有状態として各攻撃の内訳へ表示します。単一HP・共有HP/バリアなしの非致死分岐に限定し、死亡・HP段階移行・他キャラ攻撃全般のHP推移は計算対象外です。':state.characterId==='1511'?'アッハの「愉悦の負債」によるHP操作は未計算です。単一HPの対象は補正条件で事前状態を指定するとHP内訳を確認できます。表示する理論攻撃値へ負債HP相当を追加せず、死亡・HP段階変更をまたぐ実ダメージ合計は計算対象外です。':'アッハ編成中の他キャラ攻撃は、負債のHP内訳の計算対象外です。現在の理論攻撃値へ負債HP相当を追加していません。負債のHP内訳はアッハを計算対象にした対応攻撃で確認できます。');
+    if(results.length&&(state.characterId==='1511'||state.party.some(m=>m.characterId==='1511')))add('aha-debt',results.some(x=>x.result?.ahaDebt?.supported)?'負債は別のHP占有状態として内訳へ表示します。単一HPの非致死比較と、指定した実HPイベントの結果を区別します。死亡・致死からのHP段階移行・共有先切替・他キャラ攻撃全般のHP推移は計算対象外です。':state.characterId==='1511'?'アッハの「愉悦の負債」によるHP操作は未計算です。補正条件で事前状態と計算方法を指定するとHP内訳を確認できます。表示する理論攻撃値へ負債HP相当を追加せず、死亡・HP段階変更をまたぐ実ダメージ合計は計算対象外です。':'アッハ編成中の他キャラ攻撃は、負債のHP内訳の計算対象外です。現在の理論攻撃値へ負債HP相当を追加していません。負債のHP内訳はアッハを計算対象にした対応攻撃で確認できます。');
 
     if(compatible&&usesAtk&&state.coneId==='21041'){
       const delta=structuredSourceConditions().find(m=>m.id==='lightCone:21041:battle-ehr-attack-delta');

@@ -472,16 +472,101 @@ function calculateFanning(input) {
         return {...direct,attack:{...direct.attack,name:a.name},nonCrit:direct.nonCrit+extra.nonCrit,crit:direct.crit+extra.crit,expected:direct.expected+extra.expected,components:{direct,trueDamage:extra},breakdown:{damageFormula:'componentSequence',componentLabel:'本体＋同じ愉悦スキル内の確定成分',componentNames:['アッハの愉悦本体','記録に基づく確定成分'],totalLabel:'愉悦本体＋記録確定成分の合計',condition:'事前記録は参照値であり、その値自体を合計へ加算しません。確定成分は本体の会心別の記録から求めます。',priorNonTrueDamage:prior}};
     }
 
+    // Fixed 4.7 SkillAeon callbacks consume the actual signed HP event, not a hit's
+    // theoretical damage. Keep this one-event snapshot separate from attack damage.
+    function calculateAhaHpEvent(maxHp, initialHp, prior, event) {
+        const fail=reason=>({supported:false,reason});
+        const layers=event.layerCount,change=event.change,owner=event.hpOwner;
+        if(!Number.isInteger(layers)||layers<1||layers>1000||!Number.isFinite(change))return fail('HP層数（1～1000の整数）と、実際のHP変化量を明示してください。');
+        if(!['independent','shareMain'].includes(owner))return fail('共有HPは生存している本体のHP・負債・層数を指定してください。表示用の子の値や共有先の切替は計算できません。');
+        if(!['damage','heal','phaseClear','phaseRestore'].includes(event.kind))return fail('死亡・段階変更・共有先切替のHP処理は対象外です。通常のHP減少または回復を指定してください。');
+        if((event.kind==='damage'&&change>0)||(event.kind==='heal'&&change<0))return fail('HP減少は0以下、回復は0以上の実際のHP変化量を指定してください。');
+        const phase=event.kind==='phaseClear'||event.kind==='phaseRestore';
+        if(phase&&(layers<=1||change!==0))return fail('段階処理は複数HP層・HP変化量0の独立した事前状態を指定してください。');
+        const normalHpAfter=initialHp+change;
+        if(normalHpAfter<=0||normalHpAfter>maxHp)return fail('死亡・死亡回避・超過回復の境界はHP内訳だけを停止します。理論攻撃値を実HP変化へ置き換えません。');
+        const perLayer=maxHp/layers,remainingLayers=Math.max(0,Math.min(Math.ceil(initialHp/perLayer),layers)-1);
+        const hpInInitialLayer=initialHp-perLayer*remainingLayers;
+        if(hpInInitialLayer+perLayer*prior/100>perLayer+perLayer*1e-12)return fail('現在のHP層と負債が重ならない事前状態を指定してください。');
+        let ratio=prior/100,hpAfter=normalHpAfter,dirtyHpLoss=0,dirtyHpHeal=0,crossedLayers=0;
+        let storedDebtPercent;
+        const reconcile=(hp,r)=>{const current=hp-perLayer*Math.max(0,Math.min(Math.ceil(hp/perLayer),layers)-1),excess=Math.max(0,current-perLayer*(1-r));return {excess,hp:excess>0?Math.max(Math.min(hp,1),hp-excess):hp};};
+        const recursive=(event.kind==='damage'&&event.reason==='DirtyHPDamage')||(event.kind==='heal'&&event.reason==='DirtyHPHeal');
+        if((event.kind==='damage'&&event.reason==='DirtyHPHeal')||(event.kind==='heal'&&event.reason==='DirtyHPDamage'))return fail('HP減少と回復の発生理由が一致しません。');
+        if(event.reason&&!['normal','DirtyHPDamage','DirtyHPHeal'].includes(event.reason))return fail('HP変化の発生理由を特定できません。');
+        if(phase) {
+            if(event.reason&&event.reason!=='normal')return fail('段階処理へ別のHP操作イベントを混在させないでください。');
+            if(event.kind==='phaseClear') { storedDebtPercent=prior; ratio=0; }
+            else {
+                const saved=event.savedDebtPercent;
+                if(!Number.isFinite(saved)||saved<0||saved>=100)return fail('段階変更前に退避された負債比率を0%以上100%未満で明示してください。');
+                ratio=Math.max(ratio,Math.min(saved/100,.1));
+                storedDebtPercent=0;
+                const adjusted=reconcile(normalHpAfter,ratio);
+                dirtyHpLoss=adjusted.excess;hpAfter=adjusted.hp;
+            }
+        }
+        if(!recursive && event.kind==='damage') {
+            if(layers===1)ratio+=.25*(-change)/maxHp;
+            else {
+                let left=-change,leftLayers=remainingLayers,hpInLayer=hpInInitialLayer;
+                while(left>0&&left>=hpInLayer&&leftLayers>0) {
+                    ratio+=hpInLayer*.25/perLayer;
+                    left-=hpInLayer;
+                    if(ratio>=.1) {
+                        ratio=Math.min(ratio,.1);
+                        const batch=Math.max(0,Math.min(Math.floor(left/(perLayer*(1-ratio)))+1,leftLayers));
+                        leftLayers-=batch;
+                        crossedLayers+=batch;
+                        dirtyHpLoss+=perLayer*ratio*batch;
+                        hpInLayer=perLayer*(1-ratio);
+                        left-=hpInLayer*(batch-1);
+                    } else {
+                        ratio=Math.min(ratio,.1); // E0 PhaseKeepRatio = 1.
+                        leftLayers--;
+                        crossedLayers++;
+                        dirtyHpLoss+=perLayer*ratio;
+                        hpInLayer=perLayer*(1-ratio);
+                    }
+                }
+                ratio+=Math.min(left,hpInLayer)*.25/perLayer;
+                if(dirtyHpLoss>0)hpAfter=Math.max(Math.min(normalHpAfter,1),normalHpAfter-dirtyHpLoss);
+            }
+        }
+        if(!recursive && event.kind==='heal'&&change>0&&ratio>0) {
+            if(layers===1) {
+                // No normal-heal callback exists on the single-layer property.
+                // Accept an actual resolved heal only within the confirmed occupied-HP bound.
+                if(normalHpAfter+perLayer*ratio>maxHp+maxHp*1e-12)return fail('単一HPの回復後HPと負債が重なる境界はHP内訳だけを停止します。');
+            } else {
+                const cap=perLayer*(1-ratio);
+                crossedLayers=Math.min(Math.floor((hpInInitialLayer+change)/cap),(layers-1)-remainingLayers);
+                dirtyHpHeal=crossedLayers*perLayer*ratio;
+                const healed=normalHpAfter+dirtyHpHeal;
+                if(healed>maxHp)return fail('負債による回復要求が全層の最大HPを越えます。SetHPの超過回復処理を確定できないため、このHP内訳だけを停止します。');
+                const adjusted=reconcile(healed,ratio);
+                dirtyHpLoss=adjusted.excess;hpAfter=adjusted.hp;
+            }
+        }
+        if(!Number.isFinite(ratio)||ratio<0||ratio>=1)return fail('負債100%の境界はHP内訳だけを停止します。');
+        return {supported:true,kind:'hpEvent',hpOwner:owner,maxHp,initialHp,priorDebtPercent:prior,
+            priorDebtHp:perLayer*prior/100,layerCount:layers,maxHpPerLayer:perLayer,
+            event:{kind:event.kind,change,reason:event.reason||'normal',ignoredForDebt:recursive,storedDebtPercent},
+            update:{normalHpAfter,hpAfter,debtPercentAfter:ratio*100,debtHpAfter:perLayer*ratio,
+                dirtyHpLoss,dirtyHpHeal,actualDirtyHpLoss:Math.max(0,normalHpAfter+dirtyHpHeal-hpAfter),crossedLayers,additionalHitDamage:0}};
+    }
+
     // DirtyHP is a separate property, not another hit or a MaxHP stat modifier.
-    // This bounded snapshot never models shared HP, layer transitions or mortality callbacks.
+    // The original nonlethal comparison remains unchanged; explicit events use their own HP path.
     function withAhaDebtSnapshot(input, result) {
         const snapshot=input.ahaDebtSnapshot;
         if(snapshot?.requested!==true || result.supported===false || !['151101','151102','1511021','1511022','151103','151120','1511202'].includes(input.attack?.id))return result;
         const fail=reason=>({...result,ahaDebt:{supported:false,reason}});
-        if(snapshot.singleLayerNoShare!==true)return fail('HP内訳は単一HP・共有HP/バリアなしの対象に限定します。');
+        if(!snapshot.hpEvent&&snapshot.singleLayerNoShare!==true)return fail('HP内訳は単一HP・共有HP/バリアなしの対象に限定します。');
         const maxHp=input.enemy?.maxHp,hpPercent=input.enemy?.hpPercent,prior=snapshot.priorDebtPercent;
         if(!Number.isFinite(maxHp)||maxHp<=0||maxHp>1e12||!Number.isFinite(hpPercent)||hpPercent<=0||hpPercent>100||!Number.isFinite(prior)||prior<0||prior>=100)return fail('敵最大HP・現在HP割合と、攻撃前の負債比率0%以上100%未満を明示してください。負債なしは0です。');
         const initialHp=maxHp*hpPercent/100,priorDebtHp=maxHp*prior/100;
+        if(snapshot.hpEvent)return {...result,ahaDebt:calculateAhaHpEvent(maxHp,initialHp,prior,snapshot.hpEvent)};
         if(initialHp+priorDebtHp>maxHp+maxHp*1e-12)return fail('このHP内訳は、現在HPと負債の占有領域が重ならない事前状態に限定します。');
         const branches={};
         for(const key of ['nonCrit','crit','expected']) {

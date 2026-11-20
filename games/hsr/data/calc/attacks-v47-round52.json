@@ -28,7 +28,7 @@
       "support": {
         "status": "calculable",
         "verified": true,
-        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。負債のHP操作はダメージと別に扱います。単一HPの非致死比較と、明示した実HP変化・複数層・回復・段階退避/復元に限定対応。致死の解決・共有先切替は対象外。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",
@@ -40,7 +40,7 @@
         "verification": "tests/hsr/hsrAhaRound52.test.cjs",
         "sourceFile": "character_skills.json:151101.params"
       },
-      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。",
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。負債のHP操作は与ダメージに合算せず、最大HPも変更しません。",
       "version": "4.7.0",
       "numericModifierInputs": [
         {
@@ -83,7 +83,7 @@
       "support": {
         "status": "calculable",
         "verified": true,
-        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。負債のHP操作はダメージと別に扱います。単一HPの非致死比較と、明示した実HP変化・複数層・回復・段階退避/復元に限定対応。致死の解決・共有先切替は対象外。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",
@@ -95,7 +95,7 @@
         "verification": "tests/hsr/hsrAhaRound52.test.cjs",
         "sourceFile": "character_skills.json:151102.params"
       },
-      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。",
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。負債のHP操作は与ダメージに合算せず、最大HPも変更しません。",
       "version": "4.7.0",
       "numericModifierInputs": [
         {
@@ -138,7 +138,7 @@
       "support": {
         "status": "calculable",
         "verified": true,
-        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。負債のHP操作はダメージと別に扱います。単一HPの非致死比較と、明示した実HP変化・複数層・回復・段階退避/復元に限定対応。致死の解決・共有先切替は対象外。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",
@@ -184,7 +184,7 @@
       "support": {
         "status": "calculable",
         "verified": true,
-        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。負債のHP操作はダメージと別に扱います。単一HPの非致死比較と、明示した実HP変化・複数層・回復・段階退避/復元に限定対応。致死の解決・共有先切替は対象外。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",
@@ -196,7 +196,7 @@
         "verification": "tests/hsr/hsrAhaRound52.test.cjs",
         "sourceFile": "character_skills.json:151102.params"
       },
-      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。",
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。負債のHP操作は与ダメージに合算せず、最大HPも変更しません。",
       "version": "4.7.0",
       "damageComponents": [
         {
@@ -251,7 +251,7 @@
       "support": {
         "status": "calculable",
         "verified": true,
-        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。負債のHP操作はダメージと別に扱います。単一HPの非致死比較と、明示した実HP変化・複数層・回復・段階退避/復元に限定対応。致死の解決・共有先切替は対象外。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",
@@ -264,7 +264,7 @@
         "sourceFile": "character_skills.json:151103.params",
         "resourceMechanics": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Config/ConfigCharacter/Avatar/Avatar_Nihilux_10_Config.json blob5152ec9989d5dd5202a7ab10531df9b3a6a65214: Skill03 Index0=8, SkillP01 Index10=10; Nihilux_RefreshWishPoint sums CurrentSpecialSP+CurExtraSpecialSP."
       },
-      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。願力8以上で発動する想定。ダメージ前に愉悦の万象が成立（E0 CR12%/DEF無視30%）。全体1回＋バウンド5回を敵1体へ合算。",
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。負債のHP操作は与ダメージに合算せず、最大HPも変更しません。願力8以上で発動する想定。ダメージ前に愉悦の万象が成立（E0 CR12%/DEF無視30%）。全体1回＋バウンド5回を敵1体へ合算。",
       "version": "4.7.0",
       "elationComponents": [
         {
@@ -348,7 +348,7 @@
       "support": {
         "status": "calculable",
         "verified": true,
-        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。負債のHP操作はダメージと別に扱います。単一HPの非致死比較と、明示した実HP変化・複数層・回復・段階退避/復元に限定対応。致死の解決・共有先切替は対象外。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",
@@ -360,7 +360,7 @@
         "verification": "tests/hsr/hsrAhaRound52.test.cjs",
         "sourceFile": "character_skills.json:151120.params"
       },
-      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。",
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。負債のHP操作は与ダメージに合算せず、最大HPも変更しません。",
       "version": "4.7.0"
     },
     {
@@ -394,7 +394,7 @@
       "support": {
         "status": "calculable",
         "verified": true,
-        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+        "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。負債のHP操作はダメージと別に扱います。単一HPの非致死比較と、明示した実HP変化・複数層・回復・段階退避/復元に限定対応。致死の解決・共有先切替は対象外。"
       },
       "provenance": {
         "sourceName": "Mar-7th/StarRailRes",
@@ -406,7 +406,7 @@
         "verification": "tests/hsr/hsrAhaRound52.test.cjs",
         "sourceFile": "character_skills.json:151120.params"
       },
-      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。愉悦の負債による最大HPへの作用は与ダメージに合算しません。入力記録は自身の愉悦本体発動前の味方の確定以外の与ダメージ合計。本体の会心別ダメージを記録へ加えて20%の確定成分を算出。記録元の攻撃自体は合計へ加算しません。",
+      "calculationNote": "固定4.7・Lv80/E0・敵1体・指定済み状態。負債のHP操作は与ダメージに合算せず、最大HPも変更しません。入力記録は自身の愉悦本体発動前の味方の確定以外の与ダメージ合計。本体の会心別ダメージを記録へ加えて20%の確定成分を算出。記録元の攻撃自体は合計へ加算しません。",
       "version": "4.7.0",
       "numericModifierInputs": [
         {
@@ -422,6 +422,6 @@
   "support": {
     "status": "calculable",
     "verified": true,
-    "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。最大HPへの負債は未対応。"
+    "reason": "固定4.7・E0/Lv80・未撃破の敵1体・指定した事前状態に限定し、所有者別の独立計算で検証。負債のHP操作はダメージと別に扱います。単一HPの非致死比較と、明示した実HP変化・複数層・回復・段階退避/復元に限定対応。致死の解決・共有先切替は対象外。"
   }
 }
