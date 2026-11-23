@@ -5243,3 +5243,20 @@ test('Round56 Hiyu prepared ascension applies to both Ultimate components and sa
  app.state.modifierInputs['hiyu-ascension-next-ultimate-active']=true;const after=row('1505032');assert.ok(after);near(after.nonCrit,before.nonCrit*1.75);near(after.components.direct.nonCrit,before.components.direct.nonCrit*1.75);near(after.components.banger.nonCrit,before.components.banger.nonCrit*1.75);near(row('1505022').nonCrit,skill.nonCrit);
  app.node('hsrStat-elation').handlers.input();const restored=await tool(app.storage,data);near(row('1505032',restored).expected,after.expected);restored.state.modifierInputs['hiyu-ascension-next-ultimate-active']=false;near(row('1505032',restored).expected,before.expected);
 });
+
+
+test('Round57 Silver Wolf CB-none and fixed low-score Egg sequence plus scoped sword record restore through the App',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,a+' != '+b);
+ app.window.HsrTool.applyProfileCharacter({id:'1506',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10},{type:'ElationDamage',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,elation:100}});
+ app.node('hsrStat-elation').value='100';app.node('hsrPunchline').value='20';app.node('hsrMerrymake').value='0';
+ const row=(id,instance=app)=>instance.calculate().find(r=>r.attack?.name===data.attacks.find(a=>a.id===id).name);
+ Object.assign(app.state.modifierInputs,{'elation-certified-banger':0,'silver-wolf-secret-score':60,'silver-wolf-sword-box-count':0,'silver-wolf-no-break-confirmed':1,'silver-wolf-state-stable-confirmed':1});
+ const expectedAtk=3000*3.4*1.15*.36,expectedEgg=7535.107*2*2.7*1.15*.36;
+ let r=row('1506084');assert.ok(r,app.node('hsrResults').innerHTML);near(r.components.shots.nonCrit,expectedAtk);near(r.components.boxes.nonCrit,expectedEgg);near(r.nonCrit,expectedAtk+expectedEgg);
+ app.state.modifierInputs['elation-certified-banger']=40;near(row('1506084').nonCrit,7535.107*2*(1+200/280)*6.1*1.15*.36);
+ app.state.modifierInputs['silver-wolf-secret-score']=120;const high=row('1506084');near(high.nonCrit,73752.76616091431);
+ Object.assign(app.state.modifierInputs,{'silver-wolf-sword-recorded-damage':10000,'silver-wolf-sword-outside-skill11':1});near(row('1506101').nonCrit,2000);
+ app.node('hsrStat-elation').handlers.input();const restored=await tool(app.storage,data);near(row('1506084',restored).nonCrit,high.nonCrit);near(row('1506101',restored).nonCrit,2000);
+ restored.state.modifierInputs['silver-wolf-state-stable-confirmed']=0;assert.ok(!row('1506084',restored));assert.ok(row('150601',restored));
+ restored.state.modifierInputs['silver-wolf-sword-outside-skill11']=0;assert.ok(!row('1506101',restored));assert.ok(row('150601',restored));
+});

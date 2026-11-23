@@ -2974,3 +2974,69 @@ Modifier静的問題0（原登録1064行）、攻撃静的検証は既存38指�
 画面では1440/390/320pxで銀狼のCB/スコア/剣箱数/全ヒット未撃破確認の入力欄を確認。再読み込みから同じ条件の合計73753（丸め表示）を再現し、101ヒットと3箱の内訳・×1.3の表示を確認した。後から追加した旧データ互換ガードは表示構造を変えず、関連4テストと最終全体で検証した。緋英の準備済み状態、昇格OFF/不在、既算入CD・解除/保存は自動テストで確認した。旧95人全計算の全面再監査を意味しない。
 
 変更17ファイルは、計算データ3（data-files、modifiers-v47-round52、attacks-silverwolf999-round56）、計算/UI3（hsrCalcEngine、hsrModifierRuntime、hsrApp）、テスト5（hsrAhaRound52、hsrAscensionRound52、hsrAscensionRound56、hsrSilverwolf999Round56、hsrToolInputs）、既存管理/仕様5（完成管理表、本台帳、攻撃範囲、仕様03/04）、reportHsrCompletion。原神JSONの開始時SHA256 `533226bb1ed0e69bdb16a8d22fe93d1c4451dd32ac4787b08a764c19077bb7f3`を維持。.codex/.codex-tempとCurrentCalcは編集/ステージング対象外。自分の検証済みファイルだけをmainへローカルcommitし、push・デプロイしない。
+
+<a id="hsr-round57-silver-wolf"></a>
+## 第57回：銀狼のCBなし・低スコア・剣箱記録（2026-11-24）
+
+開始HEAD `765893b70a22fd1ee8d419cd8c192180f106cc50`。第56回の上限スコア/CB変換/非剣3箱の計算と、アッハ7行/負債HP・他の4.7昇格は維持する。今回3状態を照合し、固定状態で正確に成立する範囲を追加した。**銀狼LV.999のE0未認定を維持**する。CBなし/低スコアの一部と剣記録確定が計算可能になっても、主要な混在状態の完成とは扱わない。
+
+### 固定4.7の根拠と実装
+
+一次資料は[StarRailRes03907e7のJP skills](https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json)、[TBGD dad9155のSilverWolf999 Ability](https://github.com/DimbreathBot/TurnBasedGameData/blob/dad9155eb00fdeda31fb8456507c53590d49071f/Config/ConfigAbility/Avatar/Avatar_SilverWolf999_00_Ability.json) blob `9f31c3bf73adb2baf4be875061ce87851ad40261` と[Config](https://github.com/DimbreathBot/TurnBasedGameData/blob/dad9155eb00fdeda31fb8456507c53590d49071f/Config/ConfigCharacter/Avatar/Avatar_SilverWolf999_00_Config.json) blob `8c17f923871ec12652d083b0fb09927d67f93c42`。キャッシュのGit blob指紋を照合し、4.6・最新main・生成catalogの説明を新しい一次根拠へ代用しない。
+
+|状態|根拠|今回の計算範囲|
+|---|---|---|
+|CBなし通常/スキル|Skill01/02_Phase02は先にATK本体、その後ElationEchoPointフラグがある場合だけ天賦CB追加|既存本体を維持。未所持を追加愉悦へ誤変換せず、追加/合計は正のCBを必要とする既存仕様|
+|CBなし強化通常|GlobalTemplatesのSkill11_SingleShootはElationEchoPointのFailedでNormal/DamagePercentage、SuccessでByElationDamage。同じSkill11[0]/[2]係数。Skill11_Endも同じ分岐で最後撃[3]を実行|1506084でCB0を明示すると内部1506083のATK通常式100段＋最後撃を使用。CB>0は内部1506085の愉悦式。ATK側だけに通常の与ダメージを適用し、CB値を0にした愉悦式で代用しない|
+|強制SSS3箱|Skill11_Phase02は継続状態か初回かで100段/箱3回を設定し、CBフラグを要求しない。Item2_Phase02はByHaveEnemyAlive後にByElationDamage/Skill03[2]、Item3も愉悦式|エッグ3箱が実現した想定で1506086を独立合算。CB0でも箱は愉悦式。通常のSkill03で味方SP消費から確率発動するSSSのCB所持条件を、強制3箱の条件へ流用しない|
+|低スコア|`_M_SilverWolf999_00_IsDuringSkill11.OnBeforeHitAll`が毎回CurScoreを参照し、`1+.15×min(2,floor(score/60))`。JP150604の必殺必要値60、150608の閾値60/上限2層/増分15%をConfigで束縛|1506084は事前無敵・スコア60以上・実現エッグ3箱、途中のCB/スコア/参照最終値変化なしを明示確認。60～119で×1.15、120以上×1.3。段数は100＋最後撃のまま。0～59の事前無敵はこの行だけを停止し、通常/スキルは継続|
+|剣箱|`_M_SilverWolf999_00_Item1_Listener`のOnBeforeAttackで記録0、OnListenAfterHitAllでTeamLightかつ非BattleEventのResult_FinalDamageBaseを`MDF_Item1ExtraDamage += MDF_TempDamage`、OnDestroyで記録×Skill03[4]=20%を残HP最大の生存敵へTrueDamage/ByBaseDamage|1506101は強化通常の実行外で発動済み剣箱1回の完成済み記録Rを入力し、確定分R×20%のみ表示。通常Item1_Phase02の記録窓を対象とし、会心/DEF/耐性/装備補正を再適用しない。記録値自体は合算しない|
+
+剣の動的ハッシュ615588639はMDF_TempDamage、1309589169はMDF_Item1ExtraDamage。更新opcode `AQABAQIR` は加算で、乗算ではない。終端の1324597429はSkill03[4]へ対応する。Skill11_Item1_Phase02はリスナー追加→分割された愉悦攻撃→リスナー削除→次の射撃再開という別経路である。
+
+エッグ3箱の抽選確率は推測しない。今回の計算は実現した箱種を条件にする。箱/愉悦ダメージが発生しただけでCBが増えるとは推定しない一方、アッハ昇格の正のElationEchoPoint変化→SpecialSP更新→CurScore更新の経路はあるため、途中変化なしの確認がなければ低スコアの当該合計を停止する。指定スコアに対応する最終会心/速度由来愉悦度は入力へ一度含め、スコア変更から会心を自動再換算したとは扱わない。
+
+### 独立値・適用対象
+
+ATK3000・最終CR50/CD100/愉悦100%、上笑0、通常Lv6/必殺Lv10、敵Lv80/耐性20%/未撃破、他補正なし、エッグ3箱の固定状態：
+
+|状態|非会心|会心|期待値|
+|---|---:|---:|---:|
+|CB0・スコア60|21068.285209|42136.570418|31602.427814|
+|CB40・スコア60|65242.831604|130485.663208|97864.247406|
+|CB40・スコア120以上|73752.766161|147505.532322|110629.149241|
+
+CB0は`3000×3.4×1.15×.36 + 7535.107×2×2.7×1.15×.36`で、ATK100段/最後撃と箱愉悦を別計算する。CB40は`7535.107×2×(1+5×40/280)×(3.4+2.7)×スコア基礎倍率×.36`。第56回の非剣/上限基準値を維持する。剣箱記録10000なら確定分2000のみ、会心/期待値列は追加の会心枝を作らず既存確定表示に従う。
+
+通常Lv1～6×必殺Lv1～10をCB0/ありで非対称ステータスから独立検証。スコア0/59/60/119/120/240/360、昇格CD40%の不在/OFF/ON/既算入、所有者・Lv・不足値・状態解除を確認する。通常専用DMG+30%はCB0のATK側だけ、愉悦度+20%は愉悦側だけ、DEF無視15%は両方へ反映する。解除/対象外を独立値で確認し、剣箱記録にはこれらを再適用しない。ATK多段の未検証な基礎加算/倍率ポイント追加はその成分のみ停止する。
+
+### 認定を残した具体的な理由
+
+- **強化通常中の剣箱と合計**：記録加算/20%係数/記録窓は確認できたが、`FinalFormulaType:ByBaseDamage`の確定イベントに、同時に存在する`OnBeforeHitAll`のAttacker_BaseDamageMultiRatioがどう消費されるかは静的JSONだけで未確定。通常Item1とSkill11内の分割Item1で、記録・リセット・最終倍率を示す同版の実行トレース/ネイティブ計算実装が必要。強化通常外の確定記録を、強化通常合計へそのまま流用しない。
+- **低スコアでビーン等を含む混在箱**：箱ごとの資源更新時点、CB/CurScore更新、会心再換算の参照順を固定する必要がある。開始スコアの一律倍率を全ヒットへ適用しない。今回のエッグ3箱/変化なしを、混在箱の完成へ読み替えない。
+- 途中撃破/死亡/再開、複数敵配分、他所有者の反応・記録自動蓄積は今回の限定範囲外。これらの戦闘シミュレーターは新設しない。同じ静的資料の反復調査はここで終了し、上記の不足根拠が得られた場合だけ当該拡張を再開する。次回を自動計画しない。
+
+### 集計
+
+キャラ99/限定E0 95は不変。攻撃は596/計算576/参考3/表示専用17から601/581/3/17へ。新規登録5＝表示する想定状態合計1＋独立剣記録確定1＋非表示内部3。既存参考値の昇格0。内部CB/箱行は既存式の対応状態追加であり、独立した新攻撃回数として合算しない。Modifier1063/計算636（静的原登録1064/637）、光円錐172/構造化143/計算行142は不変。全未実装母数は推定しない。
+
+### 最終検証・変更ファイル・保護
+
+関連26件、画面経路4件、完成管理6件を先行確認。専用補正回帰を追加した後、最終製品コードでHSR全1246件成功（204.37秒、失敗/skip 0）。全体実行は1回。成功後の変更は本検証記録のみ。第56回の基準73752.766/147505.532/110629.149を維持し、アッハ7計算・負債HP・火花50%/15%・緋英1.75・夏アベンチュリン条件付きSPD、旧来の通常条件と既存UIDモック/保存復元も回帰成功。旧95人全計算の再監査を意味しない。
+
+Modifier静的問題0。攻撃の既存38指摘は内容/順序が開始時と完全一致（終了値1）。完成管理--check成功、変更3文書のローカルリンク371参照先に欠落なし、新規アンカーあり、git diff --check成功。1440/390/320pxの入力欄を目視し、CB0/スコア60の21068、剣箱記録10000→2000と、再読み込み後の同一条件の再計算を確認。UIの条件入力は既存モーダル・保存経路を利用した。実UID通信・実ゲーム/外部ツール照合は未実施。
+
+変更11ファイル：
+- `games/hsr/data/calc/attacks-silverwolf999-round57.json`
+- `games/hsr/data/calc/data-files.json`
+- `games/js/hsrCalcEngine.js`
+- `games/js/hsrApp.js`
+- `tests/hsr/hsrSilverwolf999Round57.test.cjs`
+- `tests/hsr/hsrToolInputs.test.cjs`
+- `scripts/reportHsrCompletion.cjs`
+- `docs/HSR_CHARACTER_COMPLETION.md`
+- `docs/HSR_MAIN_ATTACK_SCOPE.md`
+- `docs/hsr/specs/03_CALCULATION_SPEC.md`
+- `docs/HSR_COMPLETION_WORKLOAD.md`
+
+開始時から原神JSONのSHA256 `533226bb1ed0e69bdb16a8d22fe93d1c4451dd32ac4787b08a764c19077bb7f3`を維持。.codex/.codex-tempとCurrentCalcは変更/ステージング対象外。自分の検証済み11ファイルだけをmainへローカルcommitし、空commit・push・デプロイなし。

@@ -1,0 +1,465 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "v47-silverwolf999-round57",
+  "overrides": [
+    {
+      "id": "1506083",
+      "characterId": "1506",
+      "sourceSkillId": "150608",
+      "name": "ウルフロードタイム・CBなしATK100段＋最後撃",
+      "element": "Imaginary",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "multipliers": [
+        170,
+        204,
+        238,
+        272,
+        306,
+        340
+      ],
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "target": "single",
+      "hitCount": 101,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7のCBなし通常式/CBあり愉悦式と、エッグ箱3個に限定した固定スコアの合計。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-24",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 Skill11 CB分岐/100段/最後撃、Item2/Item3、OnBeforeHitAll基礎倍率; CBなしNormal分岐、Item2エッグ3箱の状態一定",
+        "verification": "tests/hsr/hsrSilverwolf999Round57.test.cjs",
+        "sourceFile": "150608.params[0..5][0,2,3,4,5,6,7];150603.params[0..9][2];150629.params[0][0]"
+      },
+      "calculationNote": "Lv80/E0・未撃破の敵1体・全段非致死・事前無敵・スコア60以上・実現したエッグ箱3個。全ヒットで靭性/スコア/最終値と本人CBが一定。CB0はATK通常式の100段と最後撃、箱だけはCB0の愉悦式。ビーンによる途中スコア更新/剣/他所有者反応は含めない。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-secret-score",
+          "label": "銀狼LV.999の事前シークレットスコア",
+          "minimum": 0,
+          "maximum": 360,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-sword-box-count",
+          "label": "今回実現した剣箱の数（0のみ計算対応）",
+          "minimum": 0,
+          "maximum": 3,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-no-break-confirmed",
+          "label": "全ヒットで弱点撃破が発生しない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-state-stable-confirmed",
+          "label": "攻撃中のCB・スコア・参照最終値が変わらない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        }
+      ],
+      "hidden": true,
+      "silverWolfSkill11": true,
+      "silverWolfEggOnly": true
+    },
+    {
+      "id": "1506085",
+      "characterId": "1506",
+      "sourceSkillId": "150608",
+      "name": "ウルフロードタイム・固定スコアCB100段＋最後撃",
+      "element": "Imaginary",
+      "type": "elation",
+      "traceKey": "normal",
+      "multipliers": [
+        170,
+        204,
+        238,
+        272,
+        306,
+        340
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 101,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7のCBなし通常式/CBあり愉悦式と、エッグ箱3個に限定した固定スコアの合計。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-24",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 Skill11 CB分岐/100段/最後撃、Item2/Item3、OnBeforeHitAll基礎倍率; CBなしNormal分岐、Item2エッグ3箱の状態一定",
+        "verification": "tests/hsr/hsrSilverwolf999Round57.test.cjs",
+        "sourceFile": "150608.params[0..5][0,2,3,4,5,6,7];150603.params[0..9][2];150629.params[0][0]"
+      },
+      "calculationNote": "Lv80/E0・未撃破の敵1体・全段非致死・事前無敵・スコア60以上・実現したエッグ箱3個。全ヒットで靭性/スコア/最終値と本人CBが一定。CB0はATK通常式の100段と最後撃、箱だけはCB0の愉悦式。ビーンによる途中スコア更新/剣/他所有者反応は含めない。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-secret-score",
+          "label": "銀狼LV.999の事前シークレットスコア",
+          "minimum": 0,
+          "maximum": 360,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-sword-box-count",
+          "label": "今回実現した剣箱の数（0のみ計算対応）",
+          "minimum": 0,
+          "maximum": 3,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-no-break-confirmed",
+          "label": "全ヒットで弱点撃破が発生しない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-state-stable-confirmed",
+          "label": "攻撃中のCB・スコア・参照最終値が変わらない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        }
+      ],
+      "hidden": true,
+      "silverWolfSkill11": true,
+      "elationComponents": [
+        {
+          "name": "100段の1段分",
+          "count": 100,
+          "multipliers": [
+            1.2,
+            1.44,
+            1.68,
+            1.92,
+            2.16,
+            2.4
+          ]
+        },
+        {
+          "name": "最後撃",
+          "count": 1,
+          "multipliers": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100
+          ]
+        }
+      ],
+      "silverWolfEggOnly": true
+    },
+    {
+      "id": "1506086",
+      "characterId": "1506",
+      "sourceSkillId": "150603",
+      "name": "ウルフロードタイム・エッグ箱3個",
+      "element": "Imaginary",
+      "type": "elation",
+      "traceKey": "ultimate",
+      "multipliers": [
+        135,
+        148.5,
+        162,
+        175.5,
+        189,
+        202.5,
+        219.36,
+        236.25,
+        253.14,
+        270
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "target": "single",
+      "hitCount": 3,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7のCBなし通常式/CBあり愉悦式と、エッグ箱3個に限定した固定スコアの合計。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-24",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 Skill11 CB分岐/100段/最後撃、Item2/Item3、OnBeforeHitAll基礎倍率; CBなしNormal分岐、Item2エッグ3箱の状態一定",
+        "verification": "tests/hsr/hsrSilverwolf999Round57.test.cjs",
+        "sourceFile": "150608.params[0..5][0,2,3,4,5,6,7];150603.params[0..9][2];150629.params[0][0]"
+      },
+      "calculationNote": "Lv80/E0・未撃破の敵1体・全段非致死・事前無敵・スコア60以上・実現したエッグ箱3個。全ヒットで靭性/スコア/最終値と本人CBが一定。CB0はATK通常式の100段と最後撃、箱だけはCB0の愉悦式。ビーンによる途中スコア更新/剣/他所有者反応は含めない。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-secret-score",
+          "label": "銀狼LV.999の事前シークレットスコア",
+          "minimum": 0,
+          "maximum": 360,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-sword-box-count",
+          "label": "今回実現した剣箱の数（0のみ計算対応）",
+          "minimum": 0,
+          "maximum": 3,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-no-break-confirmed",
+          "label": "全ヒットで弱点撃破が発生しない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-state-stable-confirmed",
+          "label": "攻撃中のCB・スコア・参照最終値が変わらない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        }
+      ],
+      "hidden": true,
+      "silverWolfSkill11": true,
+      "elationComponents": [
+        {
+          "name": "非剣SSS1箱",
+          "count": 3,
+          "multipliers": [
+            45,
+            49.5,
+            54,
+            58.5,
+            63,
+            67.5,
+            73.12,
+            78.75,
+            84.38,
+            90
+          ]
+        }
+      ],
+      "silverWolfEggOnly": true
+    },
+    {
+      "id": "1506084",
+      "characterId": "1506",
+      "sourceSkillId": "150608",
+      "name": "ウルフロードタイム（エッグ3箱・CBなし/低スコア対応）",
+      "element": "Imaginary",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "multipliers": [
+        170,
+        204,
+        238,
+        272,
+        306,
+        340
+      ],
+      "scalingStat": "elation",
+      "damageFormula": "componentSequence",
+      "target": "single",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "damageComponents": [
+        {
+          "key": "shots",
+          "attackId": "1506085",
+          "name": "CB変換100段＋最後撃"
+        },
+        {
+          "key": "boxes",
+          "attackId": "1506086",
+          "name": "エッグ箱3個"
+        }
+      ],
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定4.7のCBなし通常式/CBあり愉悦式と、エッグ箱3個に限定した固定スコアの合計。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-24",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f Avatar_SilverWolf999_00_Ability.json blob9f31c3bf73adb2baf4be875061ce87851ad40261 Skill11 CB分岐/100段/最後撃、Item2/Item3、OnBeforeHitAll基礎倍率; CBなしNormal分岐、Item2エッグ3箱の状態一定",
+        "verification": "tests/hsr/hsrSilverwolf999Round57.test.cjs",
+        "sourceFile": "150608.params[0..5][0,2,3,4,5,6,7];150603.params[0..9][2];150629.params[0][0]"
+      },
+      "calculationNote": "Lv80/E0・未撃破の敵1体・全段非致死・事前無敵・スコア60以上・実現したエッグ箱3個。全ヒットで靭性/スコア/最終値と本人CBが一定。CB0はATK通常式の100段と最後撃、箱だけはCB0の愉悦式。ビーンによる途中スコア更新/剣/他所有者反応は含めない。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "本人の爆笑の褒美（参照時点）",
+          "minimum": 0,
+          "maximum": 10000,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-secret-score",
+          "label": "銀狼LV.999の事前シークレットスコア",
+          "minimum": 0,
+          "maximum": 360,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-sword-box-count",
+          "label": "今回実現した剣箱の数（0のみ計算対応）",
+          "minimum": 0,
+          "maximum": 3,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-no-break-confirmed",
+          "label": "全ヒットで弱点撃破が発生しない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        },
+        {
+          "inputKey": "silver-wolf-state-stable-confirmed",
+          "label": "攻撃中のCB・スコア・参照最終値が変わらない（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        }
+      ],
+      "silverWolfEggOnly": true
+    },
+    {
+      "id": "1506101",
+      "characterId": "1506",
+      "sourceSkillId": "150603",
+      "name": "スーパー・グレートソード確定分（強化通常外・記録入力）",
+      "element": "Physical",
+      "type": "trueDamage",
+      "traceKey": "ultimate",
+      "multipliers": [
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "scalingStat": "none",
+      "target": "single",
+      "hitCount": 1,
+      "damageFormula": "trueDamage",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "requiredToughnessActive": true,
+      "canCrit": false,
+      "numericModifierInputs": [
+        {
+          "inputKey": "silver-wolf-sword-recorded-damage",
+          "label": "この剣箱の記録窓に加算された実ダメージ（確定分を含まない）",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "integer": false
+        },
+        {
+          "inputKey": "silver-wolf-sword-outside-skill11",
+          "label": "強化通常の実行外で発生した剣箱（確認済み:1 / 未確認:0）",
+          "minimum": 0,
+          "maximum": 1,
+          "integer": true
+        }
+      ],
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "強化通常実行外で発動済みの剣箱1回の記録確定。記録値から20%だけを計算する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "03907e798b46f9eb109a1f882055cdf49ce3d374",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/03907e798b46f9eb109a1f882055cdf49ce3d374/index_new/jp/character_skills.json",
+        "gameVersion": "4.7.0",
+        "verifiedAt": "2026-11-24",
+        "mechanicsSource": "TBGD dad9155eb00fdeda31fb8456507c53590d49071f SilverWolf999 Ability blob9f31c3bf73adb2baf4be875061ce87851ad40261 Item1_Phase02/Item1_Listener OnListenAfterHitAll ADD and OnDestroy ByBaseDamage; Config blob8c17f923871ec12652d083b0fb09927d67f93c42 Skill03[4]",
+        "verification": "tests/hsr/hsrSilverwolf999Round57.test.cjs",
+        "sourceFile": "150603.params[0..9][4]"
+      },
+      "calculationNote": "Lv80/E0・生存中/未撃破の敵1体・強化通常Skill11の実行外で発動済みの剣箱。Item1リスナー窓のResult_FinalDamageBase加算後の値を明示。会心/DEF/耐性/与ダメージを再乗算しない。入力記録そのものを今回のダメージへ加算せず、この確定成分だけを表示する。Skill11中の剣箱やその合計、外部反応の自動蓄積は対象外。"
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定4.7・CB有無/エッグ3箱の固定スコア限定計算。"
+  }
+}

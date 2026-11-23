@@ -114,6 +114,8 @@
     function certifiedBangerCurve(attack) {
         if(attack.characterId==='1511')return ({'151101':[25,30,35,40,45,50],'151102':[25,27.5,30,32.5,35,37.5,40.62,43.75,46.88,50],'1511021':Array(10).fill(20),'151103':[300,320,340,360,380,400,425,450,475,500]})[attack.id]||[];
 
+        if(attack.id==='1506085')return [170,204,238,272,306,340];
+        if(attack.id==='1506086')return [135,148.5,162,175.5,189,202.5,219.36,236.25,253.14,270];
         if(attack.id==='1506081')return [170,204,238,272,306,340];
         if(attack.id==='1506082')return [135,148.5,162,175.5,189,202.5,219.36,236.25,253.14,270];
         if(['1506041','1506042'].includes(attack.id))return [20,22,24,26,28,30,32.5,35,37.5,40];
@@ -130,7 +132,7 @@
         if(['1503031','150320','1503201'].includes(attack.id)&&attack.characterId==='1503'&&attack.sourceSkillId===(attack.id==='1503031'?'150303':'150320')&&attack.damageFormula==='elation'&&attack.type==='elation'&&attack.elationContext===(attack.id==='1503031'?'pearlLearnedSnapshot':'pearlNextAttack')&&attack.element===(attack.id==='1503201'?'Physical':'Ice')&&attack.hitCount===1&&attack.target==='single')return true;
         if(attack.id==='1503081'&&attack.characterId==='1503'&&attack.sourceSkillId==='150308'&&attack.element==='Ice'&&attack.damageFormula==='elation'&&attack.type==='elation'&&attack.elationContext==='certifiedBanger'&&attack.hitCount===1&&attack.target==='single')return true;
         if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
-        if(["1506081","1506082"].includes(attack.id)&&attack.characterId==="1506"&&attack.sourceSkillId===(attack.id==="1506081"?"150608":"150603")&&attack.element==="Imaginary"&&attack.elationContext==="certifiedBanger"&&attack.target==="single"&&attack.hitCount===(attack.id==="1506081"?101:3)&&attack.silverWolfSkill11===true)return true;
+        if(["1506081","1506082","1506085","1506086"].includes(attack.id)&&attack.characterId==="1506"&&attack.sourceSkillId===(["1506081","1506085"].includes(attack.id)?"150608":"150603")&&attack.element==="Imaginary"&&attack.elationContext==="certifiedBanger"&&attack.target==="single"&&attack.hitCount===(["1506081","1506085"].includes(attack.id)?101:3)&&attack.silverWolfSkill11===true)return true;
         if(['1506041','1506042'].includes(attack.id)&&attack.characterId==='1506'&&attack.sourceSkillId==='150604'&&attack.element==='Imaginary'&&attack.elationContext==='certifiedBanger'&&attack.hitCount===1&&attack.target==='single')return true;
         if(attack.id==='1502041'&&attack.characterId==='1502'&&attack.sourceSkillId==='150204'&&attack.element==='Physical'&&attack.elationContext==='certifiedBanger'&&attack.hitCount===1&&attack.target==='single')return true;
         if(attack.id==='150221'&&attack.characterId==='1502'&&attack.sourceSkillId==='150220'&&attack.element==='Physical'&&attack.elationContext==='ultimateAha'&&attack.fixedPunchline===20&&attack.target==='single'&&attack.hitCount===6)return true;
@@ -167,10 +169,10 @@
             if(a.elationContext==='certifiedBanger'&&(values.context!=='certifiedBanger'||!Number.isInteger(values.certifiedBanger)||values.certifiedBanger<0||values.certifiedBanger>10000))warnings.push('攻撃時点の爆笑/大爆笑の褒美に0～10000の整数を入力してください。');
         }
         if(input.attack?.id==='1503081' &&(character.id!=='1503'||input.enemy?.toughnessActive!==true||input.attack.traceLevel>6||values.certifiedBanger>50||(input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&(m.category==='progressiveTakenDamage'||['statPercent','statFlat'].includes(m.category)&&m.stat==='def'))))warnings.push('パール本人の最終愉悦度へDEF変換を一度含め、爆笑の褒美1～50を指定してください。未撃破の敵1体・通常Lv1～6のみ対応です。');
-        if(['1506081','1506082'].includes(input.attack?.id)){
-            const issue=silverWolfSkill11Issue(input);if(issue)warnings.push(issue);
+        if(['1506081','1506082','1506085','1506086'].includes(input.attack?.id)){
+            const issue=input.attack.silverWolfEggOnly?silverWolfEggIssue(input):silverWolfSkill11Issue(input);if(issue)warnings.push(issue);
             const a=input.attack,l=a.traceLevel,parts=elationComponents(a),shots=[1.2,1.44,1.68,1.92,2.16,2.4],last=[50,60,70,80,90,100];
-            if(a.multiplier!==certifiedBangerCurve(a)[l-1]||a.id==='1506081'&&(parts.length!==2||parts[0].count!==100||parts[1].count!==1||parts[0].multiplierPercent!==shots[l-1]||parts[1].multiplierPercent!==last[l-1])||a.id==='1506082'&&(parts.length!==1||parts[0].count!==3||Math.abs(parts[0].multiplierPercent*3-a.multiplier)>1e-8))warnings.push('固定4.7の強化通常100段/最後撃と非剣SSS3箱の構成を確認してください。');
+            if(a.multiplier!==certifiedBangerCurve(a)[l-1]||['1506081','1506085'].includes(a.id)&&(parts.length!==2||parts[0].count!==100||parts[1].count!==1||parts[0].multiplierPercent!==shots[l-1]||parts[1].multiplierPercent!==last[l-1])||['1506082','1506086'].includes(a.id)&&(parts.length!==1||parts[0].count!==3||Math.abs(parts[0].multiplierPercent*3-a.multiplier)>1e-8))warnings.push('固定4.7の強化通常100段/最後撃と非剣SSS3箱の構成を確認してください。');
         }
         if(['1506041','1506042'].includes(input.attack?.id)){
             const a=input.attack;
@@ -195,7 +197,7 @@
         } else if (input.attack?.elationContext === "certifiedBanger" && input.attack?.characterId!=="1511") {
             const a=input.attack,curve=certifiedBangerCurve(a);
             if(["8009041","8010041"].includes(a.id)&&(a.certifiedBangerScope!=="selfIsPartyMaximum"||a.characterId!==a.id.slice(0,4)))warnings.push("開拓者の追加愉悦は本人の爆笑の褒美が味方内最大の比較状態のみ計算対応です。");
-            if(values.context!=='certifiedBanger'||!Number.isInteger(values.certifiedBanger)||values.certifiedBanger<1||values.certifiedBanger>10000)warnings.push('攻撃時点の爆笑の褒美に1～10000の整数を入力してください。爆笑ネタは使用しません。');
+            if(values.context!=='certifiedBanger'||!Number.isInteger(values.certifiedBanger)||values.certifiedBanger<(a.id==='1506086'?0:1)||values.certifiedBanger>10000)warnings.push('攻撃時点の爆笑の褒美に1～10000の整数を入力してください。爆笑ネタは使用しません。');
             if(input.enemy?.count!==1||a.multiplier!==curve[a.traceLevel-1])warnings.push('追加愉悦の天賦倍率・敵1体の条件を確認してください。');
             if(a.id==='1501042'){const parts=elationComponents(a);if(parts.length!==2||parts[0].count!==1||parts[1].count!==a.sparxieTrapCount||Math.abs(parts.reduce((n,p)=>n+p.count*p.multiplierPercent,0)-a.multiplier)>1e-8)warnings.push('火花の本人CB・主対象とトラップ回数の成分を確認してください。');}
             if(a.id==='1505042'){const parts=elationComponents(a);if(parts.length!==2||parts[0].count!==1||parts[1].count!==9||parts.some(p=>!Number.isFinite(p.multiplierPercent))||Math.abs(parts.reduce((n,p)=>n+p.count*p.multiplierPercent,0)-a.multiplier)>1e-8)warnings.push('緋英の全体1回・9バウンドの追加愉悦成分を確認してください。');}
@@ -238,6 +240,7 @@
 
     // Scoped to one final, non-True damage instance; no automatic result chaining.
     function supportedTrueAttack(attack) {
+        if(attack.id==='1506101')return attack.characterId==='1506'&&attack.sourceSkillId==='150603'&&attack.damageFormula==='trueDamage'&&attack.type==='trueDamage'&&attack.target==='single'&&attack.hitCount===1;
         if(['1800707','1800807'].includes(attack.id))return attack.characterId===(attack.id==='1800707'?'8007':'8008')&&attack.sourceSkillId==='1800707'&&attack.damageFormula==='trueDamage'&&attack.type==='trueDamage'&&attack.target==='single'&&attack.hitCount===1;
 
         if (["1406033","1406034"].includes(attack.id)) return attack.characterId === "1406" && attack.sourceSkillId === "140603" && attack.damageFormula === "trueDamage" && attack.type === "trueDamage" && attack.target === "single" && attack.hitCount === 1;
@@ -248,6 +251,11 @@
 
     function trueDamageInputWarnings(input = {}) {
         const values = input.trueDamage || {};
+        if(input.attack?.id==='1506101'){
+            const a=input.attack,c=input.character||{},v=input.modifierInputs||{},l=a.traceLevel;
+            return c.id==='1506'&&c.level===80&&c.eidolon===0&&input.enemy?.count===1&&input.enemy.toughnessActive===true&&v['silver-wolf-sword-outside-skill11']===1&&values.active===true&&values.sourceKind==='silverWolfSwordRecord'&&Number.isFinite(values.originalDamage)&&values.originalDamage>=0&&values.originalDamage<=1e12&&values.originalDamage===v['silver-wolf-sword-recorded-damage']&&a.multiplier===20&&Number.isInteger(l)&&l>=1&&l<=10?[]:['強化通常の実行外で発生した剣箱1回の記録加算後値0以上を指定してください。Lv80/E0・生存中の未撃破敵1体、必殺Lv1～10のみ対応です。'];
+        }
+
         if(['1800707','1800807'].includes(input.attack?.id)){
             const a=input.attack,l=a.traceLevel,ep=input.modifierInputs?.['mem-beneficiary-max-energy'],v=input.modifierInputs?.['mem-original-damage'];
             return input.character?.level===80&&input.character?.eidolon===0&&input.enemy?.count===1&&Number.isInteger(l)&&l>=1&&l<=6&&Number.isInteger(ep)&&ep>=100&&ep<=200&&ep%10===0&&Number.isFinite(v)&&v>=0&&v<=1e12&&values.active===true&&values.sourceKind==='memSupportFinalNonTrueDamage'&&values.originalDamage===v&&a.multiplier===[18,20,22,24,26,28][l-1]+Math.min(20,(ep-100)/10*2)?[]:['応援が成立した味方の元ダメージ1回と最大EP100～200（10刻み）、精霊スキルLv1～6を指定してください。Lv80/E0・敵1体のみ対応です。'];
@@ -280,7 +288,7 @@
             attack: { name: input.attack.name, hitCount: 1, target: "single", canCrit: false },
             nonCrit: value,
             ...(["1406033","1406034","1800707","1800807"].includes(input.attack.id) ? {crit:value,expected:value} : {}),
-            breakdown: { damageFormula: "trueDamage", sourceKind:input.trueDamage.sourceKind, originalDamage, multiplierPercent, condition: ['1800707','1800807'].includes(input.attack.id)?'応援が事前成立・元ダメージは確定分を含まない指定味方の補正後1回分': ["1406033","1406034"].includes(input.attack.id) ? "サフェルのこの成分が参照する記録値。補正/会心を再適用しない" : "領域有効・キュレネ生存／確定ダメージを含まない元ダメージ1回分" },
+            breakdown: { damageFormula: "trueDamage", sourceKind:input.trueDamage.sourceKind, originalDamage, multiplierPercent, condition: input.attack.id==='1506101'?'強化通常実行外の剣箱の記録加算後値×20%。記録値そのものは合計せず、会心/DEF/耐性等を再適用しない。':['1800707','1800807'].includes(input.attack.id)?'応援が事前成立・元ダメージは確定分を含まない指定味方の補正後1回分': ["1406033","1406034"].includes(input.attack.id) ? "サフェルのこの成分が参照する記録値。補正/会心を再適用しない" : "領域有効・キュレネ生存／確定ダメージを含まない元ダメージ1回分" },
             applied: [],
             skipped: (input.modifiers || []).map(normalizeModifier).map((item) => ({ ...item, applicable: false, reason: "確定ダメージへ補正を再適用しません。元ダメージに含まれる補正は保持します。" }))
         };
@@ -331,7 +339,7 @@
     };
 
     function unsupportedAttackReason(attack = {}) {
-        if(attack.id==="150608"&&attack.characterId==="1506"&&attack.sourceSkillId==="150608"&&attack.type==="enhancedNormal"&&attack.damageFormula==="componentSequence"&&attack.element==="Imaginary")return "";
+        if(["150608","1506084"].includes(attack.id)&&attack.characterId==="1506"&&attack.sourceSkillId==="150608"&&attack.type==="enhancedNormal"&&attack.damageFormula==="componentSequence"&&attack.element==="Imaginary")return "";
         if (attack.characterId==='1511' && attack.element==='Quantum' && (attack.id==='1511022'&&attack.sourceSkillId==='151102'&&attack.type==='skill'&&attack.damageFormula==='componentSequence'||attack.id==='1511202'&&attack.sourceSkillId==='151120'&&attack.type==='elation'&&attack.damageFormula==='ahaFinale')) return '';
 
         if(attack.id==="151022"&&attack.characterId==="1510"&&attack.sourceSkillId===attack.id&&attack.type==="assist"&&attack.element==="Fire"&&attack.damageFormula==="componentSequence")return "";
@@ -603,13 +611,44 @@ function calculateFanning(input) {
         return withAhaDebtSnapshot(input,calculateAttack(input));
     }
 
+    function silverWolfAscended(input) { return (input.modifiers||[]).some(m=>m.id==='v47:trace:1506:150629:crit-damage'&&m.category==='critDamage'&&m.value===40&&(m.sourceMeta||m.source)?.kind==='trace'&&(m.sourceMeta||m.source)?.id==='1506'&&(m.sourceMeta||m.source)?.skillId==='150629'&&m.providerId==='1506'&&m.activation?.active===true&&m.activation?.requiredCharacterId==='1511'&&m.activation?.requiredCharacterMaxEidolon===0&&!m.inputWarnings?.length&&((m.enabled===true&&m.applicable!==false)||m.includedInFinalStats===true)); }
+
     function silverWolfSkill11Issue(input) {
         const a=input.attack,c=input.character||{},e=input.enemy||{},v=input.modifierInputs||{};
-        const ascended=(input.modifiers||[]).some(m=>m.id==='v47:trace:1506:150629:crit-damage'&&m.category==='critDamage'&&m.value===40&&(m.sourceMeta||m.source)?.kind==='trace'&&(m.sourceMeta||m.source)?.id==='1506'&&(m.sourceMeta||m.source)?.skillId==='150629'&&m.providerId==='1506'&&m.activation?.active===true&&m.activation?.requiredCharacterId==='1511'&&m.activation?.requiredCharacterMaxEidolon===0&&!m.inputWarnings?.length&&((m.enabled===true&&m.applicable!==false)||m.includedInFinalStats===true));
+        const ascended=silverWolfAscended(input);
         if(c.id!=='1506'||c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==true||v['silver-wolf-secret-score']!==(ascended?360:240)||v['silver-wolf-sword-box-count']!==0||v['silver-wolf-no-break-confirmed']!==1)return 'この強化通常は事前無敵・CB所持・スコア上限240（昇格中360）・剣箱0/非剣箱3個が実現し、全ヒットで弱点撃破が発生しないと確認した敵1体の固定状態のみ対応です。';
         if((input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.includedInFinalStats!==true&&(m.category==='progressiveTakenDamage'||['critRate','critRateOverride'].includes(m.category)||['statFlat','statPercent'].includes(m.category)&&m.stat==='speed')))return 'スコア由来会心とSPD由来愉悦を完成済み最終値へ一度反映してください。途中の再変換は対象外です。';
         if(!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>(a.id==='1506082'?10:6))return '強化通常Lv1～6と箱の必殺Lv1～10を指定してください。';
         return '';
+    }
+
+    function silverWolfEggIssue(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},v=input.modifierInputs||{},cb=v['elation-certified-banger'],score=v['silver-wolf-secret-score'];
+        if(c.id!=='1506'||c.level!==80||c.eidolon!==0||a.characterId!=='1506'||e.count!==1||e.toughnessActive!==true||!Number.isInteger(cb)||cb<0||cb>10000||!Number.isInteger(score)||score<60||score>(silverWolfAscended(input)?360:240)||v['silver-wolf-sword-box-count']!==0||v['silver-wolf-no-break-confirmed']!==1||v['silver-wolf-state-stable-confirmed']!==1)return 'この行はLv80/E0・事前無敵・スコア60以上・実現したエッグ3箱の固定状態のみ。CB0を明示し、全段未撃破/非致死と、CB/スコア/参照最終値の途中変化なしを確認してください。';
+        if(!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>(a.id==='1506086'?10:6))return '本人通常Lv1～6と、箱の必殺Lv1～10を独立に指定してください。';
+        if((input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.includedInFinalStats!==true&&(m.category==='progressiveTakenDamage'||['critRate','critRateOverride'].includes(m.category)||['statFlat','statPercent'].includes(m.category)&&m.stat==='speed')))return 'スコア会心と速度由来愉悦を最終値へ一度含め、途中の再換算を除外してください。';
+        return '';
+    }
+    function silverWolfScoreFactor(input) { return 1+.15*Math.min(2,Math.floor(input.modifierInputs['silver-wolf-secret-score']/60)); }
+    function calculateSilverWolfEggSequence(input) {
+        const issue=silverWolfEggIssue(input);if(issue)return {supported:false,reason:issue};
+        const a=input.attack,parts=input.sequenceComponents||[],cb=input.modifierInputs['elation-certified-banger'];
+        if(parts.length!==2||!Number.isInteger(a.ultimateTraceLevel)||a.ultimateTraceLevel<1||a.ultimateTraceLevel>10)return {supported:false,reason:'100段/最後撃とエッグ3箱の2成分、本人の通常Lvと必殺Lvが必要です。'};
+        for(let i=0;i<2;i++){
+            const p=parts[i],q=p?.input||{},b=q.attack||{};
+            if(p.key!==['shots','boxes'][i]||b.id!==[cb===0?'1506083':'1506085','1506086'][i]||b.traceLevel!==(i?a.ultimateTraceLevel:a.traceLevel)||JSON.stringify(q.character)!==JSON.stringify(input.character)||JSON.stringify(q.enemy)!==JSON.stringify(input.enemy)||JSON.stringify(q.modifierInputs)!==JSON.stringify(input.modifierInputs)||!(i===0&&cb===0)&&(q.elation?.context!=='certifiedBanger'||q.elation?.certifiedBanger!==cb))return {supported:false,reason:'同一所有者・敵・固定状態と、CB0のATK分岐/CBありの愉悦分岐に対応する成分を指定してください。'};
+        }
+        return combineDamageComponents(a,parts,'100段＋最後撃＋エッグ3箱（固定スコア基礎倍率×'+silverWolfScoreFactor(input)+'）');
+    }
+    function calculateSilverWolfAtkShots(input) {
+        const issue=silverWolfEggIssue(input);if(issue)return {supported:false,reason:issue};
+        const a=input.attack,l=a.traceLevel,curve=[170,204,238,272,306,340];
+        if(input.modifierInputs['elation-certified-banger']!==0||a.sourceSkillId!=='150608'||a.damageFormula!=='statMultiplier'||a.scalingStat!=='atk'||a.element!=='Imaginary'||a.type!=='enhancedNormal'||a.hitCount!==101||a.multiplier!==curve[l-1]||a.scalingTerms?.length||!Number.isFinite(input.character.stats?.atk)||input.character.stats.atk<=0)return {supported:false,reason:'CBなしのATK通常式100段と最後撃の固定倍率・本人ATKを確認してください。'};
+        // The ordinary engine consumes a per-hit coefficient. Aggregate only under the explicit static-state guard.
+        if((input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&['multiplierAddition','baseDamageAddition'].includes(m.category)))return {supported:false,reason:'このATK多段集計は基礎加算/倍率ポイント追加を扱いません。当該成分だけを除外します。'};
+        const factor=silverWolfScoreFactor(input),r=calculateAttack({...input,attack:{...a,id:'1506083:resolved',hitCount:1,hitCountLabel:'全段合算'},modifiers:[...(input.modifiers||[]),{id:'silver-wolf-fixed-score-base',name:'固定スコアの基礎倍率',category:'independentMultiplier',value:(factor-1)*100,enabled:true,applicable:true,calculable:true,target:{owner:'self',attackTypes:['all']},support:{status:'calculable'}}]});
+        if(r.supported===false)return r;
+        return {...r,attack:{...r.attack,name:a.name,hitCount:101,hitCountLabel:'全段合算'},perHit:{nonCrit:r.nonCrit/101,crit:r.crit/101,expected:r.expected/101},breakdown:{...r.breakdown,silverWolfScoreFactor:factor}};
     }
 
     function calculateSilverWolfSkill11(input) {
@@ -624,6 +663,8 @@ function calculateFanning(input) {
     }
 
     function calculateAttack(input) {
+        if(input.attack?.id==='1506084')return calculateSilverWolfEggSequence(input);
+        if(input.attack?.id==='1506083')return calculateSilverWolfAtkShots(input);
         if(input.attack?.id==='150608')return calculateSilverWolfSkill11(input);
         if(['1511022','1511202'].includes(input.attack?.id))return calculateAhaSequence(input);
         if(['1414031','1414032','14141031'].includes(input.attack?.id)){
@@ -1566,7 +1607,7 @@ function calculateFanning(input) {
         const multiplierPercent=originalMultiplierPercent*(1+applied.filter(m=>ascensionOriginalMultiplier(m,attack)).reduce((sum,m)=>sum+m.value,0)/100);
         if(multiplierPercent!==originalMultiplierPercent)components.forEach(p=>{p.originalMultiplierPercent=p.multiplierPercent;p.multiplierPercent*=multiplierPercent/originalMultiplierPercent;});
         const hitCount = attack.id === "151321" ? 11 + values.fervor : attack.hitCount;
-        const skill11BaseMultiplier=['1506081','1506082'].includes(attack.id)?1.3:1;
+        const skill11BaseMultiplier=['1506085','1506086'].includes(attack.id)?silverWolfScoreFactor(input):['1506081','1506082'].includes(attack.id)?1.3:1;
         const baseDamage = levelBase * multiplierPercent / 100*skill11BaseMultiplier;
         const elationPercent = stats.elation + sum("elation");
         const elationMultiplier = 1 + elationPercent / 100;
@@ -1595,7 +1636,7 @@ function calculateFanning(input) {
             attack: { name: attack.name, hitCount, hitCountLabel:attack.hitCountLabel, target: attack.target, canCrit: true, scalingStat: "elation" },
             nonCrit, crit, expected, perHit: { nonCrit: nonCrit / hitCount, crit: crit / hitCount, expected: expected / hitCount }, applied, skipped,
             breakdown: {
-                ...(["1506081", "1506082", "150220", "150221", "151320", "151321", "1505042", "800920", "801020"].includes(attack.id) ? { elationComponents: components.map((component) => {
+                ...(["1506081", "1506082", "1506085", "1506086", "150220", "150221", "151320", "151321", "1505042", "800920", "801020"].includes(attack.id) ? { elationComponents: components.map((component) => {
                     const perHitNonCrit = levelBase * component.multiplierPercent / 100 * commonMultiplier*skill11BaseMultiplier;
                     return { ...component, perHitNonCrit, nonCrit: perHitNonCrit * component.count,
                         crit: perHitNonCrit * component.count * critMultiplier, expected: perHitNonCrit * component.count * expectedCritMultiplier };
@@ -1603,7 +1644,7 @@ function calculateFanning(input) {
                 damageFormula: "elation", levelBase, referenceValue: levelBase, multiplierPercent, skill11BaseMultiplier,
                 multiplierAddition: 0, scalingTerms: [], flatDamage: 0, baseDamage,
                 elationPercent, elationMultiplier, punchline, punchlineMultiplier,
-                ...(attack.elationContext === "certifiedBanger" ? {certifiedBanger:punchline,inputCertifiedBanger:values.certifiedBanger,minimumCertifiedBanger:attack.minimumCertifiedBanger || 0,punchlineSource:"certifiedBanger",elationScopeNote:['1506081','1506082'].includes(attack.id)?'CB変換強化通常の限定成分。スコア上限・非剣SSS3箱・全ヒット未撃破/非致死を維持。100段/最後撃と3箱を1回だけ合算します。':attack.characterId==='1505'?"緋英本人の爆笑の褒美による追加愉悦成分のみ。必殺技は固定版の最大EP480を参照下限に使用。9バウンドと全体分は状態一定で合算し、通常ダメージ・キツネ先生・他の追加愉悦を自動合算しません。":"爆笑の褒美を使う独立した天賦追加愉悦。爆笑ネタ/熱気は参照せず、直撃と自動合算しません。"} : {}),
+                ...(attack.elationContext === "certifiedBanger" ? {certifiedBanger:punchline,inputCertifiedBanger:values.certifiedBanger,minimumCertifiedBanger:attack.minimumCertifiedBanger || 0,punchlineSource:"certifiedBanger",elationScopeNote:['1506085','1506086'].includes(attack.id)?'実現したエッグ3箱・スコア/CB/最終値が途中で変わらない限定成分。100段/最後撃と強制SSS3箱を一度だけ合算します。':['1506081','1506082'].includes(attack.id)?'CB変換強化通常の限定成分。スコア上限・非剣SSS3箱・全ヒット未撃破/非致死を維持。100段/最後撃と3箱を1回だけ合算します。':attack.characterId==='1505'?"緋英本人の爆笑の褒美による追加愉悦成分のみ。必殺技は固定版の最大EP480を参照下限に使用。9バウンドと全体分は状態一定で合算し、通常ダメージ・キツネ先生・他の追加愉悦を自動合算しません。":"爆笑の褒美を使う独立した天賦追加愉悦。爆笑ネタ/熱気は参照せず、直撃と自動合算しません。"} : {}),
                 ...(['1503081','1503031','150320','1503201'].includes(attack.id) ? {elationScopeNote: attack.id==='1503081' ? 'パール本人の爆笑の褒美による追加愉悦1回。複合行では直接攻撃と同じ合計に含めます。単独行と合計を重複加算しないでください。' : attack.id==='1503031' ? '深層学習中の強化通常後に発生する氷付加1回。底本の最終愉悦・会心と、パール側の爆笑ネタを参照します。' : '150320成立後の次回攻撃に付く愉悦1回。攻撃者本人の最終値・攻撃属性と、パール側の爆笑ネタを参照します。アッハ自体の直接ダメージではありません。'} : {}),
                 ...(attack.id === "150221" ? {punchlineSource:'fixedUltimate',elationScopeNote:'必殺技が追加したアッハの本人6段。固定爆笑ネタ20を使い、通常アッハの手動入力や消費履歴を参照しません。全体1回＋ランダム5回・敵1体・状態一定。'} : {}),
                 ...(attack.id === "151320" ? { punchlineSource: "fixedTalent", elationScopeNote: "熱気10到達の通常版自動発動・敵1体・全体1ヒット＋追加10ヒット。爆笑ネタは天賦固定20。全ヒット中の撃破・敵条件変化なし。" } : {}),

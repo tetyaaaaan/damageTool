@@ -199,7 +199,7 @@
     }
     if(char?.id==='1506'){
       $('hsrElationScope').textContent='銀狼LV.999・Lv80/E0・未撃破の敵1体。通常/スキル追加愉悦と、CB変換強化通常（スコア上限・非剣SSS3箱）を別に比較します。';
-      $('hsrPunchlineHelp').textContent='現在の爆笑ネタを使用。スコア由来会心とSPD由来愉悦は最終値へ一度含めてください。愉悦6段は従来のスコア240固定。強化通常は全ヒット未撃破を確認し、スコア上限240（昇格中360）・実現した剣箱0に限定。剣箱、途中死亡、資源自動更新は含みません。';
+      $('hsrPunchlineHelp').textContent='現在の爆笑ネタを使用。スコア由来会心とSPD由来愉悦は最終値へ一度含めてください。愉悦6段は従来のスコア240固定。エッグ3箱の別行ではCB0のATK分岐とスコア60以上の固定状態を比較できます。CB・スコア・最終値の途中変化なしを確認してください。従来の強化通常は全ヒット未撃破を確認し、スコア上限240（昇格中360）・実現した剣箱0に限定。剣箱、途中死亡、資源自動更新は含みません。';
     }
     if(char?.id==='1501'){
       $("hsrElationScope").textContent='火花Lv80/E0・未撃破の敵1体。通常アッハタイム21段と、本人CBによる強化通常/必殺の追加愉悦を別に比較します。';
@@ -1286,7 +1286,7 @@
   function modifierTargetsCalculation(item, attack) {
     if(['1503081','1503080','150308','150320'].includes(attack.id)&&(item.category==='progressiveTakenDamage'||['statPercent','statFlat'].includes(item.category)&&item.stat==='def'))return true;
     if(state.characterId==='1402'&&!attack.requiresIndependentLaftra&&['statFlat','statPercent'].includes(item.category)&&item.stat==='speed')return true;
-    if(['150621','1506041','1506042','1506081','1506082'].includes(attack.id)&&(item.category==='progressiveTakenDamage'||['critRate','critRateOverride'].includes(item.category)||['statFlat','statPercent'].includes(item.category)&&item.stat==='speed'))return true;
+    if(['150621','1506041','1506042','1506081','1506082','1506085','1506086'].includes(attack.id)&&(item.category==='progressiveTakenDamage'||['critRate','critRateOverride'].includes(item.category)||['statFlat','statPercent'].includes(item.category)&&item.stat==='speed'))return true;
     if (attack.fixedCritStats && ["critRate","critRateOverride","critDamage"].includes(item.category)) return false;
     if (attack.damageFormula === "trueDamage") return false;
     if (state.characterId === "1205" && attack.type === "normal" && item.activation?.inputKey === "blade-hellscape-active") return false;
@@ -1335,6 +1335,13 @@
   }
 
   function resolvedAttack(selected) {
+    if(selected.id==='1506101'){const l=state.traceLevels.ultimate;return {...selected,traceLevel:l,multiplier:selected.multipliers[l-1],attackType:selected.type,referenceTrueDamage:{active:true,sourceKind:'silverWolfSwordRecord',originalDamage:state.modifierInputs['silver-wolf-sword-recorded-damage']}};}
+
+    if(selected.id==='1506084'&&selected.damageFormula==='componentSequence'&&Array.isArray(selected.damageComponents)){
+      const level=state.traceLevels.normal,cb=state.modifierInputs['elation-certified-banger'];
+      const parts=selected.damageComponents.map((d,i)=>resolvedAttack(state.data.attacks.find(a=>a.id===(i===0&&cb===0?'1506083':d.attackId))));
+      return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:'enhancedNormal',ultimateTraceLevel:state.traceLevels.ultimate,sequenceAttacks:parts,traceLevelLabel:`通常Lv${level}＋必殺Lv${state.traceLevels.ultimate}`};
+    }
     if(selected.id==='150608'&&selected.damageFormula==='componentSequence'&&Array.isArray(selected.damageComponents)){
       const level=state.traceLevels.normal,parts=selected.damageComponents.map(d=>resolvedAttack(state.data.attacks.find(a=>a.id===d.attackId)));
       return {...selected,traceLevel:level,multiplier:selected.multipliers[level-1],attackType:'enhancedNormal',ultimateTraceLevel:state.traceLevels.ultimate,sequenceAttacks:parts,traceLevelLabel:`通常Lv${level}＋必殺Lv${state.traceLevels.ultimate}`};
