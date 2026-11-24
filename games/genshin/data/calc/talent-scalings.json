@@ -58684,6 +58684,7 @@
         },
         {
           "id": "100_damage",
+          "effectId": "lumi_megaton_hammer",
           "label": "ルミの100万トンハンマーダメージ",
           "attackType": "skill",
           "damageType": "skill",

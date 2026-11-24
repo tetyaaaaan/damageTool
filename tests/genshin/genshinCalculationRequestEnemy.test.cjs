@@ -67,6 +67,7 @@ test("enemy presets preserve custom as the default and expose physical resistanc
     assert.equal(enemies.categories.elite, "精鋭・機械");
     assert.equal(ruinGuard.resistance.defaultElemental, 10);
     assert.equal(ruinGuard.resistance.physical, 70);
+    assert.equal(masanori.defaultLevel, 95);
     assert.equal(masanori.resistance.physical, -20);
     assert.deepEqual(pyroSlime.immunities, ["pyro"]);
     assert.equal(pyroSlime.resistance.byElement.pyro, undefined);

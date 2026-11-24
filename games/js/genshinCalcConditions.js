@@ -573,7 +573,7 @@
             if (modifier.category === "extraDamage") return "被弾時の反撃";
         }
         const targets = modifierTargetLabels(modifier);
-        const targetText = targets.length ? targets.join("・") : "対象ダメージ";
+        const targetText = modifier.target?.nameJa || (targets.length ? targets.join("・") : "対象ダメージ");
         if (modifier.category === "extraDamage") return ["追加ダメージ", "対象ダメージ"].includes(targetText) ? "追加攻撃" : `${targetText}の追加ダメージ`;
         if (modifier.category === "critBonus" || modifier.category === "reactionCritBonus") return `${targetText}の会心補正`;
         if (modifier.category === "damageBonus" || modifier.category === "reactionBonus") return `${targetText}のダメージ補正`;
@@ -1473,6 +1473,7 @@
             const target = modifierImpactLabel(effect.modifier);
             if (consume === "all") messages.push(`${target}では入力した層をすべて消費します。`);
             else if (Number.isFinite(Number(consume))) messages.push(`${target}では${Number(consume)}層消費します。`);
+            else if (consume.type === "upTo" && Number.isFinite(Number(consume.max))) messages.push(`${target}では最大${Number(consume.max)}層消費します。`);
         });
         return [control.help, ...new Set(messages)].filter(Boolean).join(" ");
     }
@@ -1530,7 +1531,7 @@
                     section.controls.push({
                         ...control,
                         label: control.type === "toggle" ? effect.modifier.conditionLabel || `C${level}${effect.modifier.category === "extraDamage" ? "追加攻撃" : effect.modifier.category === "critBonus" ? "会心補正" : categoryLabel(effect.modifier.category)}を適用` : control.label,
-                        help: control.type === "toggle" ? "この星座効果が発動している場合に有効にします。" : control.help
+                        help: control.type === "toggle" ? effect.modifier.conditionHelp || "この星座効果が発動している場合に有効にします。" : control.help
                     });
                 }
             });

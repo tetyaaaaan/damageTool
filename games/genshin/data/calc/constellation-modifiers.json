@@ -14841,20 +14841,27 @@
           "applyTo": [
             "lunarCrystallizeDamage"
           ],
+          "targetOwner": "team",
+          "reactionTargetsOnly": true,
+          "excludeTargetEffects": ["lumi_megaton_hammer"],
+          "participantScope": "recipientLocal",
+          "partyResourceInput": true,
           "unit": "percent",
           "reference": {
             "stat": "def",
-            "source": "provider",
-            "providerCharacterId": "10000130",
-            "providerNameJa": "リンネア"
+            "source": "self",
+            "includeAppliedStatBonuses": true,
+            "includeProviderConditionalStats": true
           },
           "resource": {
             "id": "literatureResearch",
+            "nameJa": "文献調査",
             "consume": 1,
             "requiredMin": 1
           },
           "trigger": "onPartyLunarCrystallizeDamage",
           "condition": "whenPartyMemberDealsLunarCrystallizeDamage",
+          "conditionLabel": "月結晶ダメージに文献調査1層分を加算",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "sourceText": "元素スキル**ルミのやっふー作戦**を発動した時、または「月籠の共鳴」が発動した時、リンネアは「文献調査」効果を6層獲得する。この効果は10秒間持続し、最大18層まで累積できる。付近にいるチーム内キャラクターが月結晶反応ダメージを与えた時、「文献調査」が1層消費され、与えるダメージがリンネアの防御力の75%分アップする。\nまた、ルミが**さいごのきりふだ形態**で100万トンハンマーを使用すると、リンネアは「文献調査」を最大5層消費する。この時、1層につき与えるダメージがリンネアの防御力の150%分アップする。",
@@ -14869,18 +14876,19 @@
         },
         {
           "id": "c_10000130_1_3",
-          "auditDisposition": "sourceContextRequired",
           "category": "additiveBaseDamage",
           "applyTo": [
             "skillDamage"
           ],
+          "targetOwner": "self",
+          "targetGroups": ["skill"],
+          "targetEffect": "lumi_megaton_hammer",
           "valuePerConsumedStack": 150,
           "unit": "percent",
           "reference": {
             "stat": "def",
-            "source": "provider",
-            "providerCharacterId": "10000130",
-            "providerNameJa": "リンネア"
+            "source": "self",
+            "includeAppliedStatBonuses": true
           },
           "target": {
             "section": "skill",
@@ -14898,6 +14906,7 @@
             "requiredMin": 1
           },
           "condition": "lumiMegatonHammerInFinalTrickMode",
+          "conditionLabel": "100万トンハンマーに文献調査最大5層分を加算",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "sourceText": "元素スキル**ルミのやっふー作戦**を発動した時、または「月籠の共鳴」が発動した時、リンネアは「文献調査」効果を6層獲得する。この効果は10秒間持続し、最大18層まで累積できる。付近にいるチーム内キャラクターが月結晶反応ダメージを与えた時、「文献調査」が1層消費され、与えるダメージがリンネアの防御力の75%分アップする。\nまた、ルミが**さいごのきりふだ形態**で100万トンハンマーを使用すると、リンネアは「文献調査」を最大5層消費する。この時、1層につき与えるダメージがリンネアの防御力の150%分アップする。",
@@ -14946,6 +14955,9 @@
           "unit": "percent",
           "condition": "afterLunarResonance",
           "duration": 8,
+          "conditionLabel": "会心ダメージ＋40%（水・岩元素キャラクター）",
+          "conditionHelp": "月籠の共鳴を発動した後の8秒間、チーム内の水・岩元素キャラクターに適用します。",
+          "targetOwner": "team",
           "target": {
             "partyElements": [
               "水",
@@ -14966,6 +14978,11 @@
           "value": 150,
           "unit": "percent",
           "condition": "lumiMegatonHammerInFinalTrickMode",
+          "conditionLabel": "会心ダメージ＋150%（100万トンハンマー）",
+          "conditionHelp": "ルミが「さいごのきりふだ形態」で100万トンハンマーを使用した時に適用します。",
+          "targetOwner": "self",
+          "targetGroups": ["skill"],
+          "targetEffect": "lumi_megaton_hammer",
           "target": {
             "section": "skill",
             "skillMode": "rapidTap",

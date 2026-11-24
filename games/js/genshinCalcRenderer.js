@@ -273,10 +273,16 @@
     }
 
     function modifierValueSuffix(modifier = {}) {
-        if (modifier.unit === "flat") return "";
+        if (modifier.unit === "flat" || modifier.category === "additiveBaseDamage") return "";
         if (["percent", "percentOfReference", "percentPerPoint"].includes(modifier.unit)) return "%";
         if (modifier.category === "statBonus" && (modifier.applyTo || []).includes("elementalMastery")) return "";
         return "%";
+    }
+
+    function critModifierScope(modifier) {
+        if (modifier.category !== "critBonus") return "";
+        const elements = modifier.target?.partyElements;
+        return modifier.target?.nameJa || (Array.isArray(elements) && elements.length ? `${elements.join("・")}元素キャラクター` : "");
     }
 
     function modifierTargetLabel(modifier = {}) {
@@ -285,7 +291,9 @@
                 || MODIFIER_TARGET_LABELS[target]
                 || "ステータス"
         )).filter(Boolean);
-        return [...new Set(targets)].join("・");
+        const label = [...new Set(targets)].join("・");
+        const scope = critModifierScope(modifier);
+        return scope && label ? `${scope}の${label}` : label;
     }
 
     function modifierStage(item) {
@@ -1504,6 +1512,8 @@
     }
 
     function baseAdditionLabel(modifier) {
+        if (modifier.target?.nameJa) return `${modifier.target.nameJa}の基礎ダメージ加算`;
+        if (modifier.applyTo?.includes("lunarCrystallizeDamage")) return "月結晶反応の基礎ダメージ加算";
         if (modifier.reactionTargetsOnly || (modifier.applyTo || []).some(target => /stellarSwirl/.test(target))) return '星拡散基礎ダメージ加算';
         const elements = (modifier.targetElements || []).join('・');
         return (elements ? elements + '元素攻撃の' : '') + '基礎ダメージ加算';
@@ -1533,6 +1543,8 @@
         if (!bucket || (calculation === 'effectOverride' && modifier.unit === 'percentOfOriginalEffect')) return [];
         const multiplier = bucket.endsWith('Multiplier');
         if (modifier.category === 'resistanceDebuff') return targets.map(target=>({key:bucket+':'+target,bucket,target,label:'敵の'+label(target).replace(/低下$/,''),unit:'percent'}));
+        const critScope = critModifierScope(modifier);
+        if (critScope) return [{key: `${bucket}:${critScope}`, bucket, label: `${critScope}の${label(targets[0])}`, unit: 'percent'}];
         const bucketLabel = modifier.reactionTargetsOnly && bucket === 'finalDamageMultiplier' ? '星反応ダメージ向上（独立倍率）' : {defenseDebuff:'敵の防御力低下',defenseIgnore:'防御無視',critRateBonus:'会心率',critDamageBonus:'会心ダメージ',baseTalentDamageMultiplier:'天賦基礎ダメージ倍率',finalDamageMultiplier:'独立倍率'}[bucket];
         const targetLabel = targets.map(target => {
             const name = label(target);

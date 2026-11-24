@@ -11,7 +11,7 @@
       "id": "masanori",
       "nameJa": "公義",
       "category": "training",
-      "defaultLevel": 90,
+      "defaultLevel": 95,
       "resistance": { "defaultElemental": 10, "physical": -20, "byElement": {} },
       "immunities": [],
       "noteJa": "物理耐性-20%の検証用プリセット"

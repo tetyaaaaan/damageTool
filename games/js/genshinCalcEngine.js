@@ -1416,7 +1416,8 @@
                 context
             );
             if (!modifier) return;
-            const analysis = analyzeModifier(modifier, source, context);
+            const valueContext = options.valueContext || context;
+            const analysis = analyzeModifier(modifier, source, modifier.partySource && modifier.partyResourceInput ? valueContext : context);
             if (context.reactionParticipantEvaluation && modifier.targetOwner === 'activeCharacter' && !context.reactionRecipientOnField) return;
             if (modifier.requiredAttackMode && !attackModeIsEnabled(calcData, context, modifier.requiredAttackMode)) {
                 addCandidate(modifier, source, "必要な攻撃状態がOFF", analysis);
@@ -1458,7 +1459,6 @@
                 return;
             }
             if (dedupeKey) activeEffectGroups.add(dedupeKey);
-            const valueContext = options.valueContext || context;
             applied.push({
                 modifier,
                 source,
@@ -1863,6 +1863,10 @@
         return reactionTargets.some((target) => applyTo.includes(target));
     }
 
+    function additiveReactionApplies(modifier, reaction) {
+        return modifier.reactionTargetsOnly && modifier.applyTo?.includes(`${reaction?.reactionId}Damage`);
+    }
+
     function reactionForDamageEntry(entry, context) {
         if (entry.canReact === false) return REACTION_OPTIONS.none;
         if (!entry?.directReactionId) return context.reactionOption || REACTION_OPTIONS.none;
@@ -2033,11 +2037,15 @@
                 } else {
                     candidates.push({ modifier, source: item.source, reason: "対象entry外" });
                 }
-            } else if (analysis?.calculation === "additiveBaseDamage" && modifierTargetsEntry(modifier, effectiveEntry)) {
+            } else if (analysis?.calculation === "additiveBaseDamage" && (modifier.reactionTargetsOnly
+                ? effectiveEntry.directReactionId && additiveReactionApplies(modifier, entryReaction)
+                    && !modifier.excludeTargetEffects?.includes(effectiveEntry.effectId || effectiveEntry.id)
+                : modifierTargetsEntry(modifier, effectiveEntry))) {
                 const additiveValue = modifier.reference
                     ? resolveReferencedValue(modifier, value, item.valueContext || context)
                     : Number(value) || 0;
-                totals.additiveBaseDamage += additiveValue;
+                if (modifier.reactionTargetsOnly) totals.reactionAdditiveBaseDamage += additiveValue;
+                else totals.additiveBaseDamage += additiveValue;
                 applied.push({ ...item, value: additiveValue });
             } else if (analysis?.calculation === "scalingAdditiveBaseDamage" && modifierTargetsEntry(modifier, effectiveEntry)) {
                 const additiveValue = resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context);
@@ -2501,6 +2509,9 @@
                 addScoped(item, "reactionBonus", value);
             } else if (item.analysis?.calculation === "scalingReactionBonus" && reactionBonusApplies(modifier, reaction)) {
                 addScoped(item, "reactionBonus", resolveScalingDamageBonus(modifier, item.valueContext || context));
+            } else if (item.analysis?.calculation === "additiveBaseDamage" && additiveReactionApplies(modifier, reaction)) {
+                const additive = modifier.reference ? resolveReferencedValue(modifier, value, item.valueContext || context) : value;
+                if (additive) addScoped({ ...item, value: additive }, "additiveBaseDamage", additive);
             } else if (item.analysis?.calculation === "scalingAdditiveBaseDamage" && reactionBonusApplies(modifier, reaction)) {
                 const additive = resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context);
                 if (additive === null) totals.pendingReasons.push(modifier.pendingReasonJa || "反応基礎ダメージ加算の端数処理は外部確認待ちです。");

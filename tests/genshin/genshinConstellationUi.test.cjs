@@ -72,6 +72,37 @@ test("constellation data validation emits no user-facing JSON warning", () => {
     assert.equal(warnings.filter((warning) => warning.message.includes("constellationModifiers")).length, 0);
 });
 
+test("Linnea C2 labels both scopes and displays their separate amounts", () => {
+    const { sandbox, elements } = createBrowserScriptHarness([
+        "games/js/genshinModifierAnalyzer.js",
+        "games/js/genshinCalcConditions.js",
+        "games/js/genshinCalcEngine.js",
+        "games/js/genshinCalcRenderer.js"
+    ]);
+    const calcData = loadCalcData();
+    prepareScenarioInputs(elements, { characterId: "10000130", constellation: 3 });
+    elements.genshinJsonConditionCards = { innerHTML: "" };
+    const engine = sandbox.GenshinCalcEngine;
+    const request = engine.buildCalculationRequestFromForm();
+    const panel = sandbox.GenshinCalcConditions.conditionPanelState(request, calcData);
+    const c2 = panel.cards.find((card) => card.id === "constellation").sections.find((section) => section.level === 2);
+    const toggles = c2.controls.filter((control) => control.type === "toggle");
+    assert.equal(toggles.length, 2);
+    assert.match(toggles[0].label, /＋40%.*水・岩/);
+    assert.match(toggles[0].help, /月籠の共鳴.*8秒間/);
+    assert.match(toggles[1].label, /＋150%.*100万トンハンマー/);
+    assert.match(toggles[1].help, /さいごのきりふだ形態/);
+    for (const control of toggles) request.uiState.conditionByModifier[control.key].enabled = true;
+
+    const renderer = sandbox.GenshinCalcRenderer;
+    renderer.renderConditionCards(panel, request, calcData);
+    assert.deepEqual(Array.from(c2.runtimeRows, (row) => row.value), [40, 150]);
+    const result = engine.calculateDamageRequest(request, calcData).results.find((row) => row.entry.id === "100_damage");
+    const detail = renderer.renderDamageBreakdown(result);
+    assert.match(detail, /水・岩元素キャラクターの会心ダメージ/);
+    assert.match(detail, /100万トンハンマーの会心ダメージ/);
+});
+
 test("Skirk C6 renderer outputs the description and shared input only once", () => {
     const elements = { genshinJsonConditionCards: { innerHTML: "" } };
     const harness = createBrowserScriptHarness([

@@ -212,14 +212,21 @@
         const normalizedStack = normalized?.stack
             ? { ...normalized.stack, ...(Number.isFinite(Number(stackMaximum)) ? { max: Number(stackMaximum) } : {}) }
             : normalized?.stack;
-        const normalizedConditionInput = normalized?.conditionInput
+        const resourceInput = normalized?.partyResourceInput ? {
+            type: "stack",
+            label: `${normalized.resource.nameJa || normalized.resource.id}の現在層数`,
+            min: normalizedStack?.min ?? 0,
+            max: normalizedStack?.max ?? normalized.resource.max,
+            unit: "層"
+        } : null;
+        const normalizedConditionInput = resourceInput || (normalized?.conditionInput
             ? {
                 ...normalized.conditionInput,
                 ...(normalized.conditionInput.type === "stack" && Number.isFinite(Number(stackMaximum))
                     ? { max: Number(stackMaximum) }
                     : {})
             }
-            : normalized?.conditionInput;
+            : normalized?.conditionInput);
         const ownerOverride = Object.entries(normalized?.targetOwnerByConstellation || {})
             .filter(([level]) => Number(level) <= Number(member.constellation || 0))
             .sort(([left], [right]) => Number(right) - Number(left))[0]?.[1];
@@ -228,6 +235,7 @@
             ...normalized,
             ...(normalizedStack ? { stack: normalizedStack } : {}),
             ...(normalizedConditionInput ? { conditionInput: normalizedConditionInput } : {}),
+            ...(resourceInput ? { conditionInputActivates: true } : {}),
             partySource: true,
             partySourceKind: sourceKind,
             partySourceName: normalized?.effectLabel || sourceName,
@@ -240,6 +248,7 @@
         };
         const key = candidateKey(member, sourceKind, sourceId, normalized, modifierIndex);
         const toggleKey = candidateToggleKey(member, sourceKind, sourceId, partyModifier, key);
+        const source = `party:${member.slot}:${member.characterId}:${sourceKind}:${sourceId}`;
         const sharedInputKind = partyModifier.conditionInput?.type;
         const sharedInputValue = sharedInputKind
             ? (context.party?.conditionStates?.[toggleKey]?.[sharedInputKind]
@@ -247,6 +256,17 @@
             : undefined;
         if (sharedInputValue !== "" && sharedInputValue !== null && sharedInputValue !== undefined) {
             partyModifier.dynamicInputResolved = true;
+        }
+        if (resourceInput && partyModifier.dynamicInputResolved && Number.isFinite(Number(sharedInputValue))) {
+            const analyzer = window.GenshinModifierAnalyzer;
+            const stack = Math.min(resourceInput.max, Math.max(resourceInput.min, Number(sharedInputValue)));
+            const resourceKey = analyzer.resourceStateKey(partyModifier, source, providerContext);
+            const conditionKey = analyzer.modifierStateKey(partyModifier, source);
+            providerContext.manualInputs.resourceStates = { ...context.manualInputs?.resourceStates, [resourceKey]: stack };
+            providerContext.uiState = {
+                ...context.uiState,
+                conditionByModifier: { ...context.uiState?.conditionByModifier, [conditionKey]: { stack } }
+            };
         }
         const isAutomatic = automaticCondition(normalized);
         const conditionInputActivates = partyModifier.conditionInputActivates === true
@@ -257,6 +277,7 @@
         const relevant = target.owner !== "self" || target.confidence !== "default";
         const targetElement = normalizeElement(calcData.characters?.[context.characterId]?.element || context.party?.members?.find((item) => item.slot === 1)?.element);
         const requiredTargetElement = normalizeElement(partyModifier.requiredTargetElement);
+        const allowedTargetElements = partyModifier.target?.partyElements;
         const partyTargetCharacterIds = Array.isArray(partyModifier.partyTargetCharacterIds)
             ? partyModifier.partyTargetCharacterIds.map(String)
             : [];
@@ -280,6 +301,9 @@
         } else if (requiredTargetElement && requiredTargetElement !== targetElement) {
             status = "notApplicable";
             reason = `対象キャラの元素が${partyModifier.requiredTargetElement}元素ではないため適用しません。`;
+        } else if (Array.isArray(allowedTargetElements) && !allowedTargetElements.map(normalizeElement).includes(targetElement)) {
+            status = "notApplicable";
+            reason = "対象キャラクターの元素が一致しません。";
         } else if (partyTargetCharacterIds.length && !partyTargetCharacterIds.includes(String(context.characterId || ""))) {
             status = "notApplicable";
             reason = "対象キャラがこの効果の対象ではないため適用しません。";
@@ -298,8 +322,8 @@
         }
         const analysis = window.GenshinModifierAnalyzer?.analyzeModifier?.({
             modifier: partyModifier,
-            source: `party:${member.slot}:${member.characterId}:${sourceKind}:${sourceId}`,
-            context
+            source,
+            context: resourceInput ? providerContext : context
         }) || null;
         const optionState = context.party?.conditionStates?.[toggleKey]
             || context.uiState?.conditionByModifier?.[analysis?.conditionStateKey];
@@ -345,7 +369,7 @@
         return {
             key,
             toggleKey,
-            source: `party:${member.slot}:${member.characterId}:${sourceKind}:${sourceId}`,
+            source,
             sourceKind,
             sourceId: String(sourceId),
             sourceName: normalized?.effectLabel || sourceName,
