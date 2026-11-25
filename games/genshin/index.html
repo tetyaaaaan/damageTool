@@ -271,7 +271,7 @@
                   <label class="genshin-field"><span class="genshin-stat-label"><img src="/games/images/genshin/ui/stat-critical.webp" alt="" width="16" height="16">会心ダメージ</span><input type="number" id="genshinCritDamageInput" step="0.01" value="50"><span class="genshin-field-unit">%</span></label>
                   <label class="genshin-field"><span class="genshin-stat-label"><img src="/games/images/genshin/ui/stat-defense.webp" alt="" width="16" height="16">防御力</span><input type="number" id="genshinDefInput" step="1" value="1000"></label>
                   <label class="genshin-field"><span class="genshin-stat-label"><img src="/games/images/genshin/ui/stat-energy-recharge.webp" alt="" width="16" height="16">元素チャージ効率</span><input type="number" id="genshinEnergyRechargeInput" step="0.01" value="100"><span class="genshin-field-unit">%</span></label>
-                  <label class="genshin-field"><span class="genshin-stat-label"><img src="/games/images/genshin/ui/stat-elemental-mastery.webp" alt="" width="16" height="16">元素熟知</span><input type="number" id="genshinElementalMasteryInput" step="1" value="0"></label>
+                  <div class="genshin-field"><span class="genshin-stat-label"><label for="genshinElementalMasteryInput"><img src="/games/images/genshin/ui/stat-elemental-mastery.webp" alt="" width="16" height="16">元素熟知</label><button type="button" class="genshin-field-help" aria-label="元素熟知の入力方法" data-help="手入力はリンネアの「博物分類図鑑」を反映した戦闘時の値です。UIDから読んだ熟知には、対象キャラクターに効果を自動加算します。">?</button></span><input type="number" id="genshinElementalMasteryInput" step="1" value="0"></div>
                   <label class="genshin-field"><span class="genshin-stat-label">元素ダメージ</span><input type="number" id="genshinElementalDamageInput" step="0.01" value="0"><span class="genshin-field-unit">%</span></label>
                 </div>
               </div>
@@ -423,14 +423,14 @@
         <script src="/games/js/genshinCalcData.js?v=20261007-effecttext-1"></script>
         <script src="/games/js/genshinUiLabels.js?v=20260824-1"></script>
         <script src="/games/js/genshinEnemySelector.js?v=20261005-1"></script>
-    <script src="/games/js/genshinPartyState.js?v=20261014-participants-1"></script>
-        <script src="/games/js/genshinModifierAnalyzer.js?v=20260726-1"></script>
-        <script src="/games/js/genshinCalcConditions.js?v=20261011-reset-1"></script>
+    <script src="/games/js/genshinPartyState.js?v=20261125-linnea-1"></script>
+        <script src="/games/js/genshinModifierAnalyzer.js?v=20261125-linnea-1"></script>
+        <script src="/games/js/genshinCalcConditions.js?v=20261125-linnea-1"></script>
         <script src="/games/js/genshinElementalResonance.js?v=20260726-1"></script>
-        <script src="/games/js/genshinPartyModifiers.js?v=20261014-participants-2"></script>
-        <script src="/games/js/genshinCalcEngine.js?v=20261014-participants-2"></script>
+        <script src="/games/js/genshinPartyModifiers.js?v=20261125-linnea-1"></script>
+        <script src="/games/js/genshinCalcEngine.js?v=20261125-linnea-1"></script>
         <script src="/games/js/genshinCalculationComparison.js?v=20260722-1"></script>
-        <script src="/games/js/genshinCalcRenderer.js?v=20261014-participants-2"></script>
+        <script src="/games/js/genshinCalcRenderer.js?v=20261125-linnea-1"></script>
         <script src="/games/js/genshinCurrentCalcState.js?v=20261017-reset-1"></script>
       </div>
     </main>

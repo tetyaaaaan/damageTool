@@ -464,6 +464,15 @@
         return uidStatsCoverage(modifier).represented ? "includedInUidStats" : "conditional";
     }
 
+    function reflectedInManualStat(modifier, context) {
+        const stat = modifier.reflectedInManualStat;
+        if (!stat) return false;
+        if (stat === "elementalMastery" && context?.reactionRecipientHasBaseEmOverride) return false;
+        const provenance = context?.inputProvenance;
+        const origin = provenance?.fields?.[stat] ?? (provenance?.source === "uidProfile" ? "uid" : "manual");
+        return origin !== "uid";
+    }
+
     function effectiveCondition(modifier) {
         const coverage = uidStatsCoverage(modifier);
         if (modifier?.uidHandling === "includedInUidStats"
@@ -476,6 +485,7 @@
     }
 
     function inputStatus(modifier, context) {
+        if (reflectedInManualStat(modifier, context)) return "includedInInput";
         const includesPersistentBonuses = context?.inputProvenance?.includesPersistentBonuses
             ?? context?.mode === "uidMode";
         if (!includesPersistentBonuses) return "applicable";
@@ -483,6 +493,7 @@
     }
 
     function inputReason(modifier, context) {
+        if (reflectedInManualStat(modifier, context)) return "手入力の値に反映済みとして扱います。";
         const includesPersistentBonuses = context?.inputProvenance?.includesPersistentBonuses
             ?? context?.mode === "uidMode";
         if (!includesPersistentBonuses) return "";

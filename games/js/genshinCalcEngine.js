@@ -1389,6 +1389,15 @@
         );
     }
 
+    function modifierRecipientMatches(modifier, calcData, context, providerId) {
+        if (modifier.recipientRule !== "activeMoonsignOrProvider") return true;
+        // Reaction participants keep the original on-field character in slot 1.
+        const activeId = context.party?.members?.find((member) => Number(member.slot) === 1)?.characterId || context.characterId;
+        const activeTalents = calcData.characterTalents?.[activeId]?.passives || [];
+        const activeIsMoonsign = activeTalents.some((talent) => talent.nameJa?.startsWith("月兆の祝福・"));
+        return String(context.characterId) === String(activeIsMoonsign ? activeId : providerId);
+    }
+
     function collectActiveModifiers(calcData, context) {
         applySharedWeaponStackLimits(calcData, context);
         const applied = [];
@@ -1418,6 +1427,10 @@
             if (!modifier) return;
             const valueContext = options.valueContext || context;
             const analysis = analyzeModifier(modifier, source, modifier.partySource && modifier.partyResourceInput ? valueContext : context);
+            if (!options.preconditioned && !modifierRecipientMatches(modifier, calcData, context, context.characterId)) {
+                addCandidate(modifier, source, "現在の出場キャラクターによる適用対象外", analysis);
+                return;
+            }
             if (context.reactionParticipantEvaluation && modifier.targetOwner === 'activeCharacter' && !context.reactionRecipientOnField) return;
             if (modifier.requiredAttackMode && !attackModeIsEnabled(calcData, context, modifier.requiredAttackMode)) {
                 addCandidate(modifier, source, "必要な攻撃状態がOFF", analysis);
@@ -1544,6 +1557,7 @@
             if (["critRate", "critDamage"].includes(bonus.stat)) return;
             effectiveStats[bonus.stat] = (Number(effectiveStats[bonus.stat]) || 0) + Number(bonus.value);
             appliedStatModifiers.add(item.modifier.id || `${item.source}:${bonus.stat}`);
+            const referencePercent = item.modifier.unit === "percentOfReference" && item.modifier.customCalculation === "postStatReference";
             trace.push({
                 modifierId: item.modifier.id || "",
                 source: item.source,
@@ -1551,10 +1565,11 @@
                 value: Number(bonus.value),
                 baseValue: Number(baseStats[bonus.stat]) || 0,
                 effectiveValue: Number(effectiveStats[bonus.stat]) || 0,
-                ...(item.modifier?.rounding === "continuous" ? {
+                ...(item.modifier.effectLabel ? { effectLabel: item.modifier.effectLabel } : {}),
+                ...(referencePercent || item.modifier.rounding === "continuous" ? {
                     referenceStat: item.modifier.reference?.stat,
                     referenceValue: Number(valueContext.stats?.[item.modifier.reference?.stat]) || 0,
-                    coefficient: Number(item.modifier.ratio) / Number(item.modifier.divisor),
+                    coefficient: referencePercent ? Number(item.value) / 100 : Number(item.modifier.ratio) / Number(item.modifier.divisor),
                     maxValue: item.modifier.maxValue
                 } : {}),
                 uidHandling: item.analysis?.uidHandling || "conditional",
@@ -3229,6 +3244,7 @@
         buildStableAttackKey,
         createCalculationSnapshot,
         buildEffectiveStats,
+        modifierRecipientMatches,
         collectTalentDamageEntries,
         collectActiveModifiers,
         applyModifiersToDamageEntry,

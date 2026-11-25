@@ -158,7 +158,13 @@
 
     function renderReactionContributors(contributors) {
         if (!contributors?.length) return "";
-        return `<h5>月反応の参加者寄与</h5><ul>${contributors.map((item) => `<li>参加者${escapeHtml(item.slot)}: Lv.${escapeHtml(item.level)} / 熟知 ${formatNumber(item.elementalMastery)} / 会心 ${formatDecimal(item.critRate)}%・${formatDecimal(item.critDamage)}% / 非会心 ${formatDamageNumber(item.nonCrit)} / 会心 ${formatDamageNumber(item.crit)}</li>`).join("")}</ul>`;
+        const rows = contributors.map((item) => {
+            const namedMasteryBonuses = (item.statTrace || []).filter((trace) => trace.stat === "elementalMastery" && trace.effectLabel)
+                .map((trace) => `${trace.effectLabel} +${formatOperand(trace.value, 4)}`);
+            const mastery = `${formatOperand(item.elementalMastery, 4)}${namedMasteryBonuses.length ? `（${namedMasteryBonuses.join("、")}）` : ""}`;
+            return `<li>参加者${escapeHtml(item.slot)}: Lv.${escapeHtml(item.level)} / 熟知 ${escapeHtml(mastery)} / 会心 ${formatDecimal(item.critRate)}%・${formatDecimal(item.critDamage)}% / 非会心 ${formatDamageNumber(item.nonCrit)} / 会心 ${formatDamageNumber(item.crit)}</li>`;
+        });
+        return `<h5>月反応の参加者寄与</h5><ul>${rows.join("")}</ul>`;
     }
 
     const ELEMENT_LABELS = {
@@ -513,8 +519,13 @@
         if (view.special.finalDamageMultiplier !== 1) specialRows.push({ label: "最終ダメージ補正", value: `×${formatDecimal(view.special.finalDamageMultiplier, 4)}` });
         if (view.special.effectOverrides.length) specialRows.push({ label: "特殊効果", value: `${view.special.effectOverrides.length}件` });
         const contributorHtml = view.reaction ? renderReactionContributors(view.reaction.contributors) : "";
-        const statRows = (result.breakdown?.statTrace || []).some((trace) => trace.stat === "elementalMastery" && trace.referenceStat)
-            ? [{ label: "元素熟知（補正後）", value: formatOperand(result.breakdown?.inputStats?.elementalMastery) }]
+        const masteryTrace = (result.breakdown?.statTrace || []).filter((trace) => trace.stat === "elementalMastery" && trace.referenceStat);
+        const mastery = result.breakdown?.inputStats?.elementalMastery;
+        const statRows = masteryTrace.length || result.entry?.directReactionId === "lunarCrystallize"
+            ? [{ label: "元素熟知（計算値）", value: formatOperand(mastery, 4) }, ...masteryTrace.map((trace) => ({
+                label: trace.effectLabel || "元素熟知補正",
+                value: `+${formatOperand(trace.value, 4)}（${statLabel(trace.referenceStat)} ${formatOperand(trace.referenceValue)} × ${formatOperand(trace.coefficient * 100, 4)}%）`
+            }))]
             : [];
         const reactionKind = view.reaction?.damageClassification ? "ダメージ分類" : "元素反応";
         const reactionName = view.reaction?.label + (view.reaction?.damageClassification ? "扱い" : "");
@@ -1529,7 +1540,7 @@
             const bucket = modifier.reactionTargetsOnly ? 'reactionAdditiveBaseDamage' : 'additiveBaseDamage';
             return [{key:bucket + ':' + baseAdditionLabel(modifier),bucket,label:baseAdditionLabel(modifier),unit:'flat'}];
         }
-        if (['statBonus','statConversion','scalingStatBonus'].includes(calculation)) {
+        if (['statBonus','statConversion','scalingStatBonus','postStatReference'].includes(calculation)) {
             return targets.map(target => {
                 const percent = calculation === 'statBonus' && modifier.unit === 'percent' && /Percent$/.test(target) && !providerCoefficientStat(modifier);
                 const stat = target.replace(/(?:Percent|Flat)$/, '');

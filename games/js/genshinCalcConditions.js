@@ -498,6 +498,7 @@
         swirlCrit: "拡散反応の会心",
         lunarChargedDamage: "月感電反応ダメージ",
         lunarCrystallizeDamage: "月結晶反応ダメージ",
+        lunarCrystallizeBaseDamageBonus: "月結晶反応の基礎ダメージ",
         physicalDamage: "物理ダメージ",
         fatalReckoning: "「死生の辻」の効果",
         fatalBlossomDamage: "「死生の辻」の追加ダメージ",

@@ -295,6 +295,9 @@
             reason = "発動者自身だけが対象のため、メインキャラへは適用しません。";
         } else if (context.reactionParticipantEvaluation && target.owner === "activeCharacter" && !context.reactionRecipientOnField) {
             status = "notApplicable"; reason = "フィールド上のキャラクターだけが対象です。";
+        } else if (window.GenshinCalcEngine?.modifierRecipientMatches?.(partyModifier, calcData, context, member.characterId) === false) {
+            status = "notApplicable";
+            reason = "現在の出場キャラクターによる適用対象外です。";
         } else if (!targetAppliesToMain(target.owner)) {
             status = "ambiguous";
             reason = "対象を安全に特定できないため、計算へは適用しません。";
@@ -325,6 +328,10 @@
             source,
             context: resourceInput ? providerContext : context
         }) || null;
+        if (partyModifier.reflectedInManualStat && status === "ready" && analysis?.inputStatus === "includedInInput") {
+            status = "reflected";
+            reason = analysis.inputReason;
+        }
         const optionState = context.party?.conditionStates?.[toggleKey]
             || context.uiState?.conditionByModifier?.[analysis?.conditionStateKey];
         const optionMatches = Array.isArray(partyModifier.conditionOptionValues)
@@ -588,6 +595,7 @@
         ['elementalMastery','critRate','critDamage'].forEach(key => {
             if (Object.hasOwn(baseOverrides,key)) recipient.stats[key] = baseOverrides[key];
         });
+        if (Object.hasOwn(baseOverrides, "elementalMastery")) recipient.reactionRecipientHasBaseEmOverride = true;
         recipient.manualInputs = { ...recipient.manualInputs, providerStats: { ...recipient.stats }, reactionContributors: [] };
         return recipient;
     }

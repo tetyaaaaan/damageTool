@@ -6546,6 +6546,28 @@
         ]
       },
       {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "id": "t_10000130_passive2_em",
+            "effectLabel": "博物分類図鑑",
+            "category": "statBonus",
+            "applyTo": ["elementalMastery"],
+            "value": 5,
+            "unit": "percentOfReference",
+            "reference": { "stat": "def", "source": "self", "includeProviderConditionalStats": true },
+            "customCalculation": "postStatReference",
+            "targetOwner": "team",
+            "recipientRule": "activeMoonsignOrProvider",
+            "reflectedInManualStat": "elementalMastery",
+            "provenance": "externalModifier",
+            "condition": "always",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional"
+          }
+        ]
+      },
+      {
         "sourceId": "passive3",
         "modifiers": [
           {

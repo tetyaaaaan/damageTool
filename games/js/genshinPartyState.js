@@ -187,7 +187,7 @@
             <label><span>HP上限</span><input type="number" id="genshinPartyHp${slot}" min="0" placeholder="必要な効果のみ" disabled></label>
             <label><span>攻撃力</span><input type="number" id="genshinPartyAtk${slot}" min="0" placeholder="必要な効果のみ" disabled></label>
             <label><span>防御力</span><input type="number" id="genshinPartyDef${slot}" min="0" placeholder="必要な効果のみ" disabled></label>
-            <label><span>元素熟知</span><input type="number" id="genshinPartyElementalMastery${slot}" min="0" placeholder="必要な効果のみ" disabled></label>
+            <label><span>元素熟知</span><input type="number" id="genshinPartyElementalMastery${slot}" min="0" placeholder="必要な効果のみ" title="手入力はリンネアの「博物分類図鑑」を反映した戦闘時の値です。" disabled></label>
             <label><span>会心率%</span><input type="number" id="genshinPartyCritRate${slot}" min="0" max="100" step="any" placeholder="未取得" disabled></label>
             <label><span>会心ダメージ%</span><input type="number" id="genshinPartyCritDamage${slot}" min="0" step="any" placeholder="未取得" disabled></label>
           </div></details>`;
@@ -242,6 +242,7 @@
             buffStates: Object.fromEntries(Object.entries(buffStateByKey).filter(([key]) => key.startsWith(`party:${slot}:${characterId}:`))),
             provenance: {
                 source: provenanceSource,
+                fields: { elementalMastery: byId(`genshinPartyElementalMastery${slot}`)?.dataset.valueOrigin === "uid" ? "uid" : "manual" },
                 rawCharacterId: isUidCharacter ? imported?.provenance?.rawCharacterId || characterId : characterId,
                 importedAt: isUidCharacter ? imported?.provenance?.importedAt || null : null,
                 includesPersistentBonuses: isUidCharacter ? imported?.provenance?.includesPersistentBonuses ?? true : true,
@@ -321,7 +322,8 @@
                     const input = byId(id);
                     if (!input) return;
                     input.value = fieldValue === undefined || fieldValue === null ? "" : String(fieldValue);
-                    input.dataset.valueOrigin = member.provenance?.source === "uidProfile" ? "uid" : "manual";
+                    const savedOrigin = id === `genshinPartyElementalMastery${slot}` ? member.provenance?.fields?.elementalMastery : undefined;
+                    input.dataset.valueOrigin = savedOrigin ?? (member.provenance?.source === "uidProfile" ? "uid" : "manual");
                 });
                 const characterOrigin = member.provenance?.source === "uidProfile" ? "uid" : "manual";
                 byId(`genshinPartyCharacter${slot}`).dataset.valueOrigin = characterOrigin;
