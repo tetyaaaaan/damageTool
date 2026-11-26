@@ -29,6 +29,14 @@
 - Broaden or repeat checks only after relevant failures, shared-engine changes, generated-artifact changes, or an explicit acceptance requirement. Documentation-only and other low-risk changes do not require the product test suite.
 - Fix failures caused by the requested change and rerun the affected checks. Report unrelated pre-existing failures without expanding scope.
 
+## GitHub Issues の進め方と完了条件
+
+- GitHub Issues を課題の管理先とする。1件で修正と検証ができる単位で登録し、補正区分、発見日（判明している場合）、再現条件、現状、期待結果、個別の完了条件を記録する。追加の根拠を待つ項目は備忘録として区別する。
+- Issue 番号で対応範囲を特定し、原則として1修正 Issue につき1 PR とする。着手前に再現条件と仕様を確認し、未確定の仕様を暫定採用する場合は根拠と仮定を記録する。
+- 完了には、個別の期待結果を再現手順で確認し、既存の関連挙動への影響も確認する。ダメージ補正では対象攻撃と対象外攻撃を比較し、関係する非会心・会心・期待値を確認する。
+- 変更点、検証環境と入力条件、確認結果、未確認事項を Issue または関連 PR に記録する。実測比較では残差を記録し、未確認の一致を確認済みと扱わない。
+- 修正 PR のマージ後、必須の確認が揃ったら Issue を閉じる。公開サイトの挙動が対象の場合は公開版でも確認するまで開いたままにし、PR に自動クローズ指定を使わない。
+
 ## Delegation
 
 - Delegate bounded, independent work when parallel execution can save time, improve quality, or keep noisy exploration and test output out of the main context.
